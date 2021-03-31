@@ -200,8 +200,8 @@ class AllHabitContainer extends StatelessWidget {
                       (index) => Padding(
                         padding: EdgeInsets.only(right: index == 6 ? 0 : 6),
                         child: Container(
-                          height: 25,
-                          width: 25,
+                          height: 20,
+                          width: 20,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(3),
                               color: habit.scheduledWeekDays.contains(index + 1)
