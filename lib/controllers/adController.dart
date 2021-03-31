@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 class AdController extends GetxController {
   static BannerAd getAdaptiveBannerAd(BuildContext context) {
+    print("test");
     return BannerAd(
       builder: (context, child) {
         return Container(
