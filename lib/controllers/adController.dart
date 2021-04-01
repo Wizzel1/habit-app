@@ -36,9 +36,9 @@ class AdController extends GetxController {
         );
       },
       loading: Container(
-          width: 320, height: 100, child: Center(child: Text('loading'))),
+          width: 320, height: 100, child: Center(child: const Text('loading'))),
       error: Container(
-          width: 320, height: 100, child: Center(child: Text('error'))),
+          width: 320, height: 100, child: Center(child: const Text('error'))),
       unitId: MobileAds.bannerAdTestUnitId,
       size: BannerSize.LARGE_BANNER,
     );

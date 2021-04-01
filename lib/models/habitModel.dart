@@ -151,17 +151,17 @@ class Habit {
         break;
       case TimeSpan.MONTH:
         //TODO: check if last four calendarweeks do not count <1
-        List<CalendarWeek> lastFourCalendarWeeks = [];
-        List<int> lastFourCalendarWeeksNumbers =
+        List<CalendarWeek> lastFourCalendarWeekObjects = [];
+        List<int> lastFourCalendarWeekNumbers =
             DateUtilits.getLastFourCalendarWeeks();
 
-        for (var i = 0; i < lastFourCalendarWeeksNumbers.length; i++) {
+        for (var i = 0; i < lastFourCalendarWeekNumbers.length; i++) {
           CalendarWeek week = _getCalendarWeek(
-              currentYearIndex, lastFourCalendarWeeksNumbers[i]);
-          lastFourCalendarWeeks.add(week);
+              currentYearIndex, lastFourCalendarWeekNumbers[i]);
+          lastFourCalendarWeekObjects.add(week);
         }
-        ;
-        return lastFourCalendarWeeks.reversed.toList();
+
+        return lastFourCalendarWeekObjects.reversed.toList();
         break;
       case TimeSpan.YEAR:
         break;

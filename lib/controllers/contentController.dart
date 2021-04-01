@@ -96,16 +96,17 @@ class ContentController extends GetxController {
     for (var i = 0; i < allHabitList.length; i++) {
       if (allHabitList[i].isScheduledForToday() &&
           !allHabitList[i].wasFinishedToday()) {
+        //TODO: perform streak check here
         todaysList.add(allHabitList[i]);
       }
     }
     catchUpInactiveDays();
-    LocalStorageService.saveLatestActiveDay();
+    LocalStorageService.saveLatestActiveDate();
     LocalStorageService.saveAllHabitsToLocalStorage(allHabitList);
   }
 
   void catchUpInactiveDays() {
-    DateTime _latestDateActive = LocalStorageService.getLatestActiveDay();
+    DateTime _latestDateActive = LocalStorageService.getLatestActiveDate();
     //TODO: Instead of returning, this should fill the difference between creationdate and today for each habit
     if (_latestDateActive == null) return;
 
