@@ -3,7 +3,7 @@ class TrackedCompletions {
     this.trackedYears,
   });
 
-  List<Year> trackedYears;
+  List<Year> trackedYears = [];
 
   factory TrackedCompletions.fromJson(Map<String, dynamic> json) =>
       TrackedCompletions(
@@ -23,7 +23,7 @@ class Year {
   });
 
   int yearCount;
-  List<CalendarWeek> calendarWeeks;
+  List<CalendarWeek> calendarWeeks = [];
 
   factory Year.fromJson(Map<String, dynamic> json) => Year(
         yearCount: json["yearCount"],
@@ -45,7 +45,7 @@ class CalendarWeek {
   });
 
   int weekNumber;
-  List<TrackedDay> trackedDays;
+  List<TrackedDay> trackedDays = [];
 
   factory CalendarWeek.fromJson(Map<String, dynamic> json) => CalendarWeek(
         weekNumber: json["weekNumber"],
