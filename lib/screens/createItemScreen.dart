@@ -245,7 +245,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 MaterialButton(
                   elevation: 0,
                   color: kBackGroundWhite,
@@ -282,7 +282,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                 CustomTextField(
                     controller: _createItemController.createTitleTextController,
                     title: "Type your Title here"),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 CenteredScrollIconButton(pageController: _pageController)
               ],
             ),
