@@ -17,8 +17,10 @@ class AllHabitScreen extends StatefulWidget {
 class _AllHabitScreenState extends State<AllHabitScreen>
     with SingleTickerProviderStateMixin {
   final PageController _pageController = PageController(initialPage: 1);
-  final Duration _pageTransitionDuration = const Duration(milliseconds: 300);
+  final Duration _pageTransitionDuration = const Duration(milliseconds: 200);
   final Curve _pageTransitionCurve = Curves.ease;
+  final int _pageTransitionDelta = 4;
+  final double _pageTransitionOffset = 35;
 
   @override
   Widget build(BuildContext context) {
@@ -81,8 +83,10 @@ class _AllHabitScreenState extends State<AllHabitScreen>
                     if (notification is ScrollUpdateNotification) {
                       final offset = notification.metrics.pixels;
                       final delta = notification.dragDetails?.delta?.dy;
-                      if (delta == null) return false;
-                      if (offset < -20 && delta > 5) {
+                      print(offset);
+                      if (delta == null) return true;
+                      if (offset < -_pageTransitionOffset &&
+                          delta > _pageTransitionDelta) {
                         print("updating");
                         _pageController.animateToPage(0,
                             duration: _pageTransitionDuration,
@@ -137,8 +141,11 @@ class _AllHabitScreenState extends State<AllHabitScreen>
                     if (notification is ScrollUpdateNotification) {
                       final offset = notification.metrics.pixels;
                       final delta = notification.dragDetails?.delta?.dy;
+                      print(offset);
+
                       if (delta == null) return false;
-                      if (offset < -20 && delta < -5) {
+                      if (offset < -_pageTransitionOffset &&
+                          delta < -_pageTransitionDelta) {
                         _pageController.animateToPage(1,
                             duration: _pageTransitionDuration,
                             curve: _pageTransitionCurve);
