@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:Marbit/models/habitModel.dart';
 import 'package:Marbit/models/trackedCompletionsModel.dart';
+import 'package:Marbit/screens/createItemScreen.dart';
 import 'package:Marbit/util/constants.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -41,11 +42,11 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
       children: [
         MaterialButton(
             onPressed: () {
-              setState(() {
-                _maxBarValue = 0;
-                _timeSpan = TimeSpan.WEEK;
-              });
+              _maxBarValue = 0;
+              _timeSpan = TimeSpan.WEEK;
+
               data = widget.habit.getCompletionDataForTimeSpan(_timeSpan);
+              setState(() {});
             },
             elevation: 0,
             shape:
@@ -61,11 +62,11 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
             )),
         MaterialButton(
             onPressed: () {
-              setState(() {
-                _maxBarValue = 0;
-                _timeSpan = TimeSpan.MONTH;
-              });
+              _maxBarValue = 0;
+              _timeSpan = TimeSpan.MONTH;
+
               data = widget.habit.getCompletionDataForTimeSpan(_timeSpan);
+              setState(() {});
             },
             elevation: 0,
             shape:
@@ -101,10 +102,9 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
 
   @override
   void initState() {
-    super.initState();
-
     data = widget.habit.getCompletionDataForTimeSpan(_timeSpan);
-    getGroupData();
+    // getGroupData();
+    super.initState();
   }
 
   @override
@@ -115,16 +115,19 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Expanded(flex: 1, child: _buildTimespanButtonRow()),
-          SizedBox(
+          const SizedBox(
             height: 20,
+          ),
+          Expanded(flex: 1, child: _buildTimespanButtonRow()),
+          const SizedBox(
+            height: 10,
           ),
           Expanded(
             flex: 3,
             child: Card(
               elevation: 0,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
+                  borderRadius: BorderRadius.circular(10)),
               color: elementColor,
               child: Stack(
                 children: <Widget>[
@@ -175,9 +178,9 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
       x: horizontalIndex,
       barRods: [
         BarChartRodData(
-          y: isTouched ? value + 1 : value,
-          borderRadius: BorderRadius.circular(10),
-          colors: isTouched ? [Colors.yellow] : [barColor],
+          y: isTouched ? value : value,
+          borderRadius: BorderRadius.circular(5),
+          colors: isTouched ? [kBackGroundWhite] : [barColor],
           width: width,
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
@@ -199,9 +202,9 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
 
         for (var i = 0; i < _weekData.length; i++) {
           TrackedDay day = _weekData[i];
-
-          if (_maxBarValue < day.goalAmount)
-            _maxBarValue = day.goalAmount.toDouble();
+          //TODO replace this maxbarvalue with the current habits completiongoal
+          if (_maxBarValue != widget.habit.completionGoal)
+            _maxBarValue = widget.habit.completionGoal.toDouble();
 
           _dataList.add(makeGroupData(i, day.doneAmount.toDouble(),
               isTouched: i == _touchedIndex));
@@ -215,13 +218,14 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
         for (var i = 0; i < _monthData.length; i++) {
           List<TrackedDay> _daylist = _monthData[i].trackedDays;
           double _completions = 0;
-          double _addedGoals = 0;
 
           for (TrackedDay _day in _daylist) {
-            _addedGoals += _day.goalAmount;
             _completions += _day.doneAmount;
           }
-          if (_maxBarValue < _addedGoals) _maxBarValue = _addedGoals;
+
+          _maxBarValue = (widget.habit.completionGoal *
+                  widget.habit.scheduledWeekDays.length)
+              .toDouble();
 
           _dataList.add(
               makeGroupData(i, _completions, isTouched: i == _touchedIndex));
@@ -241,32 +245,61 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
         touchTooltipData: BarTouchTooltipData(
             tooltipBgColor: kBackGroundWhite,
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
-              String weekDay;
-              switch (group.x.toInt()) {
-                case 0:
-                  weekDay = 'Monday';
+              switch (_timeSpan) {
+                case TimeSpan.WEEK:
+                  String weekDay;
+                  switch (group.x.toInt()) {
+                    case 0:
+                      weekDay = 'Monday';
+                      break;
+                    case 1:
+                      weekDay = 'Tuesday';
+                      break;
+                    case 2:
+                      weekDay = 'Wednesday';
+                      break;
+                    case 3:
+                      weekDay = 'Thursday';
+                      break;
+                    case 4:
+                      weekDay = 'Friday';
+                      break;
+                    case 5:
+                      weekDay = 'Saturday';
+                      break;
+                    case 6:
+                      weekDay = 'Sunday';
+                      break;
+                  }
+                  return BarTooltipItem(
+                      weekDay +
+                          '\n' +
+                          ((rod.y / widget.habit.completionGoal) * 100)
+                              .toInt()
+                              .toString() +
+                          '%',
+                      Theme.of(context).textTheme.button);
                   break;
-                case 1:
-                  weekDay = 'Tuesday';
-                  break;
-                case 2:
-                  weekDay = 'Wednesday';
-                  break;
-                case 3:
-                  weekDay = 'Thursday';
-                  break;
-                case 4:
-                  weekDay = 'Friday';
-                  break;
-                case 5:
-                  weekDay = 'Saturday';
-                  break;
-                case 6:
-                  weekDay = 'Sunday';
+                case TimeSpan.MONTH:
+                  String weekNumber;
+                  for (var i = 0; i < _monthData.length; i++) {
+                    weekNumber = '${_monthData[i].weekNumber}';
+                    return BarTooltipItem(
+                        'Week ' +
+                            weekNumber +
+                            '\n' +
+                            ((rod.y /
+                                        (widget.habit.completionGoal *
+                                            widget.habit.scheduledWeekDays
+                                                .length)) *
+                                    100)
+                                .toInt()
+                                .toString() +
+                            '%',
+                        Theme.of(context).textTheme.button);
+                  }
                   break;
               }
-              return BarTooltipItem(weekDay + '\n' + (rod.y - 1).toString(),
-                  TextStyle(color: kDeepOrange));
             }),
         touchCallback: (barTouchResponse) {
           setState(() {
@@ -288,23 +321,14 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
               color: kLightOrange, fontWeight: FontWeight.bold, fontSize: 14),
           margin: 16,
           getTitles: (double value) {
-            switch (value.toInt()) {
-              case 0:
-                return 'M';
-              case 1:
-                return 'T';
-              case 2:
-                return 'W';
-              case 3:
-                return 'T';
-              case 4:
-                return 'F';
-              case 5:
-                return 'S';
-              case 6:
-                return 'S';
-              default:
-                return '';
+            int _value = value.toInt();
+            switch (_timeSpan) {
+              case TimeSpan.WEEK:
+                return dayNames[_value];
+                break;
+              case TimeSpan.MONTH:
+                return _monthData[_value].weekNumber.toString();
+                break;
             }
           },
         ),
