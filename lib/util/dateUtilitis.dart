@@ -10,7 +10,20 @@ class DateUtilits {
   static final DateTime today = DateTime.now();
 
   static int getCurrentCalendarWeek() {
-    return DateTime.now().weekOfYear;
+    return today.weekOfYear;
+  }
+
+  static List<int> getCurrentWeeksDates() {
+    int _weekDay = today.weekday;
+    DateTime _monday = today.subtract(Duration(days: _weekDay - 1));
+    List<int> _thisWeeksDates = [];
+
+    for (var i = 0; i < 7; i++) {
+      int _dayCount = _monday.add(Duration(days: i)).day;
+      _thisWeeksDates.add(_dayCount);
+    }
+
+    return _thisWeeksDates;
   }
 
   static List<int> getLastFourCalendarWeeks() {
