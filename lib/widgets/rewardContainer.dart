@@ -25,7 +25,7 @@ class RewardContainer extends StatelessWidget {
           // );
         },
         child: Padding(
-          padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+          padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           child: Container(
             height: 90,
             decoration: BoxDecoration(
@@ -33,7 +33,8 @@ class RewardContainer extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,

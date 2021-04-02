@@ -15,7 +15,7 @@ class TutorialHabitContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 30),
+        const SizedBox(height: 30),
         Container(
           color: kBackGroundWhite,
           height: 120,
