@@ -79,7 +79,7 @@ class ContentController extends GetxController {
     for (var i = 0; i < allHabitList.length; i++) {
       Habit _habit = allHabitList[i];
       if (_habit.isScheduledForToday() && !_habit.wasFinishedToday()) {
-        todaysList.add(allHabitList[i]);
+        todaysList.add(_habit);
       }
     }
   }
@@ -93,34 +93,10 @@ class ContentController extends GetxController {
     for (var i = 0; i < allHabitList.length; i++) {
       Habit _habit = allHabitList[i];
       if (_habit.isScheduledForToday() && !_habit.wasFinishedToday()) {
-        //TODO: perform streak check here
-
-        todaysList.add(allHabitList[i]);
+        todaysList.add(_habit);
       }
     }
-    //catchUpInactiveDays();
-    // LocalStorageService.saveAllHabitsToLocalStorage(allHabitList);
   }
-
-  // void catchUpInactiveDays() {
-  //   TODO: Instead of returning, this should fill the difference between creationdate and today for each habit
-
-  //   DateTime _today =
-  //       DateTime.parse(DateUtilits.formatter.format(DateTime.now()));
-  //   if (_latestDateActive == DateTime.now()) return;
-
-  //   Duration _inactiveDuration = _today.difference(_latestDateActive);
-  //   int _inactiveDaysCount = _inactiveDuration.inDays;
-
-  //   for (var i = 0; i < _inactiveDaysCount; i++) {
-  //     String _day =
-  //         DateUtilits.formatter.format(_today.subtract(Duration(days: i)));
-  //     for (var i = 0; i < allHabitList.length; i++) {
-  //       if (allHabitList[i].trackedCompletions[_day] == null)
-  //         allHabitList[i].trackedCompletions[_day] = false;
-  //     }
-  //   }
-  // }
 
   static final List<Reward> exampleRewards = [
     Reward(
