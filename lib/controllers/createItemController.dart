@@ -1,3 +1,4 @@
+import 'package:Marbit/models/models.dart';
 import 'package:Marbit/util/dateUtilitis.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -26,19 +27,46 @@ class CreateItemController extends GetxController {
         : null;
     scheduledDays = [];
     selectedRewards = [];
+    isOneTimeReward = false;
+    completionGoalCount = 1;
   }
 
   void createHabit() {
     scheduledDays.sort();
+    DateTime _today = DateUtilits.today;
+    List<int> thisWeeksDates = DateUtilits.getCurrentWeeksDates();
+
     Habit newHabit = Habit(
-        creationDate: DateTime.now(),
-        title: createTitleTextController.text,
-        id: Uuid().v1(),
-        completionGoal: completionGoalCount,
-        description: createDescriptionController.text,
-        scheduledWeekDays: scheduledDays,
-        rewardList: selectedRewards,
-        trackedCompletions: DateUtilits.get2021ExampleCompletions());
+      creationDate: _today,
+      latestCompletionDate: _today,
+      title: createTitleTextController.text,
+      id: Uuid().v1(),
+      completionGoal: completionGoalCount,
+      description: createDescriptionController.text,
+      scheduledWeekDays: scheduledDays,
+      rewardList: selectedRewards,
+      trackedCompletions: TrackedCompletions(
+        trackedYears: [
+          Year(
+            yearCount: _today.year,
+            calendarWeeks: [
+              CalendarWeek(
+                weekNumber: DateUtilits.getCurrentCalendarWeek(),
+                trackedDays: List.generate(
+                  7,
+                  (index) {
+                    return TrackedDay(
+                        dayCount: thisWeeksDates[index],
+                        doneAmount: 0,
+                        goalAmount: completionGoalCount);
+                  },
+                ),
+              )
+            ],
+          )
+        ],
+      ),
+    );
     Get.find<ContentController>().addHabit(newHabit);
     resetCreationControllers();
   }
