@@ -33,14 +33,14 @@ class LocalStorageService {
     return _decodedRewards;
   }
 
-  static void saveLatestActiveDate() {
-    String _today = DateUtilits.formatter.format(DateTime.now());
-    storageBox.write("latestActive", _today);
-  }
+  // static void saveLatestActiveDate() {
+  //   String _today = DateUtilits.formatter.format(DateTime.now());
+  //   storageBox.write("latestActive", _today);
+  // }
 
-  static DateTime getLatestActiveDate() {
-    String _latestActiveDate = storageBox.read("latestActive");
-    if (_latestActiveDate == null) return null;
-    return DateTime.parse(_latestActiveDate);
-  }
+  // static DateTime getLatestActiveDate() {
+  //   String _latestActiveDate = storageBox.read("latestActive");
+  //   if (_latestActiveDate == null) return null;
+  //   return DateTime.parse(_latestActiveDate);
+  // }
 }
