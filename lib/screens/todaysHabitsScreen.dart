@@ -1,3 +1,4 @@
+import 'package:Marbit/controllers/dateController.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
@@ -23,11 +24,12 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
   final TutorialController _tutorialController =
       Get.put<TutorialController>(TutorialController());
   final ScrollController _scrollContoller = ScrollController();
+  final DateController _dateController =
+      Get.put<DateController>(DateController());
 
   @override
   void initState() {
     super.initState();
-
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await _contentController.initializeContent();
     });
@@ -61,10 +63,10 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
                 : Obx(
                     () => ListView.separated(
                       physics: BouncingScrollPhysics(),
-                      itemCount: _contentController.todaysList.length,
+                      itemCount: _contentController.todaysHabitList.length,
                       itemBuilder: (BuildContext context, int index) {
                         Habit tappedHabit =
-                            _contentController.todaysList[index];
+                            _contentController.todaysHabitList[index];
                         return AnimationConfiguration.staggeredList(
                           position: index,
                           duration: const Duration(milliseconds: 375),
