@@ -16,7 +16,7 @@ class CreateItemController extends GetxController {
   List<Reward> selectedRewards = [];
   List<int> scheduledDays = [];
   int completionGoalCount = 1;
-  bool isOneTimeReward = false;
+  bool isSelfRemovingReward = false;
 
   void resetCreationControllers() {
     createTitleTextController.text != null
@@ -27,7 +27,7 @@ class CreateItemController extends GetxController {
         : null;
     scheduledDays = [];
     selectedRewards = [];
-    isOneTimeReward = false;
+    isSelfRemovingReward = false;
     completionGoalCount = 1;
   }
 
@@ -36,21 +36,20 @@ class CreateItemController extends GetxController {
     DateTime _today = DateUtilits.today;
     Habit newHabit = Habit(
       creationDate: _today,
-      latestCompletionDate: _today,
       title: createTitleTextController.text,
       id: Uuid().v1(),
       completionGoal: completionGoalCount,
       description: createDescriptionController.text,
       scheduledWeekDays: scheduledDays,
       rewardList: selectedRewards,
-      trackedCompletions: _getInitialCompletions(),
+      trackedCompletions: _createInitialTrackedCompletions(),
     );
     Get.find<ContentController>().addHabit(newHabit);
     resetCreationControllers();
   }
 
-  TrackedCompletions _getInitialCompletions() {
-    List<int> thisWeeksDates = DateUtilits.getCurrentWeeksDates();
+  TrackedCompletions _createInitialTrackedCompletions() {
+    List<int> thisWeeksDates = DateUtilits.getCurrentWeeksDateList();
     DateTime _today = DateUtilits.today;
 
     return TrackedCompletions(
@@ -80,7 +79,7 @@ class CreateItemController extends GetxController {
     Reward newReward = Reward(
         name: createTitleTextController.text,
         id: Uuid().v1(),
-        isOneTime: isOneTimeReward,
+        isSelfRemoving: isSelfRemovingReward,
         description: createDescriptionController.text);
     Get.find<ContentController>().addReward(newReward);
     resetCreationControllers();

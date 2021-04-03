@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:Marbit/models/models.dart';
-import 'package:Marbit/util/util.dart';
 import 'package:get_storage/get_storage.dart';
 
 class LocalStorageService {
@@ -32,15 +29,4 @@ class LocalStorageService {
         _encodedRewards.map((e) => Reward.fromJson(e)).toList();
     return _decodedRewards;
   }
-
-  // static void saveLatestActiveDate() {
-  //   String _today = DateUtilits.formatter.format(DateTime.now());
-  //   storageBox.write("latestActive", _today);
-  // }
-
-  // static DateTime getLatestActiveDate() {
-  //   String _latestActiveDate = storageBox.read("latestActive");
-  //   if (_latestActiveDate == null) return null;
-  //   return DateTime.parse(_latestActiveDate);
-  // }
 }

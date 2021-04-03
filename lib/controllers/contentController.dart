@@ -74,20 +74,23 @@ class ContentController extends GetxController {
 
   @override
   void onInit() {
-    LocalStorageService.storageBox.erase();
+    //LocalStorageService.storageBox.erase();
     super.onInit();
+  }
+
+  void _filterAllHabitsForTodaysHabits() {
+    for (var i = 0; i < allHabitList.length; i++) {
+      Habit _habit = allHabitList[i];
+      if (_habit.isScheduledForToday() && !_habit.wasFinishedToday()) {
+        todaysHabitList.add(_habit);
+      }
+    }
   }
 
   void reloadHabitList() {
     if (allHabitList.isEmpty) return;
     todaysHabitList.clear();
-
-    for (var i = 0; i < allHabitList.length; i++) {
-      if (allHabitList[i].isScheduledForToday() &&
-          !allHabitList[i].wasFinishedToday()) {
-        todaysHabitList.add(allHabitList[i]);
-      }
-    }
+    _filterAllHabitsForTodaysHabits();
   }
 
   Future<void> initializeContent() async {
@@ -96,12 +99,7 @@ class ContentController extends GetxController {
 
     if (allHabitList.isEmpty) return;
 
-    for (var i = 0; i < allHabitList.length; i++) {
-      if (allHabitList[i].isScheduledForToday() &&
-          !allHabitList[i].wasFinishedToday()) {
-        todaysHabitList.add(allHabitList[i]);
-      }
-    }
+    _filterAllHabitsForTodaysHabits();
   }
 
   static final List<Reward> exampleRewards = [

@@ -54,15 +54,14 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
                         bottomLeft: Radius.circular(10))),
                 height: 90,
                 width: 15,
-                child: const RotatedBox(
-                    quarterTurns: -1, child: Center(child: Text("Menu"))),
+                child: const SizedBox.shrink(),
               )),
           Positioned.fill(
             child: false
                 ? TutorialHabitContainer()
                 : Obx(
                     () => ListView.separated(
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       itemCount: _contentController.todaysHabitList.length,
                       itemBuilder: (BuildContext context, int index) {
                         Habit tappedHabit =

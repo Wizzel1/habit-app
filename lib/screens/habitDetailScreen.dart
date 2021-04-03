@@ -29,7 +29,7 @@ class HabitDetailScreen extends StatefulWidget {
 
 class _HabitDetailScreenState extends State<HabitDetailScreen>
     with TickerProviderStateMixin {
-  bool _inEditMode = false;
+  bool _isInEditMode = false;
   List<Reward> _joinedRewardList;
   TextEditingController _titleController;
   TextEditingController _descriptionController;
@@ -46,7 +46,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   final TutorialController _tutorialController = Get.find<TutorialController>();
   final ContentController _contentController = Get.find<ContentController>();
 
-  void initializeAnimations() {
+  void _initializeAnimations() {
     _titleOffset = TweenSequence<Offset>([
       TweenSequenceItem(
           tween: Tween<Offset>(
@@ -214,7 +214,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
         300.milliseconds.delay().then(
           (value) {
             _screenBuiltCompleter.complete();
-            initializeAnimations();
+            _initializeAnimations();
 
             (_mainScreenAnimationDuration + 100).milliseconds.delay().then(
               (value) {
@@ -248,7 +248,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
     });
   }
 
-  Future<void> playAnimation() async {
+  Future<void> _playEditingAnimation() async {
     _editAnimController.isAnimating
         ? _editAnimController.reset()
         : _editAnimController.repeat(period: const Duration(seconds: 3));
@@ -307,7 +307,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                       const SizedBox(height: 30),
                       Center(
                         child: _buildEditButton(onPressed: () {
-                          if (_inEditMode) {
+                          if (_isInEditMode) {
                             FocusScope.of(context).unfocus();
                             Get.find<ContentController>().updateHabit(
                                 habitID: widget.habit.id,
@@ -318,12 +318,12 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                                 newRewardList: widget.habit.rewardList);
                             _setJoinedRewardList();
                           }
-                          playAnimation();
+                          _playEditingAnimation();
                         }),
                       ),
                       const SizedBox(height: 30),
                       AnimatedContainer(
-                        height: _inEditMode
+                        height: _isInEditMode
                             ? (_contentController.allRewardList.length * 90.0)
                             : (widget.habit.rewardList.length * 90.0),
                         duration: Duration(milliseconds: 800),
@@ -363,7 +363,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
             child: Material(
               type: MaterialType.transparency,
               child: IgnorePointer(
-                ignoring: !_inEditMode,
+                ignoring: !_isInEditMode,
                 child: TextField(
                   controller: _titleController,
                   style: Theme.of(context)
@@ -372,7 +372,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                       .copyWith(color: kBackGroundWhite),
                   decoration: InputDecoration(
                     focusedBorder: InputBorder.none,
-                    enabledBorder: _inEditMode
+                    enabledBorder: _isInEditMode
                         ? const UnderlineInputBorder(
                             borderSide: BorderSide(color: kBackGroundWhite))
                         : InputBorder.none,
@@ -393,7 +393,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
               child: Material(
                 type: MaterialType.transparency,
                 child: IgnorePointer(
-                  ignoring: !_inEditMode,
+                  ignoring: !_isInEditMode,
                   child: TextField(
                     controller: _descriptionController,
                     style: Theme.of(context)
@@ -402,7 +402,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                         .copyWith(color: kBackGroundWhite, fontSize: 22),
                     decoration: InputDecoration(
                       focusedBorder: InputBorder.none,
-                      enabledBorder: _inEditMode
+                      enabledBorder: _isInEditMode
                           ? const UnderlineInputBorder(
                               borderSide: BorderSide(color: kBackGroundWhite))
                           : InputBorder.none,
@@ -425,7 +425,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
               position: _goalStepperOffset,
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 200),
-                child: _inEditMode
+                child: _isInEditMode
                     ? MaterialButton(
                         elevation: 0,
                         onPressed: () {
@@ -458,7 +458,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
               position: _goalStepperOffset,
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 200),
-                child: _inEditMode
+                child: _isInEditMode
                     ? MaterialButton(
                         elevation: 0,
                         onPressed: () {
@@ -489,13 +489,13 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
         onPressed: () {
           onPressed();
           setState(() {
-            _inEditMode = !_inEditMode;
+            _isInEditMode = !_isInEditMode;
           });
         },
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         color: kBackGroundWhite,
-        child: _inEditMode
+        child: _isInEditMode
             ? Text(
                 "Save Habit",
                 style: Theme.of(context).textTheme.button.copyWith(
@@ -525,7 +525,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
               7,
               (index) => GestureDetector(
                 onTap: () {
-                  if (!_inEditMode) return;
+                  if (!_isInEditMode) return;
                   widget.habit.scheduledWeekDays.contains(index + 1)
                       ? widget.habit.scheduledWeekDays.remove(index + 1)
                       : widget.habit.scheduledWeekDays.add(index + 1);
@@ -592,7 +592,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                     reward: reward,
                     isSelectedReward: isSelected,
                     onTap: () {
-                      if (!_inEditMode) return;
+                      if (!_isInEditMode) return;
                       setState(() {
                         widget.habit.rewardList.contains(reward)
                             ? widget.habit.rewardList.remove(reward)

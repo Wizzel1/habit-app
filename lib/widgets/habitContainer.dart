@@ -1,13 +1,7 @@
-import 'package:Marbit/controllers/adController.dart';
-import 'package:Marbit/controllers/contentController.dart';
-import 'package:Marbit/screens/createItemScreen.dart';
-import 'package:Marbit/screens/rewardPopupScreen.dart';
+import 'package:Marbit/controllers/controllers.dart';
+import 'package:Marbit/screens/screens.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 import 'package:Marbit/models/habitModel.dart';
-import 'package:Marbit/screens/habitDetailScreen.dart';
 import 'package:Marbit/util/constants.dart';
 
 class CompletableHabitContainer extends StatefulWidget {

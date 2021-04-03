@@ -48,7 +48,7 @@ class RewardContainer extends StatelessWidget {
                     ),
                   ),
                   Icon(
-                    reward.isOneTime
+                    reward.isSelfRemoving
                         ? FontAwesomeIcons.ban
                         : FontAwesomeIcons.redoAlt,
                     color: kBackGroundWhite,

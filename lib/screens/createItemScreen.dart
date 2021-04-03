@@ -17,7 +17,7 @@ class CreateItemScreen extends StatefulWidget {
 
 class _CreateItemScreenState extends State<CreateItemScreen> {
   PageController _pageController;
-  bool _creatingHabit = false;
+  bool _wantToCreateHabit = false;
 
   final int _contentFlex = 1;
 
@@ -71,7 +71,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                 controller: _pageController,
                 children: [
                   buildSelectionButtonRow(),
-                  if (_creatingHabit) ...[
+                  if (_wantToCreateHabit) ...[
                     buildTitleInputPage(),
                     buildDescriptionInputPage(),
                     buildCompletionGoalStepper(),
@@ -121,7 +121,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                           borderRadius: BorderRadius.circular(10)),
                       onPressed: () {
                         setState(() {
-                          _creatingHabit = true;
+                          _wantToCreateHabit = true;
                         });
                         _pageController.nextPage(
                             duration: Duration(milliseconds: 200),
@@ -147,7 +147,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                           borderRadius: BorderRadius.circular(10)),
                       onPressed: () {
                         setState(() {
-                          _creatingHabit = false;
+                          _wantToCreateHabit = false;
                         });
                         _pageController.nextPage(
                             duration: Duration(milliseconds: 200),
@@ -179,7 +179,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                   children: [
                     MaterialButton(
                       elevation: 0,
-                      color: _createItemController.isOneTimeReward
+                      color: _createItemController.isSelfRemovingReward
                           ? kDeepOrange
                           : kBackGroundWhite,
                       child: Container(
@@ -189,9 +189,10 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                           child: Text(
                             "One Time",
                             style: Theme.of(context).textTheme.button.copyWith(
-                                color: _createItemController.isOneTimeReward
-                                    ? kBackGroundWhite
-                                    : Theme.of(context).accentColor),
+                                color:
+                                    _createItemController.isSelfRemovingReward
+                                        ? kBackGroundWhite
+                                        : Theme.of(context).accentColor),
                           ),
                         ),
                       ),
@@ -200,13 +201,13 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                           borderRadius: BorderRadius.circular(10)),
                       onPressed: () {
                         setState(() {
-                          _createItemController.isOneTimeReward = true;
+                          _createItemController.isSelfRemovingReward = true;
                         });
                       },
                     ),
                     MaterialButton(
                       elevation: 0,
-                      color: _createItemController.isOneTimeReward
+                      color: _createItemController.isSelfRemovingReward
                           ? kBackGroundWhite
                           : kDeepOrange,
                       child: Container(
@@ -214,14 +215,13 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                         width: 75,
                         child: Center(
                           child: Text("Regular",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .button
-                                  .copyWith(
-                                    color: _createItemController.isOneTimeReward
-                                        ? Theme.of(context).accentColor
-                                        : kBackGroundWhite,
-                                  )),
+                              style:
+                                  Theme.of(context).textTheme.button.copyWith(
+                                        color: _createItemController
+                                                .isSelfRemovingReward
+                                            ? Theme.of(context).accentColor
+                                            : kBackGroundWhite,
+                                      )),
                         ),
                       ),
                       height: 50,
@@ -229,7 +229,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                           borderRadius: BorderRadius.circular(10)),
                       onPressed: () {
                         setState(() {
-                          _createItemController.isOneTimeReward = false;
+                          _createItemController.isSelfRemovingReward = false;
                         });
                       },
                     ),
@@ -297,7 +297,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          TitleSection(title: "Times per Day?"),
+          const TitleSection(title: "Times per Day?"),
           Expanded(
             flex: _contentFlex,
             child: Column(
@@ -360,7 +360,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          TitleSection(title: "Description"),
+          const TitleSection(title: "Description"),
           Expanded(
             flex: _contentFlex,
             child: Column(

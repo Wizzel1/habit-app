@@ -1,9 +1,5 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:Marbit/controllers/controllers.dart';
 import 'package:Marbit/models/models.dart';
 import 'package:Marbit/util/util.dart';
 
@@ -59,10 +55,9 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
   void _addPercentageBasedEmptyRewards() {
     double totalRewards = _shuffeledRewardList.length / rewardPercentage;
     double badRewards = totalRewards - _shuffeledRewardList.length;
-    print("adding $badRewards bad rewards");
 
     for (var i = 0; i < badRewards; i++) {
-      Reward _empty = Reward(name: "Keep going!", isOneTime: false);
+      Reward _empty = Reward(name: "Keep going!", isSelfRemoving: false);
       _shuffeledRewardList.add(_empty);
     }
   }
@@ -82,10 +77,10 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
 
   void checkForOneTimeReward() {
     if (_shuffeledRewardList.isEmpty) return;
-    if (_shuffeledRewardList.last.isOneTime) {
-      Reward oneTimeReward = widget.rewardList
+    if (_shuffeledRewardList.last.isSelfRemoving) {
+      Reward selfRemovingReward = widget.rewardList
           .singleWhere((element) => element.id == _shuffeledRewardList.last.id);
-      widget.rewardList.remove(oneTimeReward);
+      widget.rewardList.remove(selfRemovingReward);
     }
   }
 
@@ -147,7 +142,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                         ),
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Container(
                       height: 60,
                       width: 60,

@@ -31,6 +31,10 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
   List<CalendarWeek> _monthData;
   List<CalendarWeek> _yearData;
 
+  void _updateData() {
+    data = widget.habit.getCompletionDataForTimeSpan(_timeSpan);
+  }
+
   Row _buildTimespanButtonRow() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -39,8 +43,7 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
             onPressed: () {
               _maxBarValue = 0;
               _timeSpan = TimeSpan.WEEK;
-
-              data = widget.habit.getCompletionDataForTimeSpan(_timeSpan);
+              _updateData();
               setState(() {});
             },
             elevation: 0,
@@ -59,8 +62,7 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
             onPressed: () {
               _maxBarValue = 0;
               _timeSpan = TimeSpan.MONTH;
-
-              data = widget.habit.getCompletionDataForTimeSpan(_timeSpan);
+              _updateData();
               setState(() {});
             },
             elevation: 0,
@@ -78,8 +80,8 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
         //     setState(() {
         //       _maxBarValue = 0;
         //       _timeSpan = TimeSpan.YEAR;
+        //     _updateData();
         //     });
-        //     data = widget.habit.getCompletionDataForTimeSpan(_timeSpan);
         //   },
         //   elevation: 0,
         //   shape:
@@ -97,7 +99,7 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
 
   @override
   void initState() {
-    data = widget.habit.getCompletionDataForTimeSpan(_timeSpan);
+    _updateData();
     super.initState();
   }
 
@@ -110,7 +112,7 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
         mainAxisSize: MainAxisSize.min,
         children: [
           const SizedBox(
-            height: 20,
+            height: 10,
           ),
           Expanded(flex: 1, child: _buildTimespanButtonRow()),
           const SizedBox(
@@ -291,6 +293,9 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
                             '%',
                         Theme.of(context).textTheme.button);
                   }
+                  break;
+                case TimeSpan.YEAR:
+                  // TODO: Handle this case.
                   break;
               }
             }),

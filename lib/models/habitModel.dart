@@ -17,8 +17,6 @@ class Habit {
   List<Reward> rewardList;
   TrackedCompletions trackedCompletions;
   int completionGoal;
-  //TODO check if this property is unnessecary
-  DateTime latestCompletionDate;
 
   //TODO: implement color serialization
   Map<String, int> habitColors = {
@@ -34,7 +32,6 @@ class Habit {
     @required this.scheduledWeekDays,
     @required this.rewardList,
     @required this.trackedCompletions,
-    @required this.latestCompletionDate,
     @required this.completionGoal,
   });
 
@@ -47,8 +44,6 @@ class Habit {
             "${creationDate.year.toString().padLeft(4, '0')}-${creationDate.month.toString().padLeft(2, '0')}-${creationDate.day.toString().padLeft(2, '0')}",
         "scheduledWeekDays":
             List<dynamic>.from(scheduledWeekDays.map((x) => x)),
-        "latestCompletionDate":
-            "${latestCompletionDate.year.toString().padLeft(4, '0')}-${latestCompletionDate.month.toString().padLeft(2, '0')}-${latestCompletionDate.day.toString().padLeft(2, '0')}",
         "rewardList": List<dynamic>.from(rewardList.map((x) => x.toJson())),
         "trackedCompletions": trackedCompletions.toJson(),
       };
@@ -59,7 +54,6 @@ class Habit {
         id: json["id"],
         completionGoal: json["completionGoal"],
         creationDate: DateTime.parse(json["creationDate"]),
-        latestCompletionDate: DateTime.parse(json["latestCompletionDate"]),
         scheduledWeekDays:
             List<int>.from(json["scheduledWeekDays"].map((x) => x)),
         rewardList: List<Reward>.from(
@@ -76,9 +70,11 @@ class Habit {
 
   List<int> _getYearWeekDayIndexList() {
     DateController _dateController = Get.find<DateController>();
+    bool isIndexListEmpty = _dateController.todaysYearWeekDayIndexList.isEmpty;
+    bool wasUpdatedToday =
+        _dateController.indexListLastUpdateDate == DateUtilits.today;
 
-    if (_dateController.todaysYearWeekDayIndexList.isNotEmpty &&
-        _dateController.lastUpdatedIndexListTime == DateUtilits.today) {
+    if (!isIndexListEmpty && wasUpdatedToday) {
       return _dateController.todaysYearWeekDayIndexList;
     }
     _dateController.todaysYearWeekDayIndexList.clear();
@@ -92,7 +88,7 @@ class Habit {
     int dayIndex = _getTodaysIndex(yearIndex: yearIndex, weekIndex: weekIndex);
     _dateController.todaysYearWeekDayIndexList.add(dayIndex);
 
-    _dateController.lastUpdatedIndexListTime = DateUtilits.today;
+    _dateController.indexListLastUpdateDate = DateUtilits.today;
     return _dateController.todaysYearWeekDayIndexList;
   }
 
@@ -199,14 +195,14 @@ class Habit {
 
     switch (timeSpan) {
       case TimeSpan.WEEK:
-        int _currentWeekNumber = DateUtilits.currentCalendarWeek;
-        CalendarWeek _week =
-            _getCalendarWeekObject(currentYearIndex, _currentWeekNumber);
-        List<TrackedDay> _dayList = _week.trackedDays;
+        int _currentCalendarWeek = DateUtilits.currentCalendarWeek;
+        CalendarWeek _currentWeekObject =
+            _getCalendarWeekObject(currentYearIndex, _currentCalendarWeek);
+        List<TrackedDay> _dayList = _currentWeekObject.trackedDays;
 
         if (_dayList.length < 7) {
           List<TrackedDay> _filledUpList = [];
-          List<int> thisWeeksDates = DateUtilits.getCurrentWeeksDates();
+          List<int> thisWeeksDates = DateUtilits.getCurrentWeeksDateList();
 
           for (var i = 0; i < thisWeeksDates.length; i++) {
             TrackedDay _day = _dayList.firstWhere(
@@ -236,8 +232,6 @@ class Habit {
               currentYearIndex, lastFourCalendarWeekNumbers[i]);
           lastFourCalendarWeekObjects.add(week);
         }
-
-        print(lastFourCalendarWeekNumbers.length);
 
         return lastFourCalendarWeekObjects.reversed.toList();
         break;

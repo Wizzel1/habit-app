@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:Marbit/controllers/controllers.dart';
-import 'package:native_admob_flutter/native_admob_flutter.dart';
 
 class AllHabitScreen extends StatefulWidget {
   AllHabitScreen({Key key}) : super(key: key);
@@ -76,18 +75,19 @@ class _AllHabitScreenState extends State<AllHabitScreen>
           flex: 20,
           child: GetBuilder(
             id: "allList",
-            builder: (ContentController controller) {
+            builder: (ContentController contentController) {
               return AnimationLimiter(
                 child: NotificationListener<ScrollNotification>(
                   onNotification: (notification) {
                     if (notification is ScrollUpdateNotification) {
                       final offset = notification.metrics.pixels;
                       final delta = notification.dragDetails?.delta?.dy;
-                      print(offset);
                       if (delta == null) return true;
-                      if (offset < -_pageTransitionOffset &&
-                          delta > _pageTransitionDelta) {
-                        print("updating");
+                      bool reachedOffsetThreshold =
+                          offset < -_pageTransitionOffset;
+                      bool reachedDeltaThreshold = delta > _pageTransitionDelta;
+
+                      if (reachedOffsetThreshold && reachedDeltaThreshold) {
                         _pageController.animateToPage(0,
                             duration: _pageTransitionDuration,
                             curve: _pageTransitionCurve);
@@ -97,9 +97,9 @@ class _AllHabitScreenState extends State<AllHabitScreen>
                   },
                   child: ListView.separated(
                     physics: const BouncingScrollPhysics(),
-                    itemCount: controller.allHabitList.length,
+                    itemCount: contentController.allHabitList.length,
                     itemBuilder: (BuildContext context, int index) {
-                      Habit tappedHabit = controller.allHabitList[index];
+                      Habit tappedHabit = contentController.allHabitList[index];
                       return AnimationConfiguration.staggeredList(
                         position: index,
                         duration: const Duration(milliseconds: 375),
@@ -141,11 +141,13 @@ class _AllHabitScreenState extends State<AllHabitScreen>
                     if (notification is ScrollUpdateNotification) {
                       final offset = notification.metrics.pixels;
                       final delta = notification.dragDetails?.delta?.dy;
-                      print(offset);
+                      if (delta == null) return true;
+                      bool reachedOffsetTreshhold =
+                          offset < -_pageTransitionOffset;
+                      bool reachedDeltaTreshhold =
+                          delta < -_pageTransitionDelta;
 
-                      if (delta == null) return false;
-                      if (offset < -_pageTransitionOffset &&
-                          delta < -_pageTransitionDelta) {
+                      if (reachedOffsetTreshhold && reachedDeltaTreshhold) {
                         _pageController.animateToPage(1,
                             duration: _pageTransitionDuration,
                             curve: _pageTransitionCurve);

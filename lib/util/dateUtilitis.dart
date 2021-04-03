@@ -12,7 +12,7 @@ class DateUtilits {
     return today.weekOfYear;
   }
 
-  static List<int> getCurrentWeeksDates() {
+  static List<int> getCurrentWeeksDateList() {
     int _weekDay = today.weekday;
     DateTime _monday = today.subtract(Duration(days: _weekDay - 1));
     List<int> _thisWeeksDates = [];
@@ -29,6 +29,7 @@ class DateUtilits {
     int thisWeek = currentCalendarWeek;
     List<int> lastFourCalendarWeeks = [];
 
+    //TODO this function needs to be able to count to weeks before 1
     if (thisWeek > 4) {
       for (var i = 0; i < 4; i++) {
         lastFourCalendarWeeks.add(thisWeek - i);
@@ -38,8 +39,8 @@ class DateUtilits {
   }
 
   static TrackedCompletions get2021ExampleCompletions() {
-    DateTime firstDayOf2021 = DateTime.parse("2021-01-04");
-    DateTime lastDayOf2021 = DateTime.parse("2021-12-31");
+    DateTime _firstDayOf2021 = DateTime.parse("2021-01-04");
+    DateTime _lastDayOf2021 = DateTime.parse("2021-12-31");
 
     TrackedCompletions exampleCompletions =
         TrackedCompletions(trackedYears: []);
@@ -49,9 +50,9 @@ class DateUtilits {
 
     CalendarWeek _currentWeek = CalendarWeek(weekNumber: 1, trackedDays: []);
 
-    while (firstDayOf2021.isBefore(lastDayOf2021)) {
+    while (_firstDayOf2021.isBefore(_lastDayOf2021)) {
       TrackedDay _newDay = TrackedDay(
-          dayCount: firstDayOf2021.day, doneAmount: 0, goalAmount: 7);
+          dayCount: _firstDayOf2021.day, doneAmount: 0, goalAmount: 7);
       _currentWeek.trackedDays.add(_newDay);
 
       if (dayIndex % 7 == 0) {
@@ -60,11 +61,11 @@ class DateUtilits {
         _currentWeek = CalendarWeek(weekNumber: weekIndex, trackedDays: []);
       }
       dayIndex++;
-      firstDayOf2021 = firstDayOf2021.add(Duration(days: 1));
+      _firstDayOf2021 = _firstDayOf2021.add(Duration(days: 1));
     }
 
     TrackedDay lastDay =
-        TrackedDay(dayCount: lastDayOf2021.day, doneAmount: 2, goalAmount: 3);
+        TrackedDay(dayCount: _lastDayOf2021.day, doneAmount: 2, goalAmount: 3);
     exampleYear.calendarWeeks.last.trackedDays.add(lastDay);
 
     exampleCompletions.trackedYears.add(exampleYear);

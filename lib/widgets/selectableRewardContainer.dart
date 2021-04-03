@@ -58,7 +58,7 @@ class _SelectableRewardContainerState extends State<SelectableRewardContainer> {
                 ],
               ),
               Icon(
-                widget.reward.isOneTime
+                widget.reward.isSelfRemoving
                     ? FontAwesomeIcons.ban
                     : FontAwesomeIcons.redoAlt,
                 color: widget.isSelectedReward ? kBackGroundWhite : kDeepOrange,
