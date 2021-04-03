@@ -1,8 +1,12 @@
+import 'package:Marbit/controllers/controllers.dart';
+import 'package:Marbit/controllers/dateController.dart';
 import 'package:Marbit/models/trackedCompletionsModel.dart';
 import 'package:Marbit/util/constants.dart';
 import 'package:Marbit/util/dateUtilitis.dart';
 import 'package:Marbit/models/rewardModel.dart';
 import 'package:Marbit/widgets/habitCompletionChart.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Habit {
   String title;
@@ -13,6 +17,8 @@ class Habit {
   List<Reward> rewardList;
   TrackedCompletions trackedCompletions;
   int completionGoal;
+  //TODO check if this property is unnessecary
+  DateTime latestCompletionDate;
 
   //TODO: implement color serialization
   Map<String, int> habitColors = {
@@ -21,14 +27,15 @@ class Habit {
   };
 
   Habit({
-    this.title,
-    this.description,
-    this.id,
-    this.creationDate,
-    this.scheduledWeekDays,
-    this.rewardList,
-    this.trackedCompletions,
-    this.completionGoal,
+    @required this.title,
+    @required this.description,
+    @required this.id,
+    @required this.creationDate,
+    @required this.scheduledWeekDays,
+    @required this.rewardList,
+    @required this.trackedCompletions,
+    @required this.latestCompletionDate,
+    @required this.completionGoal,
   });
 
   Map<String, dynamic> toJson() => {
@@ -40,6 +47,8 @@ class Habit {
             "${creationDate.year.toString().padLeft(4, '0')}-${creationDate.month.toString().padLeft(2, '0')}-${creationDate.day.toString().padLeft(2, '0')}",
         "scheduledWeekDays":
             List<dynamic>.from(scheduledWeekDays.map((x) => x)),
+        "latestCompletionDate":
+            "${latestCompletionDate.year.toString().padLeft(4, '0')}-${latestCompletionDate.month.toString().padLeft(2, '0')}-${latestCompletionDate.day.toString().padLeft(2, '0')}",
         "rewardList": List<dynamic>.from(rewardList.map((x) => x.toJson())),
         "trackedCompletions": trackedCompletions.toJson(),
       };
@@ -50,6 +59,7 @@ class Habit {
         id: json["id"],
         completionGoal: json["completionGoal"],
         creationDate: DateTime.parse(json["creationDate"]),
+        latestCompletionDate: DateTime.parse(json["latestCompletionDate"]),
         scheduledWeekDays:
             List<int>.from(json["scheduledWeekDays"].map((x) => x)),
         rewardList: List<Reward>.from(
@@ -60,50 +70,96 @@ class Habit {
 
   bool isScheduledForToday() {
     bool isScheduledForToday =
-        scheduledWeekDays.contains(DateTime.now().weekday);
+        scheduledWeekDays.contains(DateUtilits.today.weekday);
     return isScheduledForToday;
   }
 
   List<int> _getYearWeekDayIndexList() {
+    DateController _dateController = Get.find<DateController>();
+
+    if (_dateController.todaysYearWeekDayIndexList.isNotEmpty &&
+        _dateController.lastUpdatedIndexListTime == DateUtilits.today) {
+      return _dateController.todaysYearWeekDayIndexList;
+    }
+    _dateController.todaysYearWeekDayIndexList.clear();
+
+    int yearIndex = _getYearIndex();
+    _dateController.todaysYearWeekDayIndexList.add(yearIndex);
+
+    int weekIndex = _getCalendarWeekIndex(yearIndex: yearIndex);
+    _dateController.todaysYearWeekDayIndexList.add(weekIndex);
+
+    int dayIndex = _getTodaysIndex(yearIndex: yearIndex, weekIndex: weekIndex);
+    _dateController.todaysYearWeekDayIndexList.add(dayIndex);
+
+    _dateController.lastUpdatedIndexListTime = DateUtilits.today;
+    return _dateController.todaysYearWeekDayIndexList;
+  }
+
+  int _getYearIndex() {
     int _year = DateUtilits.today.year;
-    int _calendarWeek = DateUtilits.getCurrentCalendarWeek();
 
-    int _todayCount = DateUtilits.today.day;
-    List<int> _yearWeekDayIndexList = [];
+    if (!trackedCompletions.trackedYears
+        .any((element) => element.yearCount == _year)) {
+      trackedCompletions.trackedYears
+          .add(Year(yearCount: _year, calendarWeeks: []));
+    }
 
-    int yearIndex = trackedCompletions.trackedYears
+    return trackedCompletions.trackedYears
         .indexWhere((element) => element.yearCount == _year);
-    if (yearIndex == null) return null;
-    _yearWeekDayIndexList.add(yearIndex);
+  }
 
-    int weekIndex = trackedCompletions.trackedYears[yearIndex].calendarWeeks
+  int _getCalendarWeekIndex({int yearIndex}) {
+    int _calendarWeek = DateUtilits.currentCalendarWeek;
+
+    if (!trackedCompletions.trackedYears[yearIndex].calendarWeeks
+        .any((element) => element.weekNumber == _calendarWeek)) {
+      trackedCompletions.trackedYears[yearIndex].calendarWeeks
+          .add(CalendarWeek(weekNumber: _calendarWeek, trackedDays: []));
+    }
+
+    return trackedCompletions.trackedYears[yearIndex].calendarWeeks
         .indexWhere((element) => element.weekNumber == _calendarWeek);
-    if (weekIndex == null) return null;
-    _yearWeekDayIndexList.add(weekIndex);
+  }
 
-    int dayIndex = trackedCompletions
+  int _getTodaysIndex({int yearIndex, int weekIndex}) {
+    int _todayCount = DateUtilits.today.day;
+
+    if (!trackedCompletions
+        .trackedYears[yearIndex].calendarWeeks[weekIndex].trackedDays
+        .any((element) => element.dayCount == _todayCount)) {
+      trackedCompletions
+          .trackedYears[yearIndex].calendarWeeks[weekIndex].trackedDays
+          .add(
+        TrackedDay(
+          dayCount: _todayCount,
+          doneAmount: 0,
+          goalAmount: completionGoal,
+        ),
+      );
+    }
+
+    return trackedCompletions
         .trackedYears[yearIndex].calendarWeeks[weekIndex].trackedDays
         .indexWhere((element) => element.dayCount == _todayCount);
-
-    if (dayIndex == null) return null;
-    _yearWeekDayIndexList.add(dayIndex);
-
-    return _yearWeekDayIndexList;
   }
 
   int getTodaysCompletions() {
     List<int> _yearWeekDayIndexList = _getYearWeekDayIndexList();
+    print("todaysCompletionsList : $_yearWeekDayIndexList");
     if (_yearWeekDayIndexList == null) return null;
 
     TrackedDay _trackedToday = trackedCompletions
         .trackedYears[_yearWeekDayIndexList[0]]
         .calendarWeeks[_yearWeekDayIndexList[1]]
         .trackedDays[_yearWeekDayIndexList[2]];
+
     return _trackedToday.doneAmount;
   }
 
   bool wasFinishedToday() {
     List<int> _yearWeekDayIndexList = _getYearWeekDayIndexList();
+    print("wasFinishedToday : $_yearWeekDayIndexList");
     TrackedDay _trackedToday = trackedCompletions
         .trackedYears[_yearWeekDayIndexList[0]]
         .calendarWeeks[_yearWeekDayIndexList[1]]
@@ -116,6 +172,7 @@ class Habit {
 
   void addCompletionForToday({Function onCompletionGoalReached}) {
     List<int> _yearWeekDayIndexList = _getYearWeekDayIndexList();
+    print("addCompletionForToday : $_yearWeekDayIndexList");
 
     if (_yearWeekDayIndexList == null) return;
 
@@ -131,6 +188,8 @@ class Habit {
             .trackedDays[_yearWeekDayIndexList[2]]
             .doneAmount >=
         completionGoal) onCompletionGoalReached();
+
+    Get.find<ContentController>().updateHabit(habitID: id);
   }
 
   List getCompletionDataForTimeSpan(TimeSpan timeSpan) {
@@ -140,26 +199,45 @@ class Habit {
 
     switch (timeSpan) {
       case TimeSpan.WEEK:
-        int _currentWeekNumber = DateUtilits.getCurrentCalendarWeek();
+        int _currentWeekNumber = DateUtilits.currentCalendarWeek;
+        CalendarWeek _week =
+            _getCalendarWeekObject(currentYearIndex, _currentWeekNumber);
+        List<TrackedDay> _dayList = _week.trackedDays;
 
-        CalendarWeek week =
-            _getCalendarWeek(currentYearIndex, _currentWeekNumber);
+        if (_dayList.length < 7) {
+          List<TrackedDay> _filledUpList = [];
+          List<int> thisWeeksDates = DateUtilits.getCurrentWeeksDates();
 
-        List<TrackedDay> dayList = week.trackedDays;
+          for (var i = 0; i < thisWeeksDates.length; i++) {
+            TrackedDay _day = _dayList.firstWhere(
+                (element) => element.dayCount == thisWeeksDates[i],
+                orElse: () => TrackedDay(
+                    dayCount: thisWeeksDates[i],
+                    doneAmount: 0,
+                    goalAmount: completionGoal));
+            _filledUpList.insert(i, _day);
+          }
 
-        return dayList;
+          return _filledUpList;
+        }
+        return _dayList;
         break;
+
       case TimeSpan.MONTH:
+
         //TODO: check if last four calendarweeks do not count <1
+        //
         List<CalendarWeek> lastFourCalendarWeekObjects = [];
         List<int> lastFourCalendarWeekNumbers =
             DateUtilits.getLastFourCalendarWeeks();
 
         for (var i = 0; i < lastFourCalendarWeekNumbers.length; i++) {
-          CalendarWeek week = _getCalendarWeek(
+          CalendarWeek week = _getCalendarWeekObject(
               currentYearIndex, lastFourCalendarWeekNumbers[i]);
           lastFourCalendarWeekObjects.add(week);
         }
+
+        print(lastFourCalendarWeekNumbers.length);
 
         return lastFourCalendarWeekObjects.reversed.toList();
         break;
@@ -169,8 +247,17 @@ class Habit {
     }
   }
 
-  CalendarWeek _getCalendarWeek(int currentYearIndex, int weekNumber) {
-    return trackedCompletions.trackedYears[currentYearIndex].calendarWeeks
-        .firstWhere((element) => element.weekNumber == weekNumber);
+  CalendarWeek _getCalendarWeekObject(int currentYearIndex, int weekNumber) {
+    CalendarWeek _calendarWeekObject = trackedCompletions
+        .trackedYears[currentYearIndex].calendarWeeks
+        .firstWhere(
+      (element) => element.weekNumber == weekNumber,
+      orElse: () => CalendarWeek(
+          trackedDays: List.generate(7,
+              (index) => TrackedDay(doneAmount: 0, goalAmount: completionGoal)),
+          weekNumber: weekNumber),
+    );
+
+    return _calendarWeekObject;
   }
 }
