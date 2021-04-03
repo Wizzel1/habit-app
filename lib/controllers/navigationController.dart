@@ -1,7 +1,4 @@
 import 'dart:async';
-
-import 'package:Marbit/controllers/adController.dart';
-import 'package:Marbit/controllers/contentController.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inner_drawer/inner_drawer.dart';
 import 'package:get/get.dart';

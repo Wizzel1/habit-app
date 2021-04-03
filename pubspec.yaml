@@ -31,8 +31,8 @@ dependencies:
   flutter_inner_drawer: ^0.5.7+2
   flutter_staggered_animations: ^1.0.0
   font_awesome_flutter: ^9.0.0
-  get: ^3.25.4
-  get_storage: ^1.4.0
+  get: ^4.1.2
+  get_storage: ^2.0.2
   google_fonts: ^1.1.2
   google_mobile_ads: ^0.11.0+1
   implicitly_animated_reorderable_list: ^0.3.2
