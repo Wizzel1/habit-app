@@ -18,11 +18,11 @@ class ContentController extends GetxController {
 
   List<Reward> allRewardList = [];
   List<Habit> allHabitList = [];
-  final RxList todaysList = [].obs;
+  final RxList todaysHabitList = [].obs;
 
   void addHabit(Habit habit) {
     if (habit.isScheduledForToday()) {
-      todaysList.add(habit);
+      todaysHabitList.add(habit);
     }
     allHabitList.add(habit);
     LocalStorageService.saveAllHabitsToLocalStorage(allHabitList);
@@ -35,18 +35,26 @@ class ContentController extends GetxController {
       int newCompletionGoal,
       List<int> newSchedule,
       List<Reward> newRewardList}) {
-    int _updateIndex =
-        allHabitList.indexWhere((element) => element.id == habitID);
+    int _updateIndex;
 
-    newSchedule.sort();
-    allHabitList[_updateIndex].title = newTitle;
-    allHabitList[_updateIndex].description = newDescription;
-    allHabitList[_updateIndex].scheduledWeekDays = newSchedule;
-    allHabitList[_updateIndex].rewardList = newRewardList;
-    allHabitList[_updateIndex].completionGoal = newCompletionGoal;
-    update(["allList"]);
+    if (habitID != null) {
+      _updateIndex =
+          allHabitList.indexWhere((element) => element.id == habitID);
+    }
+
+    newSchedule?.sort();
+    if (newTitle != null) allHabitList[_updateIndex].title = newTitle;
+    if (newDescription != null)
+      allHabitList[_updateIndex].description = newDescription;
+    if (newSchedule != null)
+      allHabitList[_updateIndex].scheduledWeekDays = newSchedule;
+    if (newRewardList != null)
+      allHabitList[_updateIndex].rewardList = newRewardList;
+    if (newCompletionGoal != null)
+      allHabitList[_updateIndex].completionGoal = newCompletionGoal;
 
     LocalStorageService.saveAllHabitsToLocalStorage(allHabitList);
+    update(["allList"]);
     reloadHabitList();
   }
 
@@ -59,27 +67,25 @@ class ContentController extends GetxController {
   }
 
   void completeHabitAt(int todaysListIndex) {
-    Habit _completedHabit = todaysList.removeAt(todaysListIndex);
-    // int _completedHabitIndex =
-    //     allHabitList.indexWhere((element) => element.id == _completedHabit.id);
-    //allHabitList[_completedHabitIndex].addCompletionForToday();
+    if (todaysHabitList.isNotEmpty) todaysHabitList.removeAt(todaysListIndex);
 
     LocalStorageService.saveAllHabitsToLocalStorage(allHabitList);
   }
 
   @override
   void onInit() {
-    //LocalStorageService.storageBox.erase();
+    LocalStorageService.storageBox.erase();
     super.onInit();
   }
 
   void reloadHabitList() {
     if (allHabitList.isEmpty) return;
-    todaysList.clear();
+    todaysHabitList.clear();
+
     for (var i = 0; i < allHabitList.length; i++) {
-      Habit _habit = allHabitList[i];
-      if (_habit.isScheduledForToday() && !_habit.wasFinishedToday()) {
-        todaysList.add(_habit);
+      if (allHabitList[i].isScheduledForToday() &&
+          !allHabitList[i].wasFinishedToday()) {
+        todaysHabitList.add(allHabitList[i]);
       }
     }
   }
@@ -91,9 +97,9 @@ class ContentController extends GetxController {
     if (allHabitList.isEmpty) return;
 
     for (var i = 0; i < allHabitList.length; i++) {
-      Habit _habit = allHabitList[i];
-      if (_habit.isScheduledForToday() && !_habit.wasFinishedToday()) {
-        todaysList.add(_habit);
+      if (allHabitList[i].isScheduledForToday() &&
+          !allHabitList[i].wasFinishedToday()) {
+        todaysHabitList.add(allHabitList[i]);
       }
     }
   }
