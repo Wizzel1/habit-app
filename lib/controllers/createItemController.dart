@@ -34,7 +34,6 @@ class CreateItemController extends GetxController {
   void createHabit() {
     scheduledDays.sort();
     DateTime _today = DateUtilits.today;
-    List<int> thisWeeksDates = DateUtilits.getCurrentWeeksDates();
 
     Habit newHabit = Habit(
       creationDate: _today,
@@ -45,30 +44,37 @@ class CreateItemController extends GetxController {
       description: createDescriptionController.text,
       scheduledWeekDays: scheduledDays,
       rewardList: selectedRewards,
-      trackedCompletions: TrackedCompletions(
-        trackedYears: [
-          Year(
-            yearCount: _today.year,
-            calendarWeeks: [
-              CalendarWeek(
-                weekNumber: DateUtilits.getCurrentCalendarWeek(),
-                trackedDays: List.generate(
-                  7,
-                  (index) {
-                    return TrackedDay(
-                        dayCount: thisWeeksDates[index],
-                        doneAmount: 0,
-                        goalAmount: completionGoalCount);
-                  },
-                ),
-              )
-            ],
-          )
-        ],
-      ),
+      trackedCompletions: _getInitialCompletions(),
     );
     Get.find<ContentController>().addHabit(newHabit);
     resetCreationControllers();
+  }
+
+  TrackedCompletions _getInitialCompletions() {
+    List<int> thisWeeksDates = DateUtilits.getCurrentWeeksDates();
+    DateTime _today = DateUtilits.today;
+
+    return TrackedCompletions(
+      trackedYears: [
+        Year(
+          yearCount: _today.year,
+          calendarWeeks: [
+            CalendarWeek(
+              weekNumber: DateUtilits.currentCalendarWeek,
+              trackedDays: List.generate(
+                7,
+                (index) {
+                  return TrackedDay(
+                      dayCount: thisWeeksDates[index],
+                      doneAmount: 0,
+                      goalAmount: completionGoalCount);
+                },
+              ),
+            )
+          ],
+        )
+      ],
+    );
   }
 
   void createReward() {
