@@ -7,9 +7,10 @@ import 'package:week_of_year/week_of_year.dart';
 class DateUtilits {
   static final DateFormat formatter = DateFormat("yyyy-MM-dd");
 
-  static final DateTime today = DateTime.now();
+  //TODO replace with datetime now
+  static final DateTime today = DateTime.parse("2021-03-01");
 
-  static int getCurrentCalendarWeek() {
+  static int get currentCalendarWeek {
     return today.weekOfYear;
   }
 
@@ -27,7 +28,7 @@ class DateUtilits {
   }
 
   static List<int> getLastFourCalendarWeeks() {
-    int thisWeek = getCurrentCalendarWeek();
+    int thisWeek = currentCalendarWeek;
     List<int> lastFourCalendarWeeks = [];
 
     if (thisWeek > 4) {
