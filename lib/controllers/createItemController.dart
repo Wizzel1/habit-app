@@ -34,7 +34,6 @@ class CreateItemController extends GetxController {
   void createHabit() {
     scheduledDays.sort();
     DateTime _today = DateUtilits.today;
-
     Habit newHabit = Habit(
       creationDate: _today,
       latestCompletionDate: _today,

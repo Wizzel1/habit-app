@@ -1,13 +1,8 @@
-import 'dart:async';
-import 'dart:math';
-
-import 'package:Marbit/models/habitModel.dart';
-import 'package:Marbit/models/trackedCompletionsModel.dart';
+import 'package:Marbit/models/models.dart';
 import 'package:Marbit/screens/createItemScreen.dart';
 import 'package:Marbit/util/constants.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 enum TimeSpan { WEEK, MONTH, YEAR }
 
@@ -103,7 +98,6 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
   @override
   void initState() {
     data = widget.habit.getCompletionDataForTimeSpan(_timeSpan);
-    // getGroupData();
     super.initState();
   }
 
@@ -202,7 +196,6 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
 
         for (var i = 0; i < _weekData.length; i++) {
           TrackedDay day = _weekData[i];
-          //TODO replace this maxbarvalue with the current habits completiongoal
           if (_maxBarValue != widget.habit.completionGoal)
             _maxBarValue = widget.habit.completionGoal.toDouble();
 
@@ -328,6 +321,8 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
                 break;
               case TimeSpan.MONTH:
                 return _monthData[_value].weekNumber.toString();
+                break;
+              case TimeSpan.YEAR:
                 break;
             }
           },

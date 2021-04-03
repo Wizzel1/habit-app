@@ -35,6 +35,7 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
   @override
   Widget build(BuildContext context) {
     int _todaysHabitCompletions = widget.habit.getTodaysCompletions();
+
     return Hero(
       tag: widget.habit.id,
       child: GestureDetector(
@@ -50,7 +51,7 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
           );
         },
         child: Padding(
-          padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+          padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           child: Container(
             key: widget.optionalTutorialKey ?? null,
             height: 90,
@@ -61,7 +62,8 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
               borderRadius: BorderRadius.circular(10),
             ),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -118,14 +120,14 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
                     minWidth: 0,
                     onPressed: () {
                       setState(() {
-                        (_todaysHabitCompletions) == containerSizeList.length
+                        _todaysHabitCompletions == containerSizeList.length
                             ? containerSizeList.last = 20.0
                             : containerSizeList[_todaysHabitCompletions] = 20.0;
                       });
                       widget.onPressed();
                     },
                     color: kBackGroundWhite,
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                     child: Icon(
@@ -179,7 +181,7 @@ class AllHabitContainer extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -192,7 +194,7 @@ class AllHabitContainer extends StatelessWidget {
                           color: kBackGroundWhite, fontWeight: FontWeight.w600),
                     ),
                   ),
-                  SizedBox(height: 10.0),
+                  const SizedBox(height: 10.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: List.generate(
