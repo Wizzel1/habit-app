@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:Marbit/models/models.dart';
 import 'package:Marbit/util/util.dart';
@@ -31,15 +32,12 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
     _scaleAnimation =
         CurvedAnimation(parent: _animController, curve: Curves.elasticInOut);
 
-    for (Reward reward in widget.rewardList) {
-      _shuffeledRewardList.add(reward);
-    }
-
+    _cloneRewards();
     _addPercentageBasedEmptyRewards();
-
     _shuffeledRewardList.shuffle();
-
+    _evaluateRewardVariable(_shuffeledRewardList.last);
     _animController.forward();
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       animateRewardList();
     });
@@ -50,6 +48,39 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
     _animController.dispose();
     _scrollController.dispose();
     super.dispose();
+  }
+
+  void _cloneRewards() {
+    for (Reward reward in widget.rewardList) {
+      Reward _rewardCopy = Reward(
+          name: reward.name,
+          description: reward.description,
+          id: reward.id,
+          isSelfRemoving: reward.isSelfRemoving);
+      _shuffeledRewardList.add(_rewardCopy);
+    }
+  }
+
+  void _evaluateRewardVariable(Reward reward) {
+    RegExp regExp = RegExp(r"\b[0-9 0-9]+[-]+[0-9 0-9]\b");
+
+    if (regExp.hasMatch(reward.name)) {
+      RegExpMatch match = regExp.firstMatch(reward.name);
+      String result = match.group(0);
+      result.trim();
+      List<String> stringNumbers = result.split("-");
+      List<int> numbers = stringNumbers.map((e) => int.parse(e)).toList();
+
+      Random _random = Random();
+      int next(int min, int max) => min + _random.nextInt(max - min);
+
+      int value = next(numbers[0], numbers[1]);
+
+      String newTitle = _shuffeledRewardList.last.name
+          .replaceAll(regExp, " " + value.toString());
+
+      _shuffeledRewardList.last.name = newTitle;
+    }
   }
 
   void _addPercentageBasedEmptyRewards() {
@@ -70,12 +101,13 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
           double offset = (_shuffeledRewardList.indexOf(reward) + 1) * 100.0;
           await _scrollController.animateTo(offset,
               duration: Duration(milliseconds: 200), curve: Curves.ease);
-        });
+        }).then((value) =>
+            print("popup")); //TODO give the chosen reward a popup effect);
       },
     );
   }
 
-  void checkForOneTimeReward() {
+  void _checkIfRewardIsRemoving() {
     if (_shuffeledRewardList.isEmpty) return;
     if (_shuffeledRewardList.last.isSelfRemoving) {
       Reward selfRemovingReward = widget.rewardList
@@ -160,7 +192,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
                         onPressed: () {
-                          checkForOneTimeReward();
+                          _checkIfRewardIsRemoving();
                           Navigator.of(context).pop();
                         },
                       ),
