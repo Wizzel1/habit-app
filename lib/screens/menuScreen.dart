@@ -1,5 +1,6 @@
 import 'package:Marbit/controllers/controllers.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MenuScreen extends StatelessWidget {
   final NavigationController navigationController;
@@ -37,7 +38,7 @@ class MenuScreen extends StatelessWidget {
                   navigationController.navigateToIndex(2);
                 },
                 child: Text(
-                  "All Habits",
+                  "hello".tr,
                   style: Theme.of(context).textTheme.button,
                 )),
           ],
