@@ -23,6 +23,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      translations: Messages(),
+      locale: Get.deviceLocale,
       title: 'Marbit',
       theme: orangeTheme(),
       home: InnerDrawerScreen(),
