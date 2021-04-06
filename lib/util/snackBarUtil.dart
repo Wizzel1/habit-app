@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 class SnackBars {
   static const SnackPosition _snackPosition = SnackPosition.TOP;
   static const Duration _snackDuration = Duration(seconds: 4);
+  static const String _fontFamily = 'Lexend';
 
   static void showSuccessSnackBar(String title, String message) {
     Get.snackbar(
@@ -23,7 +24,7 @@ class SnackBars {
           color: kBackGroundWhite,
           fontWeight: FontWeight.bold,
           fontSize: 18,
-          fontFamily: 'Lexend',
+          fontFamily: _fontFamily,
         ),
       ),
       messageText: Text(
@@ -31,7 +32,7 @@ class SnackBars {
         style: TextStyle(
           color: kBackGroundWhite,
           fontSize: 16,
-          fontFamily: 'Lexend',
+          fontFamily: _fontFamily,
         ),
       ),
       snackPosition: _snackPosition,
@@ -55,7 +56,7 @@ class SnackBars {
           color: kBackGroundWhite,
           fontWeight: FontWeight.bold,
           fontSize: 18,
-          fontFamily: 'Lexend',
+          fontFamily: _fontFamily,
         ),
       ),
       messageText: Text(
@@ -63,7 +64,7 @@ class SnackBars {
         style: TextStyle(
           color: kBackGroundWhite,
           fontSize: 16,
-          fontFamily: 'Lexend',
+          fontFamily: _fontFamily,
         ),
       ),
       snackPosition: _snackPosition,
@@ -87,7 +88,7 @@ class SnackBars {
           color: kBackGroundWhite,
           fontSize: 18,
           fontWeight: FontWeight.bold,
-          fontFamily: 'Lexend',
+          fontFamily: _fontFamily,
         ),
       ),
       messageText: Text(
@@ -95,7 +96,7 @@ class SnackBars {
         style: TextStyle(
           color: kBackGroundWhite,
           fontSize: 16,
-          fontFamily: 'Lexend',
+          fontFamily: _fontFamily,
         ),
       ),
       snackPosition: _snackPosition,
