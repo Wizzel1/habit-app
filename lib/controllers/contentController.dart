@@ -1,7 +1,9 @@
 import 'package:Marbit/util/util.dart';
+
 import 'package:get/get.dart';
 import 'package:Marbit/models/models.dart';
 import 'package:Marbit/services/localStorage.dart';
+import 'package:Marbit/util/util.dart';
 import 'package:uuid/uuid.dart';
 
 class ContentController extends GetxController {
@@ -26,6 +28,26 @@ class ContentController extends GetxController {
     }
     allHabitList.add(habit);
     LocalStorageService.saveAllHabitsToLocalStorage(allHabitList);
+  }
+
+  void updateReward(
+      {String rewardID,
+      String newTitle,
+      String newDescription,
+      bool isSelfRemoving}) {
+    int _updateIndex;
+    if (rewardID != null) {
+      _updateIndex =
+          allRewardList.indexWhere((element) => element.id == rewardID);
+    }
+
+    if (newTitle != null) allRewardList[_updateIndex].name = newTitle;
+    if (newDescription != null)
+      allRewardList[_updateIndex].description = newDescription;
+    if (isSelfRemoving != null)
+      allRewardList[_updateIndex].isSelfRemoving = isSelfRemoving;
+    LocalStorageService.saveAllRewardsToLocalStorage(allRewardList);
+    update(["allRewardList"]);
   }
 
   void updateHabit(
@@ -54,16 +76,28 @@ class ContentController extends GetxController {
       allHabitList[_updateIndex].completionGoal = newCompletionGoal;
 
     LocalStorageService.saveAllHabitsToLocalStorage(allHabitList);
-    update(["allList"]);
-    reloadHabitList();
+    update(["allHabitList"]);
+    _reloadHabitList();
   }
 
   void deleteHabit(Habit habit) {
     //TODO: probably needs improvement
-    allHabitList.remove(habit);
-    update(["allList"]);
-    LocalStorageService.saveAllHabitsToLocalStorage(allHabitList);
-    reloadHabitList();
+    try {
+      allHabitList.remove(habit);
+      update(["allHabitList"]);
+      LocalStorageService.saveAllHabitsToLocalStorage(allHabitList);
+      _reloadHabitList();
+      SnackBars.showSuccessSnackBar("Success", "The Habit has been deleted");
+    } on Exception catch (e) {
+      SnackBars.showErrorSnackBar("Error", e.toString());
+    }
+  }
+
+  void deleteReward(Reward reward) {
+    allRewardList.remove(reward);
+    update(["allRewardList"]);
+    LocalStorageService.saveAllRewardsToLocalStorage(allRewardList);
+    SnackBars.showSuccessSnackBar("Success", "The Reward has been deleted");
   }
 
   void completeHabitAt(int todaysListIndex) {
@@ -87,8 +121,7 @@ class ContentController extends GetxController {
     }
   }
 
-  void reloadHabitList() {
-    if (allHabitList.isEmpty) return;
+  void _reloadHabitList() {
     todaysHabitList.clear();
     _filterAllHabitsForTodaysHabits();
   }

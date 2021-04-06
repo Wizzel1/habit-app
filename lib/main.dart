@@ -1,5 +1,4 @@
-import 'package:Marbit/screens/allHabitScreen.dart';
-import 'package:Marbit/screens/menuScreen.dart';
+import 'package:Marbit/screens/screens.dart';
 import 'package:Marbit/themes/themes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +7,8 @@ import 'package:flutter_inner_drawer/inner_drawer.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:Marbit/controllers/navigationController.dart';
-import 'package:Marbit/screens/createItemScreen.dart';
-import 'package:Marbit/screens/todaysHabitsScreen.dart';
-import 'package:Marbit/util/constants.dart';
+
+import 'package:Marbit/util/util.dart';
 import 'package:native_admob_flutter/native_admob_flutter.dart';
 
 Future<void> main() async {
@@ -89,7 +87,7 @@ class _InnerDrawerScreenState extends State<InnerDrawerScreen> {
                 children: [
                   TodaysHabitScreen(),
                   CreateItemScreen(),
-                  AllHabitScreen()
+                  MyContentScreen()
                 ],
               )
               /* OR

@@ -1,14 +1,15 @@
 import 'package:Marbit/util/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
-import 'package:tutorial_coach_mark/src/target/target_position.dart';
 
 class TutorialController extends GetxController {
   List<TargetFocus> targets = [];
 
   bool hasFinishedTodayListTutorial = false;
   bool hasFinishedDetailTutorial = false;
+  TutorialCoachMark tutorial;
 
   // -- HabitDetailScreen Keys --
   final GlobalKey scheduleRowKey = GlobalKey();
@@ -21,27 +22,13 @@ class TutorialController extends GetxController {
   final GlobalKey test6 = GlobalKey();
   final GlobalKey test7 = GlobalKey();
 
-  void showDetailScreenTutorial(BuildContext context) {
-    _addDetailScreenTargets();
-    _showTutorial(context);
-  }
-
   void showHomeScreenTutorial(BuildContext context) {
     _addHomeScreenTargets();
-    _showTutorial(context);
-  }
-
-  void _showTutorial(BuildContext context) {
-    TutorialCoachMark tutorial = TutorialCoachMark(
+    tutorial = TutorialCoachMark(
       context,
       targets: targets, // List<TargetFocus>
       colorShadow: kLightOrange, // DEFAULT Colors.black
       opacityShadow: 0.8,
-      // alignSkip: Alignment.bottomRight,
-      // textSkip: "SKIP",
-      // paddingFocus: 10,
-      // focusAnimationDuration: Duration(milliseconds: 500),
-      // pulseAnimationDuration: Duration(milliseconds: 500),
       onFinish: () {
         print("finish");
       },
@@ -52,14 +39,31 @@ class TutorialController extends GetxController {
         print("skip");
       },
     )..show();
+  }
 
+  void showHabitDetailTutorial(BuildContext context) {
+    _addHabitDetailScreenTargets();
+    tutorial = TutorialCoachMark(
+      context,
+      targets: targets, // List<TargetFocus>
+      colorShadow: kLightOrange, // DEFAULT Colors.black
+      opacityShadow: 0.8,
+      onFinish: () {
+        print("finish");
+      },
+      onClickTarget: (target) {
+        print(target);
+      },
+      onSkip: () {
+        print("skip");
+      },
+    )..show();
     // tutorial.skip();
     // tutorial.finish();
     // tutorial.next(); // call next target programmatically
     // tutorial.previous(); // call previous target programmatically
   }
 
-  //TODO: create dedicated tutorial homescreen to replace the targetposition with a key
   void _addHomeScreenTargets() {
     targets.clear();
     targets.add(
@@ -99,9 +103,16 @@ class TutorialController extends GetxController {
     );
   }
 
-  void _addDetailScreenTargets() {
-    targets.clear();
+  void _nextTutorialStep() {
+    tutorial.next();
+  }
 
+  void _previousTutorialStep() {
+    tutorial.previous();
+  }
+
+  void _addHabitDetailScreenTargets() {
+    targets.clear();
     targets.add(
       TargetFocus(
         identify: "Target 2",
@@ -110,29 +121,33 @@ class TutorialController extends GetxController {
         keyTarget: scheduleRowKey,
         contents: [
           TargetContent(
-              align: ContentAlign.bottom,
-              child: Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      "Schedule",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 20.0),
+            align: ContentAlign.bottom,
+            child: Container(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Schedule",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 20.0),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Text(
+                      "This Row shows you, which days this Habit is scheduled for.",
+                      style: TextStyle(color: Colors.white),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Text(
-                        "This Row shows you, which days this Habit is scheduled for.",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    )
-                  ],
-                ),
-              ))
+                  ),
+                  NextButton(
+                    onPressed: _nextTutorialStep,
+                  )
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -163,6 +178,9 @@ class TutorialController extends GetxController {
                         "These are the selected Rewards for this habit. You can Edit them by clicking on 'Edit' ",
                         style: TextStyle(color: Colors.white),
                       ),
+                    ),
+                    NextButton(
+                      onPressed: _nextTutorialStep,
                     )
                   ],
                 ),
@@ -197,11 +215,40 @@ class TutorialController extends GetxController {
                         "These are the selected Rewards for this habit. You can Edit them by clicking on 'Edit' ",
                         style: TextStyle(color: Colors.white),
                       ),
+                    ),
+                    NextButton(
+                      onPressed: _nextTutorialStep,
                     )
                   ],
                 ),
               ))
         ],
+      ),
+    );
+  }
+}
+
+class NextButton extends StatelessWidget {
+  final Function onPressed;
+
+  const NextButton({
+    Key key,
+    this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialButton(
+      elevation: 0,
+      color: kDeepOrange,
+      height: 50,
+      minWidth: 50,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+      onPressed: onPressed,
+      child: Icon(
+        FontAwesomeIcons.arrowRight,
+        color: kBackGroundWhite,
+        size: 20,
       ),
     );
   }

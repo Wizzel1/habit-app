@@ -278,12 +278,66 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
           Expanded(
             flex: _contentFlex,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 CustomTextField(
                     controller: _createItemController.createTitleTextController,
                     title: "Type your Title here"),
-                const SizedBox(height: 30),
-                CenteredScrollIconButton(pageController: _pageController)
+                const SizedBox(height: 10),
+                _wantToCreateHabit
+                    ? const SizedBox.shrink()
+                    : Container(
+                        width: double.infinity,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 100,
+                              child: MinMaxTextField(
+                                  controller:
+                                      _createItemController.minTextController,
+                                  title: "min"),
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              "-",
+                              style: TextStyle(
+                                  color: kBackGroundWhite, fontSize: 30),
+                            ),
+                            const SizedBox(width: 10),
+                            Container(
+                              width: 100,
+                              child: MinMaxTextField(
+                                  controller:
+                                      _createItemController.maxTextController,
+                                  title: "max"),
+                            )
+                          ],
+                        ),
+                      ),
+                _wantToCreateHabit
+                    ? const SizedBox.shrink()
+                    : MaterialButton(
+                        elevation: 0,
+                        color: kBackGroundWhite,
+                        onPressed: () async {
+                          _createItemController.createTitleTextController.text =
+                              _createItemController
+                                      .createTitleTextController.text +
+                                  _createItemController.minTextController.text +
+                                  "-" +
+                                  _createItemController.maxTextController.text +
+                                  " ";
+                        },
+                        child: Text(
+                          "Add Variable",
+                          style: Theme.of(context).textTheme.button,
+                        ),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                      ),
+                CenteredScrollIconButton(pageController: _pageController),
               ],
             ),
           ),
@@ -517,12 +571,52 @@ class TitleSection extends StatelessWidget {
   }
 }
 
+class MinMaxTextField extends StatelessWidget {
+  final TextEditingController controller;
+  final String title;
+
+  const MinMaxTextField({Key key, this.controller, this.title})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      keyboardType: TextInputType.number,
+      controller: controller,
+      textAlign: TextAlign.center,
+      style: Theme.of(context)
+          .textTheme
+          .subtitle2
+          .copyWith(fontSize: 20, color: Theme.of(context).accentColor),
+      decoration: InputDecoration(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+        filled: true,
+        fillColor: kBackGroundWhite,
+        hintText: title,
+        hintStyle: Theme.of(context)
+            .textTheme
+            .subtitle2
+            .copyWith(fontSize: 20, color: Theme.of(context).accentColor),
+        border: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(
+            const Radius.circular(8.0),
+          ),
+          borderSide: BorderSide.none,
+        ),
+      ),
+    );
+  }
+}
+
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final String title;
 
-  const CustomTextField({Key key, this.controller, this.title})
-      : super(key: key);
+  const CustomTextField({
+    Key key,
+    this.controller,
+    this.title,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

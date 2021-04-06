@@ -6,14 +6,14 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:Marbit/controllers/controllers.dart';
 
-class AllHabitScreen extends StatefulWidget {
-  AllHabitScreen({Key key}) : super(key: key);
+class MyContentScreen extends StatefulWidget {
+  MyContentScreen({Key key}) : super(key: key);
 
   @override
-  _AllHabitScreenState createState() => _AllHabitScreenState();
+  _MyContentScreenState createState() => _MyContentScreenState();
 }
 
-class _AllHabitScreenState extends State<AllHabitScreen>
+class _MyContentScreenState extends State<MyContentScreen>
     with SingleTickerProviderStateMixin {
   final PageController _pageController = PageController(initialPage: 1);
   final Duration _pageTransitionDuration = const Duration(milliseconds: 200);
@@ -74,7 +74,7 @@ class _AllHabitScreenState extends State<AllHabitScreen>
         Expanded(
           flex: 20,
           child: GetBuilder(
-            id: "allList",
+            id: "allHabitList",
             builder: (ContentController contentController) {
               return AnimationLimiter(
                 child: NotificationListener<ScrollNotification>(
@@ -133,7 +133,7 @@ class _AllHabitScreenState extends State<AllHabitScreen>
         Expanded(
           flex: 20,
           child: GetBuilder(
-            id: "allList",
+            id: "allRewardList",
             builder: (ContentController controller) {
               return AnimationLimiter(
                 child: NotificationListener<ScrollNotification>(

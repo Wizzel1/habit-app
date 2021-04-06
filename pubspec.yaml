@@ -38,8 +38,8 @@ dependencies:
   implicitly_animated_reorderable_list: ^0.3.2
   intl: ^0.16.1
   native_admob_flutter: ^1.1.0
+  rich_text_controller: ^1.2.0
   scroll_to_index: ^1.0.6
-  
   tutorial_coach_mark: ^0.6.0+1
   uuid: ^2.2.2
   week_of_year: ^1.0.1

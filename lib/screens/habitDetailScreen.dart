@@ -3,17 +3,14 @@ import 'dart:ui';
 import 'package:Marbit/controllers/controllers.dart';
 import 'package:Marbit/models/models.dart';
 import 'package:Marbit/widgets/widgets.dart';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
-
 import 'package:Marbit/screens/createItemScreen.dart';
 import 'package:Marbit/util/util.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:implicitly_animated_reorderable_list/transitions.dart';
-import 'package:native_admob_flutter/native_admob_flutter.dart';
 
 const double offset = -0.15;
 
@@ -219,7 +216,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
             (_mainScreenAnimationDuration + 100).milliseconds.delay().then(
               (value) {
                 setState(() {});
-                //_tutorialController.showDetailScreenTutorial(context);
+                //_tutorialController.showHabitDetailTutorial(context);
               },
             );
           },
@@ -229,11 +226,11 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   }
 
   void _setJoinedRewardList() {
-    List<Reward> _habitRewards = widget.habit.rewardList;
+    List<Reward> _selectedRewards = widget.habit.rewardList;
     List<Reward> _allRewards = _contentController.allRewardList;
     List<Reward> _joinedRewards = [];
 
-    _joinedRewards.addAll(_habitRewards);
+    _joinedRewards.addAll(_selectedRewards);
 
     for (var i = 0; i < _allRewards.length; i++) {
       Reward _reward = _allRewards[i];
@@ -248,7 +245,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
     });
   }
 
-  Future<void> _playEditingAnimation() async {
+  Future<void> _toggleEditingAnimation() async {
     _editAnimController.isAnimating
         ? _editAnimController.reset()
         : _editAnimController.repeat(period: const Duration(seconds: 3));
@@ -318,7 +315,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                                 newRewardList: widget.habit.rewardList);
                             _setJoinedRewardList();
                           }
-                          _playEditingAnimation();
+                          _toggleEditingAnimation();
                         }),
                       ),
                       const SizedBox(height: 30),

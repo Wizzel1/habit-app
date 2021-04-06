@@ -4,10 +4,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class SnackBars {
-  static void getSuccessSnackBar(String title, String message) {
+  static void showSuccessSnackBar(String title, String message) {
     Get.snackbar(
       title,
       message,
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       snackStyle: SnackStyle.FLOATING,
       borderRadius: 8.0,
       icon: Icon(FontAwesomeIcons.check, color: kBackGroundWhite),
@@ -25,10 +26,11 @@ class SnackBars {
     );
   }
 
-  static void getWarningSnackBar(String title, String message) {
+  static void showWarningSnackBar(String title, String message) {
     Get.snackbar(
       title,
       message,
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       snackStyle: SnackStyle.FLOATING,
       borderRadius: 8.0,
       icon: Icon(FontAwesomeIcons.exclamation, color: kBackGroundWhite),
@@ -46,10 +48,11 @@ class SnackBars {
     );
   }
 
-  static void getErrorSnackBar(String title, String message) {
+  static void showErrorSnackBar(String title, String message) {
     Get.snackbar(
       title,
       message,
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       snackStyle: SnackStyle.FLOATING,
       borderRadius: 8.0,
       icon: Icon(FontAwesomeIcons.ban, color: kBackGroundWhite),

@@ -352,6 +352,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.5"
+  rich_text_controller:
+    dependency: "direct main"
+    description:
+      name: rich_text_controller
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.0"
   scroll_to_index:
     dependency: "direct main"
     description:

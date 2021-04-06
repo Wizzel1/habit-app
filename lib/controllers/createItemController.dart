@@ -1,16 +1,21 @@
 import 'package:Marbit/models/models.dart';
-import 'package:Marbit/util/dateUtilitis.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:Marbit/util/util.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'package:Marbit/models/habitModel.dart';
-import 'package:Marbit/models/rewardModel.dart';
+import 'package:rich_text_controller/rich_text_controller.dart';
 import 'package:uuid/uuid.dart';
 import 'contentController.dart';
 
 class CreateItemController extends GetxController {
-  final TextEditingController createTitleTextController =
-      TextEditingController();
+  final RichTextController createTitleTextController = RichTextController(
+    patternMap: {
+      RegExp(r"\s\b[0-9 0-9]+[-]+[0-9 0-9]\b"): TextStyle(
+          backgroundColor: kLightOrange.withOpacity(0.5),
+          fontWeight: FontWeight.bold)
+    },
+  );
+  final TextEditingController minTextController = TextEditingController();
+  final TextEditingController maxTextController = TextEditingController();
   final TextEditingController createDescriptionController =
       TextEditingController();
   List<Reward> selectedRewards = [];
@@ -25,6 +30,8 @@ class CreateItemController extends GetxController {
     createDescriptionController.text != null
         ? createDescriptionController.clear()
         : null;
+    minTextController.text != null ? minTextController.clear() : null;
+    maxTextController.text != null ? maxTextController.clear() : null;
     scheduledDays = [];
     selectedRewards = [];
     isSelfRemovingReward = false;

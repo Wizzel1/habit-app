@@ -1,4 +1,5 @@
 import 'package:Marbit/models/models.dart';
+import 'package:Marbit/screens/screens.dart';
 import 'package:Marbit/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -14,15 +15,14 @@ class RewardContainer extends StatelessWidget {
       tag: "all${reward.id}",
       child: GestureDetector(
         onTap: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => HabitDetailScreen(
-          //       habit: habit,
-          //       alterHeroTag: true,
-          //     ),
-          //   ),
-          // );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => RewardDetailScreen(
+                reward: reward,
+              ),
+            ),
+          );
         },
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
