@@ -50,6 +50,38 @@ class ContentController extends GetxController {
     update(["allRewardList"]);
   }
 
+  bool isValid(dynamic dynamicData) {
+    if (dynamicData == null) return false;
+
+    if (dynamicData is String) {
+      dynamicData = dynamicData as String;
+      if (dynamicData.isEmpty)
+        SnackBars.showWarningSnackBar(
+            "Empty Field", "You saved an empty Field");
+      return true;
+    }
+
+    if (dynamicData is List<int>) {
+      dynamicData = dynamicData as List<int>;
+      if (dynamicData.isEmpty) {
+        SnackBars.showWarningSnackBar(
+            "Empty Schedule", "You saved an empty Schedule");
+        return true;
+      }
+    }
+
+    if (dynamicData is List<Reward>) {
+      dynamicData = dynamicData as List<Reward>;
+      if (dynamicData.isEmpty) {
+        SnackBars.showWarningSnackBar(
+            "No Rewards", "You have no saved Rewards");
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   void updateHabit(
       {String habitID,
       String newTitle,
@@ -65,13 +97,20 @@ class ContentController extends GetxController {
     }
 
     newSchedule?.sort();
-    if (newTitle != null) allHabitList[_updateIndex].title = newTitle;
+
+    if (isValid(newTitle)) allHabitList[_updateIndex].title = newTitle;
+    if (isValid(newSchedule))
+      allHabitList[_updateIndex].scheduledWeekDays = newSchedule;
+    if (isValid(newRewardList))
+      allHabitList[_updateIndex].rewardList = newRewardList;
+
+    // if (newTitle != null) allHabitList[_updateIndex].name = newTitle;
     if (newDescription != null)
       allHabitList[_updateIndex].description = newDescription;
-    if (newSchedule != null)
-      allHabitList[_updateIndex].scheduledWeekDays = newSchedule;
-    if (newRewardList != null)
-      allHabitList[_updateIndex].rewardList = newRewardList;
+    // if (newSchedule != null)
+    //   allHabitList[_updateIndex].scheduledWeekDays = newSchedule;
+    // if (newRewardList != null)
+    //   allHabitList[_updateIndex].rewardList = newRewardList;
     if (newCompletionGoal != null)
       allHabitList[_updateIndex].completionGoal = newCompletionGoal;
 
@@ -94,10 +133,14 @@ class ContentController extends GetxController {
   }
 
   void deleteReward(Reward reward) {
-    allRewardList.remove(reward);
-    update(["allRewardList"]);
-    LocalStorageService.saveAllRewardsToLocalStorage(allRewardList);
-    SnackBars.showSuccessSnackBar("Success", "The Reward has been deleted");
+    try {
+      allRewardList.remove(reward);
+      update(["allRewardList"]);
+      LocalStorageService.saveAllRewardsToLocalStorage(allRewardList);
+      SnackBars.showSuccessSnackBar("Success", "The Reward has been deleted");
+    } on Exception catch (e) {
+      SnackBars.showErrorSnackBar("Error", e.toString());
+    }
   }
 
   void completeHabitAt(int todaysListIndex) {
