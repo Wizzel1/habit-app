@@ -116,6 +116,12 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
     );
   }
 
+  Future<void> _toggleEditingAnimation() async {
+    _editAnimController.isAnimating
+        ? _editAnimController.reset()
+        : _editAnimController.repeat(period: const Duration(seconds: 3));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Hero(
@@ -160,15 +166,17 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
                             Get.find<ContentController>().updateReward(
                                 rewardID: widget.reward.id,
                                 newTitle: _titleController.text,
-                                newDescription: _descriptionController.text);
+                                newDescription: _descriptionController.text,
+                                isSelfRemoving: widget.reward.isSelfRemoving);
                           }
-                          //_toggleEditingAnimation();
+                          _toggleEditingAnimation();
                         }),
                       ),
                       const SizedBox(height: 30),
+                      _buildChangeSelfRemovingOption(),
+                      const SizedBox(height: 30),
                       AdController.getLargeBannerAd(context),
                       const SizedBox(height: 30),
-                      const SizedBox(height: 50),
                       Center(child: _buildRewardDeleteButton()),
                     ],
                   ),
@@ -178,6 +186,63 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
           },
         ),
       ),
+    );
+  }
+
+  Widget _buildChangeSelfRemovingOption() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        MaterialButton(
+          elevation: 0,
+          color: widget.reward.isSelfRemoving ? kDeepOrange : kBackGroundWhite,
+          child: Container(
+            height: 50,
+            width: 75,
+            child: Center(
+              child: Text(
+                "One Time",
+                style: Theme.of(context).textTheme.button.copyWith(
+                    color: widget.reward.isSelfRemoving
+                        ? kBackGroundWhite
+                        : Theme.of(context).accentColor),
+              ),
+            ),
+          ),
+          height: 50,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          onPressed: () {
+            setState(() {
+              widget.reward.isSelfRemoving = true;
+            });
+          },
+        ),
+        MaterialButton(
+          elevation: 0,
+          color: widget.reward.isSelfRemoving ? kBackGroundWhite : kDeepOrange,
+          child: Container(
+            height: 50,
+            width: 75,
+            child: Center(
+              child: Text("Regular",
+                  style: Theme.of(context).textTheme.button.copyWith(
+                        color: widget.reward.isSelfRemoving
+                            ? Theme.of(context).accentColor
+                            : kBackGroundWhite,
+                      )),
+            ),
+          ),
+          height: 50,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          onPressed: () {
+            setState(() {
+              widget.reward.isSelfRemoving = false;
+            });
+          },
+        ),
+      ],
     );
   }
 
