@@ -47,26 +47,10 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
             Positioned(
                 bottom: (screenSize.height / 2) - 45,
                 right: 0,
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: kBackGroundWhite,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          bottomLeft: Radius.circular(10))),
-                  height: 90,
-                  width: 15,
-                  child: RotatedBox(
-                      quarterTurns: -1,
-                      child: Center(
-                          child: Text(
-                        "Menu",
-                        style: Theme.of(context).textTheme.button,
-                      ))),
-                )),
+                child: DrawerExtension()),
             Positioned.fill(
               child: PageView(
-                //TODO: disable scrolling
-                //physics: NeverScrollableScrollPhysics(),
+                physics: NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 controller: _pageController,
                 children: [
@@ -337,7 +321,18 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
                       ),
-                CenteredScrollIconButton(pageController: _pageController),
+                CenteredScrollIconButton(
+                  pageController: _pageController,
+                  onPressed: (scrollToNext) {
+                    if (_createItemController
+                        .createTitleTextController.text.isEmpty) {
+                      SnackBars.showWarningSnackBar(
+                          "Warning", "Please chose a Title");
+                    } else {
+                      scrollToNext();
+                    }
+                  },
+                ),
               ],
             ),
           ),
@@ -400,7 +395,12 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                   ),
                 ),
                 Spacer(),
-                CenteredScrollIconButton(pageController: _pageController)
+                CenteredScrollIconButton(
+                  pageController: _pageController,
+                  onPressed: (scrollToNext) {
+                    scrollToNext();
+                  },
+                )
               ],
             ),
           ),
@@ -424,7 +424,12 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                   title: "Type your Description",
                 ),
                 Spacer(),
-                CenteredScrollIconButton(pageController: _pageController)
+                CenteredScrollIconButton(
+                  pageController: _pageController,
+                  onPressed: (scrollToNext) {
+                    scrollToNext();
+                  },
+                )
               ],
             ),
           ),
@@ -466,6 +471,17 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                   );
                 },
               )),
+          CenteredScrollIconButton(
+            pageController: _pageController,
+            onPressed: (scrollToNext) {
+              if (_createItemController.selectedRewards.isEmpty) {
+                SnackBars.showWarningSnackBar(
+                    "Warning", "Please select at least one Reward");
+              } else {
+                scrollToNext();
+              }
+            },
+          ),
         ],
       ),
     );
@@ -488,13 +504,14 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                     (index) => ScheduleButton(
                         index: index,
                         onTap: (tappedIndex) {
-                          tappedIndex += 1;
+                          int weekDayIndex = tappedIndex += 1;
+
                           _createItemController.scheduledDays
-                                  .contains(tappedIndex)
+                                  .contains(weekDayIndex)
                               ? _createItemController.scheduledDays
-                                  .remove(tappedIndex)
+                                  .remove(weekDayIndex)
                               : _createItemController.scheduledDays
-                                  .add(tappedIndex);
+                                  .add(weekDayIndex);
                         }),
                   ),
                 ),
@@ -503,9 +520,14 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                   elevation: 0,
                   color: kBackGroundWhite,
                   onPressed: () async {
-                    _createItemController.createHabit();
-                    await Get.find<NavigationController>().navigateToIndex(0);
-                    _pageController.jumpToPage(0);
+                    if (_createItemController.scheduledDays.isEmpty) {
+                      SnackBars.showWarningSnackBar(
+                          "Warning", "Please select at least one Day");
+                    } else {
+                      _createItemController.createHabit();
+                      await Get.find<NavigationController>().navigateToIndex(0);
+                      _pageController.jumpToPage(0);
+                    }
                   },
                   child: Text(
                     "Create",
@@ -524,13 +546,11 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
 }
 
 class CenteredScrollIconButton extends StatelessWidget {
-  const CenteredScrollIconButton({
-    Key key,
-    @required PageController pageController,
-  })  : _pageController = pageController,
-        super(key: key);
+  final PageController pageController;
+  final Function(Function) onPressed;
 
-  final PageController _pageController;
+  const CenteredScrollIconButton({Key key, this.pageController, this.onPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -543,8 +563,14 @@ class CenteredScrollIconButton extends StatelessWidget {
           size: 40,
         ),
         onPressed: () {
-          _pageController.nextPage(
-              duration: Duration(milliseconds: 200), curve: Curves.ease);
+          Function scrollToNext = () {
+            pageController.nextPage(
+                duration: Duration(milliseconds: 200), curve: Curves.ease);
+          };
+
+          onPressed(() {
+            scrollToNext();
+          });
         },
       ),
     );

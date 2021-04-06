@@ -4,11 +4,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class SnackBars {
+  static const SnackPosition _snackPosition = SnackPosition.TOP;
+  static const Duration _snackDuration = Duration(seconds: 4);
+
   static void showSuccessSnackBar(String title, String message) {
     Get.snackbar(
       title,
       message,
-      duration: const Duration(seconds: 2),
+      duration: _snackDuration,
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       snackStyle: SnackStyle.FLOATING,
       borderRadius: 8.0,
@@ -16,13 +19,21 @@ class SnackBars {
       shouldIconPulse: true,
       titleText: Text(
         title,
-        style: TextStyle(color: kBackGroundWhite),
+        style: TextStyle(
+          color: kBackGroundWhite,
+          fontSize: 18,
+          fontFamily: 'Lexend',
+        ),
       ),
       messageText: Text(
         message,
-        style: TextStyle(color: kBackGroundWhite),
+        style: TextStyle(
+          color: kBackGroundWhite,
+          fontSize: 16,
+          fontFamily: 'Lexend',
+        ),
       ),
-      snackPosition: SnackPosition.BOTTOM,
+      snackPosition: _snackPosition,
       backgroundColor: kSuccessGreen,
     );
   }
@@ -31,7 +42,7 @@ class SnackBars {
     Get.snackbar(
       title,
       message,
-      duration: const Duration(seconds: 2),
+      duration: _snackDuration,
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       snackStyle: SnackStyle.FLOATING,
       borderRadius: 8.0,
@@ -39,13 +50,21 @@ class SnackBars {
       shouldIconPulse: true,
       titleText: Text(
         title,
-        style: TextStyle(color: kBackGroundWhite),
+        style: TextStyle(
+          color: kBackGroundWhite,
+          fontSize: 18,
+          fontFamily: 'Lexend',
+        ),
       ),
       messageText: Text(
         message,
-        style: TextStyle(color: kBackGroundWhite),
+        style: TextStyle(
+          color: kBackGroundWhite,
+          fontSize: 16,
+          fontFamily: 'Lexend',
+        ),
       ),
-      snackPosition: SnackPosition.BOTTOM,
+      snackPosition: _snackPosition,
       backgroundColor: kWarningYellow,
     );
   }
@@ -54,7 +73,7 @@ class SnackBars {
     Get.snackbar(
       title,
       message,
-      duration: const Duration(seconds: 2),
+      duration: _snackDuration,
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       snackStyle: SnackStyle.FLOATING,
       borderRadius: 8.0,
@@ -62,13 +81,21 @@ class SnackBars {
       shouldIconPulse: true,
       titleText: Text(
         title,
-        style: TextStyle(color: kBackGroundWhite),
+        style: TextStyle(
+          color: kBackGroundWhite,
+          fontSize: 18,
+          fontFamily: 'Lexend',
+        ),
       ),
       messageText: Text(
         message,
-        style: TextStyle(color: kBackGroundWhite),
+        style: TextStyle(
+          color: kBackGroundWhite,
+          fontSize: 16,
+          fontFamily: 'Lexend',
+        ),
       ),
-      snackPosition: SnackPosition.BOTTOM,
+      snackPosition: _snackPosition,
       backgroundColor: kErrorRed,
     );
   }

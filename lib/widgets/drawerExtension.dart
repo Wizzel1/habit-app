@@ -10,7 +10,7 @@ class DrawerExtension extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: kBackGroundWhite,
+          color: kLightOrange,
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10), bottomLeft: Radius.circular(10))),
       height: 90,
