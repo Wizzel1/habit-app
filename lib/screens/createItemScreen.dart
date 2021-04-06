@@ -459,9 +459,11 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                 shrinkWrap: true,
                 itemCount: _contentController.allRewardList.length,
                 itemBuilder: (context, index) {
-                  Reward reward = _contentController.allRewardList[index];
-                  bool isSelected = (_createItemController.selectedRewards
-                      .any((element) => element.name == reward.name));
+                  String rewardReference =
+                      _contentController.allRewardList[index].id;
+                  bool isSelected = (_createItemController
+                      .selectedRewardReferences
+                      .any((element) => element == rewardReference));
                   return Padding(
                     padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                     child: SelectableRewardContainer(
@@ -469,11 +471,12 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                       isSelectedReward: isSelected,
                       onTap: () {
                         setState(() {
-                          _createItemController.selectedRewards.contains(reward)
-                              ? _createItemController.selectedRewards
-                                  .remove(reward)
-                              : _createItemController.selectedRewards
-                                  .add(reward);
+                          _createItemController.selectedRewardReferences
+                                  .contains(rewardReference)
+                              ? _createItemController.selectedRewardReferences
+                                  .remove(rewardReference)
+                              : _createItemController.selectedRewardReferences
+                                  .add(rewardReference);
                         });
                       },
                     ),
@@ -483,7 +486,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
           CenteredScrollIconButton(
             pageController: _pageController,
             onPressed: (scrollToNext) {
-              if (_createItemController.selectedRewards.isEmpty) {
+              if (_createItemController.selectedRewardReferences.isEmpty) {
                 SnackBars.showWarningSnackBar(
                     "Warning", "Please select at least one Reward");
               } else {

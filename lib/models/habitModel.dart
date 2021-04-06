@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:Marbit/controllers/controllers.dart';
 import 'package:Marbit/controllers/dateController.dart';
 import 'package:Marbit/models/trackedCompletionsModel.dart';
@@ -14,7 +16,7 @@ class Habit {
   DateTime creationDate;
   String description;
   List<int> scheduledWeekDays;
-  List<Reward> rewardList;
+  List<String> rewardIDReferences;
   TrackedCompletions trackedCompletions;
   int completionGoal;
 
@@ -30,7 +32,7 @@ class Habit {
     @required this.id,
     @required this.creationDate,
     @required this.scheduledWeekDays,
-    @required this.rewardList,
+    @required this.rewardIDReferences,
     @required this.trackedCompletions,
     @required this.completionGoal,
   });
@@ -44,7 +46,8 @@ class Habit {
             "${creationDate.year.toString().padLeft(4, '0')}-${creationDate.month.toString().padLeft(2, '0')}-${creationDate.day.toString().padLeft(2, '0')}",
         "scheduledWeekDays":
             List<dynamic>.from(scheduledWeekDays.map((x) => x)),
-        "rewardList": List<dynamic>.from(rewardList.map((x) => x.toJson())),
+        "rewardIDReferences": jsonEncode(rewardIDReferences),
+        //List<dynamic>.from(rewardIDReferences.map((x) => x.toJson())),
         "trackedCompletions": trackedCompletions.toJson(),
       };
 
@@ -56,8 +59,9 @@ class Habit {
         creationDate: DateTime.parse(json["creationDate"]),
         scheduledWeekDays:
             List<int>.from(json["scheduledWeekDays"].map((x) => x)),
-        rewardList: List<Reward>.from(
-            json["rewardList"].map((x) => Reward.fromJson(x))),
+        rewardIDReferences: jsonDecode(json["rewardIDReferences"]),
+        // List<Reward>.from(
+        //     json["rewardIDReferences"].map((x) => Reward.fromJson(x))),
         trackedCompletions:
             TrackedCompletions.fromJson(json["trackedCompletions"]),
       );

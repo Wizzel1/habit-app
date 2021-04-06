@@ -79,8 +79,8 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
                                                   (BuildContext context, _,
                                                           __) =>
                                                       RewardPopupScreen(
-                                                rewardList:
-                                                    tappedHabit.rewardList,
+                                                rewardReferences: tappedHabit
+                                                    .rewardIDReferences,
                                               ),
                                             ),
                                           );

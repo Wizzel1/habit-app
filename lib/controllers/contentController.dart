@@ -14,7 +14,7 @@ class ContentController extends GetxController {
       id: "testHabit",
       description: "This is an example Habit.",
       scheduledWeekDays: [1, 2, 3, 4, 5],
-      rewardList: [],
+      rewardIDReferences: [],
       trackedCompletions: DateUtilits.get2021ExampleCompletions(),
       completionGoal: 5);
 
@@ -82,13 +82,25 @@ class ContentController extends GetxController {
     return false;
   }
 
+  List<Reward> getRewardListByID(List<String> rewardIds) {
+    if (rewardIds == null) return [];
+    List<Reward> _rewardList = [];
+
+    for (String rewardID in rewardIds) {
+      Reward _reward =
+          allRewardList.firstWhere((element) => element.id == rewardID);
+      _rewardList.add(_reward);
+    }
+    return _rewardList;
+  }
+
   void updateHabit(
       {String habitID,
       String newTitle,
       String newDescription,
       int newCompletionGoal,
       List<int> newSchedule,
-      List<Reward> newRewardList}) {
+      List<String> newRewardReferences}) {
     int _updateIndex;
 
     if (habitID != null) {
@@ -101,8 +113,8 @@ class ContentController extends GetxController {
     if (isValid(newTitle)) allHabitList[_updateIndex].title = newTitle;
     if (isValid(newSchedule))
       allHabitList[_updateIndex].scheduledWeekDays = newSchedule;
-    if (isValid(newRewardList))
-      allHabitList[_updateIndex].rewardList = newRewardList;
+    if (isValid(newRewardReferences))
+      allHabitList[_updateIndex].rewardIDReferences = newRewardReferences;
 
     // if (newTitle != null) allHabitList[_updateIndex].name = newTitle;
     if (newDescription != null)

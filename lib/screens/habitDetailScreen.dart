@@ -226,7 +226,9 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   }
 
   void _setJoinedRewardList() {
-    List<Reward> _selectedRewards = widget.habit.rewardList;
+    List<String> _selectedRewardIDs = widget.habit.rewardIDReferences;
+    List<Reward> _selectedRewards =
+        _contentController.getRewardListByID(_selectedRewardIDs);
     List<Reward> _allRewards = _contentController.allRewardList;
     List<Reward> _joinedRewards = [];
 
@@ -314,7 +316,8 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                                       widget.habit.completionGoal,
                                   newDescription: _descriptionController.text,
                                   newSchedule: widget.habit.scheduledWeekDays,
-                                  newRewardList: widget.habit.rewardList);
+                                  newRewardReferences:
+                                      widget.habit.rewardIDReferences);
 
                               _setJoinedRewardList();
                             }
@@ -326,7 +329,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                       AnimatedContainer(
                         height: _isInEditMode
                             ? (_contentController.allRewardList.length * 90.0)
-                            : (widget.habit.rewardList.length * 90.0),
+                            : (widget.habit.rewardIDReferences.length * 90.0),
                         duration: Duration(milliseconds: 800),
                         curve: Curves.easeOutQuint,
                         child: _buildImplicitList(),
@@ -525,9 +528,10 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
               (index) => GestureDetector(
                 onTap: () {
                   if (!_isInEditMode) return;
-                  widget.habit.scheduledWeekDays.contains(index + 1)
-                      ? widget.habit.scheduledWeekDays.remove(index + 1)
-                      : widget.habit.scheduledWeekDays.add(index + 1);
+                  int weekDayIndex = index + 1;
+                  widget.habit.scheduledWeekDays.contains(weekDayIndex)
+                      ? widget.habit.scheduledWeekDays.remove(weekDayIndex)
+                      : widget.habit.scheduledWeekDays.add(weekDayIndex);
                   setState(() {});
                 },
                 child: Container(
@@ -574,8 +578,8 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
         // Specifiy a transition to be used by the ImplicitlyAnimatedList.
         // See the Transitions section on how to import this transition.
         //TODO: this comparison needs to be improved
-        bool isSelected = (widget.habit.rewardList
-            .any((element) => element.name == reward.name));
+        bool isSelected = (widget.habit.rewardIDReferences
+            .any((element) => element == reward.id));
         return SizeFadeTransition(
           sizeFraction: 0.7,
           curve: Curves.easeInOut,
@@ -593,9 +597,9 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                     onTap: () {
                       if (!_isInEditMode) return;
                       setState(() {
-                        widget.habit.rewardList.contains(reward)
-                            ? widget.habit.rewardList.remove(reward)
-                            : widget.habit.rewardList.add(reward);
+                        widget.habit.rewardIDReferences.contains(reward.id)
+                            ? widget.habit.rewardIDReferences.remove(reward.id)
+                            : widget.habit.rewardIDReferences.add(reward.id);
                       });
                       _setJoinedRewardList();
                     },

@@ -21,26 +21,30 @@ class TutorialHabitContainer extends StatelessWidget {
           height: 120,
           width: double.infinity,
           child: CompletableHabitContainer(
-              optionalTutorialKey:
-                  _tutorialController.homeTutorialHabitContainerKey,
-              habit: ContentController.tutorialHabit,
-              onPressed: () {
-                ContentController.tutorialHabit.addCompletionForToday(
-                    onCompletionGoalReached: () {
-                  400.milliseconds.delay().then((value) {
-                    Navigator.of(context).push(
-                      PageRouteBuilder(
-                        opaque: false,
-                        pageBuilder: (BuildContext context, _, __) =>
-                            RewardPopupScreen(
-                          rewardList:
-                              ContentController.tutorialHabit.rewardList,
+            optionalTutorialKey:
+                _tutorialController.homeTutorialHabitContainerKey,
+            habit: ContentController.tutorialHabit,
+            onPressed: () {
+              ContentController.tutorialHabit.addCompletionForToday(
+                onCompletionGoalReached: () {
+                  400.milliseconds.delay().then(
+                    (value) {
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+                          opaque: false,
+                          pageBuilder: (BuildContext context, _, __) =>
+                              RewardPopupScreen(
+                            rewardReferences: ContentController
+                                .tutorialHabit.rewardIDReferences,
+                          ),
                         ),
-                      ),
-                    );
-                  });
-                });
-              }),
+                      );
+                    },
+                  );
+                },
+              );
+            },
+          ),
         ),
       ],
     );

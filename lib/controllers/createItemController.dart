@@ -18,7 +18,7 @@ class CreateItemController extends GetxController {
   final TextEditingController maxTextController = TextEditingController();
   final TextEditingController createDescriptionController =
       TextEditingController();
-  List<Reward> selectedRewards = [];
+  List<String> selectedRewardReferences = [];
   List<int> scheduledDays = [];
   int completionGoalCount = 1;
   bool isSelfRemovingReward = false;
@@ -33,7 +33,7 @@ class CreateItemController extends GetxController {
     minTextController.text != null ? minTextController.clear() : null;
     maxTextController.text != null ? maxTextController.clear() : null;
     scheduledDays = [];
-    selectedRewards = [];
+    selectedRewardReferences = [];
     isSelfRemovingReward = false;
     completionGoalCount = 1;
   }
@@ -44,11 +44,11 @@ class CreateItemController extends GetxController {
     Habit newHabit = Habit(
       creationDate: _today,
       title: createTitleTextController.text,
-      id: Uuid().v1(),
+      id: Uuid().v4(),
       completionGoal: completionGoalCount,
       description: createDescriptionController.text,
       scheduledWeekDays: scheduledDays,
-      rewardList: selectedRewards,
+      rewardIDReferences: selectedRewardReferences,
       trackedCompletions: _createInitialTrackedCompletions(),
     );
     Get.find<ContentController>().addHabit(newHabit);
@@ -85,7 +85,7 @@ class CreateItemController extends GetxController {
   void createReward() {
     Reward newReward = Reward(
         name: createTitleTextController.text,
-        id: Uuid().v1(),
+        id: Uuid().v4(),
         isSelfRemoving: isSelfRemovingReward,
         description: createDescriptionController.text);
     Get.find<ContentController>().addReward(newReward);

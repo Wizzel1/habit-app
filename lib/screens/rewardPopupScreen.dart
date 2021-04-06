@@ -1,14 +1,17 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:Marbit/controllers/contentController.dart';
 import 'package:flutter/material.dart';
 import 'package:Marbit/models/models.dart';
 import 'package:Marbit/util/util.dart';
+import 'package:get/get.dart';
 
 class RewardPopupScreen extends StatefulWidget {
-  final List<Reward> rewardList;
+  final List<String> rewardReferences;
+
   //TODO: get habit and calculate habitlevel if needed
 
-  const RewardPopupScreen({Key key, @required this.rewardList})
+  const RewardPopupScreen({Key key, @required this.rewardReferences})
       : super(key: key);
   @override
   _RewardPopupScreenState createState() => _RewardPopupScreenState();
@@ -20,8 +23,9 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
   AnimationController _animController;
   Animation<double> _scaleAnimation;
   List<Reward> _shuffeledRewardList = [];
-
+  List<Reward> _rewardList = [];
   final double rewardPercentage = 1;
+  final ContentController _contentController = Get.find<ContentController>();
 
   @override
   void initState() {
@@ -51,7 +55,9 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
   }
 
   void _cloneRewards() {
-    for (Reward reward in widget.rewardList) {
+    _rewardList = _contentController.getRewardListByID(widget.rewardReferences);
+
+    for (Reward reward in _rewardList) {
       Reward _rewardCopy = Reward(
           name: reward.name,
           description: reward.description,
@@ -110,9 +116,9 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
   void _checkIfRewardIsRemoving() {
     if (_shuffeledRewardList.isEmpty) return;
     if (_shuffeledRewardList.last.isSelfRemoving) {
-      Reward selfRemovingReward = widget.rewardList
+      Reward selfRemovingReward = _rewardList
           .singleWhere((element) => element.id == _shuffeledRewardList.last.id);
-      widget.rewardList.remove(selfRemovingReward);
+      widget.rewardReferences.remove(selfRemovingReward.id);
     }
   }
 
