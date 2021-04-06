@@ -160,17 +160,19 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
                       _buildDescriptionTextField(),
                       const SizedBox(height: 30),
                       Center(
-                        child: _buildEditButton(onPressed: () {
-                          if (_isInEditMode) {
-                            FocusScope.of(context).unfocus();
-                            Get.find<ContentController>().updateReward(
-                                rewardID: widget.reward.id,
-                                newTitle: _titleController.text,
-                                newDescription: _descriptionController.text,
-                                isSelfRemoving: widget.reward.isSelfRemoving);
-                          }
-                          _toggleEditingAnimation();
-                        }),
+                        child: _buildEditButton(
+                          onPressed: () {
+                            if (_isInEditMode) {
+                              FocusScope.of(context).unfocus();
+                              Get.find<ContentController>().updateReward(
+                                  rewardID: widget.reward.id,
+                                  newTitle: _titleController.text,
+                                  newDescription: _descriptionController.text,
+                                  isSelfRemoving: widget.reward.isSelfRemoving);
+                            }
+                            _toggleEditingAnimation();
+                          },
+                        ),
                       ),
                       const SizedBox(height: 30),
                       _buildChangeSelfRemovingOption(),
