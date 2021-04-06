@@ -303,20 +303,24 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                       _buildCompletionGoalStepper(),
                       const SizedBox(height: 30),
                       Center(
-                        child: _buildEditButton(onPressed: () {
-                          if (_isInEditMode) {
-                            FocusScope.of(context).unfocus();
-                            Get.find<ContentController>().updateHabit(
-                                habitID: widget.habit.id,
-                                newTitle: _titleController.text,
-                                newCompletionGoal: widget.habit.completionGoal,
-                                newDescription: _descriptionController.text,
-                                newSchedule: widget.habit.scheduledWeekDays,
-                                newRewardList: widget.habit.rewardList);
-                            _setJoinedRewardList();
-                          }
-                          _toggleEditingAnimation();
-                        }),
+                        child: _buildEditButton(
+                          onPressed: () {
+                            if (_isInEditMode) {
+                              FocusScope.of(context).unfocus();
+                              Get.find<ContentController>().updateHabit(
+                                  habitID: widget.habit.id,
+                                  newTitle: _titleController.text,
+                                  newCompletionGoal:
+                                      widget.habit.completionGoal,
+                                  newDescription: _descriptionController.text,
+                                  newSchedule: widget.habit.scheduledWeekDays,
+                                  newRewardList: widget.habit.rewardList);
+
+                              _setJoinedRewardList();
+                            }
+                            _toggleEditingAnimation();
+                          },
+                        ),
                       ),
                       const SizedBox(height: 30),
                       AnimatedContainer(
@@ -330,8 +334,6 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                       const SizedBox(height: 30),
                       AdController.getLargeBannerAd(context),
                       const SizedBox(height: 30),
-                      Center(child: Text("Statistics")),
-                      const SizedBox(height: 20),
                       Container(
                         height: 300,
                         child: HabitCompletionChart(
