@@ -8,6 +8,7 @@ class SnackBars {
     Get.snackbar(
       title,
       message,
+      duration: const Duration(seconds: 2),
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       snackStyle: SnackStyle.FLOATING,
       borderRadius: 8.0,
@@ -30,6 +31,7 @@ class SnackBars {
     Get.snackbar(
       title,
       message,
+      duration: const Duration(seconds: 2),
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       snackStyle: SnackStyle.FLOATING,
       borderRadius: 8.0,
@@ -52,6 +54,7 @@ class SnackBars {
     Get.snackbar(
       title,
       message,
+      duration: const Duration(seconds: 2),
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       snackStyle: SnackStyle.FLOATING,
       borderRadius: 8.0,
