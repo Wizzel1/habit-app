@@ -18,3 +18,12 @@ const kLightBlue = Color(0xFF1E72FF);
 //-- Green Theme --
 const kDeepGreen = Color(0xFF287B00);
 const kLightGreen = Color(0xFF1EA764);
+
+// Success green
+const kSuccessGreen = Color(0xFF01B154);
+
+//Error red
+const kErrorRed = Color(0xFFD4174E);
+
+//Warning yellow
+const kWarningYellow = Color(0xFFFEC02C);
