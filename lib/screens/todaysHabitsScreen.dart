@@ -46,16 +46,7 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
           Positioned(
               bottom: (screenSize.height / 2) - 45,
               right: 0,
-              child: Container(
-                decoration: const BoxDecoration(
-                    color: kLightOrange,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        bottomLeft: Radius.circular(10))),
-                height: 90,
-                width: 15,
-                child: const SizedBox.shrink(),
-              )),
+              child: DrawerExtension()),
           Positioned.fill(
             child: false
                 ? TutorialHabitContainer()

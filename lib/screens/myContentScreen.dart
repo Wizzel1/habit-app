@@ -40,17 +40,7 @@ class _MyContentScreenState extends State<MyContentScreen>
         Positioned(
             bottom: (screenSize.height / 2) - 45,
             right: 0,
-            child: Container(
-              decoration: const BoxDecoration(
-                  color: kLightOrange,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      bottomLeft: Radius.circular(10))),
-              height: 90,
-              width: 15,
-              child: const RotatedBox(
-                  quarterTurns: -1, child: Center(child: Text("Menu"))),
-            )),
+            child: DrawerExtension()),
       ]),
     );
   }
