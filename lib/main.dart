@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       translations: Messages(),
+      fallbackLocale: Locale('en', 'US'),
       locale: Get.deviceLocale,
       title: 'Marbit',
       theme: orangeTheme(),
