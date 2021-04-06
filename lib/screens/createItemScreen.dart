@@ -296,7 +296,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                                   controller:
                                       _createItemController.maxTextController,
                                   title: "max"),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -305,7 +305,16 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                     : MaterialButton(
                         elevation: 0,
                         color: kBackGroundWhite,
-                        onPressed: () async {
+                        onPressed: () {
+                          if (int.parse(_createItemController
+                                  .minTextController.text) >
+                              int.parse(_createItemController
+                                  .maxTextController.text)) {
+                            SnackBars.showErrorSnackBar("Invalid Range",
+                                "Please make sure 'Min' is not greater than 'Max'");
+                            return;
+                          }
+
                           _createItemController.createTitleTextController.text =
                               _createItemController
                                       .createTitleTextController.text +
