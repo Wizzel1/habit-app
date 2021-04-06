@@ -21,6 +21,7 @@ class SnackBars {
         title,
         style: TextStyle(
           color: kBackGroundWhite,
+          fontWeight: FontWeight.bold,
           fontSize: 18,
           fontFamily: 'Lexend',
         ),
@@ -52,6 +53,7 @@ class SnackBars {
         title,
         style: TextStyle(
           color: kBackGroundWhite,
+          fontWeight: FontWeight.bold,
           fontSize: 18,
           fontFamily: 'Lexend',
         ),
@@ -84,6 +86,7 @@ class SnackBars {
         style: TextStyle(
           color: kBackGroundWhite,
           fontSize: 18,
+          fontWeight: FontWeight.bold,
           fontFamily: 'Lexend',
         ),
       ),
