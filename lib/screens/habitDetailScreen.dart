@@ -572,12 +572,10 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
       insertDuration: const Duration(milliseconds: 500),
       updateDuration: const Duration(milliseconds: 200),
       items: _joinedRewardList,
-      //TODO: this comparison needs to be improved
-      areItemsTheSame: (a, b) => a.name == b.name,
+      areItemsTheSame: (a, b) => a.id == b.id,
       itemBuilder: (context, animation, reward, index) {
         // Specifiy a transition to be used by the ImplicitlyAnimatedList.
         // See the Transitions section on how to import this transition.
-        //TODO: this comparison needs to be improved
         bool isSelected = (widget.habit.rewardIDReferences
             .any((element) => element == reward.id));
         return SizeFadeTransition(
