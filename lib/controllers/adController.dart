@@ -3,10 +3,11 @@ import 'package:native_admob_flutter/native_admob_flutter.dart';
 import 'package:get/get.dart';
 
 class AdController extends GetxController {
-  static final bool hasPurchasedAdFree = false;
+  static final bool hasPurchasedAdFree = true;
 
   static Widget getAdaptiveBannerAd(BuildContext context) {
     if (hasPurchasedAdFree) return const SizedBox.shrink();
+
     return BannerAd(
       builder: (context, child) {
         return Container(

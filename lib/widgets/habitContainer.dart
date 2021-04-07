@@ -3,6 +3,7 @@ import 'package:Marbit/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:Marbit/models/habitModel.dart';
 import 'package:Marbit/util/constants.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CompletableHabitContainer extends StatefulWidget {
   final Habit habit;

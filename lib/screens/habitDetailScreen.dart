@@ -334,7 +334,6 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                         curve: Curves.easeOutQuint,
                         child: _buildImplicitList(),
                       ),
-                      const SizedBox(height: 30),
                       AdController.getLargeBannerAd(context),
                       const SizedBox(height: 30),
                       Container(

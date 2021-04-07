@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:Marbit/widgets/widgets.dart';
 import 'package:Marbit/controllers/controllers.dart';
@@ -245,6 +246,15 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
                 ),
+                Center(
+                  child: PageScrollIconButton(
+                    scrollToNextPage: false,
+                    pageController: _pageController,
+                    onPressedButton: (scrollAction) {
+                      scrollAction();
+                    },
+                  ),
+                )
               ],
             ),
           ),
@@ -330,18 +340,32 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
                       ),
-                CenteredScrollIconButton(
-                  pageController: _pageController,
-                  onPressed: (scrollToNext) {
-                    if (_createItemController
-                        .createTitleTextController.text.isEmpty) {
-                      SnackBars.showWarningSnackBar(
-                          "Warning", "Please chose a Title");
-                    } else {
-                      scrollToNext();
-                    }
-                  },
-                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    PageScrollIconButton(
+                      scrollToNextPage: false,
+                      pageController: _pageController,
+                      onPressedButton: (scrollFunction) {
+                        scrollFunction();
+                      },
+                    ),
+                    PageScrollIconButton(
+                      scrollToNextPage: true,
+                      pageController: _pageController,
+                      onPressedButton: (scrollFunction) {
+                        if (_createItemController
+                            .createTitleTextController.text.isEmpty) {
+                          SnackBars.showWarningSnackBar(
+                              "Warning", "Please select chose a Title");
+                        } else {
+                          scrollFunction();
+                        }
+                      },
+                    )
+                  ],
+                )
               ],
             ),
           ),
@@ -404,11 +428,25 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                   ),
                 ),
                 Spacer(),
-                CenteredScrollIconButton(
-                  pageController: _pageController,
-                  onPressed: (scrollToNext) {
-                    scrollToNext();
-                  },
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    PageScrollIconButton(
+                      scrollToNextPage: false,
+                      pageController: _pageController,
+                      onPressedButton: (scrollFunction) {
+                        scrollFunction();
+                      },
+                    ),
+                    PageScrollIconButton(
+                      scrollToNextPage: true,
+                      pageController: _pageController,
+                      onPressedButton: (scrollFunction) {
+                        scrollFunction();
+                      },
+                    )
+                  ],
                 )
               ],
             ),
@@ -433,11 +471,25 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                   title: "Type your Description",
                 ),
                 Spacer(),
-                CenteredScrollIconButton(
-                  pageController: _pageController,
-                  onPressed: (scrollToNext) {
-                    scrollToNext();
-                  },
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    PageScrollIconButton(
+                      scrollToNextPage: false,
+                      pageController: _pageController,
+                      onPressedButton: (scrollFunction) {
+                        scrollFunction();
+                      },
+                    ),
+                    PageScrollIconButton(
+                      scrollToNextPage: true,
+                      pageController: _pageController,
+                      onPressedButton: (scrollFunction) {
+                        scrollFunction();
+                      },
+                    )
+                  ],
                 )
               ],
             ),
@@ -483,17 +535,31 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                   );
                 },
               )),
-          CenteredScrollIconButton(
-            pageController: _pageController,
-            onPressed: (scrollToNext) {
-              if (_createItemController.selectedRewardReferences.isEmpty) {
-                SnackBars.showWarningSnackBar(
-                    "Warning", "Please select at least one Reward");
-              } else {
-                scrollToNext();
-              }
-            },
-          ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              PageScrollIconButton(
+                scrollToNextPage: false,
+                pageController: _pageController,
+                onPressedButton: (scrollFunction) {
+                  scrollFunction();
+                },
+              ),
+              PageScrollIconButton(
+                scrollToNextPage: true,
+                pageController: _pageController,
+                onPressedButton: (scrollFunction) {
+                  if (_createItemController.selectedRewardReferences.isEmpty) {
+                    SnackBars.showWarningSnackBar(
+                        "Warning", "Please select at least one Reward");
+                  } else {
+                    scrollFunction();
+                  }
+                },
+              )
+            ],
+          )
         ],
       ),
     );
@@ -557,34 +623,41 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
   }
 }
 
-class CenteredScrollIconButton extends StatelessWidget {
+class PageScrollIconButton extends StatelessWidget {
   final PageController pageController;
-  final Function(Function) onPressed;
+  final Function(Function) onPressedButton;
+  final bool scrollToNextPage;
 
-  const CenteredScrollIconButton({Key key, this.pageController, this.onPressed})
+  const PageScrollIconButton(
+      {Key key,
+      @required this.pageController,
+      @required this.onPressedButton,
+      @required this.scrollToNextPage})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.center,
-      child: IconButton(
-        icon: Icon(
-          Icons.arrow_downward_rounded,
-          color: kBackGroundWhite,
-          size: 40,
-        ),
-        onPressed: () {
-          Function scrollToNext = () {
-            pageController.nextPage(
-                duration: Duration(milliseconds: 200), curve: Curves.ease);
-          };
-
-          onPressed(() {
-            scrollToNext();
-          });
-        },
+    return IconButton(
+      icon: Icon(
+        scrollToNextPage
+            ? FontAwesomeIcons.arrowDown
+            : FontAwesomeIcons.arrowUp,
+        color: kBackGroundWhite,
+        size: 40,
       ),
+      onPressed: () {
+        Function scrollToNext = () {
+          pageController.nextPage(
+              duration: const Duration(milliseconds: 200), curve: Curves.ease);
+        };
+
+        Function scrollToPrevious = () {
+          pageController.previousPage(
+              duration: const Duration(milliseconds: 200), curve: Curves.ease);
+        };
+
+        onPressedButton(scrollToNextPage ? scrollToNext : scrollToPrevious);
+      },
     );
   }
 }
