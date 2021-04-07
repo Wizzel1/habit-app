@@ -6,6 +6,7 @@ class LocalStorageService {
 
   static void saveAllHabitsToLocalStorage(List<Habit> allHabits) {
     List _encodedHabits = allHabits.map((e) => e.toJson()).toList();
+    if (_encodedHabits == null) return;
     storageBox.write("habits", _encodedHabits);
   }
 
@@ -19,6 +20,7 @@ class LocalStorageService {
 
   static void saveAllRewardsToLocalStorage(List<Reward> allRewards) {
     List _encodedRewards = allRewards.map((e) => e.toJson()).toList();
+    if (_encodedRewards == null) return;
     storageBox.write("rewards", _encodedRewards);
   }
 
