@@ -155,12 +155,6 @@ class ContentController extends GetxController {
     }
   }
 
-  void completeHabitAt(int todaysListIndex) {
-    if (todaysHabitList.isNotEmpty) todaysHabitList.removeAt(todaysListIndex);
-
-    LocalStorageService.saveAllHabitsToLocalStorage(allHabitList);
-  }
-
   @override
   void onInit() {
     //LocalStorageService.storageBox.erase();

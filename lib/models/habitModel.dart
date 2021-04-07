@@ -184,14 +184,14 @@ class Habit {
         .trackedDays[_yearWeekDayIndexList[2]]
         .doneAmount++;
 
+    Get.find<ContentController>().updateHabit(habitID: id);
+
     if (trackedCompletions
             .trackedYears[_yearWeekDayIndexList[0]]
             .calendarWeeks[_yearWeekDayIndexList[1]]
             .trackedDays[_yearWeekDayIndexList[2]]
             .doneAmount >=
         completionGoal) onCompletionGoalReached();
-
-    Get.find<ContentController>().updateHabit(habitID: id);
   }
 
   List getCompletionDataForTimeSpan(TimeSpan timeSpan) {

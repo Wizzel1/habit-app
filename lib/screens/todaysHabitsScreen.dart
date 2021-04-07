@@ -70,8 +70,6 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
                                     onCompletionGoalReached: () {
                                       400.milliseconds.delay().then(
                                         (value) {
-                                          _contentController
-                                              .completeHabitAt(index);
                                           Navigator.of(context).push(
                                             PageRouteBuilder(
                                               opaque: false,
