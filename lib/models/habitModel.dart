@@ -46,7 +46,8 @@ class Habit {
             "${creationDate.year.toString().padLeft(4, '0')}-${creationDate.month.toString().padLeft(2, '0')}-${creationDate.day.toString().padLeft(2, '0')}",
         "scheduledWeekDays":
             List<dynamic>.from(scheduledWeekDays.map((x) => x)),
-        "rewardIDReferences": jsonEncode(rewardIDReferences),
+        "rewardIDReferences":
+            List<dynamic>.from(rewardIDReferences.map((x) => x)),
         //List<dynamic>.from(rewardIDReferences.map((x) => x.toJson())),
         "trackedCompletions": trackedCompletions.toJson(),
       };
@@ -59,7 +60,8 @@ class Habit {
         creationDate: DateTime.parse(json["creationDate"]),
         scheduledWeekDays:
             List<int>.from(json["scheduledWeekDays"].map((x) => x)),
-        rewardIDReferences: jsonDecode(json["rewardIDReferences"]),
+        rewardIDReferences:
+            List<String>.from(json["rewardIDReferences"].map((x) => x)),
         // List<Reward>.from(
         //     json["rewardIDReferences"].map((x) => Reward.fromJson(x))),
         trackedCompletions:
