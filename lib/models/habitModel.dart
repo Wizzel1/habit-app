@@ -18,6 +18,7 @@ class Habit {
   List<int> scheduledWeekDays;
   List<String> rewardIDReferences;
   TrackedCompletions trackedCompletions;
+  DateTime nextCompletionDate;
   int completionGoal;
 
   //TODO: implement color serialization
@@ -33,6 +34,7 @@ class Habit {
     @required this.creationDate,
     @required this.scheduledWeekDays,
     @required this.rewardIDReferences,
+    @required this.nextCompletionDate,
     @required this.trackedCompletions,
     @required this.completionGoal,
   });
@@ -44,11 +46,12 @@ class Habit {
         "completionGoal": completionGoal,
         "creationDate":
             "${creationDate.year.toString().padLeft(4, '0')}-${creationDate.month.toString().padLeft(2, '0')}-${creationDate.day.toString().padLeft(2, '0')}",
+        "nextCompletionDate":
+            "${nextCompletionDate.year.toString().padLeft(4, '0')}-${nextCompletionDate.month.toString().padLeft(2, '0')}-${nextCompletionDate.day.toString().padLeft(2, '0')}",
         "scheduledWeekDays":
             List<dynamic>.from(scheduledWeekDays.map((x) => x)),
         "rewardIDReferences":
             List<dynamic>.from(rewardIDReferences.map((x) => x)),
-        //List<dynamic>.from(rewardIDReferences.map((x) => x.toJson())),
         "trackedCompletions": trackedCompletions.toJson(),
       };
 
@@ -58,12 +61,11 @@ class Habit {
         id: json["id"],
         completionGoal: json["completionGoal"],
         creationDate: DateTime.parse(json["creationDate"]),
+        nextCompletionDate: DateTime.parse(json["nextCompletionDate"]),
         scheduledWeekDays:
             List<int>.from(json["scheduledWeekDays"].map((x) => x)),
         rewardIDReferences:
             List<String>.from(json["rewardIDReferences"].map((x) => x)),
-        // List<Reward>.from(
-        //     json["rewardIDReferences"].map((x) => Reward.fromJson(x))),
         trackedCompletions:
             TrackedCompletions.fromJson(json["trackedCompletions"]),
       );
