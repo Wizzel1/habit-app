@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TutorialHabitContainer extends StatelessWidget {
-  //TODO: create a binding for this controller and replace with get.find
+  //TODO: create a binding for this controller and replace with get.put
   final TutorialController _tutorialController =
       Get.put<TutorialController>(TutorialController());
 
@@ -34,8 +34,7 @@ class TutorialHabitContainer extends StatelessWidget {
                           opaque: false,
                           pageBuilder: (BuildContext context, _, __) =>
                               RewardPopupScreen(
-                            rewardReferences: ContentController
-                                .tutorialHabit.rewardIDReferences,
+                            habit: ContentController.tutorialHabit,
                           ),
                         ),
                       );

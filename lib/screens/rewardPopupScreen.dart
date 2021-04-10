@@ -7,12 +7,11 @@ import 'package:Marbit/util/util.dart';
 import 'package:get/get.dart';
 
 class RewardPopupScreen extends StatefulWidget {
-  final List<String> rewardReferences;
+  final Habit habit;
 
   //TODO: get habit and calculate habitlevel if needed
 
-  const RewardPopupScreen({Key key, @required this.rewardReferences})
-      : super(key: key);
+  const RewardPopupScreen({Key key, @required this.habit}) : super(key: key);
   @override
   _RewardPopupScreenState createState() => _RewardPopupScreenState();
 }
@@ -24,19 +23,21 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
   Animation<double> _scaleAnimation;
   List<Reward> _shuffeledRewardList = [];
   List<Reward> _rewardList = [];
+
   final double rewardPercentage = 1;
   final ContentController _contentController = Get.find<ContentController>();
 
   @override
   void initState() {
     super.initState();
+
     _scrollController = ScrollController();
     _animController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 450));
     _scaleAnimation =
         CurvedAnimation(parent: _animController, curve: Curves.elasticInOut);
 
-    _cloneRewards();
+    _cloneRewardsIntoShuffeledRewardList();
     _addPercentageBasedEmptyRewards();
     _shuffeledRewardList.shuffle();
     _evaluateRewardVariable(_shuffeledRewardList.last);
@@ -54,8 +55,9 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
     super.dispose();
   }
 
-  void _cloneRewards() {
-    _rewardList = _contentController.getRewardListByID(widget.rewardReferences);
+  void _cloneRewardsIntoShuffeledRewardList() {
+    _rewardList =
+        _contentController.getRewardListByID(widget.habit.rewardIDReferences);
 
     for (Reward reward in _rewardList) {
       Reward _rewardCopy = Reward(
@@ -118,7 +120,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
     if (_shuffeledRewardList.last.isSelfRemoving) {
       Reward selfRemovingReward = _rewardList
           .singleWhere((element) => element.id == _shuffeledRewardList.last.id);
-      widget.rewardReferences.remove(selfRemovingReward.id);
+      widget.habit.rewardIDReferences.remove(selfRemovingReward.id);
     }
   }
 
