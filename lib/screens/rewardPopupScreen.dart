@@ -183,6 +183,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                       ),
                     ),
                     const Spacer(),
+                    Text("You are on a ${widget.habit.streak} streak!"),
                     Container(
                       height: 60,
                       width: 60,
