@@ -203,7 +203,18 @@ class Habit {
             .calendarWeeks[_yearWeekDayIndexList[1]]
             .trackedDays[_yearWeekDayIndexList[2]]
             .doneAmount >=
-        completionGoal) onCompletionGoalReached();
+        completionGoal) {
+      setStreak();
+      onCompletionGoalReached();
+    }
+  }
+
+  void setStreak() {
+    if (DateUtilits.today == nextCompletionDate) {
+      streak++;
+    } else {
+      streak = 1;
+    }
   }
 
   void updateNextCompletionDate() {
@@ -213,6 +224,7 @@ class Habit {
 
     nextCompletionDate =
         DateUtilits.getDateTimeOfNextWeekDayOccurrence(newCompletionWeekDay);
+    print(nextCompletionDate);
   }
 
   List getCompletionDataForTimeSpan(TimeSpan timeSpan) {
