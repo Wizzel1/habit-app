@@ -50,6 +50,9 @@ class CreateItemController extends GetxController {
       scheduledWeekDays: scheduledDays,
       rewardIDReferences: selectedRewardReferences,
       trackedCompletions: _createInitialTrackedCompletions(),
+      streak: 1,
+      nextCompletionDate:
+          DateUtilits.getDateTimeOfNextWeekDayOccurrence(scheduledDays.first),
     );
     Get.find<ContentController>().addHabit(newHabit);
     resetCreationControllers();
