@@ -62,9 +62,7 @@ class ContentController extends GetxController {
   }
 
   bool isValidOrShowSnackbar(dynamic dynamicData) {
-    assert(dynamicData != null, "Dynamic Data must not be null");
     //TODO prevent data saving
-    if (dynamicData == null) return false;
 
     if (dynamicData is String) {
       dynamicData = dynamicData as String;
