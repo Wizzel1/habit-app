@@ -86,6 +86,9 @@ class Habit {
         _dateController.indexListLastUpdateDate == DateUtilits.today;
 
     if (!isIndexListEmpty && wasUpdatedToday) {
+      assert(_dateController.todaysYearWeekDayIndexList.length == 3,
+          "IndexList has missing indices");
+
       return _dateController.todaysYearWeekDayIndexList;
     }
     _dateController.todaysYearWeekDayIndexList.clear();
@@ -100,6 +103,10 @@ class Habit {
     _dateController.todaysYearWeekDayIndexList.add(dayIndex);
 
     _dateController.indexListLastUpdateDate = DateUtilits.today;
+
+    assert(_dateController.todaysYearWeekDayIndexList.length == 3,
+        "IndexList has missing indices");
+
     return _dateController.todaysYearWeekDayIndexList;
   }
 
@@ -200,15 +207,8 @@ class Habit {
   }
 
   void updateNextCompletionDate() {
-    int nextCompletionWeekDay = nextCompletionDate.weekday;
-
-    bool scheduleContainsNextCompletionDate =
-        scheduledWeekDays.contains(nextCompletionWeekDay);
-
-    if (scheduleContainsNextCompletionDate) return;
-
-    int newCompletionWeekDay = scheduledWeekDays.singleWhere(
-        (element) => element > nextCompletionWeekDay,
+    int newCompletionWeekDay = scheduledWeekDays.firstWhere(
+        (element) => element > DateUtilits.today.weekday,
         orElse: () => scheduledWeekDays.first);
 
     nextCompletionDate =
