@@ -534,7 +534,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                     widget.habit.scheduledWeekDays.add(weekDayIndex);
                   }
                   widget.habit.scheduledWeekDays.sort();
-                  widget.habit.updateNextCompletionDate();
+                  widget.habit.updateToNextCompletionDate();
                   setState(() {});
                 },
                 child: Container(
