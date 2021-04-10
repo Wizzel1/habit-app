@@ -528,9 +528,13 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                 onTap: () {
                   if (!_isInEditMode) return;
                   int weekDayIndex = index + 1;
-                  widget.habit.scheduledWeekDays.contains(weekDayIndex)
-                      ? widget.habit.scheduledWeekDays.remove(weekDayIndex)
-                      : widget.habit.scheduledWeekDays.add(weekDayIndex);
+                  if (widget.habit.scheduledWeekDays.contains(weekDayIndex)) {
+                    widget.habit.scheduledWeekDays.remove(weekDayIndex);
+                  } else {
+                    widget.habit.scheduledWeekDays.add(weekDayIndex);
+                  }
+                  widget.habit.scheduledWeekDays.sort();
+                  widget.habit.updateNextCompletionDate();
                   setState(() {});
                 },
                 child: Container(

@@ -5,7 +5,6 @@ import 'package:Marbit/controllers/dateController.dart';
 import 'package:Marbit/models/trackedCompletionsModel.dart';
 import 'package:Marbit/util/constants.dart';
 import 'package:Marbit/util/dateUtilitis.dart';
-import 'package:Marbit/models/rewardModel.dart';
 import 'package:Marbit/widgets/habitCompletionChart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,6 +18,7 @@ class Habit {
   List<String> rewardIDReferences;
   TrackedCompletions trackedCompletions;
   DateTime nextCompletionDate;
+  int streak;
   int completionGoal;
 
   //TODO: implement color serialization
@@ -36,6 +36,7 @@ class Habit {
     @required this.rewardIDReferences,
     @required this.nextCompletionDate,
     @required this.trackedCompletions,
+    @required this.streak,
     @required this.completionGoal,
   });
 
@@ -44,6 +45,7 @@ class Habit {
         "description": description,
         "id": id,
         "completionGoal": completionGoal,
+        "streak": streak,
         "creationDate":
             "${creationDate.year.toString().padLeft(4, '0')}-${creationDate.month.toString().padLeft(2, '0')}-${creationDate.day.toString().padLeft(2, '0')}",
         "nextCompletionDate":
@@ -59,6 +61,7 @@ class Habit {
         title: json["title"],
         description: json["description"],
         id: json["id"],
+        streak: json["streak"],
         completionGoal: json["completionGoal"],
         creationDate: DateTime.parse(json["creationDate"]),
         nextCompletionDate: DateTime.parse(json["nextCompletionDate"]),
@@ -194,6 +197,22 @@ class Habit {
             .trackedDays[_yearWeekDayIndexList[2]]
             .doneAmount >=
         completionGoal) onCompletionGoalReached();
+  }
+
+  void updateNextCompletionDate() {
+    int nextCompletionWeekDay = nextCompletionDate.weekday;
+
+    bool scheduleContainsNextCompletionDate =
+        scheduledWeekDays.contains(nextCompletionWeekDay);
+
+    if (scheduleContainsNextCompletionDate) return;
+
+    int newCompletionWeekDay = scheduledWeekDays.singleWhere(
+        (element) => element > nextCompletionWeekDay,
+        orElse: () => scheduledWeekDays.first);
+
+    nextCompletionDate =
+        DateUtilits.getDateTimeOfNextWeekDayOccurrence(newCompletionWeekDay);
   }
 
   List getCompletionDataForTimeSpan(TimeSpan timeSpan) {

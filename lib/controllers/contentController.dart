@@ -132,7 +132,6 @@ class ContentController extends GetxController {
   }
 
   void deleteHabit(Habit habit) {
-    //TODO: probably needs improvement
     try {
       allHabitList.remove(habit);
       update(["allHabitList"]);

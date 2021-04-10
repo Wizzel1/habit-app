@@ -1,3 +1,4 @@
+import 'package:Marbit/models/models.dart';
 import 'package:Marbit/models/trackedCompletionsModel.dart';
 import 'package:intl/intl.dart';
 import 'package:week_of_year/week_of_year.dart';
@@ -5,8 +6,8 @@ import 'package:week_of_year/week_of_year.dart';
 class DateUtilits {
   static final DateFormat formatter = DateFormat("yyyy-MM-dd");
 
-  //TODO replace with datetime now
-  static final DateTime today = DateTime.parse("2021-03-01");
+  static final DateTime today =
+      DateTime.parse(formatter.format(DateTime.now()));
 
   static int get currentCalendarWeek {
     return today.weekOfYear;
@@ -26,16 +27,25 @@ class DateUtilits {
   }
 
   static List<int> getLastFourCalendarWeeks() {
-    int thisWeek = currentCalendarWeek;
+    int lastWeek = currentCalendarWeek - 1;
     List<int> lastFourCalendarWeeks = [];
 
     //TODO this function needs to be able to count to weeks before 1
-    if (thisWeek > 4) {
+    if (lastWeek > 4) {
       for (var i = 0; i < 4; i++) {
-        lastFourCalendarWeeks.add(thisWeek - i);
+        lastFourCalendarWeeks.add(lastWeek - i);
       }
     }
     return lastFourCalendarWeeks;
+  }
+
+  static DateTime getDateTimeOfNextWeekDayOccurrence(int nextScheduledWeekDay) {
+    DateTime _nextDate = DateUtilits.today;
+    for (var i = 0; i < 7; i++) {
+      if (_nextDate.weekday == nextScheduledWeekDay) return _nextDate;
+
+      _nextDate = _nextDate.add(const Duration(days: 1));
+    }
   }
 
   static TrackedCompletions get2021ExampleCompletions() {
