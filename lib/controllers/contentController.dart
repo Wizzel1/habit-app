@@ -1,4 +1,6 @@
+import 'package:Marbit/screens/createItemScreen.dart';
 import 'package:Marbit/util/util.dart';
+import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:Marbit/models/models.dart';
@@ -23,11 +25,16 @@ class ContentController extends GetxController {
   final RxList todaysHabitList = [].obs;
 
   void addHabit(Habit habit) {
-    if (habit.isScheduledForToday()) {
-      todaysHabitList.add(habit);
+    assert(habit != null, "Habit must not be null");
+    try {
+      if (habit.isScheduledForToday()) {
+        todaysHabitList.add(habit);
+      }
+      allHabitList.add(habit);
+      LocalStorageService.saveAllHabitsToLocalStorage(allHabitList);
+    } catch (e) {
+      SnackBars.showErrorSnackBar("Error", "Something went wrong");
     }
-    allHabitList.add(habit);
-    LocalStorageService.saveAllHabitsToLocalStorage(allHabitList);
   }
 
   void updateReward(
@@ -35,11 +42,15 @@ class ContentController extends GetxController {
       String newTitle,
       String newDescription,
       bool isSelfRemoving}) {
+    assert(rewardID != null);
+    if (rewardID == null) return;
+
     int _updateIndex;
-    if (rewardID != null) {
-      _updateIndex =
-          allRewardList.indexWhere((element) => element.id == rewardID);
-    }
+    _updateIndex =
+        allRewardList.indexWhere((element) => element.id == rewardID);
+
+    assert(_updateIndex != null);
+    assert(_updateIndex >= 0, "updateindex must not be negative");
 
     if (newTitle != null) allRewardList[_updateIndex].name = newTitle;
     if (newDescription != null)
@@ -50,7 +61,9 @@ class ContentController extends GetxController {
     update(["allRewardList"]);
   }
 
-  bool isValid(dynamic dynamicData) {
+  bool isValidOrShowSnackbar(dynamic dynamicData) {
+    assert(dynamicData != null, "Dynamic Data must not be null");
+    //TODO prevent data saving
     if (dynamicData == null) return false;
 
     if (dynamicData is String) {
@@ -83,7 +96,10 @@ class ContentController extends GetxController {
   }
 
   List<Reward> getRewardListByID(List<String> rewardIds) {
-    if (rewardIds == null) return [];
+    assert(rewardIds != null);
+    assert(rewardIds.isNotEmpty, "The list of rewardIds was empty");
+
+    if (rewardIds == null || rewardIds.isEmpty) return [];
     List<Reward> _rewardList = [];
 
     for (String rewardID in rewardIds) {
@@ -101,28 +117,27 @@ class ContentController extends GetxController {
       int newCompletionGoal,
       List<int> newSchedule,
       List<String> newRewardReferences}) {
-    int _updateIndex;
+    assert(habitID != null);
 
-    if (habitID != null) {
-      _updateIndex =
-          allHabitList.indexWhere((element) => element.id == habitID);
-    }
+    if (habitID == null) return;
+
+    int _updateIndex;
+    _updateIndex = allHabitList.indexWhere((element) => element.id == habitID);
+
+    assert(_updateIndex != null);
+    assert(_updateIndex >= 0, "updateindex must not be negative");
 
     newSchedule?.sort();
 
-    if (isValid(newTitle)) allHabitList[_updateIndex].title = newTitle;
-    if (isValid(newSchedule))
+    if (isValidOrShowSnackbar(newTitle))
+      allHabitList[_updateIndex].title = newTitle;
+    if (isValidOrShowSnackbar(newSchedule))
       allHabitList[_updateIndex].scheduledWeekDays = newSchedule;
-    if (isValid(newRewardReferences))
+    if (isValidOrShowSnackbar(newRewardReferences))
       allHabitList[_updateIndex].rewardIDReferences = newRewardReferences;
 
-    // if (newTitle != null) allHabitList[_updateIndex].name = newTitle;
     if (newDescription != null)
       allHabitList[_updateIndex].description = newDescription;
-    // if (newSchedule != null)
-    //   allHabitList[_updateIndex].scheduledWeekDays = newSchedule;
-    // if (newRewardList != null)
-    //   allHabitList[_updateIndex].rewardList = newRewardList;
     if (newCompletionGoal != null)
       allHabitList[_updateIndex].completionGoal = newCompletionGoal;
 
@@ -132,6 +147,7 @@ class ContentController extends GetxController {
   }
 
   void deleteHabit(Habit habit) {
+    assert(habit != null);
     try {
       allHabitList.remove(habit);
       update(["allHabitList"]);
@@ -144,6 +160,7 @@ class ContentController extends GetxController {
   }
 
   void deleteReward(Reward reward) {
+    assert(reward != null);
     try {
       allRewardList.remove(reward);
       update(["allRewardList"]);
@@ -207,6 +224,9 @@ class ContentController extends GetxController {
   ];
 
   void addReward(Reward reward) {
+    assert(reward != null);
+    if (reward == null) return;
+
     allRewardList.add(reward);
     LocalStorageService.saveAllRewardsToLocalStorage(allRewardList);
   }
