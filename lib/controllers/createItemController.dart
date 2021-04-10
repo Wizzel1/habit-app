@@ -41,6 +41,9 @@ class CreateItemController extends GetxController {
   void createHabit() {
     scheduledDays.sort();
     DateTime _today = DateUtilits.today;
+    int nextScheduledWeekday = scheduledDays.firstWhere(
+        (element) => element > DateUtilits.today.weekday,
+        orElse: () => scheduledDays.first);
     Habit newHabit = Habit(
       creationDate: _today,
       title: createTitleTextController.text,
@@ -52,7 +55,7 @@ class CreateItemController extends GetxController {
       trackedCompletions: _createInitialTrackedCompletions(),
       streak: 1,
       nextCompletionDate:
-          DateUtilits.getDateTimeOfNextWeekDayOccurrence(scheduledDays.first),
+          DateUtilits.getDateTimeOfNextWeekDayOccurrence(nextScheduledWeekday),
     );
     Get.find<ContentController>().addHabit(newHabit);
     resetCreationControllers();
