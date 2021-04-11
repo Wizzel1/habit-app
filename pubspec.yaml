@@ -26,30 +26,27 @@ dependencies:
   admob_consent: ^1.1.2
   cupertino_icons: ^1.0.0
   device_info: ^2.0.0
-  firebase_core: ^0.7.0
-  fl_chart: ^0.20.1
-  flutter_inner_drawer: ^0.5.7+2
+  firebase_core: ^1.0.3
+  fl_chart: ^0.35.0
+  flutter_inner_drawer: ^1.0.0+1
+  flutter_local_notifications: ^5.0.0+1
   flutter_staggered_animations: ^1.0.0
   font_awesome_flutter: ^9.0.0
   get: ^4.1.2
   get_storage: ^2.0.2
-  google_fonts: ^1.1.2
-  google_mobile_ads: ^0.11.0+1
+  google_mobile_ads: ^0.12.1
   implicitly_animated_reorderable_list: ^0.3.2
   intl: ^0.16.1
-  native_admob_flutter: ^1.1.0
+  native_admob_flutter: ^1.2.0
   rich_text_controller: ^1.2.0
-  scroll_to_index: ^1.0.6
+  scroll_to_index: ^2.0.0
   tutorial_coach_mark: ^0.6.0+1
-  uuid: ^2.2.2
-  week_of_year: ^1.0.1
+  uuid: ^3.0.4
+  week_of_year: ^2.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  integration_test: ^1.0.1    
-  test: ^1.14.4               
-
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

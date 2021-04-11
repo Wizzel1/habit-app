@@ -2,6 +2,7 @@ import 'package:Marbit/models/models.dart';
 import 'package:Marbit/screens/createItemScreen.dart';
 import 'package:Marbit/util/constants.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 enum TimeSpan { WEEK, MONTH, YEAR }
@@ -302,8 +303,8 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
         touchCallback: (barTouchResponse) {
           setState(() {
             if (barTouchResponse.spot != null &&
-                barTouchResponse.touchInput is! FlPanEnd &&
-                barTouchResponse.touchInput is! FlLongPressEnd) {
+                barTouchResponse.touchInput is! PointerUpEvent &&
+                barTouchResponse.touchInput is! PointerExitEvent) {
               _touchedIndex = barTouchResponse.spot.touchedBarGroupIndex;
             } else {
               _touchedIndex = -1;
