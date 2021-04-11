@@ -66,7 +66,7 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
                         type: MaterialType.transparency,
                         child: Text(
                           widget.habit.title,
-                          style: Theme.of(context).textTheme.subtitle1.copyWith(
+                          style: Theme.of(context).textTheme.headline5.copyWith(
                                 color: kBackGroundWhite,
                               ),
                         ),
@@ -181,8 +181,9 @@ class AllHabitContainer extends StatelessWidget {
                     type: MaterialType.transparency,
                     child: Text(
                       habit.title,
-                      style: Theme.of(context).textTheme.subtitle1.copyWith(
-                          color: kBackGroundWhite, fontWeight: FontWeight.w600),
+                      style: Theme.of(context).textTheme.headline5.copyWith(
+                            color: kBackGroundWhite,
+                          ),
                     ),
                   ),
                   const SizedBox(height: 10.0),

@@ -46,9 +46,7 @@ class _SelectableRewardContainerState extends State<SelectableRewardContainer> {
                     type: MaterialType.transparency,
                     child: Text(
                       widget.reward.name,
-                      style: Theme.of(context).textTheme.button.copyWith(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
+                      style: Theme.of(context).textTheme.caption.copyWith(
                             color: widget.isSelectedReward
                                 ? kBackGroundWhite
                                 : kDeepOrange,

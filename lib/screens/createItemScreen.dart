@@ -674,7 +674,7 @@ class TitleSection extends StatelessWidget {
       child: Column(
         children: [
           const Spacer(flex: 2),
-          Text(title, style: Theme.of(context).textTheme.headline2),
+          Text(title, style: Theme.of(context).textTheme.headline3),
           const Spacer(flex: 1)
         ],
       ),
@@ -738,7 +738,7 @@ class CustomTextField extends StatelessWidget {
         textAlign: TextAlign.center,
         style: Theme.of(context)
             .textTheme
-            .subtitle2
+            .headline6
             .copyWith(color: Theme.of(context).accentColor),
         decoration: InputDecoration(
           filled: true,
@@ -746,7 +746,7 @@ class CustomTextField extends StatelessWidget {
           hintText: title,
           hintStyle: Theme.of(context)
               .textTheme
-              .subtitle2
+              .headline6
               .copyWith(color: Theme.of(context).accentColor),
           border: OutlineInputBorder(
             borderRadius: const BorderRadius.all(

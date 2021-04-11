@@ -43,8 +43,9 @@ class RewardContainer extends StatelessWidget {
                     type: MaterialType.transparency,
                     child: Text(
                       reward.name,
-                      style: Theme.of(context).textTheme.subtitle1.copyWith(
-                          color: kBackGroundWhite, fontWeight: FontWeight.w600),
+                      style: Theme.of(context).textTheme.headline5.copyWith(
+                            color: kBackGroundWhite,
+                          ),
                     ),
                   ),
                   Icon(
