@@ -8,41 +8,52 @@ TextTheme _textTheme(TextTheme standard) {
         fontFamily: 'Lexend',
         color: kBackGroundWhite,
         fontSize: 80,
-        fontWeight: FontWeight.w400),
+        fontWeight: FontWeight.w500),
     headline2: standard.headline2.copyWith(
         fontFamily: 'Lexend',
         color: kBackGroundWhite,
         fontSize: 60,
-        fontWeight: FontWeight.w400),
+        fontWeight: FontWeight.w500),
     headline3: standard.headline3.copyWith(
         fontFamily: 'Lexend',
         color: kBackGroundWhite,
         fontSize: 40,
-        fontWeight: FontWeight.w400),
+        fontWeight: FontWeight.w500),
     headline4: standard.headline4.copyWith(
         fontFamily: 'Lexend',
         color: kBackGroundWhite,
         fontSize: 30,
-        fontWeight: FontWeight.w400),
+        fontWeight: FontWeight.w500),
+    headline5: standard.headline5.copyWith(
+        fontFamily: 'Lexend',
+        color: kBackGroundWhite,
+        fontSize: 24,
+        fontWeight: FontWeight.w500),
+    headline6: standard.headline6.copyWith(
+        fontFamily: 'Lexend',
+        color: kBackGroundWhite,
+        fontSize: 20,
+        fontWeight: FontWeight.w500),
     button: standard.button.copyWith(
+      fontSize: 14,
       fontFamily: 'Lexend',
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w500,
     ),
     subtitle1: standard.subtitle1.copyWith(
         fontFamily: 'Lexend',
         color: kBackGroundWhite,
         fontSize: 24,
-        fontWeight: FontWeight.w400),
+        fontWeight: FontWeight.w500),
     subtitle2: standard.subtitle2.copyWith(
         fontFamily: 'Lexend',
         color: kBackGroundWhite,
         fontSize: 20,
-        fontWeight: FontWeight.w400),
+        fontWeight: FontWeight.w500),
     bodyText1: standard.bodyText1.copyWith(
         fontFamily: 'Lexend',
         color: kBackGroundWhite,
         fontSize: 16,
-        fontWeight: FontWeight.w400),
+        fontWeight: FontWeight.w500),
     // bodyText2: standard.bodyText2.copyWith(
     //     fontFamily: GoogleFonts.dmSans().fontFamily,
     //     color: kBackGroundWhite,
@@ -52,7 +63,7 @@ TextTheme _textTheme(TextTheme standard) {
         fontFamily: 'Lexend',
         color: kBackGroundWhite,
         fontSize: 14,
-        fontWeight: FontWeight.w400),
+        fontWeight: FontWeight.w500),
   );
 }
 
