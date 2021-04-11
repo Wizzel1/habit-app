@@ -3,18 +3,15 @@ import 'package:Marbit/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:Marbit/models/habitModel.dart';
 import 'package:Marbit/util/constants.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CompletableHabitContainer extends StatefulWidget {
   final Habit habit;
   final Function onPressed;
-  final GlobalKey optionalTutorialKey;
 
   const CompletableHabitContainer({
     Key key,
     this.habit,
     @required this.onPressed,
-    this.optionalTutorialKey,
   }) : super(key: key);
 
   @override
@@ -48,7 +45,6 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           child: Container(
-            key: widget.optionalTutorialKey ?? null,
             height: 90,
             decoration: BoxDecoration(
               color: Color(
