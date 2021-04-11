@@ -1,6 +1,4 @@
-import 'package:Marbit/screens/createItemScreen.dart';
 import 'package:Marbit/util/util.dart';
-import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:Marbit/models/models.dart';
@@ -95,9 +93,8 @@ class ContentController extends GetxController {
 
   List<Reward> getRewardListByID(List<String> rewardIds) {
     assert(rewardIds != null);
-    assert(rewardIds.isNotEmpty, "The list of rewardIds was empty");
 
-    if (rewardIds == null || rewardIds.isEmpty) return [];
+    if (rewardIds == null) return [];
     List<Reward> _rewardList = [];
 
     for (String rewardID in rewardIds) {
