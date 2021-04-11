@@ -18,8 +18,8 @@ class TutorialController extends GetxController {
 
   // -- HomeScreen Keys --
   final GlobalKey homeTutorialHabitContainerKey = GlobalKey();
-  final GlobalKey test5 = GlobalKey();
-  final GlobalKey test6 = GlobalKey();
+  final GlobalKey completionRowKey = GlobalKey();
+  final GlobalKey completeButton = GlobalKey();
   final GlobalKey test7 = GlobalKey();
 
   void showHomeScreenTutorial(BuildContext context) {
@@ -73,6 +73,76 @@ class TutorialController extends GetxController {
         enableOverlayTab: true,
         radius: 15,
         keyTarget: homeTutorialHabitContainerKey,
+        contents: [
+          TargetContent(
+              align: ContentAlign.bottom,
+              child: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Titulo lorem ipsum",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 20.0),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Text(
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )
+                  ],
+                ),
+              ))
+        ],
+      ),
+    );
+    targets.add(
+      TargetFocus(
+        identify: "Target 2",
+        shape: ShapeLightFocus.RRect,
+        enableOverlayTab: true,
+        radius: 15,
+        keyTarget: completionRowKey,
+        contents: [
+          TargetContent(
+              align: ContentAlign.bottom,
+              child: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Titulo lorem ipsum",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 20.0),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Text(
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )
+                  ],
+                ),
+              ))
+        ],
+      ),
+    );
+    targets.add(
+      TargetFocus(
+        identify: "Target 3",
+        shape: ShapeLightFocus.RRect,
+        enableOverlayTab: true,
+        radius: 15,
+        keyTarget: completeButton,
         contents: [
           TargetContent(
               align: ContentAlign.bottom,
