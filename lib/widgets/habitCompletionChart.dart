@@ -249,10 +249,11 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
         touchTooltipData: BarTouchTooltipData(
             tooltipBgColor: kBackGroundWhite,
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
+              int index = group.x.toInt();
               switch (_timeSpan) {
                 case TimeSpan.WEEK:
                   String weekDay;
-                  switch (group.x.toInt()) {
+                  switch (index) {
                     case 0:
                       weekDay = 'Monday';
                       break;
@@ -279,10 +280,10 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
                   break;
                 case TimeSpan.MONTH:
                   String weekNumber;
-                  for (var i = 0; i < _monthData.length; i++) {
-                    weekNumber = '${_monthData[i].weekNumber}';
-                    _createTooltipItemForWeek(weekNumber, rod);
-                  }
+
+                  weekNumber = '${_monthData[index].weekNumber}';
+                  return _createTooltipItemForWeek(weekNumber, rod);
+
                   break;
                 case TimeSpan.YEAR:
                   break;
@@ -314,8 +315,9 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
                 return dayNames[_value];
                 break;
               case TimeSpan.MONTH:
-                String test = _monthData[_value].weekNumber.toString();
-                return "test"; //_monthData[_value].weekNumber.toString();
+                if (_value < 4) {
+                  return _monthData[_value].weekNumber.toString();
+                }
                 break;
               case TimeSpan.YEAR:
                 break;
