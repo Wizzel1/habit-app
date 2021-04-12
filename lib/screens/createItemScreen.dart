@@ -57,24 +57,27 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                 right: 0,
                 child: DrawerExtension()),
             Positioned.fill(
-              child: PageView(
-                physics: NeverScrollableScrollPhysics(),
-                scrollDirection: Axis.vertical,
-                controller: _pageController,
-                children: [
-                  buildSelectionButtonRow(),
-                  if (_wantToCreateHabit) ...[
-                    buildTitleInputPage(),
-                    buildDescriptionInputPage(),
-                    buildCompletionGoalStepper(),
-                    buildRewardSelectionPage(),
-                    buildSchedulerPage()
-                  ] else ...[
-                    buildTitleInputPage(),
-                    buildDescriptionInputPage(),
-                    buildRewardIntervalPage()
-                  ]
-                ],
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: PageView(
+                  physics: NeverScrollableScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  controller: _pageController,
+                  children: [
+                    buildSelectionButtonRow(),
+                    if (_wantToCreateHabit) ...[
+                      buildTitleInputPage(),
+                      buildDescriptionInputPage(),
+                      buildCompletionGoalStepper(),
+                      buildRewardSelectionPage(),
+                      buildSchedulerPage()
+                    ] else ...[
+                      buildTitleInputPage(),
+                      buildDescriptionInputPage(),
+                      buildRewardIntervalPage()
+                    ]
+                  ],
+                ),
               ),
             ),
           ],
@@ -94,12 +97,12 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    MaterialButton(
-                      elevation: 0,
-                      color: kBackGroundWhite,
-                      child: Container(
-                        height: 50,
-                        width: 100,
+                    Expanded(
+                      flex: 10,
+                      child: MaterialButton(
+                        height: 60,
+                        elevation: 0,
+                        color: kBackGroundWhite,
                         child: Center(
                           child: Text(
                             'habit'.tr,
@@ -108,24 +111,25 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                                 color: Theme.of(context).accentColor),
                           ),
                         ),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        onPressed: () {
+                          setState(() {
+                            _wantToCreateHabit = true;
+                          });
+                          _pageController.nextPage(
+                              duration: Duration(milliseconds: 200),
+                              curve: Curves.ease);
+                        },
                       ),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      onPressed: () {
-                        setState(() {
-                          _wantToCreateHabit = true;
-                        });
-                        _pageController.nextPage(
-                            duration: Duration(milliseconds: 200),
-                            curve: Curves.ease);
-                      },
                     ),
-                    MaterialButton(
-                      elevation: 0,
-                      color: kBackGroundWhite,
-                      child: Container(
-                        height: 50,
-                        width: 100,
+                    const Spacer(),
+                    Expanded(
+                      flex: 10,
+                      child: MaterialButton(
+                        height: 60,
+                        elevation: 0,
+                        color: kBackGroundWhite,
                         child: Center(
                           child: Text(
                             'reward'.tr,
@@ -134,17 +138,17 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                                 color: Theme.of(context).accentColor),
                           ),
                         ),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        onPressed: () {
+                          setState(() {
+                            _wantToCreateHabit = false;
+                          });
+                          _pageController.nextPage(
+                              duration: Duration(milliseconds: 200),
+                              curve: Curves.ease);
+                        },
                       ),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      onPressed: () {
-                        setState(() {
-                          _wantToCreateHabit = false;
-                        });
-                        _pageController.nextPage(
-                            duration: Duration(milliseconds: 200),
-                            curve: Curves.ease);
-                      },
                     )
                   ],
                 ),
@@ -169,14 +173,13 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    MaterialButton(
-                      elevation: 0,
-                      color: _createItemController.isSelfRemovingReward
-                          ? kDeepOrange
-                          : kBackGroundWhite,
-                      child: Container(
-                        height: 50,
-                        width: 75,
+                    Expanded(
+                      flex: 10,
+                      child: MaterialButton(
+                        elevation: 0,
+                        color: _createItemController.isSelfRemovingReward
+                            ? kDeepOrange
+                            : kBackGroundWhite,
                         child: Center(
                           child: Text(
                             'one_time'.tr,
@@ -187,24 +190,24 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                                         : Theme.of(context).accentColor),
                           ),
                         ),
-                      ),
-                      height: 50,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      onPressed: () {
-                        setState(() {
-                          _createItemController.isSelfRemovingReward = true;
-                        });
-                      },
-                    ),
-                    MaterialButton(
-                      elevation: 0,
-                      color: _createItemController.isSelfRemovingReward
-                          ? kBackGroundWhite
-                          : kDeepOrange,
-                      child: Container(
                         height: 50,
-                        width: 75,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        onPressed: () {
+                          setState(() {
+                            _createItemController.isSelfRemovingReward = true;
+                          });
+                        },
+                      ),
+                    ),
+                    const Spacer(),
+                    Expanded(
+                      flex: 10,
+                      child: MaterialButton(
+                        elevation: 0,
+                        color: _createItemController.isSelfRemovingReward
+                            ? kBackGroundWhite
+                            : kDeepOrange,
                         child: Center(
                           child: Text('regular'.tr,
                               style:
@@ -215,26 +218,24 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                                             : kBackGroundWhite,
                                       )),
                         ),
+                        height: 50,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        onPressed: () {
+                          setState(() {
+                            _createItemController.isSelfRemovingReward = false;
+                          });
+                        },
                       ),
-                      height: 50,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      onPressed: () {
-                        setState(() {
-                          _createItemController.isSelfRemovingReward = false;
-                        });
-                      },
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                  child: Center(
-                    child: Text(
-                      'frequenzy_explanation'.tr,
-                      style: Theme.of(context).textTheme.caption,
-                    ),
+                const SizedBox(height: 30),
+                Center(
+                  child: Text(
+                    'frequenzy_explanation'.tr,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.caption,
                   ),
                 ),
                 const SizedBox(height: 30),
@@ -246,9 +247,13 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                     await Get.find<NavigationController>().navigateToIndex(0);
                     _pageController.jumpToPage(0);
                   },
-                  child: Text(
-                    'create_Button_title'.tr,
-                    style: Theme.of(context).textTheme.button,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15.0, vertical: 10.0),
+                    child: Text(
+                      'create_Button_title'.tr,
+                      style: Theme.of(context).textTheme.button,
+                    ),
                   ),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
@@ -525,7 +530,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                       .selectedRewardReferences
                       .any((element) => element == rewardReference));
                   return Padding(
-                    padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
                     child: SelectableRewardContainer(
                       reward: _contentController.allRewardList[index],
                       isSelectedReward: isSelected,
@@ -579,51 +584,55 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
         TitleSection(title: 'schedule'.tr),
         Expanded(
           flex: _contentFlex,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: List.generate(
-                    7,
-                    (index) => ScheduleButton(
-                        index: index,
-                        onTap: (tappedIndex) {
-                          int weekDayIndex = tappedIndex += 1;
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: List.generate(
+                  7,
+                  (index) => ScheduleButton(
+                      index: index,
+                      onTap: (tappedIndex) {
+                        int weekDayIndex = tappedIndex += 1;
 
-                          _createItemController.scheduledDays
-                                  .contains(weekDayIndex)
-                              ? _createItemController.scheduledDays
-                                  .remove(weekDayIndex)
-                              : _createItemController.scheduledDays
-                                  .add(weekDayIndex);
-                        }),
-                  ),
+                        _createItemController.scheduledDays
+                                .contains(weekDayIndex)
+                            ? _createItemController.scheduledDays
+                                .remove(weekDayIndex)
+                            : _createItemController.scheduledDays
+                                .add(weekDayIndex);
+                      }),
                 ),
-                const SizedBox(height: 30),
-                MaterialButton(
-                  elevation: 0,
-                  color: kBackGroundWhite,
-                  onPressed: () async {
-                    if (_createItemController.scheduledDays.isEmpty) {
-                      SnackBars.showWarningSnackBar(
-                          'warning'.tr, 'missing_schedule_warning'.tr);
-                    } else {
-                      _createItemController.createHabit();
-                      await Get.find<NavigationController>().navigateToIndex(0);
-                      _pageController.jumpToPage(0);
-                    }
-                  },
+              ),
+              const SizedBox(height: 80),
+              MaterialButton(
+                elevation: 0,
+                color: kBackGroundWhite,
+                onPressed: () async {
+                  if (_createItemController.scheduledDays.isEmpty) {
+                    SnackBars.showWarningSnackBar(
+                        'warning'.tr, 'missing_schedule_warning'.tr);
+                  } else {
+                    _createItemController.createHabit();
+                    await Get.find<NavigationController>().navigateToIndex(0);
+                    _pageController.jumpToPage(0);
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 15.0, vertical: 10.0),
                   child: Text(
                     'create_Button_title'.tr,
-                    style: Theme.of(context).textTheme.button,
+                    style: Theme.of(context)
+                        .textTheme
+                        .button
+                        .copyWith(color: kDeepOrange),
                   ),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
                 ),
-              ],
-            ),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+              ),
+            ],
           ),
         ),
       ],
@@ -682,7 +691,11 @@ class TitleSection extends StatelessWidget {
       child: Column(
         children: [
           const Spacer(flex: 2),
-          Text(title, style: Theme.of(context).textTheme.headline3),
+          Text(
+            title,
+            style: Theme.of(context).textTheme.headline3,
+            textAlign: TextAlign.center,
+          ),
           const Spacer(flex: 1)
         ],
       ),
@@ -739,29 +752,27 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: TextField(
-        controller: controller,
-        textAlign: TextAlign.center,
-        style: Theme.of(context)
+    return TextField(
+      controller: controller,
+      textAlign: TextAlign.center,
+      style: Theme.of(context)
+          .textTheme
+          .headline6
+          .copyWith(color: Theme.of(context).accentColor),
+      decoration: InputDecoration(
+        contentPadding: const EdgeInsets.fromLTRB(6, 24, 6, 16),
+        filled: true,
+        fillColor: kBackGroundWhite,
+        hintText: title,
+        hintStyle: Theme.of(context)
             .textTheme
             .headline6
             .copyWith(color: Theme.of(context).accentColor),
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: kBackGroundWhite,
-          hintText: title,
-          hintStyle: Theme.of(context)
-              .textTheme
-              .headline6
-              .copyWith(color: Theme.of(context).accentColor),
-          border: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(
-              const Radius.circular(10.0),
-            ),
-            borderSide: BorderSide.none,
+        border: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(
+            const Radius.circular(10.0),
           ),
+          borderSide: BorderSide.none,
         ),
       ),
     );
