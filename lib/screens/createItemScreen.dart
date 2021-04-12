@@ -4,10 +4,17 @@ import 'package:get/get.dart';
 import 'package:Marbit/widgets/widgets.dart';
 import 'package:Marbit/controllers/controllers.dart';
 
-import 'package:Marbit/models/models.dart';
 import 'package:Marbit/util/util.dart';
 
-final List<String> dayNames = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
+final List<String> dayNames = [
+  'Mo'.tr,
+  'Tu'.tr,
+  'We'.tr,
+  'Th'.tr,
+  'Fr'.tr,
+  'Sa'.tr,
+  'Su'.tr
+];
 
 class CreateItemScreen extends StatefulWidget {
   CreateItemScreen({Key key}) : super(key: key);
@@ -79,7 +86,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          TitleSection(title: "Create a..."),
+          TitleSection(title: 'createItemScreen_create_title'.tr),
           Expanded(
             flex: _contentFlex,
             child: Column(
@@ -95,7 +102,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                         width: 100,
                         child: Center(
                           child: Text(
-                            "Habit",
+                            'habit'.tr,
                             style: Theme.of(context).textTheme.button.copyWith(
                                 fontSize: 20,
                                 color: Theme.of(context).accentColor),
@@ -121,7 +128,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                         width: 100,
                         child: Center(
                           child: Text(
-                            "Reward",
+                            'reward'.tr,
                             style: Theme.of(context).textTheme.button.copyWith(
                                 fontSize: 20,
                                 color: Theme.of(context).accentColor),
@@ -154,7 +161,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          TitleSection(title: "Frequenzy"),
+          TitleSection(title: 'frequenzy'.tr),
           Expanded(
             flex: _contentFlex,
             child: Column(
@@ -172,7 +179,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                         width: 75,
                         child: Center(
                           child: Text(
-                            "One Time",
+                            'one_time'.tr,
                             style: Theme.of(context).textTheme.button.copyWith(
                                 color:
                                     _createItemController.isSelfRemovingReward
@@ -199,7 +206,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                         height: 50,
                         width: 75,
                         child: Center(
-                          child: Text("Regular",
+                          child: Text('regular'.tr,
                               style:
                                   Theme.of(context).textTheme.button.copyWith(
                                         color: _createItemController
@@ -225,7 +232,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 30.0),
                   child: Center(
                     child: Text(
-                      "If you choose 'Once' the reward will get deleted from the habitlist when it appears.",
+                      'frequenzy_explanation'.tr,
                       style: Theme.of(context).textTheme.caption,
                     ),
                   ),
@@ -240,7 +247,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                     _pageController.jumpToPage(0);
                   },
                   child: Text(
-                    "Create",
+                    'create_Button_title'.tr,
                     style: Theme.of(context).textTheme.button,
                   ),
                   shape: RoundedRectangleBorder(
@@ -268,7 +275,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          TitleSection(title: "Title"),
+          TitleSection(title: 'title'.tr),
           Expanded(
             flex: _contentFlex,
             child: Column(
@@ -277,7 +284,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
               children: [
                 CustomTextField(
                     controller: _createItemController.createTitleTextController,
-                    title: "Type your Title here"),
+                    title: 'title_textfield_hint'.tr),
                 const SizedBox(height: 10),
                 _wantToCreateHabit
                     ? const SizedBox.shrink()
@@ -320,8 +327,9 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                                   .minTextController.text) >
                               int.parse(_createItemController
                                   .maxTextController.text)) {
-                            SnackBars.showErrorSnackBar("Invalid Range",
-                                "Please make sure 'Min' is not greater than 'Max'");
+                            SnackBars.showErrorSnackBar(
+                                'invalid_range_title'.tr,
+                                'invalid_range_message'.tr);
                             return;
                           }
 
@@ -334,7 +342,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                                   " ";
                         },
                         child: Text(
-                          "Add Variable",
+                          "Add Variable asdasd",
                           style: Theme.of(context).textTheme.button,
                         ),
                         shape: RoundedRectangleBorder(
@@ -358,7 +366,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                         if (_createItemController
                             .createTitleTextController.text.isEmpty) {
                           SnackBars.showWarningSnackBar(
-                              "Warning", "Please select chose a Title");
+                              'warning'.tr, 'title_missing_warning'.tr);
                         } else {
                           scrollFunction();
                         }
@@ -379,7 +387,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const TitleSection(title: "Times per Day?"),
+          TitleSection(title: 'times_per_day'.tr),
           Expanded(
             flex: _contentFlex,
             child: Column(
@@ -461,14 +469,14 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const TitleSection(title: "Description"),
+          TitleSection(title: 'description'.tr),
           Expanded(
             flex: _contentFlex,
             child: Column(
               children: [
                 CustomTextField(
                   controller: _createItemController.createDescriptionController,
-                  title: "Type your Description",
+                  title: 'description_textfield_hint'.tr,
                 ),
                 Spacer(),
                 Row(
@@ -504,7 +512,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const TitleSection(title: "Rewards"),
+          TitleSection(title: 'rewards'.tr),
           Expanded(
               flex: _contentFlex,
               child: ListView.builder(
@@ -552,7 +560,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                 onPressedButton: (scrollFunction) {
                   if (_createItemController.selectedRewardReferences.isEmpty) {
                     SnackBars.showWarningSnackBar(
-                        "Warning", "Please select at least one Reward");
+                        'warning'.tr, 'reward_missing_warning'.tr);
                   } else {
                     scrollFunction();
                   }
@@ -568,7 +576,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
   Widget buildSchedulerPage() {
     return Column(
       children: [
-        const TitleSection(title: "Schedule"),
+        TitleSection(title: 'schedule'.tr),
         Expanded(
           flex: _contentFlex,
           child: Padding(
@@ -600,7 +608,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                   onPressed: () async {
                     if (_createItemController.scheduledDays.isEmpty) {
                       SnackBars.showWarningSnackBar(
-                          "Warning", "Please select at least one Day");
+                          'warning'.tr, 'missing_schedule_warning'.tr);
                     } else {
                       _createItemController.createHabit();
                       await Get.find<NavigationController>().navigateToIndex(0);
@@ -608,7 +616,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                     }
                   },
                   child: Text(
-                    "Create",
+                    'create_Button_title'.tr,
                     style: Theme.of(context).textTheme.button,
                   ),
                   shape: RoundedRectangleBorder(

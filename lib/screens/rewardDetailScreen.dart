@@ -203,7 +203,7 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
             width: 75,
             child: Center(
               child: Text(
-                "One Time",
+                'one_time'.tr,
                 style: Theme.of(context).textTheme.button.copyWith(
                     color: widget.reward.isSelfRemoving
                         ? kBackGroundWhite
@@ -227,7 +227,7 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
             height: 50,
             width: 75,
             child: Center(
-              child: Text("Regular",
+              child: Text('regular'.tr,
                   style: Theme.of(context).textTheme.button.copyWith(
                         color: widget.reward.isSelfRemoving
                             ? Theme.of(context).accentColor
@@ -320,14 +320,14 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
         color: kBackGroundWhite,
         child: _isInEditMode
             ? Text(
-                "Save Reward",
+                'save_reward'.tr,
                 style: Theme.of(context).textTheme.button.copyWith(
                       fontSize: 12,
                       color: kDeepOrange,
                     ),
               )
             : Text(
-                "Edit Reward",
+                'edit_reward'.tr,
                 style: Theme.of(context).textTheme.button.copyWith(
                       fontSize: 12,
                       color: kDeepOrange,
@@ -345,7 +345,7 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       color: kLightRed,
       child: Text(
-        "Delete Reward",
+        'delete_reward'.tr,
         style: Theme.of(context).textTheme.button.copyWith(
               fontSize: 12,
               color: kBackGroundWhite,

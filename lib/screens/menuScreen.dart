@@ -22,7 +22,7 @@ class MenuScreen extends StatelessWidget {
                   navigationController.navigateToIndex(0);
                 },
                 child: Text(
-                  "Today",
+                  'today_habits_menutitle'.tr,
                   style: Theme.of(context).textTheme.button,
                 )),
             TextButton(
@@ -30,7 +30,7 @@ class MenuScreen extends StatelessWidget {
                   navigationController.navigateToIndex(1);
                 },
                 child: Text(
-                  "Create",
+                  'create_new_menutitle'.tr,
                   style: Theme.of(context).textTheme.button,
                 )),
             TextButton(
@@ -38,7 +38,7 @@ class MenuScreen extends StatelessWidget {
                   navigationController.navigateToIndex(2);
                 },
                 child: Text(
-                  "hello".tr,
+                  'my_content_menutitle'.tr,
                   style: Theme.of(context).textTheme.button,
                 )),
           ],

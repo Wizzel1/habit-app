@@ -10,7 +10,7 @@ class TutorialController extends GetxController {
   bool hasFinishedTodayListTutorial = false;
   bool hasFinishedDetailTutorial = false;
   TutorialCoachMark tutorial;
-
+  final double targetFocusRadius = 15;
   // -- HabitDetailScreen Keys --
   final GlobalKey scheduleRowKey = GlobalKey();
   final GlobalKey rewardListKey = GlobalKey();
@@ -71,7 +71,7 @@ class TutorialController extends GetxController {
         identify: "Target 1",
         shape: ShapeLightFocus.RRect,
         enableOverlayTab: true,
-        radius: 15,
+        radius: targetFocusRadius,
         keyTarget: homeTutorialHabitContainerKey,
         contents: [
           TargetContent(
@@ -82,7 +82,7 @@ class TutorialController extends GetxController {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      "Titulo lorem ipsum",
+                      'homeScreenTutorial_container_heading'.tr,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -91,7 +91,7 @@ class TutorialController extends GetxController {
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Text(
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
+                        'homeScreenTutorial_container_message'.tr,
                         style: TextStyle(color: Colors.white),
                       ),
                     )
@@ -106,7 +106,7 @@ class TutorialController extends GetxController {
         identify: "Target 2",
         shape: ShapeLightFocus.RRect,
         enableOverlayTab: true,
-        radius: 15,
+        radius: targetFocusRadius,
         keyTarget: completionRowKey,
         contents: [
           TargetContent(
@@ -117,7 +117,7 @@ class TutorialController extends GetxController {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      "Titulo lorem ipsum",
+                      'homeScreenTutorial_completionrow_heading'.tr,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -126,7 +126,7 @@ class TutorialController extends GetxController {
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Text(
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
+                        'homeScreenTutorial_completionrow_message'.tr,
                         style: TextStyle(color: Colors.white),
                       ),
                     )
@@ -141,7 +141,7 @@ class TutorialController extends GetxController {
         identify: "Target 3",
         shape: ShapeLightFocus.RRect,
         enableOverlayTab: true,
-        radius: 15,
+        radius: targetFocusRadius,
         keyTarget: completeButton,
         contents: [
           TargetContent(
@@ -152,7 +152,7 @@ class TutorialController extends GetxController {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      "Titulo lorem ipsum",
+                      'homeScreenTutorial_completeButton_heading'.tr,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -161,7 +161,7 @@ class TutorialController extends GetxController {
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Text(
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
+                        'homeScreenTutorial_completeButton_message'.tr,
                         style: TextStyle(color: Colors.white),
                       ),
                     )
@@ -187,7 +187,7 @@ class TutorialController extends GetxController {
       TargetFocus(
         identify: "Target 2",
         shape: ShapeLightFocus.RRect,
-        radius: 15,
+        radius: targetFocusRadius,
         keyTarget: scheduleRowKey,
         contents: [
           TargetContent(
@@ -198,7 +198,7 @@ class TutorialController extends GetxController {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    "Schedule",
+                    'detailScreenTutorial_scheduleRowKey_heading'.tr,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -207,7 +207,7 @@ class TutorialController extends GetxController {
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0),
                     child: Text(
-                      "This Row shows you, which days this Habit is scheduled for.",
+                      'detailScreenTutorial_scheduleRowKey_message'.tr,
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
@@ -225,7 +225,7 @@ class TutorialController extends GetxController {
       TargetFocus(
         identify: "Target 2",
         shape: ShapeLightFocus.RRect,
-        radius: 15,
+        radius: targetFocusRadius,
         keyTarget: editButtonKey,
         contents: [
           TargetContent(
@@ -236,7 +236,7 @@ class TutorialController extends GetxController {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      "Rewards",
+                      'detailScreenTutorial_editButton_heading'.tr,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -245,7 +245,7 @@ class TutorialController extends GetxController {
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Text(
-                        "These are the selected Rewards for this habit. You can Edit them by clicking on 'Edit' ",
+                        'detailScreenTutorial_editButton_message'.tr,
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
@@ -262,7 +262,7 @@ class TutorialController extends GetxController {
       TargetFocus(
         identify: "Target 2",
         shape: ShapeLightFocus.RRect,
-        radius: 15,
+        radius: targetFocusRadius,
         keyTarget: rewardListKey,
         contents: [
           TargetContent(
@@ -273,7 +273,7 @@ class TutorialController extends GetxController {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      "Rewards",
+                      'detailScreenTutorial_rewardList_heading'.tr,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -282,7 +282,7 @@ class TutorialController extends GetxController {
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Text(
-                        "These are the selected Rewards for this habit. You can Edit them by clicking on 'Edit' ",
+                        'detailScreenTutorial_rewardList_message',
                         style: TextStyle(color: Colors.white),
                       ),
                     ),

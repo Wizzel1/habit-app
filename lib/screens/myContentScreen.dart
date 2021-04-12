@@ -54,7 +54,7 @@ class _MyContentScreenState extends State<MyContentScreen>
             flex: 1,
             child: Center(
               child: Text(
-                "Scroll down to show all Rewards",
+                'scroll_to_show_rewards'.tr,
                 style: Theme.of(context)
                     .textTheme
                     .bodyText1
@@ -179,7 +179,7 @@ class _MyContentScreenState extends State<MyContentScreen>
             flex: 1,
             child: Center(
               child: Text(
-                "Scroll up to show all Habits",
+                'scroll_to_show_habits'.tr,
                 style: Theme.of(context)
                     .textTheme
                     .bodyText1

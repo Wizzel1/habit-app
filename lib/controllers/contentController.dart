@@ -10,9 +10,9 @@ class ContentController extends GetxController {
   static const int maxDailyCompletions = 7;
 
   static final Habit tutorialHabit = Habit(
-      title: "Example",
+      title: 'example_title'.tr,
       id: "testHabit",
-      description: "This is an example Habit.",
+      description: 'example_description'.tr,
       scheduledWeekDays: [1, 2, 3, 4, 5],
       rewardIDReferences: [],
       trackedCompletions: DateUtilits.get2021ExampleCompletions(),
@@ -31,7 +31,7 @@ class ContentController extends GetxController {
       allHabitList.add(habit);
       LocalStorageService.saveAllHabitsToLocalStorage(allHabitList);
     } catch (e) {
-      SnackBars.showErrorSnackBar("Error", "Something went wrong");
+      SnackBars.showErrorSnackBar('error'.tr, "Something went wrong");
     }
   }
 
@@ -66,15 +66,15 @@ class ContentController extends GetxController {
       dynamicData = dynamicData as String;
       if (dynamicData.isEmpty)
         SnackBars.showWarningSnackBar(
-            "Empty Field", "You saved an empty Field");
+            'empty_field_warning_title'.tr, 'empty_field_warning_message'.tr);
       return true;
     }
 
     if (dynamicData is List<int>) {
       dynamicData = dynamicData as List<int>;
       if (dynamicData.isEmpty) {
-        SnackBars.showWarningSnackBar(
-            "Empty Schedule", "You saved an empty Schedule");
+        SnackBars.showWarningSnackBar('empty_schedule_warning_title'.tr,
+            'empty_schedule_warning_message'.tr);
         return true;
       }
     }
@@ -83,7 +83,7 @@ class ContentController extends GetxController {
       dynamicData = dynamicData as List<Reward>;
       if (dynamicData.isEmpty) {
         SnackBars.showWarningSnackBar(
-            "No Rewards", "You have no saved Rewards");
+            'no_rewards_warning_title'.tr, 'no_rewards_warning_message'.tr);
         return true;
       }
     }
@@ -148,9 +148,9 @@ class ContentController extends GetxController {
       update(["allHabitList"]);
       LocalStorageService.saveAllHabitsToLocalStorage(allHabitList);
       _reloadHabitList();
-      SnackBars.showSuccessSnackBar("Success", "The Habit has been deleted");
+      SnackBars.showSuccessSnackBar('success'.tr, 'habit_deleted_message'.tr);
     } on Exception catch (e) {
-      SnackBars.showErrorSnackBar("Error", e.toString());
+      SnackBars.showErrorSnackBar('error'.tr, e.toString());
     }
   }
 
@@ -160,9 +160,9 @@ class ContentController extends GetxController {
       allRewardList.remove(reward);
       update(["allRewardList"]);
       LocalStorageService.saveAllRewardsToLocalStorage(allRewardList);
-      SnackBars.showSuccessSnackBar("Success", "The Reward has been deleted");
+      SnackBars.showSuccessSnackBar('success'.tr, 'reward_deleted_message'.tr);
     } on Exception catch (e) {
-      SnackBars.showErrorSnackBar("Error", e.toString());
+      SnackBars.showErrorSnackBar('error'.tr, e.toString());
     }
   }
 
@@ -197,24 +197,24 @@ class ContentController extends GetxController {
 
   static final List<Reward> exampleRewards = [
     Reward(
-      name: "Eat some sweets",
+      name: 'example_reward_title_1'.tr,
       id: Uuid().v1(),
-      description: "...",
+      description: 'example_reward_description_1'.tr,
     ),
     Reward(
-      name: "Watch your favourite show",
+      name: 'example_reward_title_2'.tr,
       id: Uuid().v1(),
-      description: "20 minute Adventure",
+      description: 'example_reward_description_2'.tr,
     ),
     Reward(
-      name: "Sleep late",
+      name: 'example_reward_title_3'.tr,
       id: Uuid().v1(),
-      description: "A very powerful nap",
+      description: 'example_reward_description_3'.tr,
     ),
     Reward(
-      name: "Take a Day off",
+      name: 'example_reward_title_4'.tr,
       id: Uuid().v1(),
-      description: "Be the lazy Bird",
+      description: 'example_reward_description_4'.tr,
     ),
   ];
 

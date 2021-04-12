@@ -18,12 +18,12 @@ class AdController extends GetxController {
       loading: Container(
         width: double.infinity,
         height: 60,
-        child: Center(child: const Text("loading")),
+        child: Center(child: Text("loading".tr)),
       ),
       error: Container(
         width: double.infinity,
         height: 60,
-        child: Center(child: const Text('error')),
+        child: Center(child: Text('error'.tr)),
       ),
       unitId: MobileAds.bannerAdTestUnitId,
       size: BannerSize.ADAPTIVE,
@@ -40,9 +40,9 @@ class AdController extends GetxController {
         );
       },
       loading: Container(
-          width: 320, height: 100, child: Center(child: const Text('loading'))),
+          width: 320, height: 100, child: Center(child: Text("loading".tr))),
       error: Container(
-          width: 320, height: 100, child: Center(child: const Text('error'))),
+          width: 320, height: 100, child: Center(child: Text('error'.tr))),
       unitId: MobileAds.bannerAdTestUnitId,
       size: BannerSize.LARGE_BANNER,
     );

@@ -498,14 +498,14 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
         color: kBackGroundWhite,
         child: _isInEditMode
             ? Text(
-                "Save Habit",
+                'save_habit'.tr,
                 style: Theme.of(context).textTheme.button.copyWith(
                       fontSize: 12,
                       color: Color(widget.habit.habitColors["deep"]),
                     ),
               )
             : Text(
-                "Edit Habit",
+                'edit_habit'.tr,
                 style: Theme.of(context).textTheme.button.copyWith(
                       fontSize: 12,
                       color: Color(widget.habit.habitColors["deep"]),
@@ -624,7 +624,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       color: kLightRed,
       child: Text(
-        "Delete Habit",
+        'delete_habit'.tr,
         style: Theme.of(context).textTheme.button.copyWith(
               fontSize: 12,
               color: kBackGroundWhite,

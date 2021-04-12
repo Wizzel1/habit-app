@@ -4,6 +4,7 @@ import 'package:Marbit/util/constants.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 enum TimeSpan { WEEK, MONTH, YEAR }
 
@@ -21,7 +22,6 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
   final Color barColor = kDeepOrange;
   final Color elementColor = kBackGroundWhite;
   final Duration animDuration = const Duration(milliseconds: 250);
-
   int _touchedIndex;
   bool _isPlaying = false;
   double _maxBarValue = 0;
@@ -53,7 +53,7 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             color: _timeSpan == TimeSpan.WEEK ? kDeepOrange : kBackGroundWhite,
             child: Text(
-              "This Week",
+              'this_week'.tr,
               style: Theme.of(context).textTheme.button.copyWith(
                   fontSize: 12,
                   color: _timeSpan == TimeSpan.WEEK
@@ -61,23 +61,27 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
                       : kDeepOrange),
             )),
         MaterialButton(
-            onPressed: () {
-              setState(() {
-                _maxBarValue = 0;
-                _timeSpan = TimeSpan.MONTH;
-                _updateData();
-              });
-            },
-            elevation: 0,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            color: _timeSpan == TimeSpan.MONTH ? kDeepOrange : kBackGroundWhite,
-            child: Text("Last 4 Weeks",
-                style: Theme.of(context).textTheme.button.copyWith(
-                    fontSize: 12,
-                    color: _timeSpan == TimeSpan.MONTH
-                        ? kBackGroundWhite
-                        : kDeepOrange))),
+          onPressed: () {
+            setState(() {
+              _maxBarValue = 0;
+              _timeSpan = TimeSpan.MONTH;
+              _updateData();
+            });
+          },
+          elevation: 0,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          color: _timeSpan == TimeSpan.MONTH ? kDeepOrange : kBackGroundWhite,
+          child: Text(
+            'last_four_weeks'.tr,
+            style: Theme.of(context).textTheme.button.copyWith(
+                  fontSize: 12,
+                  color: _timeSpan == TimeSpan.MONTH
+                      ? kBackGroundWhite
+                      : kDeepOrange,
+                ),
+          ),
+        ),
         // MaterialButton(
         //   onPressed: () {
         //     setState(() {
