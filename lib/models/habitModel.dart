@@ -271,7 +271,8 @@ class Habit {
               currentYearIndex, lastFourCalendarWeekNumbers[i]);
           lastFourCalendarWeekObjects.add(week);
         }
-
+        assert(lastFourCalendarWeekNumbers.length == 4,
+            "Returned ${lastFourCalendarWeekNumbers.length} WeekObjects");
         return lastFourCalendarWeekObjects.reversed.toList();
         break;
       case TimeSpan.YEAR:
@@ -286,11 +287,14 @@ class Habit {
         .firstWhere(
       (element) => element.weekNumber == weekNumber,
       orElse: () => CalendarWeek(
-          trackedDays: List.generate(7,
-              (index) => TrackedDay(doneAmount: 0, goalAmount: completionGoal)),
+          trackedDays: List.generate(
+            7,
+            (index) => TrackedDay(doneAmount: 0, goalAmount: completionGoal),
+          ),
           weekNumber: weekNumber),
     );
-
+    assert(_calendarWeekObject.trackedDays.length == 7,
+        "The returned calendarweekobject had ${_calendarWeekObject.trackedDays.length} tracked days");
     return _calendarWeekObject;
   }
 }

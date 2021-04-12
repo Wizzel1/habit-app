@@ -22,7 +22,8 @@ class DateUtilits {
       int _dayCount = _monday.add(Duration(days: i)).day;
       _thisWeeksDates.add(_dayCount);
     }
-
+    assert(_thisWeeksDates.length == 7,
+        "_thisWeeksDates has length ${_thisWeeksDates.length}");
     return _thisWeeksDates;
   }
 
@@ -36,6 +37,8 @@ class DateUtilits {
         lastFourCalendarWeeks.add(lastWeek - i);
       }
     }
+    assert(lastFourCalendarWeeks.length == 4,
+        "LastfourCalendarWeeks has length ${lastFourCalendarWeeks.length}");
     return lastFourCalendarWeeks;
   }
 
