@@ -40,7 +40,7 @@ class _MyContentScreenState extends State<MyContentScreen>
         Positioned(
             bottom: (screenSize.height / 2) - 45,
             right: 0,
-            child: DrawerExtension()),
+            child: DrawerExtension(color: kDeepOrange,)),
       ]),
     );
   }

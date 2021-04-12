@@ -2,8 +2,11 @@ import 'package:Marbit/util/util.dart';
 import 'package:flutter/material.dart';
 
 class DrawerExtension extends StatelessWidget {
+  final Color color;
+
   const DrawerExtension({
     Key key,
+    @required this.color,
   }) : super(key: key);
 
   @override

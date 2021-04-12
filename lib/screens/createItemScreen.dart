@@ -55,7 +55,9 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
             Positioned(
                 bottom: (screenSize.height / 2) - 45,
                 right: 0,
-                child: DrawerExtension()),
+                child: DrawerExtension(
+                  color: kBackGroundWhite,
+                )),
             Positioned.fill(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
