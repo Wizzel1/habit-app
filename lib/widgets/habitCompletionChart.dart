@@ -26,14 +26,14 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
   bool _isPlaying = false;
   double _maxBarValue = 0;
   TimeSpan _timeSpan = TimeSpan.WEEK;
-  List data = [];
+  List _data = [];
 
   List<TrackedDay> _weekData;
   List<CalendarWeek> _monthData;
   List<CalendarWeek> _yearData;
 
   void _updateData() {
-    data = widget.habit.getCompletionDataForTimeSpan(_timeSpan);
+    _data = widget.habit.getCompletionDataForTimeSpan(_timeSpan);
   }
 
   Row _buildTimespanButtonRow() {
@@ -42,10 +42,11 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
       children: [
         MaterialButton(
             onPressed: () {
-              _maxBarValue = 0;
-              _timeSpan = TimeSpan.WEEK;
-              _updateData();
-              setState(() {});
+              setState(() {
+                _maxBarValue = 0;
+                _timeSpan = TimeSpan.WEEK;
+                _updateData();
+              });
             },
             elevation: 0,
             shape:
@@ -61,10 +62,11 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
             )),
         MaterialButton(
             onPressed: () {
-              _maxBarValue = 0;
-              _timeSpan = TimeSpan.MONTH;
-              _updateData();
-              setState(() {});
+              setState(() {
+                _maxBarValue = 0;
+                _timeSpan = TimeSpan.MONTH;
+                _updateData();
+              });
             },
             elevation: 0,
             shape:
@@ -195,7 +197,10 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
 
     switch (_timeSpan) {
       case TimeSpan.WEEK:
-        if (_weekData == null) _weekData = data as List<TrackedDay>;
+        if (_weekData == null) _weekData = _data as List<TrackedDay>;
+
+        assert(
+            _weekData.length == 7, "WeekData length was ${_weekData.length}");
 
         for (var i = 0; i < _weekData.length; i++) {
           TrackedDay day = _weekData[i];
@@ -209,7 +214,10 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
         return _dataList;
         break;
       case TimeSpan.MONTH:
-        if (_monthData == null) _monthData = data as List<CalendarWeek>;
+        if (_monthData == null) _monthData = _data as List<CalendarWeek>;
+
+        assert(_monthData.length == 4,
+            "Monthdata length was ${_monthData.length}");
 
         for (var i = 0; i < _monthData.length; i++) {
           List<TrackedDay> _daylist = _monthData[i].trackedDays;
@@ -267,36 +275,16 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
                       weekDay = 'Sunday';
                       break;
                   }
-                  return BarTooltipItem(
-                      weekDay +
-                          '\n' +
-                          ((rod.y / widget.habit.completionGoal) * 100)
-                              .toInt()
-                              .toString() +
-                          '%',
-                      Theme.of(context).textTheme.button);
+                  return _createTooltipItemForDay(weekDay, rod);
                   break;
                 case TimeSpan.MONTH:
                   String weekNumber;
                   for (var i = 0; i < _monthData.length; i++) {
                     weekNumber = '${_monthData[i].weekNumber}';
-                    return BarTooltipItem(
-                        'Week ' +
-                            weekNumber +
-                            '\n' +
-                            ((rod.y /
-                                        (widget.habit.completionGoal *
-                                            widget.habit.scheduledWeekDays
-                                                .length)) *
-                                    100)
-                                .toInt()
-                                .toString() +
-                            '%',
-                        Theme.of(context).textTheme.button);
+                    _createTooltipItemForWeek(weekNumber, rod);
                   }
                   break;
                 case TimeSpan.YEAR:
-                  // TODO: Handle this case.
                   break;
               }
             }),
@@ -326,7 +314,8 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
                 return dayNames[_value];
                 break;
               case TimeSpan.MONTH:
-                return _monthData[_value].weekNumber.toString();
+                String test = _monthData[_value].weekNumber.toString();
+                return "test"; //_monthData[_value].weekNumber.toString();
                 break;
               case TimeSpan.YEAR:
                 break;
@@ -343,5 +332,27 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
       ),
       barGroups: getGroupData(),
     );
+  }
+
+  BarTooltipItem _createTooltipItemForWeek(
+      String weekNumber, BarChartRodData rod) {
+    int _weeklyCompletionGoal =
+        widget.habit.completionGoal * widget.habit.scheduledWeekDays.length;
+    double _weeklyCompletionPercentage = (rod.y / _weeklyCompletionGoal) * 100;
+    return BarTooltipItem(
+        'Week ' +
+            weekNumber +
+            '\n' +
+            _weeklyCompletionPercentage.toInt().toString() +
+            '%',
+        Theme.of(context).textTheme.button);
+  }
+
+  BarTooltipItem _createTooltipItemForDay(String weekDay, BarChartRodData rod) {
+    double _dailyCompletionPercentage =
+        (rod.y / widget.habit.completionGoal) * 100;
+    return BarTooltipItem(
+        weekDay + '\n' + _dailyCompletionPercentage.toInt().toString() + '%',
+        Theme.of(context).textTheme.button);
   }
 }
