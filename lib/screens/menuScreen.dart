@@ -11,38 +11,47 @@ class MenuScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
-      body: Container(
-        color: Colors.transparent,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextButton(
-                onPressed: () {
-                  navigationController.navigateToIndex(0);
-                },
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          InkWell(
+              onTap: () {
+                navigationController.navigateToIndex(0);
+              },
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
                 child: Text(
                   'today_habits_menutitle'.tr,
                   style: Theme.of(context).textTheme.button,
-                )),
-            TextButton(
-                onPressed: () {
-                  navigationController.navigateToIndex(1);
-                },
+                ),
+              )),
+          InkWell(
+              onTap: () {
+                navigationController.navigateToIndex(1);
+              },
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
                 child: Text(
                   'create_new_menutitle'.tr,
                   style: Theme.of(context).textTheme.button,
-                )),
-            TextButton(
-                onPressed: () {
-                  navigationController.navigateToIndex(2);
-                },
+                ),
+              )),
+          InkWell(
+              onTap: () {
+                navigationController.navigateToIndex(2);
+              },
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
                 child: Text(
                   'my_content_menutitle'.tr,
                   style: Theme.of(context).textTheme.button,
-                )),
-          ],
-        ),
+                ),
+              )),
+        ],
       ),
     );
   }
