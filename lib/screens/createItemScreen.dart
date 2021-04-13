@@ -28,7 +28,6 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
   bool _wantToCreateHabit = false;
 
   final int _contentFlex = 1;
-
   final ContentController _contentController = Get.find<ContentController>();
   final CreateItemController _createItemController =
       Get.put(CreateItemController());
@@ -109,7 +108,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                           child: Text(
                             'habit'.tr,
                             style: Theme.of(context).textTheme.button.copyWith(
-                                fontSize: 20,
+                                fontSize: 18,
                                 color: Theme.of(context).accentColor),
                           ),
                         ),
@@ -136,7 +135,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                           child: Text(
                             'reward'.tr,
                             style: Theme.of(context).textTheme.button.copyWith(
-                                fontSize: 20,
+                                fontSize: 18,
                                 color: Theme.of(context).accentColor),
                           ),
                         ),
@@ -295,65 +294,12 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                 const SizedBox(height: 10),
                 _wantToCreateHabit
                     ? const SizedBox.shrink()
-                    : Container(
-                        width: double.infinity,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 100,
-                              child: MinMaxTextField(
-                                  controller:
-                                      _createItemController.minTextController,
-                                  title: "min"),
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              "-",
-                              style: TextStyle(
-                                  color: kBackGroundWhite, fontSize: 30),
-                            ),
-                            const SizedBox(width: 10),
-                            Container(
-                              width: 100,
-                              child: MinMaxTextField(
-                                  controller:
-                                      _createItemController.maxTextController,
-                                  title: "max"),
-                            ),
-                          ],
-                        ),
-                      ),
-                _wantToCreateHabit
-                    ? const SizedBox.shrink()
-                    : MaterialButton(
-                        elevation: 0,
-                        color: kBackGroundWhite,
-                        onPressed: () {
-                          if (int.parse(_createItemController
-                                  .minTextController.text) >
-                              int.parse(_createItemController
-                                  .maxTextController.text)) {
-                            SnackBars.showErrorSnackBar(
-                                'invalid_range_title'.tr,
-                                'invalid_range_message'.tr);
-                            return;
-                          }
-
-                          _createItemController.createTitleTextController.text =
-                              _createItemController
-                                      .createTitleTextController.text +
-                                  _createItemController.minTextController.text +
-                                  "-" +
-                                  _createItemController.maxTextController.text +
-                                  " ";
-                        },
+                    : Center(
                         child: Text(
-                          "Add Variable asdasd",
-                          style: Theme.of(context).textTheme.button,
+                          'number_range_hint'.tr,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.caption,
                         ),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
                       ),
                 Row(
                   mainAxisSize: MainAxisSize.min,
