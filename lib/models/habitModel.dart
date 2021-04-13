@@ -118,9 +118,11 @@ class Habit {
       trackedCompletions.trackedYears
           .add(Year(yearCount: _year, calendarWeeks: []));
     }
-
-    return trackedCompletions.trackedYears
+    int _yearIndex = trackedCompletions.trackedYears
         .indexWhere((element) => element.yearCount == _year);
+
+    assert(_yearIndex >= 0, "YearIndex must not be negative");
+    return _yearIndex;
   }
 
   int _getCalendarWeekIndex({int yearIndex}) {
@@ -132,8 +134,12 @@ class Habit {
           .add(CalendarWeek(weekNumber: _calendarWeek, trackedDays: []));
     }
 
-    return trackedCompletions.trackedYears[yearIndex].calendarWeeks
+    int _calendarWeekIndex = trackedCompletions
+        .trackedYears[yearIndex].calendarWeeks
         .indexWhere((element) => element.weekNumber == _calendarWeek);
+
+    assert(_calendarWeekIndex >= 0, "CalendarWeekIndex must not be negative");
+    return _calendarWeekIndex;
   }
 
   int _getTodaysIndex({int yearIndex, int weekIndex}) {
@@ -152,10 +158,12 @@ class Habit {
         ),
       );
     }
-
-    return trackedCompletions
+    int _todaysIndex = trackedCompletions
         .trackedYears[yearIndex].calendarWeeks[weekIndex].trackedDays
         .indexWhere((element) => element.dayCount == _todayCount);
+
+    assert(_todaysIndex >= 0, "Todays Index must not be negative");
+    return _todaysIndex;
   }
 
   int getTodaysCompletions() {
