@@ -1,4 +1,5 @@
 import 'package:Marbit/controllers/dateController.dart';
+import 'package:Marbit/util/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
@@ -6,10 +7,7 @@ import 'package:get/get.dart';
 import 'package:Marbit/controllers/controllers.dart';
 import 'package:Marbit/models/models.dart';
 import 'package:Marbit/screens/rewardPopupScreen.dart';
-import 'package:Marbit/util/constants.dart';
 import 'package:Marbit/widgets/widgets.dart';
-import 'package:native_admob_flutter/native_admob_flutter.dart';
-import 'package:admob_consent/admob_consent.dart';
 
 class TodaysHabitScreen extends StatefulWidget {
   const TodaysHabitScreen({Key key}) : super(key: key);
@@ -46,7 +44,9 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
           Positioned(
               bottom: (screenSize.height / 2) - 45,
               right: 0,
-              child: DrawerExtension()),
+              child: DrawerExtension(
+                color: kLightOrange,
+              )),
           Positioned.fill(
             child: false
                 ? TutorialHabitContainer()
