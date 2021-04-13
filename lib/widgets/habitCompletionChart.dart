@@ -1,6 +1,7 @@
 import 'package:Marbit/models/models.dart';
 import 'package:Marbit/screens/createItemScreen.dart';
 import 'package:Marbit/util/constants.dart';
+import 'package:Marbit/util/util.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -257,27 +258,32 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
               switch (_timeSpan) {
                 case TimeSpan.WEEK:
                   String weekDay;
+                  //TODO add translation
+                  if ((index + 1) == DateUtilits.today.weekday) {
+                    weekDay = 'today'.tr;
+                    return _createTooltipItemForDay(weekDay, rod);
+                  }
                   switch (index) {
                     case 0:
-                      weekDay = 'Monday';
+                      weekDay = 'monday'.tr;
                       break;
                     case 1:
-                      weekDay = 'Tuesday';
+                      weekDay = 'tuesday'.tr;
                       break;
                     case 2:
-                      weekDay = 'Wednesday';
+                      weekDay = 'wednesday'.tr;
                       break;
                     case 3:
-                      weekDay = 'Thursday';
+                      weekDay = 'thursday'.tr;
                       break;
                     case 4:
-                      weekDay = 'Friday';
+                      weekDay = 'friday'.tr;
                       break;
                     case 5:
-                      weekDay = 'Saturday';
+                      weekDay = 'saturday'.tr;
                       break;
                     case 6:
-                      weekDay = 'Sunday';
+                      weekDay = 'sunday'.tr;
                       break;
                   }
                   return _createTooltipItemForDay(weekDay, rod);
@@ -309,8 +315,9 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
         show: true,
         bottomTitles: SideTitles(
           showTitles: true,
-          getTextStyles: (value) => const TextStyle(
-              color: kLightOrange, fontWeight: FontWeight.bold, fontSize: 14),
+          //TODO change textstyle
+          getTextStyles: (value) =>
+              Theme.of(context).textTheme.caption.copyWith(color: kDeepOrange),
           margin: 16,
           getTitles: (double value) {
             int _value = value.toInt();
@@ -329,7 +336,10 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
           },
         ),
         leftTitles: SideTitles(
-          margin: 20,
+          interval: 5.0,
+          getTextStyles: (value) =>
+              Theme.of(context).textTheme.caption.copyWith(color: kDeepOrange),
+          margin: 16,
           showTitles: true,
         ),
       ),
@@ -345,20 +355,27 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
     int _weeklyCompletionGoal =
         widget.habit.completionGoal * widget.habit.scheduledWeekDays.length;
     double _weeklyCompletionPercentage = (rod.y / _weeklyCompletionGoal) * 100;
+    //todo add translation
     return BarTooltipItem(
         'Week ' +
             weekNumber +
             '\n' +
             _weeklyCompletionPercentage.toInt().toString() +
             '%',
-        Theme.of(context).textTheme.button);
+        Theme.of(context).textTheme.caption.copyWith(color: kDeepOrange));
   }
 
   BarTooltipItem _createTooltipItemForDay(String weekDay, BarChartRodData rod) {
     double _dailyCompletionPercentage =
         (rod.y / widget.habit.completionGoal) * 100;
+    String _test = "${rod.y.toInt()}/${widget.habit.completionGoal}";
     return BarTooltipItem(
-        weekDay + '\n' + _dailyCompletionPercentage.toInt().toString() + '%',
-        Theme.of(context).textTheme.button);
+        weekDay +
+            '\n' +
+            _test +
+            '\n' +
+            _dailyCompletionPercentage.toInt().toString() +
+            '%',
+        Theme.of(context).textTheme.caption.copyWith(color: kDeepOrange));
   }
 }

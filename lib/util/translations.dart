@@ -55,6 +55,8 @@ class Messages extends Translations {
           'title': 'Title',
           'title_textfield_hint': 'Your Title',
           'title_missing_warning': 'Please chose a Title',
+          'number_range_hint':
+              'Hint: You can type in a number range e.g. "2-5" to get an even more randomized Reward!',
           'invalid_range_title': 'Invalid Range',
           'invalid_range_message':
               'Please make sure "min" is not greater than "max"',
@@ -85,6 +87,14 @@ class Messages extends Translations {
           //HabitCompletionChart
           'this_week': 'This Week',
           'last_four_weeks': 'Last Month',
+          'today': 'Today',
+          'monday': 'Monday',
+          'tuesday': 'Tuesday',
+          'wednesday': 'Wednesday',
+          'thursday': 'Thursday',
+          'friday': 'Friday',
+          'saturday': 'Saturday',
+          'sunday': 'Sunday',
           //Translating weekdays
           'Mo': 'Mo',
           'Tu': 'Tu',
@@ -148,6 +158,8 @@ class Messages extends Translations {
           'title': 'Titel',
           'title_textfield_hint': 'Dein Titel',
           'title_missing_warning': 'Bitte gib einen Titel ein',
+          'number_range_hint':
+              'Hinweis: Du kannst eine Zahlenspanne z.B. 2-5 eingeben, um eine noch spannendere Belohnung zu erstellen!',
           'invalid_range_title': 'Ungültige Zahlenspanne',
           'invalid_range_message':
               'Please make sure "min" is not greater than "max"',
@@ -179,6 +191,15 @@ class Messages extends Translations {
           //HabitCompletionChart
           'this_week': 'Diese Woche',
           'last_four_weeks': 'Letzter Monat',
+          'today': 'Heute',
+
+          'monday': 'Montag',
+          'tuesday': 'Dienstag',
+          'wednesday': 'Mittwoch',
+          'thursday': 'Donnerstag',
+          'friday': 'Freitag',
+          'saturday': 'Samstag',
+          'sunday': 'Sonntag',
           //Translating weekdays
           'Mo': 'Mo',
           'Tu': 'Di',
