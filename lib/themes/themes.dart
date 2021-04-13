@@ -36,7 +36,7 @@ TextTheme _textTheme(TextTheme standard) {
     button: standard.button.copyWith(
       fontSize: 14,
       fontFamily: 'Lexend',
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w600,
     ),
     subtitle1: standard.subtitle1.copyWith(
         fontFamily: 'Lexend',
