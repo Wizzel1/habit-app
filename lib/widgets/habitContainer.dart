@@ -43,7 +43,7 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
           );
         },
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
           child: Container(
             height: 90,
             decoration: BoxDecoration(
