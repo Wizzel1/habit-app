@@ -100,8 +100,9 @@ class ContentController extends GetxController {
   }
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
     //LocalStorageService.storageBox.erase();
+    await initializeContent();
     super.onInit();
   }
 
@@ -132,7 +133,6 @@ class ContentController extends GetxController {
     allRewardList = await LocalStorageService.loadRewardsFromLocalStorage();
 
     if (allHabitList.isEmpty) return;
-
     _filterAllHabitsForTodaysHabits();
   }
 

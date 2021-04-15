@@ -17,8 +17,7 @@ class TodaysHabitScreen extends StatefulWidget {
 
 class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
   //TODO create binding for controllers
-  final ContentController _contentController =
-      Get.put<ContentController>(ContentController());
+
   final TutorialController _tutorialController =
       Get.put<TutorialController>(TutorialController());
   final ScrollController _scrollContoller = ScrollController();
@@ -27,12 +26,11 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
   final EditContentController _editContentController =
       Get.put<EditContentController>(EditContentController());
 
+  ContentController _contentController = Get.find<ContentController>();
+
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await _contentController.initializeContent();
-    });
   }
 
   @override

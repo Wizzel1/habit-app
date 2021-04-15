@@ -9,6 +9,8 @@ import 'package:Marbit/controllers/navigationController.dart';
 import 'package:Marbit/util/util.dart';
 import 'package:native_admob_flutter/native_admob_flutter.dart';
 
+import 'controllers/controllers.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await MobileAds.initialize();
@@ -37,6 +39,8 @@ class InnerDrawerScreen extends StatefulWidget {
 }
 
 class _InnerDrawerScreenState extends State<InnerDrawerScreen> {
+  final ContentController _contentController =
+      Get.put<ContentController>(ContentController());
   @override
   Widget build(BuildContext context) {
     return GetBuilder(
