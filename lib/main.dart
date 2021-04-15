@@ -81,11 +81,12 @@ class _InnerDrawerScreenState extends State<InnerDrawerScreen> {
               // Note: use "automaticallyImplyLeading: false" if you do not personalize "leading" of Bar
               scaffold: Scaffold(
                 body: Navigator(
+                    observers: [navigationController.heroController],
                     onPopPage: (route, result) {
                       if (!route.didPop(result)) return false;
                       return true;
                     },
-                    pages: navigationController.navigatorPages),
+                    pages: [navigationController.navigatorPage]),
               )
               /* OR
             CupertinoPageScaffold(                

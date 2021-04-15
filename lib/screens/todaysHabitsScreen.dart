@@ -25,7 +25,6 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
       Get.put<DateController>(DateController());
   final EditContentController _editContentController =
       Get.put<EditContentController>(EditContentController());
-
   ContentController _contentController = Get.find<ContentController>();
 
   @override

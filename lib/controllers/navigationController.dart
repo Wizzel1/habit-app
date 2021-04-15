@@ -8,8 +8,9 @@ class NavigationController extends GetxController {
   GlobalKey<InnerDrawerState> innerDrawerKey;
   bool isDrawerOpen = false;
 
-  List<Page> navigatorPages = [MaterialPage(child: TodaysHabitScreen())];
+  Page navigatorPage = MaterialPage(child: TodaysHabitScreen());
 
+  final HeroController heroController = HeroController();
   List<Page> appPages = [
     MaterialPage(child: TodaysHabitScreen()),
     MaterialPage(child: CreateItemScreen()),
@@ -26,7 +27,7 @@ class NavigationController extends GetxController {
     innerDrawerKey.currentState.open();
     await openDrawer()
         .then((value) => {
-              navigatorPages = [appPages[index]],
+              navigatorPage = appPages[index],
               update(),
             })
         .then((value) => innerDrawerKey.currentState.close());
