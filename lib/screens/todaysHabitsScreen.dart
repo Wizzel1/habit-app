@@ -24,6 +24,8 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
   final ScrollController _scrollContoller = ScrollController();
   final DateController _dateController =
       Get.put<DateController>(DateController());
+  final EditContentController _editContentController =
+      Get.put<EditContentController>(EditContentController());
 
   @override
   void initState() {
