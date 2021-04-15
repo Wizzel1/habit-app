@@ -1,12 +1,20 @@
 import 'dart:async';
+import 'package:Marbit/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inner_drawer/inner_drawer.dart';
 import 'package:get/get.dart';
 
 class NavigationController extends GetxController {
-  int currentPageIndex = 0;
   GlobalKey<InnerDrawerState> innerDrawerKey;
   bool isDrawerOpen = false;
+
+  List<Page> navigatorPages = [MaterialPage(child: TodaysHabitScreen())];
+
+  List<Page> appPages = [
+    MaterialPage(child: TodaysHabitScreen()),
+    MaterialPage(child: CreateItemScreen()),
+    MaterialPage(child: MyContentScreen()),
+  ];
 
   @override
   void onInit() {
@@ -18,7 +26,7 @@ class NavigationController extends GetxController {
     innerDrawerKey.currentState.open();
     await openDrawer()
         .then((value) => {
-              currentPageIndex = index,
+              navigatorPages = [appPages[index]],
               update(),
             })
         .then((value) => innerDrawerKey.currentState.close());

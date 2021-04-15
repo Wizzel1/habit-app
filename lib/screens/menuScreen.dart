@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MenuScreen extends StatelessWidget {
-  final NavigationController navigationController;
-
-  const MenuScreen({Key key, this.navigationController}) : super(key: key);
+  final NavigationController navigationController =
+      Get.find<NavigationController>();
 
   @override
   Widget build(BuildContext context) {
