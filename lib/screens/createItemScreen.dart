@@ -26,21 +26,22 @@ class CreateItemScreen extends StatefulWidget {
 class _CreateItemScreenState extends State<CreateItemScreen> {
   PageController _pageController;
   bool _wantToCreateHabit = false;
+  CreateItemController _createItemController;
 
   final int _contentFlex = 1;
   final ContentController _contentController = Get.find<ContentController>();
-  final CreateItemController _createItemController =
-      Get.put(CreateItemController());
 
   @override
   void initState() {
-    if (_pageController == null) _pageController = PageController();
+    _createItemController = Get.put(CreateItemController());
+    _pageController = PageController();
     super.initState();
   }
 
   @override
   void dispose() {
     _pageController.dispose();
+    Get.delete<CreateItemController>();
     super.dispose();
   }
 

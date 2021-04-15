@@ -18,24 +18,8 @@ class CreateItemController extends GetxController {
   int completionGoalCount = 1;
   bool isSelfRemovingReward = false;
 
-  void resetCreationControllers() {
-    createTitleTextController.text != null
-        ? createTitleTextController.clear()
-        : null;
-    createDescriptionController.text != null
-        ? createDescriptionController.clear()
-        : null;
-    minTextController.text != null ? minTextController.clear() : null;
-    maxTextController.text != null ? maxTextController.clear() : null;
-    scheduledDays = [];
-    selectedRewardReferences = [];
-    isSelfRemovingReward = false;
-    completionGoalCount = 1;
-  }
-
   @override
   void onInit() {
-    // TODO: implement onInit
     createTitleTextController = RichTextController(
       patternMap: {
         RegExp(r"\s\b[0-9 0-9]+[-]+[0-9 0-9]\b"): TextStyle(
@@ -49,8 +33,6 @@ class CreateItemController extends GetxController {
 
   @override
   void onClose() {
-    // TODO: implement onClose
-    //
     createTitleTextController.dispose();
     createDescriptionController.dispose();
     super.onClose();
@@ -76,7 +58,7 @@ class CreateItemController extends GetxController {
           DateUtilits.getDateTimeOfNextWeekDayOccurrence(nextScheduledWeekday),
     );
     Get.find<ContentController>().saveNewHabit(newHabit);
-    resetCreationControllers();
+    // resetCreationControllers();
   }
 
   TrackedCompletions _createInitialTrackedCompletions() {
@@ -113,6 +95,6 @@ class CreateItemController extends GetxController {
         isSelfRemoving: isSelfRemovingReward,
         description: createDescriptionController.text);
     Get.find<ContentController>().saveNewReward(newReward);
-    resetCreationControllers();
+    // resetCreationControllers();
   }
 }
