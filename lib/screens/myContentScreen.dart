@@ -26,24 +26,26 @@ class _MyContentScreenState extends State<MyContentScreen>
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      body: Stack(children: [
-        Positioned.fill(
-          child: PageView(
-            controller: _pageController,
-            scrollDirection: Axis.vertical,
-            children: [
-              _buildRewardList(context),
-              _buildHabitList(context),
-            ],
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: PageView(
+              controller: _pageController,
+              scrollDirection: Axis.vertical,
+              children: [
+                _buildRewardList(context),
+                _buildHabitList(context),
+              ],
+            ),
           ),
-        ),
-        Positioned(
-            bottom: (screenSize.height / 2) - 45,
-            right: 0,
-            child: DrawerExtension(
-              color: kLightOrange,
-            )),
-      ]),
+          Positioned(
+              bottom: (screenSize.height / 2) - 45,
+              right: 0,
+              child: DrawerExtension(
+                color: kLightOrange,
+              )),
+        ],
+      ),
     );
   }
 
