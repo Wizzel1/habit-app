@@ -244,7 +244,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                   elevation: 0,
                   color: kBackGroundWhite,
                   onPressed: () async {
-                    _createItemController.createReward();
+                    _createItemController.createAndSaveReward();
                     await Get.find<NavigationController>().navigateToIndex(0);
                     _pageController.jumpToPage(0);
                   },
@@ -561,7 +561,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                     SnackBars.showWarningSnackBar(
                         'warning'.tr, 'missing_schedule_warning'.tr);
                   } else {
-                    _createItemController.createHabit();
+                    _createItemController.createAndSaveHabit();
                     await Get.find<NavigationController>().navigateToIndex(0);
                     _pageController.jumpToPage(0);
                   }

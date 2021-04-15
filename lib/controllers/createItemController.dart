@@ -7,17 +7,12 @@ import 'package:uuid/uuid.dart';
 import 'contentController.dart';
 
 class CreateItemController extends GetxController {
-  final RichTextController createTitleTextController = RichTextController(
-    patternMap: {
-      RegExp(r"\s\b[0-9 0-9]+[-]+[0-9 0-9]\b"): TextStyle(
-          backgroundColor: kLightOrange.withOpacity(0.5),
-          fontWeight: FontWeight.bold)
-    },
-  );
-  final TextEditingController minTextController = TextEditingController();
-  final TextEditingController maxTextController = TextEditingController();
-  final TextEditingController createDescriptionController =
-      TextEditingController();
+  RichTextController createTitleTextController;
+  TextEditingController createDescriptionController;
+  //TODO remove these controllers
+  TextEditingController minTextController = TextEditingController();
+  TextEditingController maxTextController = TextEditingController();
+
   List<String> selectedRewardReferences = [];
   List<int> scheduledDays = [];
   int completionGoalCount = 1;
@@ -38,7 +33,30 @@ class CreateItemController extends GetxController {
     completionGoalCount = 1;
   }
 
-  void createHabit() {
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    createTitleTextController = RichTextController(
+      patternMap: {
+        RegExp(r"\s\b[0-9 0-9]+[-]+[0-9 0-9]\b"): TextStyle(
+            backgroundColor: kLightOrange.withOpacity(0.5),
+            fontWeight: FontWeight.bold)
+      },
+    );
+    createDescriptionController = TextEditingController();
+    super.onInit();
+  }
+
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    //
+    createTitleTextController.dispose();
+    createDescriptionController.dispose();
+    super.onClose();
+  }
+
+  void createAndSaveHabit() {
     scheduledDays.sort();
     DateTime _today = DateUtilits.today;
     int nextScheduledWeekday = scheduledDays.firstWhere(
@@ -57,7 +75,7 @@ class CreateItemController extends GetxController {
       nextCompletionDate:
           DateUtilits.getDateTimeOfNextWeekDayOccurrence(nextScheduledWeekday),
     );
-    Get.find<ContentController>().addHabit(newHabit);
+    Get.find<ContentController>().saveNewHabit(newHabit);
     resetCreationControllers();
   }
 
@@ -88,13 +106,13 @@ class CreateItemController extends GetxController {
     );
   }
 
-  void createReward() {
+  void createAndSaveReward() {
     Reward newReward = Reward(
         name: createTitleTextController.text,
         id: Uuid().v4(),
         isSelfRemoving: isSelfRemovingReward,
         description: createDescriptionController.text);
-    Get.find<ContentController>().addReward(newReward);
+    Get.find<ContentController>().saveNewReward(newReward);
     resetCreationControllers();
   }
 }
