@@ -1,4 +1,5 @@
 import 'package:Marbit/util/util.dart';
+import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:Marbit/models/models.dart';
@@ -22,7 +23,7 @@ class ContentController extends GetxController {
   List<Habit> allHabitList = [];
   final RxList todaysHabitList = [].obs;
 
-  void addHabit(Habit habit) {
+  void saveNewHabit(Habit habit) {
     assert(habit != null, "Habit must not be null");
     try {
       if (habit.isScheduledForToday()) {
@@ -35,60 +36,37 @@ class ContentController extends GetxController {
     }
   }
 
-  void updateReward(
-      {String rewardID,
-      String newTitle,
-      String newDescription,
-      bool isSelfRemoving}) {
-    assert(rewardID != null);
-    if (rewardID == null) return;
-
-    int _updateIndex;
-    _updateIndex =
-        allRewardList.indexWhere((element) => element.id == rewardID);
-
-    assert(_updateIndex != null);
-    assert(_updateIndex >= 0, "updateindex must not be negative");
-
-    if (newTitle != null) allRewardList[_updateIndex].name = newTitle;
-    if (newDescription != null)
-      allRewardList[_updateIndex].description = newDescription;
-    if (isSelfRemoving != null)
-      allRewardList[_updateIndex].isSelfRemoving = isSelfRemoving;
-    LocalStorageService.saveAllRewardsToLocalStorage(allRewardList);
-    update(["allRewardList"]);
+  void deleteHabit(Habit habit) {
+    assert(habit != null);
+    try {
+      allHabitList.remove(habit);
+      updateHabitList();
+      LocalStorageService.saveAllHabitsToLocalStorage(allHabitList);
+      reloadHabitList();
+      SnackBars.showSuccessSnackBar('success'.tr, 'habit_deleted_message'.tr);
+    } on Exception catch (e) {
+      SnackBars.showErrorSnackBar('error'.tr, e.toString());
+    }
   }
 
-  bool isValidOrShowSnackbar(dynamic dynamicData) {
-    //TODO prevent data saving
+  void saveNewReward(Reward reward) {
+    assert(reward != null);
+    if (reward == null) return;
 
-    if (dynamicData is String) {
-      dynamicData = dynamicData as String;
-      if (dynamicData.isEmpty)
-        SnackBars.showWarningSnackBar(
-            'empty_field_warning_title'.tr, 'empty_field_warning_message'.tr);
-      return true;
+    allRewardList.add(reward);
+    LocalStorageService.saveAllRewardsToLocalStorage(allRewardList);
+  }
+
+  void deleteReward(Reward reward) {
+    assert(reward != null);
+    try {
+      allRewardList.remove(reward);
+      updateRewardList();
+      LocalStorageService.saveAllRewardsToLocalStorage(allRewardList);
+      SnackBars.showSuccessSnackBar('success'.tr, 'reward_deleted_message'.tr);
+    } on Exception catch (e) {
+      SnackBars.showErrorSnackBar('error'.tr, e.toString());
     }
-
-    if (dynamicData is List<int>) {
-      dynamicData = dynamicData as List<int>;
-      if (dynamicData.isEmpty) {
-        SnackBars.showWarningSnackBar('empty_schedule_warning_title'.tr,
-            'empty_schedule_warning_message'.tr);
-        return true;
-      }
-    }
-
-    if (dynamicData is List<Reward>) {
-      dynamicData = dynamicData as List<Reward>;
-      if (dynamicData.isEmpty) {
-        SnackBars.showWarningSnackBar(
-            'no_rewards_warning_title'.tr, 'no_rewards_warning_message'.tr);
-        return true;
-      }
-    }
-
-    return false;
   }
 
   List<Reward> getRewardListByID(List<String> rewardIds) {
@@ -98,72 +76,27 @@ class ContentController extends GetxController {
     List<Reward> _rewardList = [];
 
     for (String rewardID in rewardIds) {
-      Reward _reward =
-          allRewardList.firstWhere((element) => element.id == rewardID);
+      Reward _reward = allRewardList
+          .firstWhere((element) => element.id == rewardID, orElse: () => null);
+      if (_reward == null) continue;
       _rewardList.add(_reward);
     }
     return _rewardList;
   }
 
-  void updateHabit(
-      {String habitID,
-      String newTitle,
-      String newDescription,
-      int newCompletionGoal,
-      List<int> newSchedule,
-      List<String> newRewardReferences}) {
-    assert(habitID != null);
+  List<String> filterForDeletedRewards(List<String> rewardReferenceIDs) {
+    print("passed in :${rewardReferenceIDs.length} referenceIds");
+    List<String> _filteredIDs = [];
 
-    if (habitID == null) return;
-
-    int _updateIndex;
-    _updateIndex = allHabitList.indexWhere((element) => element.id == habitID);
-
-    assert(_updateIndex != null);
-    assert(_updateIndex >= 0, "updateindex must not be negative");
-
-    newSchedule?.sort();
-
-    if (isValidOrShowSnackbar(newTitle))
-      allHabitList[_updateIndex].title = newTitle;
-    if (isValidOrShowSnackbar(newSchedule))
-      allHabitList[_updateIndex].scheduledWeekDays = newSchedule;
-    if (isValidOrShowSnackbar(newRewardReferences))
-      allHabitList[_updateIndex].rewardIDReferences = newRewardReferences;
-
-    if (newDescription != null)
-      allHabitList[_updateIndex].description = newDescription;
-    if (newCompletionGoal != null)
-      allHabitList[_updateIndex].completionGoal = newCompletionGoal;
-
-    LocalStorageService.saveAllHabitsToLocalStorage(allHabitList);
-    update(["allHabitList"]);
-    _reloadHabitList();
-  }
-
-  void deleteHabit(Habit habit) {
-    assert(habit != null);
-    try {
-      allHabitList.remove(habit);
-      update(["allHabitList"]);
-      LocalStorageService.saveAllHabitsToLocalStorage(allHabitList);
-      _reloadHabitList();
-      SnackBars.showSuccessSnackBar('success'.tr, 'habit_deleted_message'.tr);
-    } on Exception catch (e) {
-      SnackBars.showErrorSnackBar('error'.tr, e.toString());
+    for (String reference in rewardReferenceIDs) {
+      Reward reward = allRewardList
+          .firstWhere((element) => element.id == reference, orElse: () => null);
+      if (reward == null) continue;
+      _filteredIDs.add(reward.id);
     }
-  }
 
-  void deleteReward(Reward reward) {
-    assert(reward != null);
-    try {
-      allRewardList.remove(reward);
-      update(["allRewardList"]);
-      LocalStorageService.saveAllRewardsToLocalStorage(allRewardList);
-      SnackBars.showSuccessSnackBar('success'.tr, 'reward_deleted_message'.tr);
-    } on Exception catch (e) {
-      SnackBars.showErrorSnackBar('error'.tr, e.toString());
-    }
+    print("returning in :${_filteredIDs.length} referenceIds");
+    return _filteredIDs;
   }
 
   @override
@@ -181,7 +114,15 @@ class ContentController extends GetxController {
     }
   }
 
-  void _reloadHabitList() {
+  void updateHabitList() {
+    update(["allHabitList"]);
+  }
+
+  void updateRewardList() {
+    update(["allRewardList"]);
+  }
+
+  void reloadHabitList() {
     todaysHabitList.clear();
     _filterAllHabitsForTodaysHabits();
   }
@@ -217,12 +158,4 @@ class ContentController extends GetxController {
       description: 'example_reward_description_4'.tr,
     ),
   ];
-
-  void addReward(Reward reward) {
-    assert(reward != null);
-    if (reward == null) return;
-
-    allRewardList.add(reward);
-    LocalStorageService.saveAllRewardsToLocalStorage(allRewardList);
-  }
 }

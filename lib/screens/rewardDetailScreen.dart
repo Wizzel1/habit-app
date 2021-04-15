@@ -19,8 +19,6 @@ class RewardDetailScreen extends StatefulWidget {
 class _RewardDetailScreenState extends State<RewardDetailScreen>
     with TickerProviderStateMixin {
   bool _isInEditMode = false;
-  TextEditingController _titleController;
-  TextEditingController _descriptionController;
 
   AnimationController _editAnimController;
   Animation<Offset> _titleOffset;
@@ -29,17 +27,16 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
   final Completer _screenBuiltCompleter = Completer();
   final int _mainScreenAnimationDuration = 200;
   final TutorialController _tutorialController = Get.find<TutorialController>();
-  final ContentController _contentController = Get.find<ContentController>();
+  EditContentController _editContentController;
 
   @override
   void initState() {
+    _editContentController =
+        Get.put<EditContentController>(EditContentController());
     _editAnimController = AnimationController(vsync: this);
-
-    _titleController = TextEditingController(text: widget.reward.name);
-    _descriptionController =
-        TextEditingController(text: widget.reward.description);
-
+    _copyRewardValuesToEditContentController();
     super.initState();
+
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
         300.milliseconds.delay().then(
@@ -61,9 +58,16 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
   @override
   void dispose() {
     _editAnimController.dispose();
-    _titleController.dispose();
-    _descriptionController.dispose();
+    Get.delete<EditContentController>();
     super.dispose();
+  }
+
+  void _copyRewardValuesToEditContentController() {
+    _editContentController.titleController =
+        TextEditingController(text: widget.reward.name);
+    _editContentController.descriptionController =
+        TextEditingController(text: widget.reward.description);
+    _editContentController.isSelfRemoving = widget.reward.isSelfRemoving;
   }
 
   void _initializeAnimations() {
@@ -164,11 +168,8 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
                           onPressed: () {
                             if (_isInEditMode) {
                               FocusScope.of(context).unfocus();
-                              Get.find<ContentController>().updateReward(
-                                  rewardID: widget.reward.id,
-                                  newTitle: _titleController.text,
-                                  newDescription: _descriptionController.text,
-                                  isSelfRemoving: widget.reward.isSelfRemoving);
+                              Get.find<EditContentController>()
+                                  .updateReward(widget.reward.id);
                             }
                             _toggleEditingAnimation();
                           },
@@ -197,7 +198,9 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
       children: [
         MaterialButton(
           elevation: 0,
-          color: widget.reward.isSelfRemoving ? kDeepOrange : kBackGroundWhite,
+          color: _editContentController.isSelfRemoving
+              ? kDeepOrange
+              : kBackGroundWhite,
           child: Container(
             height: 50,
             width: 75,
@@ -205,7 +208,7 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
               child: Text(
                 'one_time'.tr,
                 style: Theme.of(context).textTheme.button.copyWith(
-                    color: widget.reward.isSelfRemoving
+                    color: _editContentController.isSelfRemoving
                         ? kBackGroundWhite
                         : Theme.of(context).accentColor),
               ),
@@ -215,21 +218,24 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           onPressed: () {
+            if (!_isInEditMode) return;
             setState(() {
-              widget.reward.isSelfRemoving = true;
+              _editContentController.isSelfRemoving = true;
             });
           },
         ),
         MaterialButton(
           elevation: 0,
-          color: widget.reward.isSelfRemoving ? kBackGroundWhite : kDeepOrange,
+          color: _editContentController.isSelfRemoving
+              ? kBackGroundWhite
+              : kDeepOrange,
           child: Container(
             height: 50,
             width: 75,
             child: Center(
               child: Text('regular'.tr,
                   style: Theme.of(context).textTheme.button.copyWith(
-                        color: widget.reward.isSelfRemoving
+                        color: _editContentController.isSelfRemoving
                             ? Theme.of(context).accentColor
                             : kBackGroundWhite,
                       )),
@@ -239,8 +245,9 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           onPressed: () {
+            if (!_isInEditMode) return;
             setState(() {
-              widget.reward.isSelfRemoving = false;
+              _editContentController.isSelfRemoving = false;
             });
           },
         ),
@@ -259,7 +266,7 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
               child: IgnorePointer(
                 ignoring: !_isInEditMode,
                 child: TextField(
-                  controller: _titleController,
+                  controller: _editContentController.titleController,
                   style: Theme.of(context)
                       .textTheme
                       .headline3
@@ -289,7 +296,7 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
                 child: IgnorePointer(
                   ignoring: !_isInEditMode,
                   child: TextField(
-                    controller: _descriptionController,
+                    controller: _editContentController.descriptionController,
                     style: Theme.of(context)
                         .textTheme
                         .subtitle1

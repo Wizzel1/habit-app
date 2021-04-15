@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:Marbit/controllers/controllers.dart';
-import 'package:Marbit/controllers/dateController.dart';
+
 import 'package:Marbit/models/trackedCompletionsModel.dart';
 import 'package:Marbit/util/constants.dart';
 import 'package:Marbit/util/dateUtilitis.dart';
@@ -214,7 +214,7 @@ class Habit {
       updateToNextCompletionDate();
       onCompletionGoalReached();
 
-      Get.find<ContentController>().updateHabit(habitID: id);
+      Get.find<EditContentController>().updateHabit(id);
     }
   }
 

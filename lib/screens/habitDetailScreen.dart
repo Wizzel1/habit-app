@@ -28,8 +28,6 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
     with TickerProviderStateMixin {
   bool _isInEditMode = false;
   List<Reward> _joinedRewardList;
-  TextEditingController _titleController;
-  TextEditingController _descriptionController;
 
   Animation<Offset> _titleOffset;
   Animation<Offset> _descriptionOffset;
@@ -42,6 +40,8 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   final int _mainScreenAnimationDuration = 200;
   final TutorialController _tutorialController = Get.find<TutorialController>();
   final ContentController _contentController = Get.find<ContentController>();
+
+  EditContentController _editContentController;
 
   void _initializeAnimations() {
     _titleOffset = TweenSequence<Offset>([
@@ -116,33 +116,6 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
       ),
     );
 
-    // for (var i = 0; i < 7; i++) {
-    //   var animation = TweenSequence<Offset>([
-    //     TweenSequenceItem(
-    //         tween: Tween<Offset>(
-    //             begin: const Offset(0, 0), end: const Offset(0.0, -0.15)),
-    //         weight: 10.0),
-    //     TweenSequenceItem(
-    //         tween: Tween<Offset>(
-    //             begin: const Offset(0.0, -0.15), end: const Offset(0, 0)),
-    //         weight: 10.0),
-    //     TweenSequenceItem(
-    //         tween: Tween<Offset>(
-    //             begin: const Offset(0.0, 0.0), end: const Offset(0, 0)),
-    //         weight: 80.0)
-    //   ]).animate(
-    //     CurvedAnimation(
-    //       parent: _editAnimController,
-    //       curve: Interval(
-    //         0.1 + (i / 25), //max 0.38
-    //         0.5 + (i / 25), //max 0.58
-    //         curve: Curves.ease,
-    //       ),
-    //     ),
-    //   );
-    //   _scheduleOffsets.add(animation);
-    // }
-
     _goalStepperOffset = TweenSequence<Offset>([
       TweenSequenceItem(
           tween: Tween<Offset>(
@@ -197,15 +170,16 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
 
   @override
   void initState() {
+    _editContentController = Get.put(EditContentController());
+    _editAnimController = AnimationController(vsync: this);
+    _filterOutDeletedRewardReferences();
+
+    _editContentController.loadHabitIntoEditContentController(widget.habit);
+
     _setJoinedRewardList();
 
-    _editAnimController = AnimationController(vsync: this);
-
-    _titleController = TextEditingController(text: widget.habit.title);
-    _descriptionController =
-        TextEditingController(text: widget.habit.description);
-
     super.initState();
+
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
         300.milliseconds.delay().then(
@@ -225,18 +199,32 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
     );
   }
 
+  @override
+  void dispose() {
+    _editAnimController.dispose();
+    //_editContentController.resetController();
+    Get.delete<EditContentController>();
+    super.dispose();
+  }
+
+  //TODO maybe this should take effect when a reward is delted?
+  void _filterOutDeletedRewardReferences() {
+    widget.habit.rewardIDReferences = _contentController
+        .filterForDeletedRewards(widget.habit.rewardIDReferences);
+  }
+
+  //TODO move this method to contentcontroller
   void _setJoinedRewardList() {
     List<String> _selectedRewardIDs = widget.habit.rewardIDReferences;
     List<Reward> _selectedRewards =
         _contentController.getRewardListByID(_selectedRewardIDs);
     List<Reward> _allRewards = _contentController.allRewardList;
     List<Reward> _joinedRewards = [];
-
     _joinedRewards.addAll(_selectedRewards);
 
     for (var i = 0; i < _allRewards.length; i++) {
       Reward _reward = _allRewards[i];
-      if (_joinedRewards.any((element) => element.name == _reward.name)) {
+      if (_joinedRewards.any((element) => element.id == _reward.id)) {
         continue;
       }
       _joinedRewards.add(_reward);
@@ -251,14 +239,6 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
     _editAnimController.isAnimating
         ? _editAnimController.reset()
         : _editAnimController.repeat(period: const Duration(seconds: 3));
-  }
-
-  @override
-  void dispose() {
-    _editAnimController.dispose();
-    _titleController.dispose();
-    _descriptionController.dispose();
-    super.dispose();
   }
 
   @override
@@ -309,15 +289,9 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                           onPressed: () {
                             if (_isInEditMode) {
                               FocusScope.of(context).unfocus();
-                              Get.find<ContentController>().updateHabit(
-                                  habitID: widget.habit.id,
-                                  newTitle: _titleController.text,
-                                  newCompletionGoal:
-                                      widget.habit.completionGoal,
-                                  newDescription: _descriptionController.text,
-                                  newSchedule: widget.habit.scheduledWeekDays,
-                                  newRewardReferences:
-                                      widget.habit.rewardIDReferences);
+
+                              _editContentController
+                                  .updateHabit(widget.habit.id);
 
                               _setJoinedRewardList();
                             }
@@ -356,62 +330,71 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   }
 
   Widget _buildTitleTextField() {
-    return AnimatedBuilder(
-      animation: _titleOffset,
-      builder: (context, child) {
-        return SlideTransition(
-            position: _titleOffset,
-            child: Material(
-              type: MaterialType.transparency,
-              child: IgnorePointer(
-                ignoring: !_isInEditMode,
-                child: TextField(
-                  controller: _titleController,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline3
-                      .copyWith(color: kBackGroundWhite),
-                  decoration: InputDecoration(
-                    focusedBorder: InputBorder.none,
-                    enabledBorder: _isInEditMode
-                        ? const UnderlineInputBorder(
-                            borderSide: BorderSide(color: kBackGroundWhite))
-                        : InputBorder.none,
+    return GetBuilder<EditContentController>(
+      builder: (EditContentController controller) {
+        return AnimatedBuilder(
+          animation: _titleOffset,
+          builder: (context, child) {
+            return SlideTransition(
+                position: _titleOffset,
+                child: Material(
+                  type: MaterialType.transparency,
+                  child: IgnorePointer(
+                    ignoring: !_isInEditMode,
+                    child: TextField(
+                      controller: controller.titleController,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline3
+                          .copyWith(color: kBackGroundWhite),
+                      decoration: InputDecoration(
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: _isInEditMode
+                            ? const UnderlineInputBorder(
+                                borderSide: BorderSide(color: kBackGroundWhite))
+                            : InputBorder.none,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ));
+                ));
+          },
+        );
       },
     );
   }
 
   Widget _buildDescriptionTextField() {
-    return AnimatedBuilder(
-        animation: _descriptionOffset,
-        builder: (context, child) {
-          return SlideTransition(
-              position: _descriptionOffset,
-              child: Material(
-                type: MaterialType.transparency,
-                child: IgnorePointer(
-                  ignoring: !_isInEditMode,
-                  child: TextField(
-                    controller: _descriptionController,
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        .copyWith(color: kBackGroundWhite, fontSize: 22),
-                    decoration: InputDecoration(
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: _isInEditMode
-                          ? const UnderlineInputBorder(
-                              borderSide: BorderSide(color: kBackGroundWhite))
-                          : InputBorder.none,
+    return GetBuilder<EditContentController>(
+      builder: (EditContentController controller) {
+        return AnimatedBuilder(
+            animation: _descriptionOffset,
+            builder: (context, child) {
+              return SlideTransition(
+                  position: _descriptionOffset,
+                  child: Material(
+                    type: MaterialType.transparency,
+                    child: IgnorePointer(
+                      ignoring: !_isInEditMode,
+                      child: TextField(
+                        controller: controller.descriptionController,
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle1
+                            .copyWith(color: kBackGroundWhite, fontSize: 22),
+                        decoration: InputDecoration(
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: _isInEditMode
+                              ? const UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: kBackGroundWhite))
+                              : InputBorder.none,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ));
-        });
+                  ));
+            });
+      },
+    );
   }
 
   Widget _buildCompletionGoalStepper() {
@@ -430,9 +413,10 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                     ? MaterialButton(
                         elevation: 0,
                         onPressed: () {
-                          if (widget.habit.completionGoal <= 1) return;
+                          if (_editContentController.newCompletionGoal <= 1)
+                            return;
                           setState(() {
-                            widget.habit.completionGoal--;
+                            _editContentController.newCompletionGoal--;
                           });
                         },
                         color: kBackGroundWhite,
@@ -449,7 +433,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
           },
         ),
         Text(
-          "${widget.habit.completionGoal}",
+          "${_editContentController.newCompletionGoal}",
           style: Theme.of(context).textTheme.headline3,
         ),
         AnimatedBuilder(
@@ -463,10 +447,10 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                     ? MaterialButton(
                         elevation: 0,
                         onPressed: () {
-                          if (widget.habit.completionGoal >=
+                          if (_editContentController.newCompletionGoal >=
                               ContentController.maxDailyCompletions) return;
                           setState(() {
-                            widget.habit.completionGoal++;
+                            _editContentController.newCompletionGoal++;
                           });
                         },
                         color: kBackGroundWhite,
@@ -528,13 +512,15 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                 onTap: () {
                   if (!_isInEditMode) return;
                   int weekDayIndex = index + 1;
-                  if (widget.habit.scheduledWeekDays.contains(weekDayIndex)) {
-                    widget.habit.scheduledWeekDays.remove(weekDayIndex);
+
+                  if (_editContentController.newSchedule
+                      .contains(weekDayIndex)) {
+                    _editContentController.newSchedule.remove(weekDayIndex);
                   } else {
-                    widget.habit.scheduledWeekDays.add(weekDayIndex);
+                    _editContentController.newSchedule.add(weekDayIndex);
                   }
-                  widget.habit.scheduledWeekDays.sort();
-                  widget.habit.updateToNextCompletionDate();
+                  _editContentController.newSchedule.sort();
+                  //TODO correct setstate
                   setState(() {});
                 },
                 child: Container(
@@ -542,15 +528,16 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                   width: 40,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: widget.habit.scheduledWeekDays.contains(index + 1)
-                          ? Color(widget.habit.habitColors["deep"])
-                          : kBackGroundWhite),
+                      color:
+                          _editContentController.newSchedule.contains(index + 1)
+                              ? Color(widget.habit.habitColors["deep"])
+                              : kBackGroundWhite),
                   child: Center(
                     child: Text(
                       dayNames[index],
                       style: Theme.of(context).textTheme.button.copyWith(
                             fontSize: 12,
-                            color: widget.habit.scheduledWeekDays
+                            color: _editContentController.newSchedule
                                     .contains(index + 1)
                                 ? kBackGroundWhite
                                 : Color(widget.habit.habitColors["deep"]),
@@ -579,7 +566,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
       itemBuilder: (context, animation, reward, index) {
         // Specifiy a transition to be used by the ImplicitlyAnimatedList.
         // See the Transitions section on how to import this transition.
-        bool isSelected = (widget.habit.rewardIDReferences
+        bool isSelected = (_editContentController.newRewardReferences
             .any((element) => element == reward.id));
         return SizeFadeTransition(
           sizeFraction: 0.7,
@@ -598,9 +585,12 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                     onTap: () {
                       if (!_isInEditMode) return;
                       setState(() {
-                        widget.habit.rewardIDReferences.contains(reward.id)
-                            ? widget.habit.rewardIDReferences.remove(reward.id)
-                            : widget.habit.rewardIDReferences.add(reward.id);
+                        _editContentController.newRewardReferences
+                                .contains(reward.id)
+                            ? _editContentController.newRewardReferences
+                                .remove(reward.id)
+                            : _editContentController.newRewardReferences
+                                .add(reward.id);
                       });
                       _setJoinedRewardList();
                     },
