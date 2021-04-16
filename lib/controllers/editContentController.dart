@@ -93,7 +93,7 @@ class EditContentController extends GetxController {
       _habitToUpdate.title = titleController.text;
     if (descriptionController.text != null &&
         descriptionController.text.isNotEmpty)
-      _habitToUpdate.title = descriptionController.text;
+      _habitToUpdate.description = descriptionController.text;
     if (newSchedule != null && newSchedule.isNotEmpty)
       _habitToUpdate.scheduledWeekDays = newSchedule;
     if (newRewardReferences != null && newRewardReferences.isNotEmpty)
