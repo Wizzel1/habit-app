@@ -80,13 +80,19 @@ class _InnerDrawerScreenState extends State<InnerDrawerScreen> {
               //  A Scaffold is generally used but you are free to use other widgets
               // Note: use "automaticallyImplyLeading: false" if you do not personalize "leading" of Bar
               scaffold: Scaffold(
-                body: Navigator(
-                    observers: [navigationController.heroController],
-                    onPopPage: (route, result) {
-                      if (!route.didPop(result)) return false;
-                      return true;
-                    },
-                    pages: [navigationController.navigatorPage]),
+                body: WillPopScope(
+                  onWillPop: () async => !await navigationController
+                      .navigatorKey.currentState
+                      .maybePop(),
+                  child: Navigator(
+                      key: navigationController.navigatorKey,
+                      observers: [navigationController.heroController],
+                      onPopPage: (route, result) {
+                        if (!route.didPop(result)) return false;
+                        return true;
+                      },
+                      pages: [navigationController.navigatorPage]),
+                ),
               )
               /* OR
             CupertinoPageScaffold(                

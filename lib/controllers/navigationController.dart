@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 class NavigationController extends GetxController {
   GlobalKey<InnerDrawerState> innerDrawerKey;
+  GlobalKey<NavigatorState> navigatorKey;
   bool isDrawerOpen = false;
 
   Page navigatorPage = MaterialPage(child: TodaysHabitScreen());
@@ -19,6 +20,7 @@ class NavigationController extends GetxController {
 
   @override
   void onInit() {
+    navigatorKey = GlobalKey<NavigatorState>();
     innerDrawerKey = GlobalKey<InnerDrawerState>();
     super.onInit();
   }
