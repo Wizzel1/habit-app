@@ -101,7 +101,7 @@ class EditContentController extends GetxController {
     if (newCompletionGoal != null)
       _habitToUpdate.completionGoal = newCompletionGoal;
 
-    // _habitToUpdate.updateToNextCompletionDate();
+    _habitToUpdate.updateToNextCompletionDate();
 
     LocalStorageService.saveAllHabitsToLocalStorage(
         _contentController.allHabitList);

@@ -29,8 +29,6 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
 
   @override
   void initState() {
-    super.initState();
-
     _scrollController = ScrollController();
     _animController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 450));
@@ -42,6 +40,8 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
     _shuffeledRewardList.shuffle();
     _evaluateRewardVariable(_shuffeledRewardList.last);
     _animController.forward();
+
+    super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       animateRewardList();
