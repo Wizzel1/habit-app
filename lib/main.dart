@@ -26,16 +26,21 @@ class MyApp extends StatelessWidget {
       locale: Get.deviceLocale,
       title: 'Marbit',
       theme: orangeTheme(),
-      home: SplashScreen.navigate(
+      home: SplashScreen.callback(
         name: 'test.riv',
-        next: (context) => InnerDrawerScreen(),
+        startAnimation: 'Start',
+        loopAnimation: 'Loop',
+        endAnimation: 'End',
         until: () => Future.wait([
           MobileAds.initialize(),
           Firebase.initializeApp(),
           GetStorage.init()
         ]),
         backgroundColor: kBackGroundWhite,
-        startAnimation: 'Animation 1',
+        onError: (error, stacktrace) {},
+        onSuccess: (data) {
+          Get.to(InnerDrawerScreen());
+        },
       ),
     );
   }
