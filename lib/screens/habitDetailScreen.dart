@@ -170,7 +170,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
 
   @override
   void initState() {
-    _editContentController = Get.put(EditContentController());
+    _editContentController = Get.find<EditContentController>();
     _editAnimController = AnimationController(vsync: this);
     _filterOutDeletedRewardReferences();
 
@@ -202,7 +202,6 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   @override
   void dispose() {
     _editAnimController.dispose();
-    //_editContentController.resetController();
     Get.delete<EditContentController>();
     super.dispose();
   }
