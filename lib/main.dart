@@ -8,14 +8,12 @@ import 'package:get_storage/get_storage.dart';
 import 'package:Marbit/controllers/navigationController.dart';
 import 'package:Marbit/util/util.dart';
 import 'package:native_admob_flutter/native_admob_flutter.dart';
+import 'package:rive_splash_screen/rive_splash_screen.dart';
 
 import 'controllers/controllers.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await MobileAds.initialize();
-  await Firebase.initializeApp();
-  await GetStorage.init();
   runApp(MyApp());
 }
 
@@ -28,7 +26,17 @@ class MyApp extends StatelessWidget {
       locale: Get.deviceLocale,
       title: 'Marbit',
       theme: orangeTheme(),
-      home: InnerDrawerScreen(),
+      home: SplashScreen.navigate(
+        name: 'test.riv',
+        next: (context) => InnerDrawerScreen(),
+        until: () => Future.wait([
+          MobileAds.initialize(),
+          Firebase.initializeApp(),
+          GetStorage.init()
+        ]),
+        backgroundColor: kBackGroundWhite,
+        startAnimation: 'Animation 1',
+      ),
     );
   }
 }
