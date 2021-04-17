@@ -170,7 +170,8 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
 
   @override
   void initState() {
-    _editContentController = Get.find<EditContentController>();
+    _editContentController =
+        Get.put<EditContentController>(EditContentController());
     _editAnimController = AnimationController(vsync: this);
     _filterOutDeletedRewardReferences();
 
@@ -240,6 +241,10 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
         : _editAnimController.repeat(period: const Duration(seconds: 3));
   }
 
+  Widget _buildNextCOmletiondateText() {
+    return Text("${widget.habit.nextCompletionDate}");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Hero(
@@ -280,6 +285,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                       _buildDescriptionTextField(),
                       const SizedBox(height: 30),
                       _buildScheduleRow(),
+                      _buildNextCOmletiondateText(),
                       const SizedBox(height: 30),
                       _buildCompletionGoalStepper(),
                       const SizedBox(height: 30),

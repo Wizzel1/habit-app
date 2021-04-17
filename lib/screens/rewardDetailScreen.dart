@@ -31,7 +31,8 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
 
   @override
   void initState() {
-    _editContentController = Get.find<EditContentController>();
+    _editContentController =
+        Get.put<EditContentController>(EditContentController());
     _editAnimController = AnimationController(vsync: this);
     _copyRewardValuesToEditContentController();
     super.initState();
