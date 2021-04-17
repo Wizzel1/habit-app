@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       locale: Get.deviceLocale,
       title: 'Marbit',
       theme: orangeTheme(),
-      home: SplashScreen.callback(
+      home: SplashScreen.navigate(
         name: 'test.riv',
         startAnimation: 'Start',
         loopAnimation: 'Loop',
@@ -37,10 +37,7 @@ class MyApp extends StatelessWidget {
           GetStorage.init()
         ]),
         backgroundColor: kBackGroundWhite,
-        onError: (error, stacktrace) {},
-        onSuccess: (data) {
-          Get.to(InnerDrawerScreen());
-        },
+        next: (context) => InnerDrawerScreen(),
       ),
     );
   }
