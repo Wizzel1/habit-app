@@ -214,6 +214,7 @@ class Habit {
       updateToNextCompletionDate();
       onCompletionGoalReached();
 
+      Get.find<ContentController>().reloadHabitList();
       Get.find<EditContentController>().updateHabit(id);
     }
   }
