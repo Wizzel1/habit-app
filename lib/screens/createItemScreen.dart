@@ -564,7 +564,6 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                   } else {
                     _createItemController.createAndSaveHabit();
                     await Get.find<NavigationController>().navigateToIndex(0);
-                    _pageController.jumpToPage(0);
                   }
                 },
                 child: Padding(
