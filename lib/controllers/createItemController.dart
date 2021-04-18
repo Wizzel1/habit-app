@@ -42,7 +42,7 @@ class CreateItemController extends GetxController {
     scheduledDays.sort();
     DateTime _today = DateUtilits.today;
     int nextScheduledWeekday = scheduledDays.firstWhere(
-        (element) => element > DateUtilits.today.weekday,
+        (element) => element >= DateUtilits.today.weekday,
         orElse: () => scheduledDays.first);
     Habit newHabit = Habit(
       creationDate: _today,
@@ -58,7 +58,6 @@ class CreateItemController extends GetxController {
           DateUtilits.getDateTimeOfNextWeekDayOccurrence(nextScheduledWeekday),
     );
     Get.find<ContentController>().saveNewHabit(newHabit);
-    // resetCreationControllers();
   }
 
   TrackedCompletions _createInitialTrackedCompletions() {
@@ -95,6 +94,5 @@ class CreateItemController extends GetxController {
         isSelfRemoving: isSelfRemovingReward,
         description: createDescriptionController.text);
     Get.find<ContentController>().saveNewReward(newReward);
-    // resetCreationControllers();
   }
 }
