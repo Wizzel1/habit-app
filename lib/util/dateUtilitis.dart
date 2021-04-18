@@ -43,11 +43,15 @@ class DateUtilits {
   }
 
   static DateTime getDateTimeOfNextWeekDayOccurrence(int nextScheduledWeekDay) {
-    DateTime _nextDate = DateUtilits.today;
-    for (var i = 0; i < 7; i++) {
-      if (_nextDate.weekday == nextScheduledWeekDay) return _nextDate;
+    DateTime _loopingDate = DateUtilits.today;
 
-      _nextDate = _nextDate.add(const Duration(days: 1));
+    for (var i = 0; i < 8; i++) {
+      bool loopingDayIsScheduledDay =
+          _loopingDate.weekday == nextScheduledWeekDay;
+
+      if (loopingDayIsScheduledDay) return _loopingDate;
+
+      _loopingDate = _loopingDate.add(const Duration(days: 1));
     }
   }
 
