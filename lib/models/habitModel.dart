@@ -229,15 +229,20 @@ class Habit {
   void updateToNextCompletionDate() {
     int newCompletionWeekDay;
 
-    newCompletionWeekDay = scheduledWeekDays.firstWhere(
-        (element) => wasFinishedToday()
-            ? element > DateUtilits.today.weekday
-            : element >= DateUtilits.today.weekday,
-        orElse: () => scheduledWeekDays.first);
-
-    if (newCompletionWeekDay == DateUtilits.today.weekday) {
-      nextCompletionDate = DateUtilits.today.add(Duration(days: 7));
+    if (wasFinishedToday()) {
+      newCompletionWeekDay = scheduledWeekDays.firstWhere(
+          (element) => element > DateUtilits.today.weekday,
+          orElse: () => scheduledWeekDays.first);
+      if (newCompletionWeekDay == DateUtilits.today.weekday) {
+        nextCompletionDate = DateUtilits.today.add(Duration(days: 7));
+      } else {
+        nextCompletionDate = DateUtilits.getDateTimeOfNextWeekDayOccurrence(
+            newCompletionWeekDay);
+      }
     } else {
+      newCompletionWeekDay = scheduledWeekDays.firstWhere(
+          (element) => element >= DateUtilits.today.weekday,
+          orElse: () => scheduledWeekDays.first);
       nextCompletionDate =
           DateUtilits.getDateTimeOfNextWeekDayOccurrence(newCompletionWeekDay);
     }
