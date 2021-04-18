@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:Marbit/controllers/contentController.dart';
+import 'package:Marbit/widgets/myScrollBehavior.dart';
 import 'package:flutter/material.dart';
 import 'package:Marbit/models/models.dart';
 import 'package:Marbit/util/util.dart';
@@ -24,7 +25,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
   List<Reward> _shuffeledRewardList = [];
   List<Reward> _rewardList = [];
 
-  final double rewardPercentage = 1;
+  final double rewardPercentage = 0.5;
   final ContentController _contentController = Get.find<ContentController>();
 
   @override
@@ -127,7 +128,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: kBackGroundWhite.withOpacity(0.5),
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: Center(
@@ -137,7 +138,6 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: kBackGroundWhite),
-              height: 200,
               child: Padding(
                 padding: const EdgeInsets.all(12),
                 child: Column(
@@ -145,35 +145,38 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                   children: [
                     Container(
                       height: 100,
-                      child: ListWheelScrollView.useDelegate(
-                        physics: NeverScrollableScrollPhysics(),
-                        controller: _scrollController,
-                        itemExtent: 100,
-                        childDelegate: ListWheelChildBuilderDelegate(
-                          childCount: _shuffeledRewardList.length,
-                          builder: (context, index) => Padding(
-                            padding: const EdgeInsets.fromLTRB(
-                                20.0, 10.0, 20.0, 10.0),
-                            child: Container(
-                              height: 70,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: kLightOrange,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20.0, vertical: 10),
-                                child: Center(
-                                  child: Text(
-                                    _shuffeledRewardList[index].name,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .button
-                                        .copyWith(
-                                            color: kBackGroundWhite,
-                                            fontSize: 20),
-                                    textAlign: TextAlign.center,
+                      child: ScrollConfiguration(
+                        behavior: MyScrollBehavior(),
+                        child: ListWheelScrollView.useDelegate(
+                          physics: NeverScrollableScrollPhysics(),
+                          controller: _scrollController,
+                          itemExtent: 100,
+                          childDelegate: ListWheelChildBuilderDelegate(
+                            childCount: _shuffeledRewardList.length,
+                            builder: (context, index) => Padding(
+                              padding: const EdgeInsets.fromLTRB(
+                                  20.0, 10.0, 20.0, 10.0),
+                              child: Container(
+                                height: 70,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: kLightOrange,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20.0, vertical: 10),
+                                  child: Center(
+                                    child: Text(
+                                      _shuffeledRewardList[index].name,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .button
+                                          .copyWith(
+                                              color: kBackGroundWhite,
+                                              fontSize: 20),
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -182,8 +185,15 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                         ),
                       ),
                     ),
-                    const Spacer(),
-                    Text("You are on a ${widget.habit.streak} streak!"),
+                    const SizedBox(height: 30),
+                    Text(
+                      "You are on a ${widget.habit.streak} streak!",
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6
+                          .copyWith(color: kDeepOrange),
+                    ),
+                    const SizedBox(height: 30),
                     Container(
                       height: 60,
                       width: 60,
@@ -199,7 +209,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                           ),
                         ),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
+                            borderRadius: BorderRadius.circular(8)),
                         onPressed: () {
                           _checkIfRewardIsRemoving();
                           Navigator.of(context).pop();
