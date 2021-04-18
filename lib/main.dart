@@ -1,5 +1,6 @@
 import 'package:Marbit/screens/screens.dart';
 import 'package:Marbit/themes/themes.dart';
+import 'package:Marbit/widgets/myScrollBehavior.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inner_drawer/inner_drawer.dart';
@@ -21,6 +22,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      builder: (context, child) {
+        return ScrollConfiguration(
+          behavior: MyScrollBehavior(),
+          child: child,
+        );
+      },
       translations: Messages(),
       fallbackLocale: Locale('en', 'US'),
       locale: Get.deviceLocale,

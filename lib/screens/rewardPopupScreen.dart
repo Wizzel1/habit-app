@@ -145,38 +145,35 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                   children: [
                     Container(
                       height: 100,
-                      child: ScrollConfiguration(
-                        behavior: MyScrollBehavior(),
-                        child: ListWheelScrollView.useDelegate(
-                          physics: NeverScrollableScrollPhysics(),
-                          controller: _scrollController,
-                          itemExtent: 100,
-                          childDelegate: ListWheelChildBuilderDelegate(
-                            childCount: _shuffeledRewardList.length,
-                            builder: (context, index) => Padding(
-                              padding: const EdgeInsets.fromLTRB(
-                                  20.0, 10.0, 20.0, 10.0),
-                              child: Container(
-                                height: 70,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: kLightOrange,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20.0, vertical: 10),
-                                  child: Center(
-                                    child: Text(
-                                      _shuffeledRewardList[index].name,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .button
-                                          .copyWith(
-                                              color: kBackGroundWhite,
-                                              fontSize: 20),
-                                      textAlign: TextAlign.center,
-                                    ),
+                      child: ListWheelScrollView.useDelegate(
+                        physics: NeverScrollableScrollPhysics(),
+                        controller: _scrollController,
+                        itemExtent: 100,
+                        childDelegate: ListWheelChildBuilderDelegate(
+                          childCount: _shuffeledRewardList.length,
+                          builder: (context, index) => Padding(
+                            padding: const EdgeInsets.fromLTRB(
+                                20.0, 10.0, 20.0, 10.0),
+                            child: Container(
+                              height: 70,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: kLightOrange,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0, vertical: 10),
+                                child: Center(
+                                  child: Text(
+                                    _shuffeledRewardList[index].name,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .button
+                                        .copyWith(
+                                            color: kBackGroundWhite,
+                                            fontSize: 20),
+                                    textAlign: TextAlign.center,
                                   ),
                                 ),
                               ),
