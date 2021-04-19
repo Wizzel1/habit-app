@@ -9,10 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TutorialHabitContainer extends StatelessWidget {
-  //TODO: create a binding for this controller and replace with get.put
-  final TutorialController _tutorialController =
-      Get.put<TutorialController>(TutorialController());
-
   @override
   Widget build(BuildContext context) {
     return Column(

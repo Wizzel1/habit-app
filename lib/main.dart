@@ -1,3 +1,4 @@
+import 'package:Marbit/bindings/globalControllerBindings.dart';
 import 'package:Marbit/screens/screens.dart';
 import 'package:Marbit/themes/themes.dart';
 import 'package:Marbit/widgets/myScrollBehavior.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
           child: child,
         );
       },
+      initialBinding: GlobalControllerBindings(),
       translations: Messages(),
       fallbackLocale: Locale('en', 'US'),
       locale: Get.deviceLocale,
@@ -56,8 +58,6 @@ class InnerDrawerScreen extends StatefulWidget {
 }
 
 class _InnerDrawerScreenState extends State<InnerDrawerScreen> {
-  final ContentController _contentController =
-      Get.put<ContentController>(ContentController());
   @override
   Widget build(BuildContext context) {
     return GetBuilder(
