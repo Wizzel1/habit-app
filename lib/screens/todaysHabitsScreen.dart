@@ -16,9 +16,20 @@ class TodaysHabitScreen extends StatefulWidget {
 }
 
 class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
-  final ScrollController _scrollContoller = ScrollController();
-
+  ScrollController _scrollContoller;
   ContentController _contentController = Get.find<ContentController>();
+
+  @override
+  void initState() {
+    _scrollContoller = ScrollController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollContoller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
