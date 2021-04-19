@@ -18,10 +18,10 @@ class TodaysHabitScreen extends StatefulWidget {
 class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
   //TODO create binding for controllers
 
+  final ScrollController _scrollContoller = ScrollController();
 //tutorialController should be binded with lazyput
   final TutorialController _tutorialController =
       Get.put<TutorialController>(TutorialController());
-  final ScrollController _scrollContoller = ScrollController();
   final DateController _dateController =
       Get.put<DateController>(DateController());
   final EditContentController _editContentController =
@@ -32,7 +32,6 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: Stack(

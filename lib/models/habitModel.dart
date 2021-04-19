@@ -220,7 +220,6 @@ class Habit {
   }
 
   void _setStreak() {
-    print("comparing ${DateUtilits.today} to $nextCompletionDate");
     if (DateUtilits.today == nextCompletionDate) {
       streak++;
     } else {

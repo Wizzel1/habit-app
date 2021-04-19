@@ -40,7 +40,7 @@ class EditContentController extends GetxController {
     newCompletionDate = null;
   }
 
-  void loadHabitValuesIntoEditContentController(Habit habit) {
+  void loadHabitValues(Habit habit) {
     titleController.text = habit.title;
     descriptionController.text = habit.description;
     newCompletionGoal = habit.completionGoal;
@@ -53,7 +53,7 @@ class EditContentController extends GetxController {
     }
   }
 
-  void loadRewardValuesIntoEditContentController(Reward reward) {
+  void loadRewardValues(Reward reward) {
     titleController.text = reward.name;
     descriptionController.text = reward.description;
     isSelfRemoving = reward.isSelfRemoving;

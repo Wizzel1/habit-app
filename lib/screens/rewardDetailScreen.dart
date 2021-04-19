@@ -28,12 +28,13 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
   final int _mainScreenAnimationDuration = 200;
   final TutorialController _tutorialController = Get.find<TutorialController>();
   final EditContentController _editContentController =
-      Get.find()<EditContentController>(EditContentController());
+      Get.find<EditContentController>();
 
   @override
   void initState() {
     _editAnimController = AnimationController(vsync: this);
-    _copyRewardValuesToEditContentController();
+    _editContentController.loadRewardValues(widget.reward);
+
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback(
@@ -61,13 +62,13 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
     super.dispose();
   }
 
-  void _copyRewardValuesToEditContentController() {
-    _editContentController.titleController =
-        TextEditingController(text: widget.reward.name);
-    _editContentController.descriptionController =
-        TextEditingController(text: widget.reward.description);
-    _editContentController.isSelfRemoving = widget.reward.isSelfRemoving;
-  }
+  // void _copyRewardValuesToEditContentController() {
+  //   _editContentController.titleController =
+  //       TextEditingController(text: widget.reward.name);
+  //   _editContentController.descriptionController =
+  //       TextEditingController(text: widget.reward.description);
+  //   _editContentController.isSelfRemoving = widget.reward.isSelfRemoving;
+  // }
 
   void _initializeAnimations() {
     _titleOffset = TweenSequence<Offset>([
