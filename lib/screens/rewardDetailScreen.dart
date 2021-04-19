@@ -27,12 +27,11 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
   final Completer _screenBuiltCompleter = Completer();
   final int _mainScreenAnimationDuration = 200;
   final TutorialController _tutorialController = Get.find<TutorialController>();
-  EditContentController _editContentController;
+  final EditContentController _editContentController =
+      Get.find()<EditContentController>(EditContentController());
 
   @override
   void initState() {
-    _editContentController =
-        Get.put<EditContentController>(EditContentController());
     _editAnimController = AnimationController(vsync: this);
     _copyRewardValuesToEditContentController();
     super.initState();
@@ -58,7 +57,7 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
   @override
   void dispose() {
     _editAnimController.dispose();
-    Get.delete<EditContentController>();
+    _editContentController.resetControllerValues();
     super.dispose();
   }
 

@@ -14,6 +14,7 @@ class EditContentController extends GetxController {
   int newCompletionGoal;
   List<int> newSchedule = [];
   List<String> newRewardReferences = [];
+  DateTime newCompletionDate;
 
   @override
   void onInit() {
@@ -29,7 +30,17 @@ class EditContentController extends GetxController {
     super.onClose();
   }
 
-  void loadHabitIntoEditContentController(Habit habit) {
+  void resetControllerValues() {
+    titleController.clear();
+    descriptionController.clear();
+    isSelfRemoving = null;
+    newCompletionGoal = null;
+    newSchedule = [];
+    newRewardReferences = [];
+    newCompletionDate = null;
+  }
+
+  void loadHabitValuesIntoEditContentController(Habit habit) {
     titleController.text = habit.title;
     descriptionController.text = habit.description;
     newCompletionGoal = habit.completionGoal;
@@ -42,7 +53,7 @@ class EditContentController extends GetxController {
     }
   }
 
-  void loadRewardIntoEditContentController(Reward reward) {
+  void loadRewardValuesIntoEditContentController(Reward reward) {
     titleController.text = reward.name;
     descriptionController.text = reward.description;
     isSelfRemoving = reward.isSelfRemoving;
@@ -68,6 +79,7 @@ class EditContentController extends GetxController {
     if (isSelfRemoving != null)
       _contentController.allRewardList[_updateIndex].isSelfRemoving =
           isSelfRemoving;
+
     LocalStorageService.saveAllRewardsToLocalStorage(
         _contentController.allRewardList);
 
@@ -100,7 +112,8 @@ class EditContentController extends GetxController {
       _habitToUpdate.rewardIDReferences = newRewardReferences;
     if (newCompletionGoal != null)
       _habitToUpdate.completionGoal = newCompletionGoal;
-
+    if (newCompletionDate != null)
+      _habitToUpdate.nextCompletionDate = newCompletionDate;
     _habitToUpdate.updateToNextCompletionDate();
 
     LocalStorageService.saveAllHabitsToLocalStorage(

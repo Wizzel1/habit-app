@@ -41,7 +41,8 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   final TutorialController _tutorialController = Get.find<TutorialController>();
   final ContentController _contentController = Get.find<ContentController>();
 
-  EditContentController _editContentController;
+  final EditContentController _editContentController =
+      Get.find()<EditContentController>(EditContentController());
 
   void _initializeAnimations() {
     _titleOffset = TweenSequence<Offset>([
@@ -170,12 +171,11 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
 
   @override
   void initState() {
-    _editContentController =
-        Get.put<EditContentController>(EditContentController());
     _editAnimController = AnimationController(vsync: this);
     _filterOutDeletedRewardReferences();
 
-    _editContentController.loadHabitIntoEditContentController(widget.habit);
+    _editContentController
+        .loadHabitValuesIntoEditContentController(widget.habit);
 
     _setJoinedRewardList();
 
@@ -203,7 +203,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   @override
   void dispose() {
     _editAnimController.dispose();
-    Get.delete<EditContentController>();
+    _editContentController.resetControllerValues();
     super.dispose();
   }
 

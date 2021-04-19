@@ -220,10 +220,11 @@ class Habit {
   }
 
   void _setStreak() {
+    print("comparing ${DateUtilits.today} to $nextCompletionDate");
     if (DateUtilits.today == nextCompletionDate) {
       streak++;
     } else {
-      streak = 1;
+      streak = 0;
     }
   }
 
@@ -235,16 +236,19 @@ class Habit {
           (element) => element > DateUtilits.today.weekday,
           orElse: () => scheduledWeekDays.first);
       if (newCompletionWeekDay == DateUtilits.today.weekday) {
-        nextCompletionDate = DateUtilits.today.add(Duration(days: 7));
+        Get.find<EditContentController>().newCompletionDate =
+            DateUtilits.today.add(Duration(days: 7));
       } else {
-        nextCompletionDate = DateUtilits.getDateTimeOfNextWeekDayOccurrence(
-            newCompletionWeekDay);
+        Get.find<EditContentController>().newCompletionDate =
+            DateUtilits.getDateTimeOfNextWeekDayOccurrence(
+                newCompletionWeekDay);
       }
     } else {
       newCompletionWeekDay = scheduledWeekDays.firstWhere(
           (element) => element >= DateUtilits.today.weekday,
           orElse: () => scheduledWeekDays.first);
-      nextCompletionDate =
+
+      Get.find<EditContentController>().newCompletionDate =
           DateUtilits.getDateTimeOfNextWeekDayOccurrence(newCompletionWeekDay);
     }
   }
@@ -315,7 +319,7 @@ class Habit {
           ),
           weekNumber: weekNumber),
     );
-    assert(_calendarWeekObject.trackedDays.length == 7,
+    assert(_calendarWeekObject.trackedDays.length <= 7,
         "The returned calendarweekobject had ${_calendarWeekObject.trackedDays.length} tracked days");
     return _calendarWeekObject;
   }
