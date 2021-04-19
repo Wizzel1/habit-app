@@ -17,8 +17,8 @@ class Messages extends Translations {
           'habit_deleted_message': 'Your Habit was deleted',
           'reward_deleted_message': 'Your Reward was deleted',
           //example habit
-          'example_title': 'Example Habit',
-          'example_description': 'This is an Examplehabit.',
+          'example_title': 'Example',
+          'example_description': 'This is an Example.',
           //example rewards
           'example_reward_title_1': 'Eat some sweets',
           'example_reward_description_1': '...',
@@ -123,8 +123,8 @@ class Messages extends Translations {
           'habit_deleted_message': 'Deine Gewohnheit wurde gelöscht',
           'reward_deleted_message': 'Deine Belohnung wurde gelöscht',
           //example habit
-          'example_title': 'Beispielgewohnheit',
-          'example_description': 'Ich bin eine Beispielgewohnheit',
+          'example_title': 'Beispiel',
+          'example_description': 'Beispiel',
           //example rewards
           'example_reward_title_1': 'Eat some sweets',
           'example_reward_description_1': '...',
@@ -201,7 +201,6 @@ class Messages extends Translations {
           'this_week': 'Diese Woche',
           'last_four_weeks': 'Letzter Monat',
           'today': 'Heute',
-
           'monday': 'Montag',
           'tuesday': 'Dienstag',
           'wednesday': 'Mittwoch',
