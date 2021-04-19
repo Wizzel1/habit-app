@@ -1,6 +1,7 @@
 import 'package:Marbit/controllers/dateController.dart';
 import 'package:Marbit/util/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_funding_choices/flutter_funding_choices.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 
@@ -22,7 +23,16 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
   @override
   void initState() {
     _scrollContoller = ScrollController();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      ConsentInformation consentInfo =
+          await FlutterFundingChoices.requestConsentInformation();
+      //TODO add IOS consent
+      if (consentInfo.isConsentFormAvailable &&
+          consentInfo.consentStatus == ConsentStatus.REQUIRED_ANDROID) {
+        await FlutterFundingChoices.showConsentForm();
+        // You can check the result by calling `FlutterFundingChoices.requestConsentInformation()` again !
+      }
+
       Get.find<TutorialController>().showHomeScreenTutorial(context);
     });
     super.initState();
