@@ -62,14 +62,6 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
     super.dispose();
   }
 
-  // void _copyRewardValuesToEditContentController() {
-  //   _editContentController.titleController =
-  //       TextEditingController(text: widget.reward.name);
-  //   _editContentController.descriptionController =
-  //       TextEditingController(text: widget.reward.description);
-  //   _editContentController.isSelfRemoving = widget.reward.isSelfRemoving;
-  // }
-
   void _initializeAnimations() {
     _titleOffset = TweenSequence<Offset>([
       TweenSequenceItem(
