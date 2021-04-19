@@ -18,11 +18,14 @@ class TodaysHabitScreen extends StatefulWidget {
 class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
   //TODO create binding for controllers
 
+//tutorialController should be binded with lazyput
   final TutorialController _tutorialController =
       Get.put<TutorialController>(TutorialController());
   final ScrollController _scrollContoller = ScrollController();
   final DateController _dateController =
       Get.put<DateController>(DateController());
+  final EditContentController _editContentController =
+      Get.put<EditContentController>(EditContentController());
 
   ContentController _contentController = Get.find<ContentController>();
 
