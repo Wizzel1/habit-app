@@ -15,11 +15,23 @@ class MyContentScreen extends StatefulWidget {
 
 class _MyContentScreenState extends State<MyContentScreen>
     with SingleTickerProviderStateMixin {
-  final PageController _pageController = PageController(initialPage: 1);
+  PageController _pageController;
   final Duration _pageTransitionDuration = const Duration(milliseconds: 200);
   final Curve _pageTransitionCurve = Curves.ease;
   final int _pageTransitionDelta = 4;
   final double _pageTransitionOffset = 35;
+
+  @override
+  void initState() {
+    _pageController = PageController(initialPage: 1);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
