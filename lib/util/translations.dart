@@ -29,12 +29,15 @@ class Messages extends Translations {
           'example_reward_title_4': 'Take a Day off',
           'example_reward_description_4': 'Be the lazy Bird',
           //tutorial
-          'homeScreenTutorial_container_heading': '',
-          'homeScreenTutorial_container_message': '',
-          'homeScreenTutorial_completionrow_heading': '',
-          'homeScreenTutorial_completionrow_message': '',
-          'homeScreenTutorial_completeButton_heading': '',
-          'homeScreenTutorial_completeButton_message': '',
+          'homeScreenTutorial_container_heading': 'Habits',
+          'homeScreenTutorial_container_message':
+              'Your Habits get Displayed by these Containers.',
+          'homeScreenTutorial_completionrow_heading': 'Completions',
+          'homeScreenTutorial_completionrow_message':
+              'This row shows you, how many times this Habit need to be completed today.',
+          'homeScreenTutorial_completeButton_heading': 'Complete Habit',
+          'homeScreenTutorial_completeButton_message':
+              'Tap this button, to add a completion to this habit.',
           'detailScreenTutorial_scheduleRowKey_heading': '',
           'detailScreenTutorial_scheduleRowKey_message': '',
           'detailScreenTutorial_editButton_heading': '',
@@ -132,12 +135,18 @@ class Messages extends Translations {
           'example_reward_title_4': 'Take a Day off',
           'example_reward_description_4': 'Be the lazy Bird',
           //tutorial
-          'homeScreenTutorial_container_heading': '',
-          'homeScreenTutorial_container_message': '',
-          'homeScreenTutorial_completionrow_heading': '',
-          'homeScreenTutorial_completionrow_message': '',
-          'homeScreenTutorial_completeButton_heading': '',
-          'homeScreenTutorial_completeButton_message': '',
+          'homeScreenTutorial_container_heading': 'Gewohnheiten',
+          'homeScreenTutorial_container_message':
+              'Deine täglichen Gewohnheiten werden als Container angezeigt.',
+          'homeScreenTutorial_completionrow_heading': 'Abschlüsse',
+          'homeScreenTutorial_completionrow_message':
+              'Diese Reihe zeigt dir, wie oft diese Gewohnheit heute noch abgeschlossen werden muss.',
+          'homeScreenTutorial_completeButton_heading': 'Abschluss hinzufügen',
+          'homeScreenTutorial_completeButton_message':
+              'Mit diesem Button kannst du der Gewohnheit einen Abschluss hinzufügen.',
+          'homeScreenTutorial_drawerExtension_heading': 'Menü',
+          'homeScreenTutorial_drawerExtension_message':
+              'Auf Bildschirmen mit diesem Element kannst du zur Seite wischen, um das Menü aufzurufen.',
           'detailScreenTutorial_scheduleRowKey_heading': '',
           'detailScreenTutorial_scheduleRowKey_message': '',
           'detailScreenTutorial_editButton_heading': '',

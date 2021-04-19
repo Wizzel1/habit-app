@@ -22,6 +22,9 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
   @override
   void initState() {
     _scrollContoller = ScrollController();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Get.find<TutorialController>().showHomeScreenTutorial(context);
+    });
     super.initState();
   }
 
@@ -42,10 +45,11 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
               bottom: (screenSize.height / 2) - 45,
               right: 0,
               child: DrawerExtension(
+                key: Get.find<TutorialController>().drawerExtensionKey,
                 color: kLightOrange,
               )),
           Positioned.fill(
-            child: false
+            child: true
                 ? TutorialHabitContainer()
                 : Obx(
                     () => ListView.separated(

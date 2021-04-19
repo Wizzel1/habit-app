@@ -6,11 +6,13 @@ import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class TutorialController extends GetxController {
   List<TargetFocus> targets = [];
+  ThemeData _themeData;
 
   bool hasFinishedTodayListTutorial = false;
   bool hasFinishedDetailTutorial = false;
   TutorialCoachMark tutorial;
   final double targetFocusRadius = 15;
+
   // -- HabitDetailScreen Keys --
   final GlobalKey scheduleRowKey = GlobalKey();
   final GlobalKey rewardListKey = GlobalKey();
@@ -19,10 +21,15 @@ class TutorialController extends GetxController {
   // -- HomeScreen Keys --
   final GlobalKey homeTutorialHabitContainerKey = GlobalKey();
   final GlobalKey completionRowKey = GlobalKey();
-  final GlobalKey completeButton = GlobalKey();
-  final GlobalKey test7 = GlobalKey();
+  final GlobalKey completeButtonKey = GlobalKey();
+  final GlobalKey drawerExtensionKey = GlobalKey();
+
+  void _getThemeData(BuildContext context) {
+    _themeData = Theme.of(context);
+  }
 
   void showHomeScreenTutorial(BuildContext context) {
+    _getThemeData(context);
     _addHomeScreenTargets();
     tutorial = TutorialCoachMark(
       context,
@@ -42,6 +49,7 @@ class TutorialController extends GetxController {
   }
 
   void showHabitDetailTutorial(BuildContext context) {
+    _getThemeData(context);
     _addHabitDetailScreenTargets();
     tutorial = TutorialCoachMark(
       context,
@@ -83,16 +91,13 @@ class TutorialController extends GetxController {
                   children: <Widget>[
                     Text(
                       'homeScreenTutorial_container_heading'.tr,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 20.0),
+                      style: _themeData.textTheme.headline4,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Text(
                         'homeScreenTutorial_container_message'.tr,
-                        style: TextStyle(color: Colors.white),
+                        style: _themeData.textTheme.caption,
                       ),
                     )
                   ],
@@ -118,16 +123,13 @@ class TutorialController extends GetxController {
                   children: <Widget>[
                     Text(
                       'homeScreenTutorial_completionrow_heading'.tr,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 20.0),
+                      style: _themeData.textTheme.headline4,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Text(
                         'homeScreenTutorial_completionrow_message'.tr,
-                        style: TextStyle(color: Colors.white),
+                        style: _themeData.textTheme.caption,
                       ),
                     )
                   ],
@@ -142,7 +144,7 @@ class TutorialController extends GetxController {
         shape: ShapeLightFocus.RRect,
         enableOverlayTab: true,
         radius: targetFocusRadius,
-        keyTarget: completeButton,
+        keyTarget: completeButtonKey,
         contents: [
           TargetContent(
               align: ContentAlign.bottom,
@@ -153,16 +155,45 @@ class TutorialController extends GetxController {
                   children: <Widget>[
                     Text(
                       'homeScreenTutorial_completeButton_heading'.tr,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 20.0),
+                      style: _themeData.textTheme.headline4,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Text(
                         'homeScreenTutorial_completeButton_message'.tr,
-                        style: TextStyle(color: Colors.white),
+                        style: _themeData.textTheme.caption,
+                      ),
+                    )
+                  ],
+                ),
+              ))
+        ],
+      ),
+    );
+    targets.add(
+      TargetFocus(
+        identify: "Target 3",
+        shape: ShapeLightFocus.RRect,
+        enableOverlayTab: true,
+        radius: targetFocusRadius,
+        keyTarget: drawerExtensionKey,
+        contents: [
+          TargetContent(
+              align: ContentAlign.bottom,
+              child: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'homeScreenTutorial_drawerExtension_heading'.tr,
+                      style: _themeData.textTheme.headline4,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Text(
+                        'homeScreenTutorial_drawerExtension_message'.tr,
+                        style: _themeData.textTheme.caption,
                       ),
                     )
                   ],
@@ -185,7 +216,7 @@ class TutorialController extends GetxController {
     targets.clear();
     targets.add(
       TargetFocus(
-        identify: "Target 2",
+        identify: "detail_scheduleRowKey",
         shape: ShapeLightFocus.RRect,
         radius: targetFocusRadius,
         keyTarget: scheduleRowKey,
@@ -208,7 +239,7 @@ class TutorialController extends GetxController {
                     padding: const EdgeInsets.only(top: 10.0),
                     child: Text(
                       'detailScreenTutorial_scheduleRowKey_message'.tr,
-                      style: TextStyle(color: Colors.white),
+                      style: _themeData.textTheme.caption,
                     ),
                   ),
                   NextButton(
@@ -223,7 +254,7 @@ class TutorialController extends GetxController {
     );
     targets.add(
       TargetFocus(
-        identify: "Target 2",
+        identify: "detail_editButtonKey",
         shape: ShapeLightFocus.RRect,
         radius: targetFocusRadius,
         keyTarget: editButtonKey,
@@ -237,16 +268,13 @@ class TutorialController extends GetxController {
                   children: <Widget>[
                     Text(
                       'detailScreenTutorial_editButton_heading'.tr,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 20.0),
+                      style: _themeData.textTheme.headline4,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Text(
                         'detailScreenTutorial_editButton_message'.tr,
-                        style: TextStyle(color: Colors.white),
+                        style: _themeData.textTheme.caption,
                       ),
                     ),
                     NextButton(
@@ -260,7 +288,7 @@ class TutorialController extends GetxController {
     );
     targets.add(
       TargetFocus(
-        identify: "Target 2",
+        identify: "detail_rewardListKey",
         shape: ShapeLightFocus.RRect,
         radius: targetFocusRadius,
         keyTarget: rewardListKey,
@@ -274,16 +302,13 @@ class TutorialController extends GetxController {
                   children: <Widget>[
                     Text(
                       'detailScreenTutorial_rewardList_heading'.tr,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 20.0),
+                      style: _themeData.textTheme.headline4,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Text(
                         'detailScreenTutorial_rewardList_message',
-                        style: TextStyle(color: Colors.white),
+                        style: _themeData.textTheme.caption,
                       ),
                     ),
                     NextButton(

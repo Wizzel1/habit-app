@@ -158,7 +158,7 @@ class _TutorialContainerState extends State<TutorialContainer>
                   ),
                   MaterialButton(
                     key: widget.isTutorialContainer
-                        ? Get.find<TutorialController>().completeButton
+                        ? Get.find<TutorialController>().completeButtonKey
                         : null,
                     elevation: 0,
                     minWidth: 0,
