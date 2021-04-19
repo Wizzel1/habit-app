@@ -53,7 +53,7 @@ class CreateItemController extends GetxController {
       scheduledWeekDays: scheduledDays,
       rewardIDReferences: selectedRewardReferences,
       trackedCompletions: _createInitialTrackedCompletions(),
-      streak: 1,
+      streak: 0,
       nextCompletionDate:
           DateUtilits.getDateTimeOfNextWeekDayOccurrence(nextScheduledWeekday),
     );
