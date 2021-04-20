@@ -86,12 +86,14 @@ class TutorialController extends GetxController {
     if (!wantToWatchTutorial) {
       hasFinishedDetailScreenStep = true;
       hasFinishedHomeScreenStep = true;
-      LocalStorageService.saveTutorialProgress(
-          "hasFinishedDetailScreenStep", hasFinishedDetailScreenStep);
+      hasFinishedCompletionStep = true;
       LocalStorageService.saveTutorialProgress(
           "hasFinishedHomeScreenStep", hasFinishedHomeScreenStep);
       LocalStorageService.saveTutorialProgress(
+          "hasFinishedDetailScreenStep", hasFinishedDetailScreenStep);
+      LocalStorageService.saveTutorialProgress(
           "hasFinishedCompletionStep", hasFinishedCompletionStep);
+      update();
       return;
     }
 

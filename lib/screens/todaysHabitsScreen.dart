@@ -63,57 +63,62 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
                 color: kLightOrange,
               )),
           Positioned.fill(
-            child: _tutorialController.hasFinishedCompletionStep
-                ? Obx(
-                    () => ListView.separated(
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: _contentController.todaysHabitList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        Habit tappedHabit =
-                            _contentController.todaysHabitList[index];
-                        return AnimationConfiguration.staggeredList(
-                          position: index,
-                          duration: const Duration(milliseconds: 375),
-                          child: SlideAnimation(
-                            verticalOffset: 50.0,
-                            child: FadeInAnimation(
-                              child: CompletableHabitContainer(
-                                habit: tappedHabit,
-                                onPressed: () {
-                                  tappedHabit.addCompletionForToday(
-                                    onCompletionGoalReached: () {
-                                      400.milliseconds.delay().then(
-                                        (value) {
-                                          Navigator.of(context).push(
-                                            PageRouteBuilder(
-                                              opaque: false,
-                                              pageBuilder:
-                                                  (BuildContext context, _,
-                                                          __) =>
-                                                      RewardPopupScreen(
-                                                isTutorial: false,
-                                                habit: tappedHabit,
-                                              ),
-                                            ),
+            child: GetBuilder<TutorialController>(
+              builder: (TutorialController controller) {
+                return controller.hasFinishedCompletionStep
+                    ? Obx(
+                        () => ListView.separated(
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: _contentController.todaysHabitList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            Habit tappedHabit =
+                                _contentController.todaysHabitList[index];
+                            return AnimationConfiguration.staggeredList(
+                              position: index,
+                              duration: const Duration(milliseconds: 375),
+                              child: SlideAnimation(
+                                verticalOffset: 50.0,
+                                child: FadeInAnimation(
+                                  child: CompletableHabitContainer(
+                                    habit: tappedHabit,
+                                    onPressed: () {
+                                      tappedHabit.addCompletionForToday(
+                                        onCompletionGoalReached: () {
+                                          400.milliseconds.delay().then(
+                                            (value) {
+                                              Navigator.of(context).push(
+                                                PageRouteBuilder(
+                                                  opaque: false,
+                                                  pageBuilder:
+                                                      (BuildContext context, _,
+                                                              __) =>
+                                                          RewardPopupScreen(
+                                                    isTutorial: false,
+                                                    habit: tappedHabit,
+                                                  ),
+                                                ),
+                                              );
+                                            },
                                           );
                                         },
                                       );
                                     },
-                                  );
-                                },
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        if (index % 3 == 0)
-                          return AdController.getAdaptiveBannerAd(context);
-                        return const SizedBox.shrink();
-                      },
-                    ),
-                  )
-                : TutorialHabitContainer(onDetailScreenPopped: resumeTutorial),
+                            );
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            if (index % 3 == 0)
+                              return AdController.getAdaptiveBannerAd(context);
+                            return const SizedBox.shrink();
+                          },
+                        ),
+                      )
+                    : TutorialHabitContainer(
+                        onDetailScreenPopped: resumeTutorial);
+              },
+            ),
           )
         ],
       ),
