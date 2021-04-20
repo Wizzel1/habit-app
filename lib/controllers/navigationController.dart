@@ -8,10 +8,9 @@ class NavigationController extends GetxController {
   GlobalKey<InnerDrawerState> innerDrawerKey;
   GlobalKey<NavigatorState> navigatorKey;
   bool isDrawerOpen = false;
+  Page navigatorPage;
+  HeroController heroController;
 
-  Page navigatorPage = MaterialPage(child: TodaysHabitScreen());
-
-  final HeroController heroController = HeroController();
   List<Page> appPages = [
     MaterialPage(child: TodaysHabitScreen()),
     MaterialPage(child: CreateItemScreen()),
@@ -20,6 +19,8 @@ class NavigationController extends GetxController {
 
   @override
   void onInit() {
+    navigatorPage = MaterialPage(child: TodaysHabitScreen());
+    heroController = HeroController();
     navigatorKey = GlobalKey<NavigatorState>();
     innerDrawerKey = GlobalKey<InnerDrawerState>();
     super.onInit();
