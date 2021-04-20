@@ -51,9 +51,11 @@ class TutorialController extends GetxController {
   void showWelcomeScreen(BuildContext context) async {
     if (hasSeenWelcomeScreen) return;
 
-    bool wantToWatchTutorial = await Get.to(() => WelcomeScreen());
-
     hasSeenWelcomeScreen = true;
+    LocalStorageService.saveTutorialProgress(
+        "hasSeenWelcomeScreen", hasSeenWelcomeScreen);
+
+    bool wantToWatchTutorial = await Get.to(() => WelcomeScreen());
 
     if (!wantToWatchTutorial) {
       hasFinishedDetailTutorial = true;
@@ -64,8 +66,6 @@ class TutorialController extends GetxController {
           "hasFinishedHomeScreenTutorial", hasFinishedHomeScreenTutorial);
       return;
     }
-    LocalStorageService.saveTutorialProgress(
-        "hasSeenWelcomeScreen", hasSeenWelcomeScreen);
 
     showHomeScreenTutorial(context);
   }
