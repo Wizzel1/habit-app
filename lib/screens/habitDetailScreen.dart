@@ -172,11 +172,16 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   @override
   void initState() {
     _editAnimController = AnimationController(vsync: this);
-    _filterOutDeletedRewardReferences();
+
+    _tutorialController.hasFinishedDetailTutorial
+        ? _filterOutDeletedRewardReferences()
+        : null;
 
     _editContentController.loadHabitValues(widget.habit);
 
-    _setJoinedRewardList();
+    _tutorialController.hasFinishedDetailTutorial
+        ? _setJoinedRewardList()
+        : _setJoinedTutorialRewardList();
 
     super.initState();
 
@@ -190,7 +195,9 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
             (_mainScreenAnimationDuration + 100).milliseconds.delay().then(
               (value) {
                 setState(() {});
-                //_tutorialController.showHabitDetailTutorial(context);
+                _tutorialController.hasFinishedDetailTutorial
+                    ? null
+                    : _tutorialController.showHabitDetailTutorial(context);
               },
             );
           },
@@ -234,13 +241,34 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
     });
   }
 
+  void _setJoinedTutorialRewardList() {
+    List<String> _selectedRewardIDs = widget.habit.rewardIDReferences;
+    List<Reward> _selectedRewards =
+        _contentController.getTutorialRewardListByID(_selectedRewardIDs);
+    List<Reward> _exampleRewards = ContentController.exampleRewards;
+    List<Reward> _joinedRewards = [];
+    _joinedRewards.addAll(_selectedRewards);
+
+    for (var i = 0; i < _exampleRewards.length; i++) {
+      Reward _reward = _exampleRewards[i];
+      if (_joinedRewards.any((element) => element.id == _reward.id)) {
+        continue;
+      }
+      _joinedRewards.add(_reward);
+    }
+
+    setState(() {
+      _joinedRewardList = _joinedRewards;
+    });
+  }
+
   Future<void> _toggleEditingAnimation() async {
     _editAnimController.isAnimating
         ? _editAnimController.reset()
         : _editAnimController.repeat(period: const Duration(seconds: 3));
   }
 
-  Widget _buildNextCOmletiondateText() {
+  Widget _buildNextCompletiondateText() {
     return Text("${widget.habit.nextCompletionDate}");
   }
 
@@ -284,7 +312,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                       _buildDescriptionTextField(),
                       const SizedBox(height: 30),
                       _buildScheduleRow(),
-                      _buildNextCOmletiondateText(),
+                      _buildNextCompletiondateText(),
                       const SizedBox(height: 30),
                       _buildCompletionGoalStepper(),
                       const SizedBox(height: 30),
