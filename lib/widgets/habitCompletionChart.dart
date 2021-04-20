@@ -259,7 +259,7 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
                 case TimeSpan.WEEK:
                   String weekDay;
                   //TODO add translation
-                  if ((index + 1) == DateUtilits.today.weekday) {
+                  if ((index + 1) == DateUtilities.today.weekday) {
                     weekDay = 'today'.tr;
                     return _createTooltipItemForDay(weekDay, rod);
                   }

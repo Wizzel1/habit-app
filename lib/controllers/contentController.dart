@@ -19,15 +19,16 @@ class ContentController extends GetxController {
       trackedCompletions: TrackedCompletions(
         trackedYears: [
           Year(
-            yearCount: DateUtilits.today.year,
+            yearCount: DateUtilities.today.year,
             calendarWeeks: [
               CalendarWeek(
-                weekNumber: DateUtilits.currentCalendarWeek,
+                weekNumber: DateUtilities.currentCalendarWeek,
                 trackedDays: List.generate(
                   7,
                   (index) {
                     return TrackedDay(
-                        dayCount: DateUtilits.getCurrentWeeksDateList()[index],
+                        dayCount:
+                            DateUtilities.getCurrentWeeksDateList()[index],
                         doneAmount: 0,
                         goalAmount: 5);
                   },

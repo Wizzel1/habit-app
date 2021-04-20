@@ -3,7 +3,7 @@ import 'package:Marbit/models/trackedCompletionsModel.dart';
 import 'package:intl/intl.dart';
 import 'package:week_of_year/week_of_year.dart';
 
-class DateUtilits {
+class DateUtilities {
   static final DateFormat formatter = DateFormat("yyyy-MM-dd");
 
   static final DateTime today =
@@ -43,7 +43,7 @@ class DateUtilits {
   }
 
   static DateTime getDateTimeOfNextWeekDayOccurrence(int nextScheduledWeekDay) {
-    DateTime _loopingDate = DateUtilits.today;
+    DateTime _loopingDate = DateUtilities.today;
 
     for (var i = 0; i < 8; i++) {
       bool loopingDayIsScheduledDay =

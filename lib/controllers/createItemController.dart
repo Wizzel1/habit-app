@@ -40,9 +40,9 @@ class CreateItemController extends GetxController {
 
   void createAndSaveHabit() {
     scheduledDays.sort();
-    DateTime _today = DateUtilits.today;
+    DateTime _today = DateUtilities.today;
     int nextScheduledWeekday = scheduledDays.firstWhere(
-        (element) => element >= DateUtilits.today.weekday,
+        (element) => element >= DateUtilities.today.weekday,
         orElse: () => scheduledDays.first);
     Habit newHabit = Habit(
       creationDate: _today,
@@ -54,15 +54,15 @@ class CreateItemController extends GetxController {
       rewardIDReferences: selectedRewardReferences,
       trackedCompletions: _createInitialTrackedCompletions(),
       streak: 0,
-      nextCompletionDate:
-          DateUtilits.getDateTimeOfNextWeekDayOccurrence(nextScheduledWeekday),
+      nextCompletionDate: DateUtilities.getDateTimeOfNextWeekDayOccurrence(
+          nextScheduledWeekday),
     );
     Get.find<ContentController>().saveNewHabit(newHabit);
   }
 
   TrackedCompletions _createInitialTrackedCompletions() {
-    List<int> thisWeeksDates = DateUtilits.getCurrentWeeksDateList();
-    DateTime _today = DateUtilits.today;
+    List<int> thisWeeksDates = DateUtilities.getCurrentWeeksDateList();
+    DateTime _today = DateUtilities.today;
 
     return TrackedCompletions(
       trackedYears: [
@@ -70,7 +70,7 @@ class CreateItemController extends GetxController {
           yearCount: _today.year,
           calendarWeeks: [
             CalendarWeek(
-              weekNumber: DateUtilits.currentCalendarWeek,
+              weekNumber: DateUtilities.currentCalendarWeek,
               trackedDays: List.generate(
                 7,
                 (index) {
