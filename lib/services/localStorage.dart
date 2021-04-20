@@ -39,11 +39,15 @@ class LocalStorageService {
   }
 
   static void saveTutorialProgress(String name, bool value) {
+    assert(value != null, "Value must not be null");
+    assert(name != null, "Name must not be null");
     storageBox.write(name, value);
   }
 
   static Future<bool> loadTutorialProgress(String name) async {
+    assert(name != null, "Name must not be null");
     bool value = await storageBox.read(name);
+    if (value == null) return false;
     return value;
   }
 }
