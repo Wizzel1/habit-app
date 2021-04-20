@@ -75,6 +75,21 @@ class ContentController extends GetxController {
     return _rewardList;
   }
 
+  List<Reward> getTutorialRewardListByID(List<String> rewardIds) {
+    assert(rewardIds != null);
+
+    if (rewardIds == null) return [];
+    List<Reward> _tutorialRewardList = [];
+
+    for (String rewardID in rewardIds) {
+      Reward _reward = exampleRewards
+          .firstWhere((element) => element.id == rewardID, orElse: () => null);
+      if (_reward == null) continue;
+      _tutorialRewardList.add(_reward);
+    }
+    return _tutorialRewardList;
+  }
+
   List<String> filterForDeletedRewards(List<String> rewardReferenceIDs) {
     print("passed in :${rewardReferenceIDs.length} referenceIds");
     List<String> _filteredIDs = [];
@@ -178,5 +193,5 @@ class ContentController extends GetxController {
           )
         ],
       ),
-      completionGoal: 5);
+      completionGoal: 1);
 }
