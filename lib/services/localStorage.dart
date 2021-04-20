@@ -37,4 +37,13 @@ class LocalStorageService {
         _encodedRewards.map((e) => Reward.fromJson(e)).toList();
     return _decodedRewards;
   }
+
+  static void saveTutorialProgressToLocalStorage(String name, bool value) {
+    storageBox.write(name, value);
+  }
+
+  static Future<bool> loadTutorialProgressFromLocalStorage(String name) async {
+    bool value = await storageBox.read(name);
+    return value;
+  }
 }

@@ -19,6 +19,7 @@ class TodaysHabitScreen extends StatefulWidget {
 class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
   ScrollController _scrollContoller;
   ContentController _contentController = Get.find<ContentController>();
+  TutorialController _tutorialController = Get.find<TutorialController>();
 
   @override
   void initState() {
@@ -33,7 +34,7 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
         // You can check the result by calling `FlutterFundingChoices.requestConsentInformation()` again !
       }
 
-      Get.find<TutorialController>().showHomeScreenTutorial(context);
+      _tutorialController.showWelcomeScreen(context);
     });
     super.initState();
   }
@@ -55,13 +56,12 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
               bottom: (screenSize.height / 2) - 45,
               right: 0,
               child: DrawerExtension(
-                key: Get.find<TutorialController>().drawerExtensionKey,
+                key: _tutorialController.drawerExtensionKey,
                 color: kLightOrange,
               )),
           Positioned.fill(
-            child: true
-                ? TutorialHabitContainer()
-                : Obx(
+            child: _tutorialController.hasFinishedHomeScreenTutorial
+                ? Obx(
                     () => ListView.separated(
                       physics: const BouncingScrollPhysics(),
                       itemCount: _contentController.todaysHabitList.length,
@@ -108,7 +108,8 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
                         return const SizedBox.shrink();
                       },
                     ),
-                  ),
+                  )
+                : TutorialHabitContainer(),
           )
         ],
       ),

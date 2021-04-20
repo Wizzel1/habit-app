@@ -1,3 +1,4 @@
+import 'package:Marbit/services/localStorage.dart';
 import 'package:Marbit/util/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,8 +9,10 @@ class TutorialController extends GetxController {
   List<TargetFocus> targets = [];
   ThemeData _themeData;
 
-  bool hasFinishedTodayListTutorial = false;
+  bool hasFinishedHomeScreenTutorial = false;
   bool hasFinishedDetailTutorial = false;
+  bool hasSeenWelcomeScreen = false;
+
   TutorialCoachMark tutorial;
   final double targetFocusRadius = 15;
 
@@ -28,8 +31,48 @@ class TutorialController extends GetxController {
     _themeData = Theme.of(context);
   }
 
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    loadTutorialInfo();
+    super.onInit();
+  }
+
+  void loadTutorialInfo() async {
+    hasFinishedHomeScreenTutorial =
+        await LocalStorageService.loadTutorialProgressFromLocalStorage(
+            "hasFinishedHomeScreenTutorial");
+    hasFinishedDetailTutorial =
+        await LocalStorageService.loadTutorialProgressFromLocalStorage(
+            "hasFinishedDetailTutorial");
+    hasSeenWelcomeScreen =
+        await LocalStorageService.loadTutorialProgressFromLocalStorage(
+            "hasSeenWelcomeScreen");
+  }
+
+  void showWelcomeScreen(BuildContext context) async {
+    if (hasSeenWelcomeScreen) return;
+
+    bool wantToWatchTutorial = await Get.to(() => WelcomeScreen());
+
+    hasSeenWelcomeScreen = true;
+
+    if (!wantToWatchTutorial) {
+      hasFinishedDetailTutorial = true;
+      hasFinishedHomeScreenTutorial = true;
+      LocalStorageService.saveTutorialProgressToLocalStorage(
+          "hasFinishedDetailTutorial", hasFinishedDetailTutorial);
+      LocalStorageService.saveTutorialProgressToLocalStorage(
+          "hasFinishedHomeScreenTutorial", hasFinishedHomeScreenTutorial);
+      return;
+    }
+    LocalStorageService.saveTutorialProgressToLocalStorage(
+        "hasSeenWelcomeScreen", hasSeenWelcomeScreen);
+
+    showHomeScreenTutorial(context);
+  }
+
   void showHomeScreenTutorial(BuildContext context) {
-    Get.to(WelcomeScreen());
     _getThemeData(context);
     _addHomeScreenTargets();
     tutorial = TutorialCoachMark(
@@ -39,12 +82,18 @@ class TutorialController extends GetxController {
       opacityShadow: 1.0,
       onFinish: () {
         print("finish");
+        hasFinishedHomeScreenTutorial = true;
+        LocalStorageService.saveTutorialProgressToLocalStorage(
+            "hasFinishedHomeScreenTutorial", hasFinishedHomeScreenTutorial);
       },
       onClickTarget: (target) {
         print(target);
       },
       onSkip: () {
         print("skip");
+        hasFinishedHomeScreenTutorial = true;
+        LocalStorageService.saveTutorialProgressToLocalStorage(
+            "hasFinishedHomeScreenTutorial", hasFinishedHomeScreenTutorial);
       },
     )..show();
   }
@@ -59,12 +108,18 @@ class TutorialController extends GetxController {
       opacityShadow: 1.0,
       onFinish: () {
         print("finish");
+        hasFinishedDetailTutorial = true;
+        LocalStorageService.saveTutorialProgressToLocalStorage(
+            "hasFinishedDetailTutorial", hasFinishedDetailTutorial);
       },
       onClickTarget: (target) {
         print(target);
       },
       onSkip: () {
         print("skip");
+        hasFinishedDetailTutorial = true;
+        LocalStorageService.saveTutorialProgressToLocalStorage(
+            "hasFinishedDetailTutorial", hasFinishedDetailTutorial);
       },
     )..show();
     // tutorial.skip();
@@ -331,25 +386,61 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kLightOrange,
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text("Welcome to Marbit"),
-          Text("Do you want to watch an interactive introduction?"),
-          Row(
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              MaterialButton(
-                onPressed: () {},
-                child: Text("Lets go"),
+              Text(
+                "Welcome to Marbit",
+                style: Theme.of(context).textTheme.headline4,
               ),
-              MaterialButton(
-                onPressed: () {},
-                child: Text("I'll figure it out myself"),
+              Text("Do you want to watch an interactive introduction?",
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.caption),
+              const SizedBox(height: 30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  MaterialButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                    elevation: 0,
+                    color: kBackGroundWhite,
+                    onPressed: () {
+                      Get.back(result: true);
+                    },
+                    child: Text(
+                      "Lets go",
+                      style: Theme.of(context)
+                          .textTheme
+                          .button
+                          .copyWith(color: kDeepOrange),
+                    ),
+                  ),
+                  MaterialButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                    elevation: 0,
+                    color: kBackGroundWhite,
+                    onPressed: () {
+                      Get.back(result: false);
+                    },
+                    child: Text(
+                      "I'll figure it out myself",
+                      style: Theme.of(context)
+                          .textTheme
+                          .button
+                          .copyWith(color: kDeepOrange),
+                    ),
+                  )
+                ],
               )
             ],
-          )
-        ],
+          ),
+        ),
       ),
     );
   }
