@@ -21,7 +21,7 @@ class ContentController extends GetxController {
 
   List<Reward> allRewardList = [];
   List<Habit> allHabitList = [];
-  final RxList todaysHabitList = [].obs;
+  final RxList<Habit> todaysHabitList = RxList<Habit>();
 
   void saveNewHabit(Habit habit) {
     assert(habit != null, "Habit must not be null");
