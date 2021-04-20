@@ -55,6 +55,7 @@ class TutorialController extends GetxController {
     _getThemeData(context);
     if (!hasSeenWelcomeScreen) {
       _showWelcomeScreen(context);
+      return;
     }
 
     if (!hasFinishedCompletionStep) {
@@ -62,6 +63,7 @@ class TutorialController extends GetxController {
           .milliseconds
           .delay()
           .then((value) => _showCompletionTutorial(context));
+      return;
     }
   }
 
