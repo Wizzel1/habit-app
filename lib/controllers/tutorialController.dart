@@ -29,13 +29,14 @@ class TutorialController extends GetxController {
   }
 
   void showHomeScreenTutorial(BuildContext context) {
+    Get.to(WelcomeScreen());
     _getThemeData(context);
     _addHomeScreenTargets();
     tutorial = TutorialCoachMark(
       context,
-      targets: targets, // List<TargetFocus>
-      colorShadow: kLightOrange, // DEFAULT Colors.black
-      opacityShadow: 0.8,
+      targets: targets,
+      colorShadow: kLightOrange,
+      opacityShadow: 1.0,
       onFinish: () {
         print("finish");
       },
@@ -53,9 +54,9 @@ class TutorialController extends GetxController {
     _addHabitDetailScreenTargets();
     tutorial = TutorialCoachMark(
       context,
-      targets: targets, // List<TargetFocus>
-      colorShadow: kLightOrange, // DEFAULT Colors.black
-      opacityShadow: 0.8,
+      targets: targets,
+      colorShadow: kLightOrange,
+      opacityShadow: 1.0,
       onFinish: () {
         print("finish");
       },
@@ -317,6 +318,37 @@ class TutorialController extends GetxController {
                   ],
                 ),
               ))
+        ],
+      ),
+    );
+  }
+}
+
+class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: kLightOrange,
+      body: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("Welcome to Marbit"),
+          Text("Do you want to watch an interactive introduction?"),
+          Row(
+            children: [
+              MaterialButton(
+                onPressed: () {},
+                child: Text("Lets go"),
+              ),
+              MaterialButton(
+                onPressed: () {},
+                child: Text("I'll figure it out myself"),
+              )
+            ],
+          )
         ],
       ),
     );
