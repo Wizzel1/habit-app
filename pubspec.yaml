@@ -40,7 +40,7 @@ dependencies:
   native_admob_flutter: ^1.2.0
   rich_text_controller: ^1.2.0
   scroll_to_index: ^2.0.0
-  tutorial_coach_mark: ^0.6.0+1
+  tutorial_coach_mark: ^1.0.0
   uuid: ^3.0.4
   week_of_year: ^2.0.0
   rive_splash_screen: ^0.0.1
