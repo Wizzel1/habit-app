@@ -11,6 +11,7 @@ class TutorialController extends GetxController {
 
   bool hasFinishedHomeScreenTutorial = false;
   bool hasFinishedDetailTutorial = false;
+  bool hasFinishedCompletionTutorial = false;
   bool hasSeenWelcomeScreen = false;
 
   TutorialCoachMark tutorial;
@@ -44,6 +45,9 @@ class TutorialController extends GetxController {
             "hasFinishedHomeScreenTutorial");
     hasFinishedDetailTutorial = await LocalStorageService.loadTutorialProgress(
         "hasFinishedDetailTutorial");
+    hasFinishedCompletionTutorial =
+        await LocalStorageService.loadTutorialProgress(
+            "hasFinishedCompletionTutorial");
     hasSeenWelcomeScreen =
         await LocalStorageService.loadTutorialProgress("hasSeenWelcomeScreen");
   }
@@ -64,13 +68,15 @@ class TutorialController extends GetxController {
           "hasFinishedDetailTutorial", hasFinishedDetailTutorial);
       LocalStorageService.saveTutorialProgress(
           "hasFinishedHomeScreenTutorial", hasFinishedHomeScreenTutorial);
+      LocalStorageService.saveTutorialProgress(
+          "hasFinishedCompletionTutorial", hasFinishedCompletionTutorial);
       return;
     }
 
-    showHomeScreenTutorial(context);
+    _showHomeScreenTutorial(context);
   }
 
-  void showHomeScreenTutorial(BuildContext context) {
+  void _showHomeScreenTutorial(BuildContext context) {
     _getThemeData(context);
     _addHomeScreenTargets();
     tutorial = TutorialCoachMark(
@@ -257,6 +263,8 @@ class TutorialController extends GetxController {
       ),
     );
   }
+
+  void showCompletionTutorial(BuildContext context) {}
 
   void _nextTutorialStep() {
     tutorial.next();
