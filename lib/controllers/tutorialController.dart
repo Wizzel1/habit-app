@@ -40,14 +40,12 @@ class TutorialController extends GetxController {
 
   void loadTutorialInfo() async {
     hasFinishedHomeScreenTutorial =
-        await LocalStorageService.loadTutorialProgressFromLocalStorage(
+        await LocalStorageService.loadTutorialProgress(
             "hasFinishedHomeScreenTutorial");
-    hasFinishedDetailTutorial =
-        await LocalStorageService.loadTutorialProgressFromLocalStorage(
-            "hasFinishedDetailTutorial");
+    hasFinishedDetailTutorial = await LocalStorageService.loadTutorialProgress(
+        "hasFinishedDetailTutorial");
     hasSeenWelcomeScreen =
-        await LocalStorageService.loadTutorialProgressFromLocalStorage(
-            "hasSeenWelcomeScreen");
+        await LocalStorageService.loadTutorialProgress("hasSeenWelcomeScreen");
   }
 
   void showWelcomeScreen(BuildContext context) async {
@@ -60,13 +58,13 @@ class TutorialController extends GetxController {
     if (!wantToWatchTutorial) {
       hasFinishedDetailTutorial = true;
       hasFinishedHomeScreenTutorial = true;
-      LocalStorageService.saveTutorialProgressToLocalStorage(
+      LocalStorageService.saveTutorialProgress(
           "hasFinishedDetailTutorial", hasFinishedDetailTutorial);
-      LocalStorageService.saveTutorialProgressToLocalStorage(
+      LocalStorageService.saveTutorialProgress(
           "hasFinishedHomeScreenTutorial", hasFinishedHomeScreenTutorial);
       return;
     }
-    LocalStorageService.saveTutorialProgressToLocalStorage(
+    LocalStorageService.saveTutorialProgress(
         "hasSeenWelcomeScreen", hasSeenWelcomeScreen);
 
     showHomeScreenTutorial(context);
@@ -83,7 +81,7 @@ class TutorialController extends GetxController {
       onFinish: () {
         print("finish");
         hasFinishedHomeScreenTutorial = true;
-        LocalStorageService.saveTutorialProgressToLocalStorage(
+        LocalStorageService.saveTutorialProgress(
             "hasFinishedHomeScreenTutorial", hasFinishedHomeScreenTutorial);
       },
       onClickTarget: (target) {
@@ -92,7 +90,7 @@ class TutorialController extends GetxController {
       onSkip: () {
         print("skip");
         hasFinishedHomeScreenTutorial = true;
-        LocalStorageService.saveTutorialProgressToLocalStorage(
+        LocalStorageService.saveTutorialProgress(
             "hasFinishedHomeScreenTutorial", hasFinishedHomeScreenTutorial);
       },
     )..show();
@@ -109,7 +107,7 @@ class TutorialController extends GetxController {
       onFinish: () {
         print("finish");
         hasFinishedDetailTutorial = true;
-        LocalStorageService.saveTutorialProgressToLocalStorage(
+        LocalStorageService.saveTutorialProgress(
             "hasFinishedDetailTutorial", hasFinishedDetailTutorial);
       },
       onClickTarget: (target) {
@@ -118,7 +116,7 @@ class TutorialController extends GetxController {
       onSkip: () {
         print("skip");
         hasFinishedDetailTutorial = true;
-        LocalStorageService.saveTutorialProgressToLocalStorage(
+        LocalStorageService.saveTutorialProgress(
             "hasFinishedDetailTutorial", hasFinishedDetailTutorial);
       },
     )..show();

@@ -80,8 +80,7 @@ class EditContentController extends GetxController {
       _contentController.allRewardList[_updateIndex].isSelfRemoving =
           isSelfRemoving;
 
-    LocalStorageService.saveAllRewardsToLocalStorage(
-        _contentController.allRewardList);
+    LocalStorageService.saveAllRewards(_contentController.allRewardList);
 
     _contentController.updateRewardList();
   }
@@ -116,8 +115,7 @@ class EditContentController extends GetxController {
       _habitToUpdate.nextCompletionDate = newCompletionDate;
     _habitToUpdate.updateToNextCompletionDate();
 
-    LocalStorageService.saveAllHabitsToLocalStorage(
-        _contentController.allHabitList);
+    LocalStorageService.saveAllHabits(_contentController.allHabitList);
 
     _contentController.updateHabitList();
     _contentController.reloadHabitList();

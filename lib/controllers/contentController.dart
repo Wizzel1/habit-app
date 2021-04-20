@@ -16,7 +16,27 @@ class ContentController extends GetxController {
       description: 'example_description'.tr,
       scheduledWeekDays: [1, 2, 3, 4, 5],
       rewardIDReferences: [],
-      trackedCompletions: DateUtilits.get2021ExampleCompletions(),
+      trackedCompletions: TrackedCompletions(
+        trackedYears: [
+          Year(
+            yearCount: DateUtilits.today.year,
+            calendarWeeks: [
+              CalendarWeek(
+                weekNumber: DateUtilits.currentCalendarWeek,
+                trackedDays: List.generate(
+                  7,
+                  (index) {
+                    return TrackedDay(
+                        dayCount: DateUtilits.getCurrentWeeksDateList()[index],
+                        doneAmount: 0,
+                        goalAmount: 5);
+                  },
+                ),
+              )
+            ],
+          )
+        ],
+      ),
       completionGoal: 5);
 
   List<Reward> allRewardList = [];
@@ -30,7 +50,7 @@ class ContentController extends GetxController {
         todaysHabitList.add(habit);
       }
       allHabitList.add(habit);
-      LocalStorageService.saveAllHabitsToLocalStorage(allHabitList);
+      LocalStorageService.saveAllHabits(allHabitList);
     } catch (e) {
       SnackBars.showErrorSnackBar('error'.tr, "Something went wrong");
     }
@@ -41,7 +61,7 @@ class ContentController extends GetxController {
     try {
       allHabitList.remove(habit);
       updateHabitList();
-      LocalStorageService.saveAllHabitsToLocalStorage(allHabitList);
+      LocalStorageService.saveAllHabits(allHabitList);
       reloadHabitList();
       SnackBars.showSuccessSnackBar('success'.tr, 'habit_deleted_message'.tr);
     } on Exception catch (e) {
@@ -54,7 +74,7 @@ class ContentController extends GetxController {
     if (reward == null) return;
 
     allRewardList.add(reward);
-    LocalStorageService.saveAllRewardsToLocalStorage(allRewardList);
+    LocalStorageService.saveAllRewards(allRewardList);
   }
 
   void deleteReward(Reward reward) {
@@ -62,7 +82,7 @@ class ContentController extends GetxController {
     try {
       allRewardList.remove(reward);
       updateRewardList();
-      LocalStorageService.saveAllRewardsToLocalStorage(allRewardList);
+      LocalStorageService.saveAllRewards(allRewardList);
       SnackBars.showSuccessSnackBar('success'.tr, 'reward_deleted_message'.tr);
     } on Exception catch (e) {
       SnackBars.showErrorSnackBar('error'.tr, e.toString());
@@ -129,8 +149,8 @@ class ContentController extends GetxController {
   }
 
   Future<void> initializeContent() async {
-    allHabitList = await LocalStorageService.loadHabitsFromLocalStorage();
-    allRewardList = await LocalStorageService.loadRewardsFromLocalStorage();
+    allHabitList = await LocalStorageService.loadHabits();
+    allRewardList = await LocalStorageService.loadRewards();
 
     if (allHabitList.isEmpty) return;
     _filterAllHabitsForTodaysHabits();
