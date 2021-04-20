@@ -51,7 +51,21 @@ class TutorialController extends GetxController {
         await LocalStorageService.loadTutorialProgress("hasSeenWelcomeScreen");
   }
 
-  void showWelcomeScreen(BuildContext context) async {
+  void resumeToLatestTutorialStep(BuildContext context) {
+    _getThemeData(context);
+    if (!hasSeenWelcomeScreen) {
+      _showWelcomeScreen(context);
+    }
+
+    if (!hasFinishedCompletionStep) {
+      300
+          .milliseconds
+          .delay()
+          .then((value) => _showCompletionTutorial(context));
+    }
+  }
+
+  void _showWelcomeScreen(BuildContext context) async {
     if (hasSeenWelcomeScreen) return;
 
     bool wantToWatchTutorial = await Get.to(() => WelcomeScreen());
@@ -76,7 +90,6 @@ class TutorialController extends GetxController {
   }
 
   void _showHomeScreenTutorial(BuildContext context) {
-    _getThemeData(context);
     _addHomeScreenTargets();
     tutorial = TutorialCoachMark(
       context,
@@ -102,7 +115,6 @@ class TutorialController extends GetxController {
   }
 
   void showHabitDetailTutorial(BuildContext context) {
-    _getThemeData(context);
     _addHabitDetailScreenTargets();
     tutorial = TutorialCoachMark(
       context,
@@ -263,7 +275,74 @@ class TutorialController extends GetxController {
     );
   }
 
-  void showCompletionTutorial(BuildContext context) {}
+  void _showCompletionTutorial(BuildContext context) {
+    _addCompletionTutorialTargets();
+    tutorial = TutorialCoachMark(
+      context,
+      targets: targets,
+      colorShadow: kLightOrange,
+      opacityShadow: 1.0,
+      onFinish: () {
+        print("finish");
+        hasFinishedCompletionStep = true;
+        LocalStorageService.saveTutorialProgress(
+            "hasFinishedCompletionStep", hasFinishedCompletionStep);
+      },
+      onClickTarget: (target) {
+        print(target);
+      },
+      onSkip: () {
+        print("skip");
+        hasFinishedCompletionStep = true;
+        LocalStorageService.saveTutorialProgress(
+            "hasFinishedCompletionStep", hasFinishedCompletionStep);
+      },
+    )..show();
+    // tutorial.skip();
+    // tutorial.finish();
+    // tutorial.next(); // call next target programmatically
+    // tutorial.previous(); // call previous target programmatically
+  }
+
+  void _addCompletionTutorialTargets() {
+    targets.clear();
+    targets.add(TargetFocus(
+      identify: "completion_completeButton",
+      shape: ShapeLightFocus.RRect,
+      radius: targetFocusRadius,
+      keyTarget: completeButtonKey,
+      contents: [
+        TargetContent(
+          align: ContentAlign.bottom,
+          child: Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'detailScreenTutorial_scheduleRowKey_heading'.tr,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 20.0),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Text(
+                    'detailScreenTutorial_scheduleRowKey_message'.tr,
+                    style: _themeData.textTheme.caption,
+                  ),
+                ),
+                NextButton(
+                  onPressed: _nextTutorialStep,
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
+    ));
+  }
 
   void _nextTutorialStep() {
     tutorial.next();
