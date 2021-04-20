@@ -79,6 +79,8 @@ class Habit {
     return isScheduledForToday;
   }
 
+  ///Returns a List of Indices. This list leads to the reference of the current Day as TrackedDay if used on "TrackedCompletions".
+  //TODO find a way to improve this method
   List<int> _getYearWeekDayIndexList() {
     DateController _dateController = Get.find<DateController>();
     bool isIndexListEmpty = _dateController.todaysYearWeekDayIndexList.isEmpty;
@@ -88,7 +90,6 @@ class Habit {
     if (!isIndexListEmpty && wasUpdatedToday) {
       assert(_dateController.todaysYearWeekDayIndexList.length == 3,
           "IndexList has missing indices");
-
       return _dateController.todaysYearWeekDayIndexList;
     }
     _dateController.todaysYearWeekDayIndexList.clear();
@@ -103,7 +104,6 @@ class Habit {
     _dateController.todaysYearWeekDayIndexList.add(dayIndex);
 
     _dateController.indexListLastUpdateDate = DateUtilits.today;
-
     assert(_dateController.todaysYearWeekDayIndexList.length == 3,
         "IndexList has missing indices");
 
@@ -150,14 +150,12 @@ class Habit {
         .any((element) => element.dayCount == _todayCount)) {
       trackedCompletions
           .trackedYears[yearIndex].calendarWeeks[weekIndex].trackedDays
-          .add(
-        TrackedDay(
-          dayCount: _todayCount,
-          doneAmount: 0,
-          goalAmount: completionGoal,
-        ),
-      );
+          .add(TrackedDay(
+              dayCount: _todayCount,
+              doneAmount: 0,
+              goalAmount: completionGoal));
     }
+
     int _todaysIndex = trackedCompletions
         .trackedYears[yearIndex].calendarWeeks[weekIndex].trackedDays
         .indexWhere((element) => element.dayCount == _todayCount);
@@ -169,12 +167,15 @@ class Habit {
   int getTodaysCompletions() {
     List<int> _yearWeekDayIndexList = _getYearWeekDayIndexList();
     print("todaysCompletionsList : $_yearWeekDayIndexList");
+
     if (_yearWeekDayIndexList == null) return null;
 
-    TrackedDay _trackedToday = trackedCompletions
-        .trackedYears[_yearWeekDayIndexList[0]]
-        .calendarWeeks[_yearWeekDayIndexList[1]]
-        .trackedDays[_yearWeekDayIndexList[2]];
+    int _yearIndex = _yearWeekDayIndexList[0];
+    int _calendarWeekIndex = _yearWeekDayIndexList[1];
+    int _trackedDayIndex = _yearWeekDayIndexList[2];
+
+    TrackedDay _trackedToday = trackedCompletions.trackedYears[_yearIndex]
+        .calendarWeeks[_calendarWeekIndex].trackedDays[_trackedDayIndex];
 
     return _trackedToday.doneAmount;
   }
@@ -182,11 +183,15 @@ class Habit {
   bool wasFinishedToday() {
     List<int> _yearWeekDayIndexList = _getYearWeekDayIndexList();
     print("wasFinishedToday : $_yearWeekDayIndexList");
-    TrackedDay _trackedToday = trackedCompletions
-        .trackedYears[_yearWeekDayIndexList[0]]
-        .calendarWeeks[_yearWeekDayIndexList[1]]
-        .trackedDays[_yearWeekDayIndexList[2]];
+
     if (_yearWeekDayIndexList == null) return false;
+
+    int _yearIndex = _yearWeekDayIndexList[0];
+    int _calendarWeekIndex = _yearWeekDayIndexList[1];
+    int _trackedDayIndex = _yearWeekDayIndexList[2];
+
+    TrackedDay _trackedToday = trackedCompletions.trackedYears[_yearIndex]
+        .calendarWeeks[_calendarWeekIndex].trackedDays[_trackedDayIndex];
 
     bool wasFinishedToday = _trackedToday.doneAmount >= completionGoal;
     return wasFinishedToday;
@@ -198,16 +203,20 @@ class Habit {
 
     if (_yearWeekDayIndexList == null) return;
 
+    int _yearIndex = _yearWeekDayIndexList[0];
+    int _calendarWeekIndex = _yearWeekDayIndexList[1];
+    int _trackedDayIndex = _yearWeekDayIndexList[2];
+
     trackedCompletions
-        .trackedYears[_yearWeekDayIndexList[0]]
-        .calendarWeeks[_yearWeekDayIndexList[1]]
-        .trackedDays[_yearWeekDayIndexList[2]]
+        .trackedYears[_yearIndex]
+        .calendarWeeks[_calendarWeekIndex]
+        .trackedDays[_trackedDayIndex]
         .doneAmount++;
 
     if (trackedCompletions
-            .trackedYears[_yearWeekDayIndexList[0]]
-            .calendarWeeks[_yearWeekDayIndexList[1]]
-            .trackedDays[_yearWeekDayIndexList[2]]
+            .trackedYears[_yearIndex]
+            .calendarWeeks[_calendarWeekIndex]
+            .trackedDays[_trackedDayIndex]
             .doneAmount >=
         completionGoal) {
       _setStreak();
@@ -215,8 +224,8 @@ class Habit {
       onCompletionGoalReached();
 
       Get.find<ContentController>().reloadHabitList();
-      Get.find<EditContentController>().updateHabit(id);
     }
+    Get.find<EditContentController>().updateHabit(id);
   }
 
   void _setStreak() {
