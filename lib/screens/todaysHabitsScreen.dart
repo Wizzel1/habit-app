@@ -113,9 +113,7 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
                       },
                     ),
                   )
-                : TutorialHabitContainer(
-                    onDetailScreenPopped: resumeTutorial,
-                  ),
+                : TutorialHabitContainer(onDetailScreenPopped: resumeTutorial),
           )
         ],
       ),
