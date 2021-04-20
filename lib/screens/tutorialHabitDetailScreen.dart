@@ -40,9 +40,6 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
   final int _mainScreenAnimationDuration = 200;
   final TutorialController _tutorialController = Get.find<TutorialController>();
   final ContentController _contentController = Get.find<ContentController>();
-
-  //AutoScrollController autoScrollController;
-
   final EditContentController _editContentController =
       Get.find<EditContentController>();
 
@@ -203,7 +200,6 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
   @override
   void dispose() {
     _editAnimController.dispose();
-    _editContentController.resetControllerValues();
     super.dispose();
   }
 

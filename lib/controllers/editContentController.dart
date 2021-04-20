@@ -30,16 +30,6 @@ class EditContentController extends GetxController {
     super.onClose();
   }
 
-  void resetControllerValues() {
-    titleController.clear();
-    descriptionController.clear();
-    isSelfRemoving = null;
-    newCompletionGoal = null;
-    newSchedule = [];
-    newRewardReferences = [];
-    newCompletionDate = null;
-  }
-
   void loadHabitValues(Habit habit) {
     titleController.text = habit.title;
     descriptionController.text = habit.description;

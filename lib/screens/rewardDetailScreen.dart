@@ -58,7 +58,6 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
   @override
   void dispose() {
     _editAnimController.dispose();
-    _editContentController.resetControllerValues();
     super.dispose();
   }
 

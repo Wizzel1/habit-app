@@ -7,6 +7,7 @@ class GlobalControllerBindings extends Bindings {
     Get.lazyPut<TutorialController>(() => TutorialController());
     Get.lazyPut<DateController>(() => DateController());
     Get.lazyPut<ContentController>(() => ContentController());
-    Get.lazyPut<EditContentController>(() => EditContentController());
+    Get.lazyPut<EditContentController>(() => EditContentController(),
+        fenix: true);
   }
 }
