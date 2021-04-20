@@ -60,7 +60,7 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
                 color: kLightOrange,
               )),
           Positioned.fill(
-            child: _tutorialController.hasFinishedCompletionTutorial
+            child: _tutorialController.hasFinishedCompletionStep
                 ? Obx(
                     () => ListView.separated(
                       physics: const BouncingScrollPhysics(),

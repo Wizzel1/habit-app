@@ -9,9 +9,9 @@ class TutorialController extends GetxController {
   List<TargetFocus> targets = [];
   ThemeData _themeData;
 
-  bool hasFinishedHomeScreenTutorial = false;
-  bool hasFinishedDetailTutorial = false;
-  bool hasFinishedCompletionTutorial = false;
+  bool hasFinishedHomeScreenStep = false;
+  bool hasFinishedDetailScreenStep = false;
+  bool hasFinishedCompletionStep = false;
   bool hasSeenWelcomeScreen = false;
 
   TutorialCoachMark tutorial;
@@ -40,14 +40,13 @@ class TutorialController extends GetxController {
   }
 
   void loadTutorialInfo() async {
-    hasFinishedHomeScreenTutorial =
+    hasFinishedHomeScreenStep = await LocalStorageService.loadTutorialProgress(
+        "hasFinishedHomeScreenStep");
+    hasFinishedDetailScreenStep =
         await LocalStorageService.loadTutorialProgress(
-            "hasFinishedHomeScreenTutorial");
-    hasFinishedDetailTutorial = await LocalStorageService.loadTutorialProgress(
-        "hasFinishedDetailTutorial");
-    hasFinishedCompletionTutorial =
-        await LocalStorageService.loadTutorialProgress(
-            "hasFinishedCompletionTutorial");
+            "hasFinishedDetailScreenStep");
+    hasFinishedCompletionStep = await LocalStorageService.loadTutorialProgress(
+        "hasFinishedCompletionStep");
     hasSeenWelcomeScreen =
         await LocalStorageService.loadTutorialProgress("hasSeenWelcomeScreen");
   }
@@ -62,14 +61,14 @@ class TutorialController extends GetxController {
         "hasSeenWelcomeScreen", hasSeenWelcomeScreen);
 
     if (!wantToWatchTutorial) {
-      hasFinishedDetailTutorial = true;
-      hasFinishedHomeScreenTutorial = true;
+      hasFinishedDetailScreenStep = true;
+      hasFinishedHomeScreenStep = true;
       LocalStorageService.saveTutorialProgress(
-          "hasFinishedDetailTutorial", hasFinishedDetailTutorial);
+          "hasFinishedDetailScreenStep", hasFinishedDetailScreenStep);
       LocalStorageService.saveTutorialProgress(
-          "hasFinishedHomeScreenTutorial", hasFinishedHomeScreenTutorial);
+          "hasFinishedHomeScreenStep", hasFinishedHomeScreenStep);
       LocalStorageService.saveTutorialProgress(
-          "hasFinishedCompletionTutorial", hasFinishedCompletionTutorial);
+          "hasFinishedCompletionStep", hasFinishedCompletionStep);
       return;
     }
 
@@ -86,18 +85,18 @@ class TutorialController extends GetxController {
       opacityShadow: 1.0,
       onFinish: () {
         print("finish");
-        hasFinishedHomeScreenTutorial = true;
+        hasFinishedHomeScreenStep = true;
         LocalStorageService.saveTutorialProgress(
-            "hasFinishedHomeScreenTutorial", hasFinishedHomeScreenTutorial);
+            "hasFinishedHomeScreenStep", hasFinishedHomeScreenStep);
       },
       onClickTarget: (target) {
         print(target);
       },
       onSkip: () {
         print("skip");
-        hasFinishedHomeScreenTutorial = true;
+        hasFinishedHomeScreenStep = true;
         LocalStorageService.saveTutorialProgress(
-            "hasFinishedHomeScreenTutorial", hasFinishedHomeScreenTutorial);
+            "hasFinishedHomeScreenStep", hasFinishedHomeScreenStep);
       },
     )..show();
   }
@@ -112,18 +111,18 @@ class TutorialController extends GetxController {
       opacityShadow: 1.0,
       onFinish: () {
         print("finish");
-        hasFinishedDetailTutorial = true;
+        hasFinishedDetailScreenStep = true;
         LocalStorageService.saveTutorialProgress(
-            "hasFinishedDetailTutorial", hasFinishedDetailTutorial);
+            "hasFinishedDetailScreenStep", hasFinishedDetailScreenStep);
       },
       onClickTarget: (target) {
         print(target);
       },
       onSkip: () {
         print("skip");
-        hasFinishedDetailTutorial = true;
+        hasFinishedDetailScreenStep = true;
         LocalStorageService.saveTutorialProgress(
-            "hasFinishedDetailTutorial", hasFinishedDetailTutorial);
+            "hasFinishedDetailScreenStep", hasFinishedDetailScreenStep);
       },
     )..show();
     // tutorial.skip();
