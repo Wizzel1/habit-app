@@ -33,8 +33,7 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
         await FlutterFundingChoices.showConsentForm();
         // You can check the result by calling `FlutterFundingChoices.requestConsentInformation()` again !
       }
-
-      _tutorialController.showWelcomeScreen(context);
+      resumeTutorial();
     });
     super.initState();
   }
@@ -43,6 +42,10 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
   void dispose() {
     _scrollContoller.dispose();
     super.dispose();
+  }
+
+  void resumeTutorial() {
+    _tutorialController.resumeToLatestTutorialStep(context);
   }
 
   @override
@@ -88,6 +91,7 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
                                                   (BuildContext context, _,
                                                           __) =>
                                                       RewardPopupScreen(
+                                                isTutorial: false,
                                                 habit: tappedHabit,
                                               ),
                                             ),
@@ -109,7 +113,9 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
                       },
                     ),
                   )
-                : TutorialHabitContainer(),
+                : TutorialHabitContainer(
+                    onDetailScreenPopped: resumeTutorial,
+                  ),
           )
         ],
       ),
