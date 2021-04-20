@@ -11,6 +11,7 @@ import 'package:Marbit/screens/createItemScreen.dart';
 import 'package:Marbit/util/util.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:implicitly_animated_reorderable_list/transitions.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 const double offset = -0.15;
 
@@ -39,6 +40,8 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
   final int _mainScreenAnimationDuration = 200;
   final TutorialController _tutorialController = Get.find<TutorialController>();
   final ContentController _contentController = Get.find<ContentController>();
+
+  //AutoScrollController autoScrollController;
 
   final EditContentController _editContentController =
       Get.find<EditContentController>();
@@ -250,6 +253,8 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
             if (snapshot.connectionState == ConnectionState.waiting)
               return const SizedBox.shrink();
             return SingleChildScrollView(
+              controller:
+                  _tutorialController.tutorialHabitDetailScrollController,
               physics: const BouncingScrollPhysics(),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -276,30 +281,49 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
                       _buildCompletionGoalStepper(),
                       const SizedBox(height: 30),
                       Center(
-                        child: _buildEditButton(
-                          onPressed: () {
-                            if (_isInEditMode) {
-                              FocusScope.of(context).unfocus();
-                              _setJoinedTutorialRewardList();
-                            }
-                            _toggleEditingAnimation();
-                          },
+                        child: AutoScrollTag(
+                          index: 3,
+                          controller: _tutorialController
+                              .tutorialHabitDetailScrollController,
+                          key: ValueKey(3),
+                          child: _buildEditButton(
+                            onPressed: () {
+                              if (_isInEditMode) {
+                                FocusScope.of(context).unfocus();
+                                _setJoinedTutorialRewardList();
+                              }
+                              _toggleEditingAnimation();
+                            },
+                          ),
                         ),
                       ),
                       const SizedBox(height: 30),
-                      AnimatedContainer(
-                        height: _isInEditMode
-                            ? (ContentController.exampleRewards.length * 90.0)
-                            : (widget.habit.rewardIDReferences.length * 90.0),
-                        duration: Duration(milliseconds: 800),
-                        curve: Curves.easeOutQuint,
-                        child: _buildImplicitList(),
+                      AutoScrollTag(
+                        index: 1,
+                        controller: _tutorialController
+                            .tutorialHabitDetailScrollController,
+                        key: ValueKey(1),
+                        child: AnimatedContainer(
+                          height: _isInEditMode
+                              ? (ContentController.exampleRewards.length * 90.0)
+                              : (widget.habit.rewardIDReferences.length * 90.0),
+                          duration: Duration(milliseconds: 800),
+                          curve: Curves.easeOutQuint,
+                          child: _buildImplicitList(),
+                        ),
                       ),
                       const SizedBox(height: 30),
-                      Container(
-                        height: 300,
-                        child: HabitCompletionChart(
-                          habit: widget.habit,
+                      AutoScrollTag(
+                        index: 2,
+                        controller: _tutorialController
+                            .tutorialHabitDetailScrollController,
+                        key: ValueKey(2),
+                        child: Container(
+                          height: 300,
+                          child: HabitCompletionChart(
+                            key: _tutorialController.statisticsElementKey,
+                            habit: widget.habit,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 50),

@@ -3,12 +3,14 @@ import 'package:Marbit/util/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class TutorialController extends GetxController {
   List<TargetFocus> targets = [];
   ThemeData _themeData;
-
+  AutoScrollController tutorialHabitDetailScrollController;
+  Duration scrollDuration = const Duration(milliseconds: 500);
   bool hasFinishedHomeScreenStep = false;
   bool hasFinishedDetailScreenStep = false;
   bool hasFinishedCompletionStep = false;
@@ -21,6 +23,7 @@ class TutorialController extends GetxController {
   final GlobalKey scheduleRowKey = GlobalKey();
   final GlobalKey rewardListKey = GlobalKey();
   final GlobalKey editButtonKey = GlobalKey();
+  final GlobalKey statisticsElementKey = GlobalKey();
 
   // -- HomeScreen Keys --
   final GlobalKey homeTutorialHabitContainerKey = GlobalKey();
@@ -34,7 +37,11 @@ class TutorialController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
+    tutorialHabitDetailScrollController = AutoScrollController(
+        viewportBoundaryGetter: () => Rect.fromLTRB(0, 0, 0, 12),
+        axis: Axis.vertical,
+        suggestedRowHeight: 400);
+
     loadTutorialInfo();
     super.onInit();
   }
@@ -139,10 +146,6 @@ class TutorialController extends GetxController {
             "hasFinishedDetailScreenStep", hasFinishedDetailScreenStep);
       },
     )..show();
-    // tutorial.skip();
-    // tutorial.finish();
-    // tutorial.next(); // call next target programmatically
-    // tutorial.previous(); // call previous target programmatically
   }
 
   void _addHomeScreenTargets() {
@@ -300,10 +303,6 @@ class TutorialController extends GetxController {
             "hasFinishedCompletionStep", hasFinishedCompletionStep);
       },
     )..show();
-    // tutorial.skip();
-    // tutorial.finish();
-    // tutorial.next(); // call next target programmatically
-    // tutorial.previous(); // call previous target programmatically
   }
 
   void _addCompletionTutorialTargets() {
@@ -321,8 +320,9 @@ class TutorialController extends GetxController {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                //TODO translate
                 Text(
-                  'detailScreenTutorial_scheduleRowKey_heading'.tr,
+                  'Abschließen',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -330,8 +330,9 @@ class TutorialController extends GetxController {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0),
+                  //TODO translate
                   child: Text(
-                    'detailScreenTutorial_scheduleRowKey_message'.tr,
+                    'Schließ die Gewohnheit für heute ab, um eine Belohnung zu erhalten!',
                     style: _themeData.textTheme.caption,
                   ),
                 ),
@@ -385,46 +386,17 @@ class TutorialController extends GetxController {
                     ),
                   ),
                   NextButton(
-                    onPressed: _nextTutorialStep,
+                    onPressed: () {
+                      tutorialHabitDetailScrollController.scrollToIndex(1,
+                          duration: scrollDuration,
+                          preferPosition: AutoScrollPosition.end);
+                      _nextTutorialStep();
+                    },
                   )
                 ],
               ),
             ),
           ),
-        ],
-      ),
-    );
-    targets.add(
-      TargetFocus(
-        identify: "detail_editButtonKey",
-        shape: ShapeLightFocus.RRect,
-        radius: targetFocusRadius,
-        keyTarget: editButtonKey,
-        contents: [
-          TargetContent(
-              align: ContentAlign.top,
-              child: Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'detailScreenTutorial_editButton_heading'.tr,
-                      style: _themeData.textTheme.headline4,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Text(
-                        'detailScreenTutorial_editButton_message'.tr,
-                        style: _themeData.textTheme.caption,
-                      ),
-                    ),
-                    NextButton(
-                      onPressed: _nextTutorialStep,
-                    )
-                  ],
-                ),
-              ))
         ],
       ),
     );
@@ -454,11 +426,92 @@ class TutorialController extends GetxController {
                       ),
                     ),
                     NextButton(
-                      onPressed: _nextTutorialStep,
+                      onPressed: () {
+                        tutorialHabitDetailScrollController.scrollToIndex(2,
+                            duration: scrollDuration,
+                            preferPosition: AutoScrollPosition.end);
+                        _nextTutorialStep();
+                      },
                     )
                   ],
                 ),
               ))
+        ],
+      ),
+    );
+    targets.add(
+      TargetFocus(
+        identify: "detail_statisticsElementKey",
+        shape: ShapeLightFocus.RRect,
+        radius: targetFocusRadius,
+        keyTarget: statisticsElementKey,
+        contents: [
+          TargetContent(
+            align: ContentAlign.top,
+            child: Container(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  //TODO translate
+                  Text(
+                    'Statistiken',
+                    style: _themeData.textTheme.headline4,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Text(
+                      'Hier siehst du auf einen Blick, wie oft du diese Gewohnheit in letzter Zeit abgeschlossen hast.',
+                      style: _themeData.textTheme.caption,
+                    ),
+                  ),
+                  NextButton(
+                    onPressed: () {
+                      tutorialHabitDetailScrollController.scrollToIndex(3,
+                          duration: scrollDuration,
+                          preferPosition: AutoScrollPosition.end);
+                      _nextTutorialStep();
+                    },
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+    targets.add(
+      TargetFocus(
+        identify: "detail_editButtonKey",
+        shape: ShapeLightFocus.RRect,
+        radius: targetFocusRadius,
+        keyTarget: editButtonKey,
+        contents: [
+          TargetContent(
+            align: ContentAlign.top,
+            child: Container(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'detailScreenTutorial_editButton_heading'.tr,
+                    style: _themeData.textTheme.headline4,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Text(
+                      'detailScreenTutorial_editButton_message'.tr,
+                      style: _themeData.textTheme.caption,
+                    ),
+                  ),
+                  NextButton(
+                    onPressed: _nextTutorialStep,
+                  )
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );
