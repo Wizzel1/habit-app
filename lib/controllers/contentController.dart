@@ -10,36 +10,6 @@ import 'package:uuid/uuid.dart';
 class ContentController extends GetxController {
   static const int maxDailyCompletions = 7;
 
-  static final Habit tutorialHabit = Habit(
-      title: 'example_title'.tr,
-      id: "testHabit",
-      description: 'example_description'.tr,
-      scheduledWeekDays: [1, 2, 3, 4, 5],
-      rewardIDReferences: [],
-      trackedCompletions: TrackedCompletions(
-        trackedYears: [
-          Year(
-            yearCount: DateUtilities.today.year,
-            calendarWeeks: [
-              CalendarWeek(
-                weekNumber: DateUtilities.currentCalendarWeek,
-                trackedDays: List.generate(
-                  7,
-                  (index) {
-                    return TrackedDay(
-                        dayCount:
-                            DateUtilities.getCurrentWeeksDateList()[index],
-                        doneAmount: 0,
-                        goalAmount: 5);
-                  },
-                ),
-              )
-            ],
-          )
-        ],
-      ),
-      completionGoal: 5);
-
   List<Reward> allRewardList = [];
   List<Habit> allHabitList = [];
   final RxList<Habit> todaysHabitList = RxList<Habit>();
@@ -159,24 +129,54 @@ class ContentController extends GetxController {
 
   static final List<Reward> exampleRewards = [
     Reward(
-      name: 'example_reward_title_1'.tr,
-      id: Uuid().v1(),
-      description: 'example_reward_description_1'.tr,
-    ),
+        name: 'example_reward_title_1'.tr,
+        id: Uuid().v1(),
+        description: 'example_reward_description_1'.tr,
+        isSelfRemoving: true),
     Reward(
-      name: 'example_reward_title_2'.tr,
-      id: Uuid().v1(),
-      description: 'example_reward_description_2'.tr,
-    ),
+        name: 'example_reward_title_2'.tr,
+        id: Uuid().v1(),
+        description: 'example_reward_description_2'.tr,
+        isSelfRemoving: true),
     Reward(
-      name: 'example_reward_title_3'.tr,
-      id: Uuid().v1(),
-      description: 'example_reward_description_3'.tr,
-    ),
+        name: 'example_reward_title_4'.tr,
+        id: Uuid().v1(),
+        description: 'example_reward_description_4'.tr,
+        isSelfRemoving: false),
     Reward(
-      name: 'example_reward_title_4'.tr,
-      id: Uuid().v1(),
-      description: 'example_reward_description_4'.tr,
-    ),
+        name: 'example_reward_title_3'.tr,
+        id: Uuid().v1(),
+        description: 'example_reward_description_3'.tr,
+        isSelfRemoving: false),
   ];
+
+  static final Habit tutorialHabit = Habit(
+      title: 'example_title'.tr,
+      id: "testHabit",
+      description: 'example_description'.tr,
+      scheduledWeekDays: [1, 2, 3, 4, 5],
+      rewardIDReferences: List<String>.from(exampleRewards.map((e) => e.id)),
+      trackedCompletions: TrackedCompletions(
+        trackedYears: [
+          Year(
+            yearCount: DateUtilities.today.year,
+            calendarWeeks: [
+              CalendarWeek(
+                weekNumber: DateUtilities.currentCalendarWeek,
+                trackedDays: List.generate(
+                  7,
+                  (index) {
+                    return TrackedDay(
+                        dayCount:
+                            DateUtilities.getCurrentWeeksDateList()[index],
+                        doneAmount: 0,
+                        goalAmount: 1);
+                  },
+                ),
+              )
+            ],
+          )
+        ],
+      ),
+      completionGoal: 5);
 }

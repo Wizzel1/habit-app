@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
+
 class Reward {
   Reward({
-    this.name,
+    @required this.name,
     this.description,
-    this.id,
-    this.isSelfRemoving,
+    @required this.id,
+    @required this.isSelfRemoving,
   });
 
   String name;
