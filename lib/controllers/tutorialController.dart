@@ -148,6 +148,39 @@ class TutorialController extends GetxController {
     )..show();
   }
 
+  void _showCompletionTutorial(BuildContext context) {
+    _addCompletionTutorialTargets();
+    tutorial = TutorialCoachMark(
+      context,
+      targets: targets,
+      colorShadow: kLightOrange,
+      opacityShadow: 1.0,
+      onFinish: () {
+        print("finish");
+        hasFinishedCompletionStep = true;
+        LocalStorageService.saveTutorialProgress(
+            "hasFinishedCompletionStep", hasFinishedCompletionStep);
+      },
+      onClickTarget: (target) {
+        print(target);
+      },
+      onSkip: () {
+        print("skip");
+        hasFinishedCompletionStep = true;
+        LocalStorageService.saveTutorialProgress(
+            "hasFinishedCompletionStep", hasFinishedCompletionStep);
+      },
+    )..show();
+  }
+
+  void _nextTutorialStep() {
+    tutorial.next();
+  }
+
+  void _previousTutorialStep() {
+    tutorial.previous();
+  }
+
   void _addHomeScreenTargets() {
     targets.clear();
     targets.add(
@@ -175,6 +208,9 @@ class TutorialController extends GetxController {
                         'homeScreenTutorial_container_message'.tr,
                         style: _themeData.textTheme.caption,
                       ),
+                    ),
+                    ButtonRow(
+                      onNextTapped: _nextTutorialStep,
                     )
                   ],
                 ),
@@ -207,7 +243,11 @@ class TutorialController extends GetxController {
                         'homeScreenTutorial_completionrow_message'.tr,
                         style: _themeData.textTheme.caption,
                       ),
-                    )
+                    ),
+                    ButtonRow(
+                      onNextTapped: _nextTutorialStep,
+                      onPreviousTapped: _previousTutorialStep,
+                    ),
                   ],
                 ),
               ))
@@ -239,6 +279,10 @@ class TutorialController extends GetxController {
                         'homeScreenTutorial_completeButton_message'.tr,
                         style: _themeData.textTheme.caption,
                       ),
+                    ),
+                    ButtonRow(
+                      onNextTapped: _nextTutorialStep,
+                      onPreviousTapped: _previousTutorialStep,
                     )
                   ],
                 ),
@@ -271,6 +315,10 @@ class TutorialController extends GetxController {
                         'homeScreenTutorial_drawerExtension_message'.tr,
                         style: _themeData.textTheme.caption,
                       ),
+                    ),
+                    ButtonRow(
+                      onNextTapped: _nextTutorialStep,
+                      onPreviousTapped: _previousTutorialStep,
                     )
                   ],
                 ),
@@ -278,81 +326,6 @@ class TutorialController extends GetxController {
         ],
       ),
     );
-  }
-
-  void _showCompletionTutorial(BuildContext context) {
-    _addCompletionTutorialTargets();
-    tutorial = TutorialCoachMark(
-      context,
-      targets: targets,
-      colorShadow: kLightOrange,
-      opacityShadow: 1.0,
-      onFinish: () {
-        print("finish");
-        hasFinishedCompletionStep = true;
-        LocalStorageService.saveTutorialProgress(
-            "hasFinishedCompletionStep", hasFinishedCompletionStep);
-      },
-      onClickTarget: (target) {
-        print(target);
-      },
-      onSkip: () {
-        print("skip");
-        hasFinishedCompletionStep = true;
-        LocalStorageService.saveTutorialProgress(
-            "hasFinishedCompletionStep", hasFinishedCompletionStep);
-      },
-    )..show();
-  }
-
-  void _addCompletionTutorialTargets() {
-    targets.clear();
-    targets.add(TargetFocus(
-      identify: "completion_completeButton",
-      shape: ShapeLightFocus.RRect,
-      radius: targetFocusRadius,
-      keyTarget: completeButtonKey,
-      contents: [
-        TargetContent(
-          align: ContentAlign.bottom,
-          child: Container(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                //TODO translate
-                Text(
-                  'Abschließen',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontSize: 20.0),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  //TODO translate
-                  child: Text(
-                    'Schließ die Gewohnheit für heute ab, um eine Belohnung zu erhalten!',
-                    style: _themeData.textTheme.caption,
-                  ),
-                ),
-                NextButton(
-                  onPressed: _nextTutorialStep,
-                )
-              ],
-            ),
-          ),
-        ),
-      ],
-    ));
-  }
-
-  void _nextTutorialStep() {
-    tutorial.next();
-  }
-
-  void _previousTutorialStep() {
-    tutorial.previous();
   }
 
   void _addHabitDetailScreenTargets() {
@@ -385,8 +358,8 @@ class TutorialController extends GetxController {
                       style: _themeData.textTheme.caption,
                     ),
                   ),
-                  NextButton(
-                    onPressed: () {
+                  ButtonRow(
+                    onNextTapped: () {
                       tutorialHabitDetailScrollController.scrollToIndex(1,
                           duration: scrollDuration,
                           preferPosition: AutoScrollPosition.end);
@@ -425,8 +398,11 @@ class TutorialController extends GetxController {
                         style: _themeData.textTheme.caption,
                       ),
                     ),
-                    NextButton(
-                      onPressed: () {
+                    ButtonRow(
+                      onPreviousTapped: () {
+                        _previousTutorialStep();
+                      },
+                      onNextTapped: () {
                         tutorialHabitDetailScrollController.scrollToIndex(2,
                             duration: scrollDuration,
                             preferPosition: AutoScrollPosition.end);
@@ -460,13 +436,20 @@ class TutorialController extends GetxController {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0),
+                    //TODO translate
                     child: Text(
                       'Hier siehst du auf einen Blick, wie oft du diese Gewohnheit in letzter Zeit abgeschlossen hast.',
                       style: _themeData.textTheme.caption,
                     ),
                   ),
-                  NextButton(
-                    onPressed: () {
+                  ButtonRow(
+                    onPreviousTapped: () {
+                      tutorialHabitDetailScrollController.scrollToIndex(1,
+                          duration: scrollDuration,
+                          preferPosition: AutoScrollPosition.end);
+                      _previousTutorialStep();
+                    },
+                    onNextTapped: () {
                       tutorialHabitDetailScrollController.scrollToIndex(3,
                           duration: scrollDuration,
                           preferPosition: AutoScrollPosition.end);
@@ -505,14 +488,93 @@ class TutorialController extends GetxController {
                       style: _themeData.textTheme.caption,
                     ),
                   ),
-                  NextButton(
-                    onPressed: _nextTutorialStep,
+                  ButtonRow(
+                    onNextTapped: _nextTutorialStep,
+                    onPreviousTapped: () {
+                      tutorialHabitDetailScrollController.scrollToIndex(2,
+                          duration: scrollDuration,
+                          preferPosition: AutoScrollPosition.end);
+                      _previousTutorialStep();
+                    },
                   )
                 ],
               ),
             ),
           )
         ],
+      ),
+    );
+  }
+
+  void _addCompletionTutorialTargets() {
+    targets.clear();
+    targets.add(TargetFocus(
+      identify: "completion_completeButton",
+      shape: ShapeLightFocus.RRect,
+      radius: targetFocusRadius,
+      keyTarget: completeButtonKey,
+      contents: [
+        TargetContent(
+          align: ContentAlign.bottom,
+          child: Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                //TODO translate
+                Text(
+                  'Abschließen',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 20.0),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  //TODO translate
+                  child: Text(
+                    'Schließ die Gewohnheit für heute ab, um eine Belohnung zu erhalten!',
+                    style: _themeData.textTheme.caption,
+                  ),
+                ),
+                ButtonRow(onNextTapped: _nextTutorialStep)
+              ],
+            ),
+          ),
+        ),
+      ],
+    ));
+  }
+}
+
+class ButtonRow extends StatelessWidget {
+  final Function onPreviousTapped;
+  final Function onNextTapped;
+
+  const ButtonRow({Key key, this.onPreviousTapped, this.onNextTapped})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 50.0),
+      child: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            onPreviousTapped != null
+                ? PreviousButton(
+                    onPressed: onPreviousTapped,
+                  )
+                : const SizedBox.shrink(),
+            const SizedBox(width: 50),
+            onNextTapped != null
+                ? NextButton(
+                    onPressed: onNextTapped,
+                  )
+                : const SizedBox.shrink(),
+          ],
+        ),
       ),
     );
   }
@@ -580,6 +642,29 @@ class WelcomeScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class PreviousButton extends StatelessWidget {
+  final Function onPressed;
+
+  const PreviousButton({Key key, this.onPressed}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialButton(
+      elevation: 0,
+      color: kBackGroundWhite,
+      height: 50,
+      minWidth: 50,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+      onPressed: onPressed,
+      child: Icon(
+        FontAwesomeIcons.arrowLeft,
+        color: kDeepOrange,
+        size: 20,
       ),
     );
   }
