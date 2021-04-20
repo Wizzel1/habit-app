@@ -9,10 +9,10 @@ import 'package:get/get.dart';
 
 class RewardPopupScreen extends StatefulWidget {
   final Habit habit;
+  final bool isTutorial;
 
-  //TODO: get habit and calculate habitlevel if needed
-
-  const RewardPopupScreen({Key key, @required this.habit}) : super(key: key);
+  const RewardPopupScreen({Key key, @required this.habit, this.isTutorial})
+      : super(key: key);
   @override
   _RewardPopupScreenState createState() => _RewardPopupScreenState();
 }
@@ -57,8 +57,10 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
   }
 
   void _cloneRewardsIntoShuffeledRewardList() {
-    _rewardList =
-        _contentController.getRewardListByID(widget.habit.rewardIDReferences);
+    _rewardList = widget.isTutorial
+        ? _contentController
+            .getTutorialRewardListByID(widget.habit.rewardIDReferences)
+        : _contentController.getRewardListByID(widget.habit.rewardIDReferences);
 
     for (Reward reward in _rewardList) {
       Reward _rewardCopy = Reward(
@@ -93,7 +95,8 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
   }
 
   void _addPercentageBasedEmptyRewards() {
-    double totalRewards = _shuffeledRewardList.length / rewardPercentage;
+    double totalRewards = _shuffeledRewardList.length /
+        (widget.isTutorial ? 1.0 : rewardPercentage);
     double badRewards = totalRewards - _shuffeledRewardList.length;
 
     for (var i = 0; i < badRewards; i++) {
