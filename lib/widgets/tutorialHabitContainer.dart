@@ -3,8 +3,8 @@ import 'package:Marbit/controllers/tutorialController.dart';
 import 'package:Marbit/models/models.dart';
 import 'package:Marbit/screens/rewardPopupScreen.dart';
 import 'package:Marbit/screens/screens.dart';
+import 'package:Marbit/screens/tutorialHabitDetailScreen.dart';
 import 'package:Marbit/util/constants.dart';
-import 'package:Marbit/widgets/habitContainer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -79,9 +79,8 @@ class _TutorialContainerState extends State<TutorialContainer>
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => HabitDetailScreen(
+              builder: (context) => TutorialHabitDetailScreen(
                 habit: widget.habit,
-                alterHeroTag: false,
               ),
             ),
           );
