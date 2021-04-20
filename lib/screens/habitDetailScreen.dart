@@ -38,7 +38,6 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
 
   final Completer _screenBuiltCompleter = Completer();
   final int _mainScreenAnimationDuration = 200;
-  final TutorialController _tutorialController = Get.find<TutorialController>();
   final ContentController _contentController = Get.find<ContentController>();
 
   final EditContentController _editContentController =
@@ -173,15 +172,11 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   void initState() {
     _editAnimController = AnimationController(vsync: this);
 
-    _tutorialController.hasFinishedDetailTutorial
-        ? _filterOutDeletedRewardReferences()
-        : null;
+    _filterOutDeletedRewardReferences();
 
     _editContentController.loadHabitValues(widget.habit);
 
-    _tutorialController.hasFinishedDetailTutorial
-        ? _setJoinedRewardList()
-        : _setJoinedTutorialRewardList();
+    _setJoinedRewardList();
 
     super.initState();
 
@@ -195,9 +190,6 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
             (_mainScreenAnimationDuration + 100).milliseconds.delay().then(
               (value) {
                 setState(() {});
-                _tutorialController.hasFinishedDetailTutorial
-                    ? null
-                    : _tutorialController.showHabitDetailTutorial(context);
               },
             );
           },
@@ -221,7 +213,9 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
 
   //TODO move this method to contentcontroller
   void _setJoinedRewardList() {
-    List<String> _selectedRewardIDs = widget.habit.rewardIDReferences;
+    List<String> _selectedRewardIDs =
+        _editContentController.newRewardReferences;
+    ;
     List<Reward> _selectedRewards =
         _contentController.getRewardListByID(_selectedRewardIDs);
     List<Reward> _allRewards = _contentController.allRewardList;
@@ -230,27 +224,6 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
 
     for (var i = 0; i < _allRewards.length; i++) {
       Reward _reward = _allRewards[i];
-      if (_joinedRewards.any((element) => element.id == _reward.id)) {
-        continue;
-      }
-      _joinedRewards.add(_reward);
-    }
-
-    setState(() {
-      _joinedRewardList = _joinedRewards;
-    });
-  }
-
-  void _setJoinedTutorialRewardList() {
-    List<String> _selectedRewardIDs = widget.habit.rewardIDReferences;
-    List<Reward> _selectedRewards =
-        _contentController.getTutorialRewardListByID(_selectedRewardIDs);
-    List<Reward> _exampleRewards = ContentController.exampleRewards;
-    List<Reward> _joinedRewards = [];
-    _joinedRewards.addAll(_selectedRewards);
-
-    for (var i = 0; i < _exampleRewards.length; i++) {
-      Reward _reward = _exampleRewards[i];
       if (_joinedRewards.any((element) => element.id == _reward.id)) {
         continue;
       }
@@ -502,7 +475,6 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
 
   MaterialButton _buildEditButton({Function onPressed}) {
     return MaterialButton(
-        key: _tutorialController.editButtonKey,
         onPressed: () {
           onPressed();
           setState(() {
@@ -537,7 +509,6 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
           position: _scheduleOffset,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            key: _tutorialController.scheduleRowKey,
             children: List.generate(
               7,
               (index) => GestureDetector(
@@ -588,7 +559,6 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   Widget _buildImplicitList() {
     return ImplicitlyAnimatedList<Reward>(
       physics: NeverScrollableScrollPhysics(),
-      key: _tutorialController.rewardListKey,
       shrinkWrap: true,
       removeDuration: const Duration(milliseconds: 200),
       insertDuration: const Duration(milliseconds: 500),
