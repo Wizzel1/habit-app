@@ -9,6 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TutorialHabitContainer extends StatelessWidget {
+  final Function onDetailScreenPopped;
+
+  const TutorialHabitContainer({Key key, @required this.onDetailScreenPopped})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -21,24 +26,12 @@ class TutorialHabitContainer extends StatelessWidget {
           child: TutorialContainer(
             isTutorialContainer: true,
             habit: ContentController.tutorialHabit,
+            onDetailScreenPopped: onDetailScreenPopped,
             onPressed: () {
-              ContentController.tutorialHabit.addCompletionForToday(
-                onCompletionGoalReached: () {
-                  400.milliseconds.delay().then(
-                    (value) {
-                      Navigator.of(context).push(
-                        PageRouteBuilder(
-                          opaque: false,
-                          pageBuilder: (BuildContext context, _, __) =>
-                              RewardPopupScreen(
-                            habit: ContentController.tutorialHabit,
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              );
+              Get.to(() => RewardPopupScreen(
+                    habit: ContentController.tutorialHabit,
+                    isTutorial: true,
+                  ));
             },
           ),
         ),
@@ -51,12 +44,14 @@ class TutorialContainer extends StatefulWidget {
   final Habit habit;
   final Function onPressed;
   final bool isTutorialContainer;
+  final Function onDetailScreenPopped;
 
   const TutorialContainer({
     Key key,
     this.habit,
     @required this.onPressed,
     @required this.isTutorialContainer,
+    @required this.onDetailScreenPopped,
   }) : super(key: key);
 
   @override
@@ -76,14 +71,8 @@ class _TutorialContainerState extends State<TutorialContainer>
       tag: widget.habit.id,
       child: GestureDetector(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => TutorialHabitDetailScreen(
-                habit: widget.habit,
-              ),
-            ),
-          );
+          Get.to(() => TutorialHabitDetailScreen(habit: widget.habit))
+              .then((value) => widget.onDetailScreenPopped());
         },
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
