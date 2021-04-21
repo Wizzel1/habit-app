@@ -3,6 +3,7 @@ import 'package:Marbit/util/constants.dart';
 import 'package:Marbit/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:Marbit/controllers/controllers.dart';
 
@@ -67,14 +68,19 @@ class _MyContentScreenState extends State<MyContentScreen>
       children: [
         Spacer(),
         Expanded(
-            flex: 1,
+            flex: 2,
             child: Center(
-              child: Text(
-                'scroll_to_show_rewards'.tr,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1
-                    .copyWith(color: kDeepOrange),
+              child: Column(
+                children: [
+                  Icon(FontAwesomeIcons.angleUp, color: kDeepOrange),
+                  Text(
+                    'scroll_to_show_rewards'.tr,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        .copyWith(color: kDeepOrange),
+                  ),
+                ],
               ),
             )),
         Expanded(
@@ -192,14 +198,19 @@ class _MyContentScreenState extends State<MyContentScreen>
           ),
         ),
         Expanded(
-            flex: 1,
+            flex: 2,
             child: Center(
-              child: Text(
-                'scroll_to_show_habits'.tr,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1
-                    .copyWith(color: kDeepOrange),
+              child: Column(
+                children: [
+                  Text(
+                    'scroll_to_show_habits'.tr,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        .copyWith(color: kDeepOrange),
+                  ),
+                  Icon(FontAwesomeIcons.angleDown, color: kDeepOrange),
+                ],
               ),
             )),
       ],
