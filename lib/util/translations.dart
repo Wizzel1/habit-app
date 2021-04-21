@@ -84,8 +84,8 @@ class Messages extends Translations {
           'create_new_menutitle': 'Create',
           'my_content_menutitle': 'All',
           //My Content Screen
-          'scroll_to_show_rewards': 'Scroll down to show all Rewards',
-          'scroll_to_show_habits': 'Scroll up to show all Habits',
+          'scroll_to_show_rewards': 'Rewards',
+          'scroll_to_show_habits': 'Habits',
           //Widgets
           //HabitCompletionChart
           'this_week': 'This Week',
@@ -193,9 +193,8 @@ class Messages extends Translations {
           'create_new_menutitle': 'Erstellen',
           'my_content_menutitle': 'Alle',
           //My Content Screen
-          'scroll_to_show_rewards':
-              'Scroll runter um alle Belohnungen zu sehen',
-          'scroll_to_show_habits': 'Scroll hoch um alle Gewohnheiten zu sehen',
+          'scroll_to_show_rewards': 'Belohnungen',
+          'scroll_to_show_habits': 'Gewohnheiten',
           //Widgets
           //HabitCompletionChart
           'this_week': 'Diese Woche',
