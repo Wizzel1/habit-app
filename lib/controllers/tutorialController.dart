@@ -300,6 +300,8 @@ class TutorialController extends GetxController {
     targets.clear();
     targets.add(
       TargetFocus(
+        enableTargetTab: false,
+        enableOverlayTab: false,
         identify: "detail_scheduleRowKey",
         shape: ShapeLightFocus.RRect,
         radius: targetFocusRadius,
@@ -340,6 +342,8 @@ class TutorialController extends GetxController {
     );
     targets.add(
       TargetFocus(
+        enableTargetTab: false,
+        enableOverlayTab: false,
         identify: "detail_rewardListKey",
         shape: ShapeLightFocus.RRect,
         radius: targetFocusRadius,
@@ -358,9 +362,35 @@ class TutorialController extends GetxController {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
-                      child: Text(
-                        'detailScreenTutorial_rewardList_message',
-                        style: _themeData.textTheme.caption,
+                      child: Column(
+                        children: [
+                          Text(
+                            'detailScreenTutorial_rewardList_message',
+                            style: _themeData.textTheme.caption,
+                          ),
+                          Row(
+                            //TODO translate
+                            children: [
+                              Icon(FontAwesomeIcons.redoAlt,
+                                  color: kBackGroundWhite),
+                              Text(
+                                '= Wiederkehrende Belohnungen',
+                                style: _themeData.textTheme.caption,
+                              ),
+                            ],
+                          ),
+                          Row(
+                            //TODO translate
+                            children: [
+                              Icon(FontAwesomeIcons.ban,
+                                  color: kBackGroundWhite),
+                              Text(
+                                '= Einmalige Belohnungen',
+                                style: _themeData.textTheme.caption,
+                              )
+                            ],
+                          )
+                        ],
                       ),
                     ),
                     ButtonRow(
@@ -382,6 +412,8 @@ class TutorialController extends GetxController {
     );
     targets.add(
       TargetFocus(
+        enableTargetTab: false,
+        enableOverlayTab: false,
         identify: "detail_statisticsElementKey",
         shape: ShapeLightFocus.RRect,
         radius: targetFocusRadius,
@@ -430,6 +462,8 @@ class TutorialController extends GetxController {
     );
     targets.add(
       TargetFocus(
+        enableTargetTab: false,
+        enableOverlayTab: false,
         identify: "detail_editButtonKey",
         shape: ShapeLightFocus.RRect,
         radius: targetFocusRadius,
