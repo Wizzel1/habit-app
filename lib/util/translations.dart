@@ -38,6 +38,9 @@ class Messages extends Translations {
           'homeScreenTutorial_completeButton_heading': 'Complete Habit',
           'homeScreenTutorial_completeButton_message':
               'Tap this button, to add a completion to this habit.',
+          'completionTutorial_drawerExtension_heading': 'Menu',
+          'completionTutorial_drawerExtension_message':
+              'Auf Bildschirmen mit diesem Element kannst du zur Seite wischen, um das Menü aufzurufen.',
           'detailScreenTutorial_scheduleRowKey_heading': '',
           'detailScreenTutorial_scheduleRowKey_message': '',
           'detailScreenTutorial_editButton_heading': '',
@@ -144,8 +147,8 @@ class Messages extends Translations {
           'homeScreenTutorial_completeButton_heading': 'Abschluss hinzufügen',
           'homeScreenTutorial_completeButton_message':
               'Mit diesem Button kannst du der Gewohnheit einen Abschluss hinzufügen.',
-          'homeScreenTutorial_drawerExtension_heading': 'Menü',
-          'homeScreenTutorial_drawerExtension_message':
+          'completionTutorial_drawerExtension_heading': 'Menü',
+          'completionTutorial_drawerExtension_message':
               'Auf Bildschirmen mit diesem Element kannst du zur Seite wischen, um das Menü aufzurufen.',
           'detailScreenTutorial_scheduleRowKey_heading': 'Zeitplan',
           'detailScreenTutorial_scheduleRowKey_message': '',
