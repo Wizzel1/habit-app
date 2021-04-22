@@ -236,104 +236,114 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
   Widget build(BuildContext context) {
     return Hero(
       tag: widget.habit.id,
-      child: Scaffold(
-        backgroundColor: Color(
-          widget.habit.habitColors["light"],
-        ),
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-        ),
-        body: FutureBuilder(
-          future: _screenBuiltCompleter.future,
-          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting)
-              return const SizedBox.shrink();
-            return SingleChildScrollView(
-              controller:
-                  _tutorialController.tutorialHabitDetailScrollController,
-              physics: const BouncingScrollPhysics(),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: AnimationConfiguration.toStaggeredList(
-                    duration:
-                        Duration(milliseconds: _mainScreenAnimationDuration),
-                    childAnimationBuilder: (widget) => SlideAnimation(
-                      verticalOffset: 50.0,
-                      child: FadeInAnimation(
-                        child: widget,
+      child: GetBuilder(
+        id: "detailsTutorial",
+        builder: (TutorialController controller) {
+          return IgnorePointer(
+            ignoring: !_tutorialController.hasFinishedDetailScreenStep,
+            child: Scaffold(
+              backgroundColor: Color(
+                widget.habit.habitColors["light"],
+              ),
+              appBar: AppBar(
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+              ),
+              body: FutureBuilder(
+                future: _screenBuiltCompleter.future,
+                builder:
+                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting)
+                    return const SizedBox.shrink();
+                  return SingleChildScrollView(
+                    controller:
+                        _tutorialController.tutorialHabitDetailScrollController,
+                    physics: const BouncingScrollPhysics(),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: AnimationConfiguration.toStaggeredList(
+                          duration: Duration(
+                              milliseconds: _mainScreenAnimationDuration),
+                          childAnimationBuilder: (widget) => SlideAnimation(
+                            verticalOffset: 50.0,
+                            child: FadeInAnimation(
+                              child: widget,
+                            ),
+                          ),
+                          children: [
+                            const SizedBox(height: 30),
+                            _buildTitleTextField(),
+                            _buildDescriptionTextField(),
+                            const SizedBox(height: 30),
+                            _buildScheduleRow(),
+                            const SizedBox(height: 30),
+                            _buildCompletionGoalStepper(),
+                            const SizedBox(height: 30),
+                            Center(
+                              child: AutoScrollTag(
+                                index: 3,
+                                controller: _tutorialController
+                                    .tutorialHabitDetailScrollController,
+                                key: ValueKey(3),
+                                child: _buildEditButton(
+                                  onPressed: () {
+                                    if (_isInEditMode) {
+                                      FocusScope.of(context).unfocus();
+                                      _setJoinedTutorialRewardList();
+                                    }
+                                    _toggleEditingAnimation();
+                                  },
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 30),
+                            AutoScrollTag(
+                              index: 1,
+                              controller: _tutorialController
+                                  .tutorialHabitDetailScrollController,
+                              key: ValueKey(1),
+                              child: AnimatedContainer(
+                                height: _isInEditMode
+                                    ? (ContentController.exampleRewards.length *
+                                        90.0)
+                                    : (_editContentController
+                                            .newRewardReferences.length *
+                                        90.0),
+                                duration: Duration(milliseconds: 800),
+                                curve: Curves.easeOutQuint,
+                                child: _buildImplicitList(),
+                              ),
+                            ),
+                            const SizedBox(height: 30),
+                            AutoScrollTag(
+                              index: 2,
+                              controller: _tutorialController
+                                  .tutorialHabitDetailScrollController,
+                              key: ValueKey(2),
+                              child: Container(
+                                height: 300,
+                                child: HabitCompletionChart(
+                                  key: _tutorialController.statisticsElementKey,
+                                  habit: widget.habit,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 50),
+                            Center(child: _buildHabitDeleteButton()),
+                          ],
+                        ),
                       ),
                     ),
-                    children: [
-                      const SizedBox(height: 30),
-                      _buildTitleTextField(),
-                      _buildDescriptionTextField(),
-                      const SizedBox(height: 30),
-                      _buildScheduleRow(),
-                      const SizedBox(height: 30),
-                      _buildCompletionGoalStepper(),
-                      const SizedBox(height: 30),
-                      Center(
-                        child: AutoScrollTag(
-                          index: 3,
-                          controller: _tutorialController
-                              .tutorialHabitDetailScrollController,
-                          key: ValueKey(3),
-                          child: _buildEditButton(
-                            onPressed: () {
-                              if (_isInEditMode) {
-                                FocusScope.of(context).unfocus();
-                                _setJoinedTutorialRewardList();
-                              }
-                              _toggleEditingAnimation();
-                            },
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 30),
-                      AutoScrollTag(
-                        index: 1,
-                        controller: _tutorialController
-                            .tutorialHabitDetailScrollController,
-                        key: ValueKey(1),
-                        child: AnimatedContainer(
-                          height: _isInEditMode
-                              ? (ContentController.exampleRewards.length * 90.0)
-                              : (_editContentController
-                                      .newRewardReferences.length *
-                                  90.0),
-                          duration: Duration(milliseconds: 800),
-                          curve: Curves.easeOutQuint,
-                          child: _buildImplicitList(),
-                        ),
-                      ),
-                      const SizedBox(height: 30),
-                      AutoScrollTag(
-                        index: 2,
-                        controller: _tutorialController
-                            .tutorialHabitDetailScrollController,
-                        key: ValueKey(2),
-                        child: Container(
-                          height: 300,
-                          child: HabitCompletionChart(
-                            key: _tutorialController.statisticsElementKey,
-                            habit: widget.habit,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 50),
-                      Center(child: _buildHabitDeleteButton()),
-                    ],
-                  ),
-                ),
+                  );
+                },
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }

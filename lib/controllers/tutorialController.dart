@@ -137,6 +137,7 @@ class TutorialController extends GetxController {
         hasFinishedDetailScreenStep = true;
         LocalStorageService.saveTutorialProgress(
             "hasFinishedDetailScreenStep", hasFinishedDetailScreenStep);
+        update(["detailsTutorial"]);
       },
       onClickTarget: (target) {
         print(target);
@@ -146,6 +147,7 @@ class TutorialController extends GetxController {
         hasFinishedDetailScreenStep = true;
         LocalStorageService.saveTutorialProgress(
             "hasFinishedDetailScreenStep", hasFinishedDetailScreenStep);
+        update(["detailsTutorial"]);
       },
     )..show();
   }
