@@ -350,10 +350,7 @@ class TutorialController extends GetxController {
                 children: <Widget>[
                   Text(
                     'detailScreenTutorial_scheduleRowKey_heading'.tr,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: 20.0),
+                    style: _themeData.textTheme.headline4,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0),
