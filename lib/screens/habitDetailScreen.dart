@@ -171,15 +171,11 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   @override
   void initState() {
     _editAnimController = AnimationController(vsync: this);
-
     _filterOutDeletedRewardReferences();
-
     _editContentController.loadHabitValues(widget.habit);
-
     _setJoinedRewardList();
 
     super.initState();
-
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
         300.milliseconds.delay().then(
@@ -214,7 +210,6 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   void _setJoinedRewardList() {
     List<String> _selectedRewardIDs =
         _editContentController.newRewardReferences;
-    ;
     List<Reward> _selectedRewards =
         _contentController.getRewardListByID(_selectedRewardIDs);
     List<Reward> _allRewards = _contentController.allRewardList;
@@ -307,7 +302,9 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                       AnimatedContainer(
                         height: _isInEditMode
                             ? (_contentController.allRewardList.length * 90.0)
-                            : (widget.habit.rewardIDReferences.length * 90.0),
+                            : (_editContentController
+                                    .newRewardReferences.length *
+                                90.0),
                         duration: Duration(milliseconds: 800),
                         curve: Curves.easeOutQuint,
                         child: _buildImplicitList(),
