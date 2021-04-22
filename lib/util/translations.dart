@@ -138,21 +138,23 @@ class Messages extends Translations {
           'homeScreenTutorial_container_heading': 'Gewohnheiten',
           'homeScreenTutorial_container_message':
               'Deine täglichen Gewohnheiten werden als Container angezeigt.',
-          'homeScreenTutorial_completionrow_heading': 'Abschlüsse',
+          'homeScreenTutorial_completionrow_heading': 'Tagesziel',
           'homeScreenTutorial_completionrow_message':
-              'Diese Reihe zeigt dir, wie oft diese Gewohnheit heute noch abgeschlossen werden muss.',
+              'Diese Reihe zeigt dir dein heutiges Tagesziel',
           'homeScreenTutorial_completeButton_heading': 'Abschluss hinzufügen',
           'homeScreenTutorial_completeButton_message':
               'Mit diesem Button kannst du der Gewohnheit einen Abschluss hinzufügen.',
           'homeScreenTutorial_drawerExtension_heading': 'Menü',
           'homeScreenTutorial_drawerExtension_message':
               'Auf Bildschirmen mit diesem Element kannst du zur Seite wischen, um das Menü aufzurufen.',
-          'detailScreenTutorial_scheduleRowKey_heading': '',
+          'detailScreenTutorial_scheduleRowKey_heading': 'Zeitplan',
           'detailScreenTutorial_scheduleRowKey_message': '',
-          'detailScreenTutorial_editButton_heading': '',
-          'detailScreenTutorial_editButton_message': '',
-          'detailScreenTutorial_rewardList_heading': '',
-          'detailScreenTutorial_rewardList_message': '',
+          'detailScreenTutorial_editButton_heading': 'Bearbeiten/Speichern',
+          'detailScreenTutorial_editButton_message':
+              'Mit diesem Button kannst du in den Bearbeitungsmodus wechseln und deine Änderungen speichern. Probier es aus!',
+          'detailScreenTutorial_rewardList_heading': 'Belohnungen',
+          'detailScreenTutorial_rewardList_message':
+              'Hier siehst du alle aktiven Belohnungen für deine Gewohnheit.',
           //screens
           //createItemScreen
           'createItemScreen_create_title': 'Erstelle eine neue ...',
