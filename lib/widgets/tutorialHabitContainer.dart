@@ -1,4 +1,5 @@
 import 'package:Marbit/controllers/contentController.dart';
+import 'package:Marbit/controllers/controllers.dart';
 import 'package:Marbit/controllers/tutorialController.dart';
 import 'package:Marbit/models/models.dart';
 import 'package:Marbit/screens/rewardPopupScreen.dart';
@@ -24,7 +25,6 @@ class TutorialHabitContainer extends StatelessWidget {
           height: 120,
           width: double.infinity,
           child: TutorialContainer(
-            isTutorialContainer: true,
             habit: ContentController.tutorialHabit,
             onDetailScreenPopped: onDetailScreenPopped,
             onPressed: () {
@@ -43,14 +43,12 @@ class TutorialHabitContainer extends StatelessWidget {
 class TutorialContainer extends StatefulWidget {
   final Habit habit;
   final Function onPressed;
-  final bool isTutorialContainer;
   final Function onDetailScreenPopped;
 
   const TutorialContainer({
     Key key,
     this.habit,
     @required this.onPressed,
-    @required this.isTutorialContainer,
     @required this.onDetailScreenPopped,
   }) : super(key: key);
 
@@ -60,6 +58,8 @@ class TutorialContainer extends StatefulWidget {
 
 class _TutorialContainerState extends State<TutorialContainer>
     with SingleTickerProviderStateMixin {
+  final TutorialController _tutorialController = Get.find<TutorialController>();
+
   final List<double> containerSizeList =
       List.generate(ContentController.maxDailyCompletions, (index) => 15);
 
@@ -77,9 +77,7 @@ class _TutorialContainerState extends State<TutorialContainer>
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           child: Container(
-            key: widget.isTutorialContainer
-                ? Get.find<TutorialController>().homeTutorialHabitContainerKey
-                : null,
+            key: _tutorialController.homeTutorialHabitContainerKey,
             height: 90,
             decoration: BoxDecoration(
               color: Color(
@@ -107,9 +105,7 @@ class _TutorialContainerState extends State<TutorialContainer>
                         ),
                       ),
                       Container(
-                        key: widget.isTutorialContainer
-                            ? Get.find<TutorialController>().completionRowKey
-                            : null,
+                        key: _tutorialController.completionRowKey,
                         height: 20.0,
                         width: widget.habit.completionGoal * 20.0,
                         child: Stack(
@@ -145,9 +141,7 @@ class _TutorialContainerState extends State<TutorialContainer>
                     ],
                   ),
                   MaterialButton(
-                    key: widget.isTutorialContainer
-                        ? Get.find<TutorialController>().completeButtonKey
-                        : null,
+                    key: _tutorialController.completeButtonKey,
                     elevation: 0,
                     minWidth: 0,
                     onPressed: () {
