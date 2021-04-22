@@ -294,42 +294,6 @@ class TutorialController extends GetxController {
         ],
       ),
     );
-    targets.add(
-      TargetFocus(
-        identify: "Target 3",
-        shape: ShapeLightFocus.RRect,
-        enableOverlayTab: true,
-        radius: targetFocusRadius,
-        keyTarget: drawerExtensionKey,
-        contents: [
-          TargetContent(
-              align: ContentAlign.bottom,
-              child: Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'homeScreenTutorial_drawerExtension_heading'.tr,
-                      style: _themeData.textTheme.headline4,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Text(
-                        'homeScreenTutorial_drawerExtension_message'.tr,
-                        style: _themeData.textTheme.caption,
-                      ),
-                    ),
-                    ButtonRow(
-                      onNextTapped: _nextTutorialStep,
-                      onPreviousTapped: _previousTutorialStep,
-                    )
-                  ],
-                ),
-              ))
-        ],
-      ),
-    );
   }
 
   void _addHabitDetailScreenTargets() {
@@ -509,6 +473,39 @@ class TutorialController extends GetxController {
 
   void _addCompletionTutorialTargets() {
     targets.clear();
+    targets.add(
+      TargetFocus(
+        identify: "Target 3",
+        shape: ShapeLightFocus.RRect,
+        enableOverlayTab: true,
+        radius: targetFocusRadius,
+        keyTarget: drawerExtensionKey,
+        contents: [
+          TargetContent(
+              align: ContentAlign.bottom,
+              child: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'homeScreenTutorial_drawerExtension_heading'.tr,
+                      style: _themeData.textTheme.headline4,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Text(
+                        'homeScreenTutorial_drawerExtension_message'.tr,
+                        style: _themeData.textTheme.caption,
+                      ),
+                    ),
+                    ButtonRow(onNextTapped: _nextTutorialStep)
+                  ],
+                ),
+              ))
+        ],
+      ),
+    );
     targets.add(TargetFocus(
       identify: "completion_completeButton",
       shape: ShapeLightFocus.RRect,
@@ -534,7 +531,7 @@ class TutorialController extends GetxController {
                   padding: const EdgeInsets.only(top: 10.0),
                   //TODO translate
                   child: Text(
-                    'Schließ die Gewohnheit für heute ab, um eine Belohnung zu erhalten!',
+                    'Schließ jetzt das Tagesziel ab, um eine Belohnung zu erhalten!',
                     style: _themeData.textTheme.caption,
                   ),
                 ),
