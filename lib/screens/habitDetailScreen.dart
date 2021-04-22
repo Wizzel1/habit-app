@@ -197,6 +197,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   @override
   void dispose() {
     _editAnimController.dispose();
+    Get.delete<EditContentController>();
     super.dispose();
   }
 

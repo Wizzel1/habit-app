@@ -30,13 +30,7 @@ class EditContentController extends GetxController {
     super.onClose();
   }
 
-  void _clearLists() {
-    newSchedule.clear();
-    newRewardReferences.clear();
-  }
-
   void loadHabitValues(Habit habit) {
-    _clearLists();
     titleController.text = habit.title;
     descriptionController.text = habit.description;
     newCompletionGoal = habit.completionGoal;
@@ -51,7 +45,6 @@ class EditContentController extends GetxController {
   }
 
   void loadRewardValues(Reward reward) {
-    _clearLists();
     titleController.text = reward.name;
     descriptionController.text = reward.description;
     isSelfRemoving = reward.isSelfRemoving;
