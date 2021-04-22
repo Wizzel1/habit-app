@@ -140,28 +140,34 @@ class _TutorialContainerState extends State<TutorialContainer>
                       )
                     ],
                   ),
-                  MaterialButton(
-                    key: _tutorialController.completeButtonKey,
-                    elevation: 0,
-                    minWidth: 0,
-                    onPressed: () {
-                      setState(() {
-                        _todaysHabitCompletions == containerSizeList.length
-                            ? containerSizeList.last = 20.0
-                            : containerSizeList[_todaysHabitCompletions] = 20.0;
-                      });
-                      widget.onPressed();
-                    },
-                    color: kBackGroundWhite,
-                    padding: const EdgeInsets.all(10),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Icon(
-                      Icons.check_rounded,
-                      size: 36,
-                      color: kDeepOrange,
-                    ),
-                  ),
+                  _tutorialController.hasFinishedDetailScreenStep
+                      ? MaterialButton(
+                          key: _tutorialController.completeButtonKey,
+                          elevation: 0,
+                          minWidth: 0,
+                          onPressed: () {
+                            if (!_tutorialController
+                                .hasFinishedDetailScreenStep) return;
+                            setState(() {
+                              _todaysHabitCompletions ==
+                                      containerSizeList.length
+                                  ? containerSizeList.last = 20.0
+                                  : containerSizeList[_todaysHabitCompletions] =
+                                      20.0;
+                            });
+                            widget.onPressed();
+                          },
+                          color: kBackGroundWhite,
+                          padding: const EdgeInsets.all(10),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Icon(
+                            Icons.check_rounded,
+                            size: 36,
+                            color: kDeepOrange,
+                          ),
+                        )
+                      : const SizedBox.shrink(),
                 ],
               ),
             ),
