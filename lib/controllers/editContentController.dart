@@ -30,7 +30,13 @@ class EditContentController extends GetxController {
     super.onClose();
   }
 
+  void _clearLists() {
+    newSchedule.clear();
+    newRewardReferences.clear();
+  }
+
   void loadHabitValues(Habit habit) {
+    _clearLists();
     titleController.text = habit.title;
     descriptionController.text = habit.description;
     newCompletionGoal = habit.completionGoal;
@@ -38,12 +44,14 @@ class EditContentController extends GetxController {
     for (var i = 0; i < habit.scheduledWeekDays.length; i++) {
       newSchedule.add(habit.scheduledWeekDays[i]);
     }
+
     for (var i = 0; i < habit.rewardIDReferences.length; i++) {
       newRewardReferences.add(habit.rewardIDReferences[i]);
     }
   }
 
   void loadRewardValues(Reward reward) {
+    _clearLists();
     titleController.text = reward.name;
     descriptionController.text = reward.description;
     isSelfRemoving = reward.isSelfRemoving;
