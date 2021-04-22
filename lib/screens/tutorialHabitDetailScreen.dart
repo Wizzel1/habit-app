@@ -302,7 +302,9 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
                         child: AnimatedContainer(
                           height: _isInEditMode
                               ? (ContentController.exampleRewards.length * 90.0)
-                              : (widget.habit.rewardIDReferences.length * 90.0),
+                              : (_editContentController
+                                      .newRewardReferences.length *
+                                  90.0),
                           duration: Duration(milliseconds: 800),
                           curve: Curves.easeOutQuint,
                           child: _buildImplicitList(),
