@@ -222,9 +222,9 @@ class Habit {
       _setStreak();
       updateToNextCompletionDate();
       onCompletionGoalReached();
-
       Get.find<ContentController>().reloadHabitList();
     }
+
     Get.find<EditContentController>().updateHabit(id);
   }
 
