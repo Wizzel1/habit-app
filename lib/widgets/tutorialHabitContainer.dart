@@ -10,9 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TutorialHabitContainer extends StatelessWidget {
-  final Function onDetailScreenPopped;
+  final Function onChildPopped;
 
-  const TutorialHabitContainer({Key key, @required this.onDetailScreenPopped})
+  const TutorialHabitContainer({Key key, @required this.onChildPopped})
       : super(key: key);
 
   @override
@@ -26,12 +26,12 @@ class TutorialHabitContainer extends StatelessWidget {
           width: double.infinity,
           child: TutorialContainer(
             habit: ContentController.tutorialHabit,
-            onDetailScreenPopped: onDetailScreenPopped,
+            onDetailScreenPopped: onChildPopped,
             onPressed: () {
               Get.to(() => RewardPopupScreen(
                     habit: ContentController.tutorialHabit,
                     isTutorial: true,
-                  ));
+                  )).then((value) => onChildPopped());
             },
           ),
         ),
