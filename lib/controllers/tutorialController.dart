@@ -11,13 +11,16 @@ class TutorialController extends GetxController {
   ThemeData _themeData;
   AutoScrollController tutorialHabitDetailScrollController;
   Duration scrollDuration = const Duration(milliseconds: 500);
+
+  bool hasSeenWelcomeScreen = false;
   bool hasFinishedHomeScreenStep = false;
   bool hasFinishedDetailScreenStep = false;
   bool hasFinishedCompletionStep = false;
-  bool hasSeenWelcomeScreen = false;
+  bool hasFinishedRewardPopupStep = false;
 
   TutorialCoachMark tutorial;
   final double targetFocusRadius = 15;
+  final Duration _focusAnimationDuration = Duration(milliseconds: 400);
 
   // -- HabitDetailScreen Keys --
   final GlobalKey scheduleRowKey = GlobalKey();
@@ -25,10 +28,14 @@ class TutorialController extends GetxController {
   final GlobalKey editButtonKey = GlobalKey();
   final GlobalKey statisticsElementKey = GlobalKey();
 
-  // -- HomeScreen Keys --
+  // -- HomeScreen Step Keys --
   final GlobalKey homeTutorialHabitContainerKey = GlobalKey();
   final GlobalKey completionRowKey = GlobalKey();
+
+  // -- Completion Step Keys --
   final GlobalKey completeButtonKey = GlobalKey();
+
+  // -- Finished tutorial Step --
   final GlobalKey drawerExtensionKey = GlobalKey();
 
   void _getThemeData(BuildContext context) {
@@ -42,11 +49,11 @@ class TutorialController extends GetxController {
         axis: Axis.vertical,
         suggestedRowHeight: 400);
 
-    loadTutorialInfo();
+    _loadTutorialInfo();
     super.onInit();
   }
 
-  void loadTutorialInfo() async {
+  void _loadTutorialInfo() async {
     hasFinishedHomeScreenStep = await LocalStorageService.loadTutorialProgress(
         "hasFinishedHomeScreenStep");
     hasFinishedDetailScreenStep =
@@ -56,12 +63,20 @@ class TutorialController extends GetxController {
         "hasFinishedCompletionStep");
     hasSeenWelcomeScreen =
         await LocalStorageService.loadTutorialProgress("hasSeenWelcomeScreen");
+    hasFinishedRewardPopupStep = await LocalStorageService.loadTutorialProgress(
+        "hasFinishedRewardPopupStep");
   }
 
   void resumeToLatestTutorialStep(BuildContext context) {
     _getThemeData(context);
+
     if (!hasSeenWelcomeScreen) {
       _showWelcomeScreen(context);
+      return;
+    }
+
+    if (!hasFinishedDetailScreenStep) {
+      _showHabitDetailTutorial(context);
       return;
     }
 
@@ -72,14 +87,24 @@ class TutorialController extends GetxController {
           .then((value) => _showCompletionTutorial(context));
       return;
     }
+
+    if (!hasFinishedRewardPopupStep) {
+      300
+          .milliseconds
+          .delay()
+          .then((value) => _showRewardPopupTutorial(context));
+      return;
+    }
   }
 
   void _showWelcomeScreen(BuildContext context) async {
     if (hasSeenWelcomeScreen) return;
 
-    bool wantToWatchTutorial = await Get.to(() => WelcomeScreen());
+    bool wantToWatchTutorial =
+        await Get.to(() => WelcomeScreen(), transition: Transition.fade);
 
     hasSeenWelcomeScreen = true;
+
     LocalStorageService.saveTutorialProgress(
         "hasSeenWelcomeScreen", hasSeenWelcomeScreen);
 
@@ -87,12 +112,15 @@ class TutorialController extends GetxController {
       hasFinishedDetailScreenStep = true;
       hasFinishedHomeScreenStep = true;
       hasFinishedCompletionStep = true;
+      hasFinishedRewardPopupStep = true;
       LocalStorageService.saveTutorialProgress(
           "hasFinishedHomeScreenStep", hasFinishedHomeScreenStep);
       LocalStorageService.saveTutorialProgress(
           "hasFinishedDetailScreenStep", hasFinishedDetailScreenStep);
       LocalStorageService.saveTutorialProgress(
           "hasFinishedCompletionStep", hasFinishedCompletionStep);
+      LocalStorageService.saveTutorialProgress(
+          "hasFinishedRewardPopupStep", hasFinishedRewardPopupStep);
       update();
       return;
     }
@@ -105,6 +133,7 @@ class TutorialController extends GetxController {
     tutorial = TutorialCoachMark(
       context,
       targets: targets,
+      focusAnimationDuration: _focusAnimationDuration,
       colorShadow: kLightOrange,
       opacityShadow: 1.0,
       onFinish: () {
@@ -125,11 +154,12 @@ class TutorialController extends GetxController {
     )..show();
   }
 
-  void showHabitDetailTutorial(BuildContext context) {
+  void _showHabitDetailTutorial(BuildContext context) {
     _addHabitDetailScreenTargets();
     tutorial = TutorialCoachMark(
       context,
       targets: targets,
+      focusAnimationDuration: _focusAnimationDuration,
       colorShadow: kLightOrange,
       opacityShadow: 1.0,
       onFinish: () {
@@ -137,7 +167,7 @@ class TutorialController extends GetxController {
         hasFinishedDetailScreenStep = true;
         LocalStorageService.saveTutorialProgress(
             "hasFinishedDetailScreenStep", hasFinishedDetailScreenStep);
-        update(["detailsTutorial"]);
+        update();
       },
       onClickTarget: (target) {
         print(target);
@@ -147,7 +177,7 @@ class TutorialController extends GetxController {
         hasFinishedDetailScreenStep = true;
         LocalStorageService.saveTutorialProgress(
             "hasFinishedDetailScreenStep", hasFinishedDetailScreenStep);
-        update(["detailsTutorial"]);
+        update();
       },
     )..show();
   }
@@ -157,6 +187,33 @@ class TutorialController extends GetxController {
     tutorial = TutorialCoachMark(
       context,
       targets: targets,
+      focusAnimationDuration: _focusAnimationDuration,
+      colorShadow: kLightOrange,
+      opacityShadow: 1.0,
+      onFinish: () {
+        print("finish");
+        hasFinishedCompletionStep = true;
+        LocalStorageService.saveTutorialProgress(
+            "hasFinishedCompletionStep", hasFinishedCompletionStep);
+      },
+      onClickTarget: (target) {
+        print(target);
+      },
+      onSkip: () {
+        print("skip");
+        hasFinishedCompletionStep = true;
+        LocalStorageService.saveTutorialProgress(
+            "hasFinishedCompletionStep", hasFinishedCompletionStep);
+      },
+    )..show();
+  }
+
+  void _showRewardPopupTutorial(BuildContext context) {
+    _addRewardPopupTutorialTargets();
+    tutorial = TutorialCoachMark(
+      context,
+      targets: targets,
+      focusAnimationDuration: _focusAnimationDuration,
       colorShadow: kLightOrange,
       opacityShadow: 1.0,
       onFinish: () {
@@ -252,42 +309,6 @@ class TutorialController extends GetxController {
                       onNextTapped: _nextTutorialStep,
                       onPreviousTapped: _previousTutorialStep,
                     ),
-                  ],
-                ),
-              ))
-        ],
-      ),
-    );
-    targets.add(
-      TargetFocus(
-        identify: "Target 3",
-        shape: ShapeLightFocus.RRect,
-        enableOverlayTab: true,
-        radius: targetFocusRadius,
-        keyTarget: completeButtonKey,
-        contents: [
-          TargetContent(
-              align: ContentAlign.bottom,
-              child: Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'homeScreenTutorial_completeButton_heading'.tr,
-                      style: _themeData.textTheme.headline4,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Text(
-                        'homeScreenTutorial_completeButton_message'.tr,
-                        style: _themeData.textTheme.caption,
-                      ),
-                    ),
-                    ButtonRow(
-                      onNextTapped: _nextTutorialStep,
-                      onPreviousTapped: _previousTutorialStep,
-                    )
                   ],
                 ),
               ))
@@ -523,13 +544,13 @@ class TutorialController extends GetxController {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'homeScreenTutorial_drawerExtension_heading'.tr,
+                      'completionTutorial_drawerExtension_heading'.tr,
                       style: _themeData.textTheme.headline4,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Text(
-                        'homeScreenTutorial_drawerExtension_message'.tr,
+                        'completionTutorial_drawerExtension_message'.tr,
                         style: _themeData.textTheme.caption,
                       ),
                     ),
@@ -540,43 +561,47 @@ class TutorialController extends GetxController {
         ],
       ),
     );
-    targets.add(TargetFocus(
-      identify: "completion_completeButton",
-      shape: ShapeLightFocus.RRect,
-      radius: targetFocusRadius,
-      keyTarget: completeButtonKey,
-      contents: [
-        TargetContent(
-          align: ContentAlign.bottom,
-          child: Container(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                //TODO translate
-                Text(
-                  'Abschließen',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontSize: 20.0),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
+    targets.add(
+      TargetFocus(
+        identify: "completion_completeButton",
+        shape: ShapeLightFocus.RRect,
+        radius: targetFocusRadius,
+        keyTarget: completeButtonKey,
+        contents: [
+          TargetContent(
+            align: ContentAlign.bottom,
+            child: Container(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
                   //TODO translate
-                  child: Text(
-                    'Schließ jetzt das Tagesziel ab, um eine Belohnung zu erhalten!',
-                    style: _themeData.textTheme.caption,
+                  Text(
+                    'Abschließen',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 20.0),
                   ),
-                ),
-                ButtonRow(onNextTapped: _nextTutorialStep)
-              ],
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    //TODO translate
+                    child: Text(
+                      'Schließ jetzt das Tagesziel ab, um eine Belohnung zu erhalten!',
+                      style: _themeData.textTheme.caption,
+                    ),
+                  ),
+                  ButtonRow(onNextTapped: _nextTutorialStep)
+                ],
+              ),
             ),
           ),
-        ),
-      ],
-    ));
+        ],
+      ),
+    );
   }
+
+  void _addRewardPopupTutorialTargets() {}
 }
 
 class ButtonRow extends StatelessWidget {

@@ -188,7 +188,7 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
             (_mainScreenAnimationDuration + 100).milliseconds.delay().then(
               (value) {
                 setState(() {});
-                _tutorialController.showHabitDetailTutorial(context);
+                _tutorialController.resumeToLatestTutorialStep(context);
               },
             );
           },
@@ -237,7 +237,6 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
     return Hero(
       tag: widget.habit.id,
       child: GetBuilder(
-        id: "detailsTutorial",
         builder: (TutorialController controller) {
           return IgnorePointer(
             ignoring: !_tutorialController.hasFinishedDetailScreenStep,
