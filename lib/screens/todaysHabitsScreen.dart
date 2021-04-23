@@ -53,19 +53,21 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      body: Stack(
-        children: [
-          Positioned(
-              bottom: (screenSize.height / 2) - 45,
-              right: 0,
-              child: DrawerExtension(
-                key: _tutorialController.drawerExtensionKey,
-                color: kLightOrange,
-              )),
-          Positioned.fill(
-            child: GetBuilder<TutorialController>(
-              builder: (TutorialController controller) {
-                return controller.hasFinishedCompletionStep
+      body: GetBuilder<TutorialController>(
+        builder: (TutorialController controller) {
+          return Stack(
+            children: [
+              Positioned(
+                  bottom: (screenSize.height / 2) - 45,
+                  right: 0,
+                  child: controller.hasFinishedCompletionStep
+                      ? DrawerExtension(
+                          key: _tutorialController.drawerExtensionKey,
+                          color: kLightOrange,
+                        )
+                      : const SizedBox.shrink()),
+              Positioned.fill(
+                child: controller.hasFinishedCompletionStep
                     ? Obx(
                         () => ListView.separated(
                           physics: const BouncingScrollPhysics(),
@@ -115,12 +117,11 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
                           },
                         ),
                       )
-                    : TutorialHabitContainer(
-                        onDetailScreenPopped: resumeTutorial);
-              },
-            ),
-          )
-        ],
+                    : TutorialHabitContainer(onChildPopped: resumeTutorial),
+              )
+            ],
+          );
+        },
       ),
     );
   }
