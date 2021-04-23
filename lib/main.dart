@@ -65,62 +65,69 @@ class _InnerDrawerScreenState extends State<InnerDrawerScreen> {
     return GetBuilder(
         init: NavigationController(),
         builder: (NavigationController navigationController) {
-          return InnerDrawer(
-              velocity: 0.5,
-              key: navigationController.innerDrawerKey,
-              onTapClose: true, // default false
-              swipe: true, // default true
-              colorTransitionChild: Colors.transparent, // default Color.black54
-              colorTransitionScaffold:
-                  Colors.transparent, // default Color.black54
-              //When setting the vertical offset, be sure to use only top or bottom
-              offset: IDOffset.only(bottom: 0.05, right: 0.0, left: 0.0),
-              scale:
-                  IDOffset.horizontal(0.8), // set the offset in both directions
-              proportionalChildArea: true, // default true
-              borderRadius: 20, // default 0
-              leftAnimationType: InnerDrawerAnimation.static, // default static
-              rightAnimationType: InnerDrawerAnimation.quadratic,
-              backgroundDecoration: BoxDecoration(
-                  color:
-                      kLightOrange), // default  Theme.of(context).backgroundColor
-              //when a pointer that is in contact with the screen and moves to the right or left
-              onDragUpdate: (double val, InnerDrawerDirection direction) {
-                // return values between 1 and 0
-                // check if the swipe is to the right or to the left
-                // print(direction == InnerDrawerDirection.start);
-              },
-              boxShadow: [],
-              innerDrawerCallback: (isDrawerOpen) => {
-                    navigationController.isDrawerOpen = isDrawerOpen,
-                  }, // return  true (open) or false (close)
-              rightChild: MenuScreen(), // required if rightChild is not set
-              //rightChild: Container(), // required if leftChild is not set
-              //  A Scaffold is generally used but you are free to use other widgets
-              // Note: use "automaticallyImplyLeading: false" if you do not personalize "leading" of Bar
-              scaffold: Scaffold(
-                body: WillPopScope(
-                  onWillPop: () async => !await navigationController
-                      .navigatorKey.currentState
-                      .maybePop(),
-                  child: Navigator(
-                      key: navigationController.navigatorKey,
-                      observers: [navigationController.heroController],
-                      onPopPage: (route, result) {
-                        if (!route.didPop(result)) return false;
-                        return true;
-                      },
-                      pages: [navigationController.navigatorPage]),
-                ),
-              )
-              /* OR
-            CupertinoPageScaffold(                
-                navigationBar: CupertinoNavigationBar(
-                    automaticallyImplyLeading: false
-                ),
-            ), 
-            */
-              );
+          return GetBuilder(
+            builder: (TutorialController tutorialController) {
+              return InnerDrawer(
+                  velocity: 0.5,
+                  key: navigationController.innerDrawerKey,
+                  onTapClose: true, // default false
+                  swipe: tutorialController
+                      .hasFinishedCompletionStep, // default true
+                  colorTransitionChild:
+                      Colors.transparent, // default Color.black54
+                  colorTransitionScaffold:
+                      Colors.transparent, // default Color.black54
+                  //When setting the vertical offset, be sure to use only top or bottom
+                  offset: IDOffset.only(bottom: 0.05, right: 0.0, left: 0.0),
+                  scale: IDOffset.horizontal(
+                      0.8), // set the offset in both directions
+                  proportionalChildArea: true, // default true
+                  borderRadius: 20, // default 0
+                  leftAnimationType:
+                      InnerDrawerAnimation.static, // default static
+                  rightAnimationType: InnerDrawerAnimation.quadratic,
+                  backgroundDecoration: BoxDecoration(
+                      color:
+                          kLightOrange), // default  Theme.of(context).backgroundColor
+                  //when a pointer that is in contact with the screen and moves to the right or left
+                  onDragUpdate: (double val, InnerDrawerDirection direction) {
+                    // return values between 1 and 0
+                    // check if the swipe is to the right or to the left
+                    // print(direction == InnerDrawerDirection.start);
+                  },
+                  boxShadow: [],
+                  innerDrawerCallback: (isDrawerOpen) => {
+                        navigationController.isDrawerOpen = isDrawerOpen,
+                      }, // return  true (open) or false (close)
+                  rightChild: MenuScreen(), // required if rightChild is not set
+                  //rightChild: Container(), // required if leftChild is not set
+                  //  A Scaffold is generally used but you are free to use other widgets
+                  // Note: use "automaticallyImplyLeading: false" if you do not personalize "leading" of Bar
+                  scaffold: Scaffold(
+                    body: WillPopScope(
+                      onWillPop: () async => !await navigationController
+                          .navigatorKey.currentState
+                          .maybePop(),
+                      child: Navigator(
+                          key: navigationController.navigatorKey,
+                          observers: [navigationController.heroController],
+                          onPopPage: (route, result) {
+                            if (!route.didPop(result)) return false;
+                            return true;
+                          },
+                          pages: [navigationController.navigatorPage]),
+                    ),
+                  )
+                  /* OR
+              CupertinoPageScaffold(                
+                  navigationBar: CupertinoNavigationBar(
+                      automaticallyImplyLeading: false
+                  ),
+              ), 
+              */
+                  );
+            },
+          );
         });
   }
 }
