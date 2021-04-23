@@ -66,13 +66,14 @@ class _InnerDrawerScreenState extends State<InnerDrawerScreen> {
         init: NavigationController(),
         builder: (NavigationController navigationController) {
           return GetBuilder(
+            id: TutorialController.innerDrawerBuilderID,
             builder: (TutorialController tutorialController) {
               return InnerDrawer(
                   velocity: 0.5,
                   key: navigationController.innerDrawerKey,
                   onTapClose: true, // default false
                   swipe: tutorialController
-                      .hasFinishedCompletionStep, // default true
+                      .hasFinishedDrawerExtensionStep, // default true
                   colorTransitionChild:
                       Colors.transparent, // default Color.black54
                   colorTransitionScaffold:

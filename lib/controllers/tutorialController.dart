@@ -12,11 +12,20 @@ class TutorialController extends GetxController {
   AutoScrollController tutorialHabitDetailScrollController;
   Duration scrollDuration = const Duration(milliseconds: 500);
 
+  //true after the welcome screen has been closed
   bool hasSeenWelcomeScreen = false;
+  //true after first tutorial ended/before user has to tap for details
   bool hasFinishedHomeScreenStep = false;
+  //true after the detail tutorial ended / still in detailsscreen
   bool hasFinishedDetailScreenStep = false;
+  //true after the completion tutorial/ before the user has to complete habit
   bool hasFinishedCompletionStep = false;
-  bool hasFinishedRewardPopupStep = false;
+  //true after the drawer extension has been shown
+  bool hasFinishedDrawerExtensionStep = false;
+
+  static const int innerDrawerBuilderID = 1;
+  static const int todaysHabitsBuilderID = 2;
+  static const int habitDetailBuilderID = 3;
 
   TutorialCoachMark tutorial;
   final double targetFocusRadius = 15;
@@ -63,8 +72,9 @@ class TutorialController extends GetxController {
         "hasFinishedCompletionStep");
     hasSeenWelcomeScreen =
         await LocalStorageService.loadTutorialProgress("hasSeenWelcomeScreen");
-    hasFinishedRewardPopupStep = await LocalStorageService.loadTutorialProgress(
-        "hasFinishedRewardPopupStep");
+    hasFinishedDrawerExtensionStep =
+        await LocalStorageService.loadTutorialProgress(
+            "hasFinishedDrawerExtensionStep");
   }
 
   void resumeToLatestTutorialStep(BuildContext context) {
@@ -88,11 +98,11 @@ class TutorialController extends GetxController {
       return;
     }
 
-    if (!hasFinishedRewardPopupStep) {
+    if (!hasFinishedDrawerExtensionStep) {
       300
           .milliseconds
           .delay()
-          .then((value) => _showRewardPopupTutorial(context));
+          .then((value) => _showDrawerExtensionTutorial(context));
       return;
     }
   }
@@ -112,7 +122,7 @@ class TutorialController extends GetxController {
       hasFinishedDetailScreenStep = true;
       hasFinishedHomeScreenStep = true;
       hasFinishedCompletionStep = true;
-      hasFinishedRewardPopupStep = true;
+      hasFinishedDrawerExtensionStep = true;
       LocalStorageService.saveTutorialProgress(
           "hasFinishedHomeScreenStep", hasFinishedHomeScreenStep);
       LocalStorageService.saveTutorialProgress(
@@ -120,7 +130,7 @@ class TutorialController extends GetxController {
       LocalStorageService.saveTutorialProgress(
           "hasFinishedCompletionStep", hasFinishedCompletionStep);
       LocalStorageService.saveTutorialProgress(
-          "hasFinishedRewardPopupStep", hasFinishedRewardPopupStep);
+          "hasFinishedDrawerExtensionStep", hasFinishedDrawerExtensionStep);
       update();
       return;
     }
@@ -167,7 +177,7 @@ class TutorialController extends GetxController {
         hasFinishedDetailScreenStep = true;
         LocalStorageService.saveTutorialProgress(
             "hasFinishedDetailScreenStep", hasFinishedDetailScreenStep);
-        update();
+        update([habitDetailBuilderID, todaysHabitsBuilderID, true]);
       },
       onClickTarget: (target) {
         print(target);
@@ -177,7 +187,7 @@ class TutorialController extends GetxController {
         hasFinishedDetailScreenStep = true;
         LocalStorageService.saveTutorialProgress(
             "hasFinishedDetailScreenStep", hasFinishedDetailScreenStep);
-        update();
+        update([habitDetailBuilderID, todaysHabitsBuilderID, true]);
       },
     )..show();
   }
@@ -208,7 +218,8 @@ class TutorialController extends GetxController {
     )..show();
   }
 
-  void _showRewardPopupTutorial(BuildContext context) {
+  void _showDrawerExtensionTutorial(BuildContext context) {
+    update([todaysHabitsBuilderID, true]);
     _addRewardPopupTutorialTargets();
     tutorial = TutorialCoachMark(
       context,
@@ -218,18 +229,20 @@ class TutorialController extends GetxController {
       opacityShadow: 1.0,
       onFinish: () {
         print("finish");
-        hasFinishedCompletionStep = true;
+        hasFinishedDrawerExtensionStep = true;
         LocalStorageService.saveTutorialProgress(
-            "hasFinishedCompletionStep", hasFinishedCompletionStep);
+            "hasFinishedDrawerExtensionStep", hasFinishedDrawerExtensionStep);
+        update([innerDrawerBuilderID, todaysHabitsBuilderID, true]);
       },
       onClickTarget: (target) {
         print(target);
       },
       onSkip: () {
         print("skip");
-        hasFinishedCompletionStep = true;
+        hasFinishedDrawerExtensionStep = true;
         LocalStorageService.saveTutorialProgress(
-            "hasFinishedCompletionStep", hasFinishedCompletionStep);
+            "hasFinishedDrawerExtensionStep", hasFinishedDrawerExtensionStep);
+        update([innerDrawerBuilderID, todaysHabitsBuilderID, true]);
       },
     )..show();
   }
@@ -309,6 +322,42 @@ class TutorialController extends GetxController {
                       onNextTapped: _nextTutorialStep,
                       onPreviousTapped: _previousTutorialStep,
                     ),
+                  ],
+                ),
+              ))
+        ],
+      ),
+    );
+    targets.add(
+      TargetFocus(
+        identify: "Target 1",
+        shape: ShapeLightFocus.RRect,
+        enableOverlayTab: true,
+        radius: targetFocusRadius,
+        keyTarget: homeTutorialHabitContainerKey,
+        contents: [
+          TargetContent(
+              align: ContentAlign.bottom,
+              child: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      //TODO translate
+                      'Details',
+                      style: _themeData.textTheme.headline4,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Text(
+                        'Tippe jetzt auf die Gewohnheit, um Details anzuzeigen.',
+                        style: _themeData.textTheme.caption,
+                      ),
+                    ),
+                    ButtonRow(
+                      onNextTapped: _nextTutorialStep,
+                    )
                   ],
                 ),
               ))
@@ -530,39 +579,6 @@ class TutorialController extends GetxController {
     targets.clear();
     targets.add(
       TargetFocus(
-        identify: "Target 3",
-        shape: ShapeLightFocus.RRect,
-        enableOverlayTab: true,
-        radius: targetFocusRadius,
-        keyTarget: drawerExtensionKey,
-        contents: [
-          TargetContent(
-              align: ContentAlign.bottom,
-              child: Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'completionTutorial_drawerExtension_heading'.tr,
-                      style: _themeData.textTheme.headline4,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Text(
-                        'completionTutorial_drawerExtension_message'.tr,
-                        style: _themeData.textTheme.caption,
-                      ),
-                    ),
-                    ButtonRow(onNextTapped: _nextTutorialStep)
-                  ],
-                ),
-              ))
-        ],
-      ),
-    );
-    targets.add(
-      TargetFocus(
         identify: "completion_completeButton",
         shape: ShapeLightFocus.RRect,
         radius: targetFocusRadius,
@@ -601,7 +617,42 @@ class TutorialController extends GetxController {
     );
   }
 
-  void _addRewardPopupTutorialTargets() {}
+  void _addRewardPopupTutorialTargets() {
+    targets.clear();
+    targets.add(
+      TargetFocus(
+        identify: "Target 3",
+        shape: ShapeLightFocus.RRect,
+        enableOverlayTab: true,
+        radius: targetFocusRadius,
+        keyTarget: drawerExtensionKey,
+        contents: [
+          TargetContent(
+              align: ContentAlign.bottom,
+              child: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'completionTutorial_drawerExtension_heading'.tr,
+                      style: _themeData.textTheme.headline4,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Text(
+                        'completionTutorial_drawerExtension_message'.tr,
+                        style: _themeData.textTheme.caption,
+                      ),
+                    ),
+                    ButtonRow(onNextTapped: _nextTutorialStep)
+                  ],
+                ),
+              ))
+        ],
+      ),
+    );
+  }
 }
 
 class ButtonRow extends StatelessWidget {
