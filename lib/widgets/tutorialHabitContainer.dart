@@ -71,6 +71,7 @@ class _TutorialContainerState extends State<TutorialContainer>
       tag: widget.habit.id,
       child: GestureDetector(
         onTap: () {
+          if (_tutorialController.hasFinishedDetailScreenStep) return;
           Get.to(() => TutorialHabitDetailScreen(habit: widget.habit))
               .then((value) => widget.onDetailScreenPopped());
         },
