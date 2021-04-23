@@ -107,7 +107,7 @@ class ContentController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    //LocalStorageService.storageBox.erase();
+    LocalStorageService.storageBox.erase();
     await initializeContent();
     super.onInit();
   }
@@ -169,7 +169,7 @@ class ContentController extends GetxController {
       title: 'example_title'.tr,
       id: "testHabit",
       description: 'example_description'.tr,
-      scheduledWeekDays: [1, 2, 3, 4, 5],
+      scheduledWeekDays: [1, 3, 6],
       rewardIDReferences: List<String>.from(exampleRewards.map((e) => e.id)),
       trackedCompletions: TrackedCompletions(
         trackedYears: [
@@ -193,5 +193,6 @@ class ContentController extends GetxController {
           )
         ],
       ),
-      completionGoal: 1);
+      completionGoal: 3,
+      streak: 1);
 }
