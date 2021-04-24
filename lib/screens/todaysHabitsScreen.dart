@@ -68,7 +68,9 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
                         )
                       : const SizedBox.shrink()),
               Positioned.fill(
-                child: AnimatedContainer(
+                child: AnimatedSwitcher(
+                  switchInCurve: Curves.ease,
+                  switchOutCurve: Curves.ease,
                   duration: const Duration(milliseconds: 300),
                   child: controller.hasFinishedDrawerExtensionStep
                       ? Obx(
