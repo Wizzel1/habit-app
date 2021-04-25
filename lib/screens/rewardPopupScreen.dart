@@ -121,11 +121,11 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
 
   void _checkIfRewardIsRemoving() {
     if (_shuffeledRewardList.isEmpty) return;
-    if (_shuffeledRewardList.last.isSelfRemoving) {
-      Reward selfRemovingReward = _rewardList
-          .singleWhere((element) => element.id == _shuffeledRewardList.last.id);
-      widget.habit.rewardIDReferences.remove(selfRemovingReward.id);
-    }
+    if (!_shuffeledRewardList.last.isSelfRemoving) return;
+
+    Reward selfRemovingReward = _rewardList
+        .singleWhere((element) => element.id == _shuffeledRewardList.last.id);
+    widget.habit.rewardIDReferences.remove(selfRemovingReward.id);
   }
 
   @override
