@@ -24,6 +24,7 @@ class NavigationController extends GetxController {
     heroController = HeroController();
     navigatorKey = GlobalKey<NavigatorState>();
     innerDrawerKey = GlobalKey<InnerDrawerState>();
+    currentPageIndex = 0;
     super.onInit();
   }
 
