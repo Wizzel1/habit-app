@@ -10,6 +10,7 @@ class NavigationController extends GetxController {
   bool isDrawerOpen = false;
   Page navigatorPage;
   HeroController heroController;
+  int currentPageIndex;
 
   List<Page> appPages = [
     MaterialPage(child: TodaysHabitScreen()),
@@ -27,6 +28,7 @@ class NavigationController extends GetxController {
   }
 
   Future<void> navigateToIndex(int index) async {
+    currentPageIndex = index;
     innerDrawerKey.currentState.open();
     await openDrawer()
         .then((value) => {
