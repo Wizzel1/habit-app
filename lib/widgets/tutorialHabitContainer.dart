@@ -28,10 +28,19 @@ class TutorialHabitContainer extends StatelessWidget {
             habit: ContentController.tutorialHabit,
             onDetailScreenPopped: onChildPopped,
             onPressed: () {
-              Get.to(() => RewardPopupScreen(
-                    habit: ContentController.tutorialHabit,
-                    isTutorial: true,
-                  )).then((value) => onChildPopped());
+              ContentController.tutorialHabit.addCompletionForToday(
+                onCompletionGoalReached: () {
+                  400.milliseconds.delay().then(
+                    (value) {
+                      Get.to(
+                        () => RewardPopupScreen(
+                            habit: ContentController.tutorialHabit,
+                            isTutorial: true),
+                      ).then((value) => onChildPopped());
+                    },
+                  );
+                },
+              );
             },
           ),
         ),
@@ -147,8 +156,6 @@ class _TutorialContainerState extends State<TutorialContainer>
                           elevation: 0,
                           minWidth: 0,
                           onPressed: () {
-                            if (!_tutorialController
-                                .hasFinishedDetailScreenStep) return;
                             setState(() {
                               _todaysHabitCompletions ==
                                       containerSizeList.length

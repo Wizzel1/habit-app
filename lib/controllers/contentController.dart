@@ -167,7 +167,7 @@ class ContentController extends GetxController {
 
   static final Habit tutorialHabit = Habit(
       title: 'example_title'.tr,
-      id: "testHabit",
+      id: "tutorialHabit",
       description: 'example_description'.tr,
       scheduledWeekDays: [1, 3, 6],
       rewardIDReferences: List<String>.from(exampleRewards.map((e) => e.id)),

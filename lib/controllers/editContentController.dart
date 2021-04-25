@@ -79,7 +79,8 @@ class EditContentController extends GetxController {
   void updateHabit(String habitID) {
     assert(habitID != null, "update habit was called on a null ID");
 
-    if (habitID == null) return;
+    if (habitID == "tutorialHabit" || habitID == null) return;
+
     int _updateIndex;
     _updateIndex = _contentController.allHabitList
         .indexWhere((element) => element.id == habitID);
