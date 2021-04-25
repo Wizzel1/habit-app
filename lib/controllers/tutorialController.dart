@@ -131,7 +131,7 @@ class TutorialController extends GetxController {
           "hasFinishedCompletionStep", hasFinishedCompletionStep);
       LocalStorageService.saveTutorialProgress(
           "hasFinishedDrawerExtensionStep", hasFinishedDrawerExtensionStep);
-      update();
+      update([innerDrawerBuilderID, todaysHabitsBuilderID, true]);
       return;
     }
 
@@ -688,73 +688,6 @@ class ButtonRow extends StatelessWidget {
   }
 }
 
-class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kLightOrange,
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Welcome to Marbit",
-                style: Theme.of(context).textTheme.headline4,
-              ),
-              Text("Do you want to watch an interactive introduction?",
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.caption),
-              const SizedBox(height: 30),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  MaterialButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                    elevation: 0,
-                    color: kBackGroundWhite,
-                    onPressed: () {
-                      Get.back(result: true);
-                    },
-                    child: Text(
-                      "Lets go",
-                      style: Theme.of(context)
-                          .textTheme
-                          .button
-                          .copyWith(color: kDeepOrange),
-                    ),
-                  ),
-                  MaterialButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                    elevation: 0,
-                    color: kBackGroundWhite,
-                    onPressed: () {
-                      Get.back(result: false);
-                    },
-                    child: Text(
-                      "I'll figure it out myself",
-                      style: Theme.of(context)
-                          .textTheme
-                          .button
-                          .copyWith(color: kDeepOrange),
-                    ),
-                  )
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class PreviousButton extends StatelessWidget {
   final Function onPressed;
 
@@ -799,6 +732,77 @@ class NextButton extends StatelessWidget {
         FontAwesomeIcons.arrowRight,
         color: kBackGroundWhite,
         size: 20,
+      ),
+    );
+  }
+}
+
+class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: kLightOrange,
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              //TODO translate
+              Text(
+                "Welcome to Marbit",
+                style: Theme.of(context).textTheme.headline4,
+              ),
+              //TODO translate
+              Text("Do you want to watch an interactive introduction?",
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.caption),
+              const SizedBox(height: 30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  MaterialButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                    elevation: 0,
+                    color: kBackGroundWhite,
+                    onPressed: () {
+                      Get.back(result: true);
+                    },
+                    //TODO translate
+                    child: Text(
+                      "Lets go",
+                      style: Theme.of(context)
+                          .textTheme
+                          .button
+                          .copyWith(color: kDeepOrange),
+                    ),
+                  ),
+                  MaterialButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                    elevation: 0,
+                    color: kBackGroundWhite,
+                    onPressed: () {
+                      Get.back(result: false);
+                    },
+                    //TODO translate
+                    child: Text(
+                      "I'll figure it out myself",
+                      style: Theme.of(context)
+                          .textTheme
+                          .button
+                          .copyWith(color: kDeepOrange),
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
