@@ -336,7 +336,7 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
   MaterialButton _buildRewardDeleteButton() {
     return MaterialButton(
       onPressed: () {
-        Navigator.pop(context);
+        Get.back();
         Get.find<ContentController>().deleteReward(widget.reward);
       },
       elevation: 0,

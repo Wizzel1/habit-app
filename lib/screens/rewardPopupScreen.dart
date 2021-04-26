@@ -328,7 +328,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                                 borderRadius: BorderRadius.circular(8)),
                             onPressed: () {
                               _checkIfRewardIsRemoving();
-                              Navigator.of(context).pop();
+                              Get.back();
                             },
                           ),
                         ),

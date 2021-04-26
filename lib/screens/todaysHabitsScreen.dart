@@ -94,18 +94,10 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
                                           onCompletionGoalReached: () {
                                             400.milliseconds.delay().then(
                                               (value) {
-                                                Navigator.of(context).push(
-                                                  PageRouteBuilder(
-                                                    opaque: false,
-                                                    pageBuilder:
-                                                        (BuildContext context,
-                                                                _, __) =>
-                                                            RewardPopupScreen(
+                                                Get.to(() => RewardPopupScreen(
                                                       isTutorial: false,
                                                       habit: tappedHabit,
-                                                    ),
-                                                  ),
-                                                );
+                                                    ));
                                               },
                                             );
                                           },
