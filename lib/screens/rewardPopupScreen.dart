@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math';
-import 'package:Marbit/controllers/contentController.dart';
-import 'package:Marbit/widgets/myScrollBehavior.dart';
+import 'package:Marbit/controllers/controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:Marbit/models/models.dart';
 import 'package:Marbit/util/util.dart';

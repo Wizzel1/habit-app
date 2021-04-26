@@ -1,5 +1,5 @@
 import 'package:Marbit/controllers/controllers.dart';
-import 'package:Marbit/util/constants.dart';
+import 'package:Marbit/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_funding_choices/flutter_funding_choices.dart';
 import 'package:get/get.dart';

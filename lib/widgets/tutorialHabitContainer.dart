@@ -1,11 +1,8 @@
-import 'package:Marbit/controllers/contentController.dart';
 import 'package:Marbit/controllers/controllers.dart';
-import 'package:Marbit/controllers/tutorialController.dart';
 import 'package:Marbit/models/models.dart';
-import 'package:Marbit/screens/rewardPopupScreen.dart';
 import 'package:Marbit/screens/screens.dart';
 import 'package:Marbit/screens/tutorialHabitDetailScreen.dart';
-import 'package:Marbit/util/constants.dart';
+import 'package:Marbit/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

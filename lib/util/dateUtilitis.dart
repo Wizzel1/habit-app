@@ -1,5 +1,4 @@
 import 'package:Marbit/models/models.dart';
-import 'package:Marbit/models/trackedCompletionsModel.dart';
 import 'package:intl/intl.dart';
 import 'package:week_of_year/week_of_year.dart';
 
