@@ -174,7 +174,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
     _filterOutDeletedRewardReferences();
     _editContentController.loadHabitValues(widget.habit);
     _setJoinedRewardList();
-
+    Get.find<AdController>().showInterstitialAd();
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
@@ -606,7 +606,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   MaterialButton _buildHabitDeleteButton() {
     return MaterialButton(
       onPressed: () {
-        Navigator.pop(context);
+        Get.back();
         Get.find<ContentController>().deleteHabit(widget.habit);
       },
       elevation: 0,
