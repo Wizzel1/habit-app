@@ -103,9 +103,10 @@ class EditContentController extends GetxController {
       _habitToUpdate.rewardIDReferences = newRewardReferences;
     if (newCompletionGoal != null)
       _habitToUpdate.completionGoal = newCompletionGoal;
+
+    _habitToUpdate.updateToNextCompletionDate();
     if (newCompletionDate != null)
       _habitToUpdate.nextCompletionDate = newCompletionDate;
-    _habitToUpdate.updateToNextCompletionDate();
 
     LocalStorageService.saveAllHabits(_contentController.allHabitList);
 

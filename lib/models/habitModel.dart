@@ -203,6 +203,8 @@ class Habit {
     int _calendarWeekIndex = _yearWeekDayIndexList[1];
     int _trackedDayIndex = _yearWeekDayIndexList[2];
 
+    _updateCompletionStreak();
+
     trackedCompletions
         .trackedYears[_yearIndex]
         .calendarWeeks[_calendarWeekIndex]
@@ -215,8 +217,6 @@ class Habit {
             .trackedDays[_trackedDayIndex]
             .doneAmount >=
         completionGoal) {
-      _setStreak();
-      updateToNextCompletionDate();
       onCompletionGoalReached();
       Get.find<ContentController>().reloadHabitList();
     }
@@ -224,7 +224,8 @@ class Habit {
     Get.find<EditContentController>().updateHabit(id);
   }
 
-  void _setStreak() {
+  void _updateCompletionStreak() {
+    if (getTodaysCompletions() > 0) return;
     if (DateUtilities.today == nextCompletionDate) {
       streak++;
     } else {
