@@ -338,28 +338,30 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
           animation: _titleOffset,
           builder: (context, child) {
             return SlideTransition(
-                position: _titleOffset,
-                child: Material(
-                  type: MaterialType.transparency,
-                  child: IgnorePointer(
-                    ignoring: !_isInEditMode,
-                    child: TextField(
-                      controller: controller.titleController,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline3
-                          .copyWith(color: kBackGroundWhite),
-                      decoration: InputDecoration(
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: _isInEditMode
-                            ? const UnderlineInputBorder(
-                                borderSide: BorderSide(color: kBackGroundWhite))
-                            : InputBorder.none,
-                      ),
-                    ),
-                  ),
-                ));
+              position: _titleOffset,
+              child: child,
+            );
           },
+          child: Material(
+            type: MaterialType.transparency,
+            child: IgnorePointer(
+              ignoring: !_isInEditMode,
+              child: TextField(
+                controller: controller.titleController,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline3
+                    .copyWith(color: kBackGroundWhite),
+                decoration: InputDecoration(
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: _isInEditMode
+                      ? const UnderlineInputBorder(
+                          borderSide: BorderSide(color: kBackGroundWhite))
+                      : InputBorder.none,
+                ),
+              ),
+            ),
+          ),
         );
       },
     );
@@ -369,32 +371,34 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
     return GetBuilder<EditContentController>(
       builder: (EditContentController controller) {
         return AnimatedBuilder(
-            animation: _descriptionOffset,
-            builder: (context, child) {
-              return SlideTransition(
-                  position: _descriptionOffset,
-                  child: Material(
-                    type: MaterialType.transparency,
-                    child: IgnorePointer(
-                      ignoring: !_isInEditMode,
-                      child: TextField(
-                        controller: controller.descriptionController,
-                        style: Theme.of(context)
-                            .textTheme
-                            .subtitle1
-                            .copyWith(color: kBackGroundWhite, fontSize: 22),
-                        decoration: InputDecoration(
-                          focusedBorder: InputBorder.none,
-                          enabledBorder: _isInEditMode
-                              ? const UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: kBackGroundWhite))
-                              : InputBorder.none,
-                        ),
-                      ),
-                    ),
-                  ));
-            });
+          animation: _descriptionOffset,
+          builder: (context, child) {
+            return SlideTransition(
+              position: _descriptionOffset,
+              child: child,
+            );
+          },
+          child: Material(
+            type: MaterialType.transparency,
+            child: IgnorePointer(
+              ignoring: !_isInEditMode,
+              child: TextField(
+                controller: controller.descriptionController,
+                style: Theme.of(context)
+                    .textTheme
+                    .subtitle1
+                    .copyWith(color: kBackGroundWhite, fontSize: 22),
+                decoration: InputDecoration(
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: _isInEditMode
+                      ? const UnderlineInputBorder(
+                          borderSide: BorderSide(color: kBackGroundWhite))
+                      : InputBorder.none,
+                ),
+              ),
+            ),
+          ),
+        );
       },
     );
   }
@@ -404,32 +408,31 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         const Spacer(),
-        //TODO add child and move transition to builder
         AnimatedBuilder(
           animation: _goalStepperOffset,
           builder: (BuildContext context, Widget child) {
             return SlideTransition(
               position: _goalStepperOffset,
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 200),
-                child: _isInEditMode
-                    ? BouncingButton(
-                        onPressed: () {
-                          if (_editContentController.newCompletionGoal <= 1)
-                            return;
-                          setState(() {
-                            _editContentController.newCompletionGoal--;
-                          });
-                        },
-                        child: Icon(
-                          Icons.remove,
-                          color: Theme.of(context).accentColor,
-                        ),
-                      )
-                    : const SizedBox.shrink(),
-              ),
+              child: child,
             );
           },
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 200),
+            child: _isInEditMode
+                ? BouncingButton(
+                    onPressed: () {
+                      if (_editContentController.newCompletionGoal <= 1) return;
+                      setState(() {
+                        _editContentController.newCompletionGoal--;
+                      });
+                    },
+                    child: Icon(
+                      Icons.remove,
+                      color: Theme.of(context).accentColor,
+                    ),
+                  )
+                : const SizedBox.shrink(),
+          ),
         ),
         Expanded(
           flex: 2,
@@ -444,24 +447,25 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
           builder: (BuildContext context, Widget child) {
             return SlideTransition(
               position: _goalStepperOffset,
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 200),
-                child: _isInEditMode
-                    ? BouncingButton(
-                        onPressed: () {
-                          if (_editContentController.newCompletionGoal >=
-                              ContentController.maxDailyCompletions) return;
-                          setState(() {
-                            _editContentController.newCompletionGoal++;
-                          });
-                        },
-                        child: Icon(Icons.add,
-                            color: Theme.of(context).accentColor),
-                      )
-                    : const SizedBox.shrink(),
-              ),
+              child: child,
             );
           },
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 200),
+            child: _isInEditMode
+                ? BouncingButton(
+                    onPressed: () {
+                      if (_editContentController.newCompletionGoal >=
+                          ContentController.maxDailyCompletions) return;
+                      setState(() {
+                        _editContentController.newCompletionGoal++;
+                      });
+                    },
+                    child:
+                        Icon(Icons.add, color: Theme.of(context).accentColor),
+                  )
+                : const SizedBox.shrink(),
+          ),
         ),
         const Spacer(),
       ],
@@ -500,43 +504,43 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
       builder: (BuildContext context, Widget child) {
         return SlideTransition(
           position: _scheduleOffset,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: List.generate(
-              7,
-              (index) => BouncingButton(
-                onPressed: () {
-                  if (!_isInEditMode) return;
-                  int weekDayIndex = index + 1;
-
-                  if (_editContentController.newSchedule
-                      .contains(weekDayIndex)) {
-                    _editContentController.newSchedule.remove(weekDayIndex);
-                  } else {
-                    _editContentController.newSchedule.add(weekDayIndex);
-                  }
-                  _editContentController.newSchedule.sort();
-                },
-                height: 60,
-                width: 40,
-                color: _editContentController.newSchedule.contains(index + 1)
-                    ? Color(widget.habit.habitColors["deep"])
-                    : kBackGroundWhite,
-                child: Text(
-                  dayNames[index],
-                  style: Theme.of(context).textTheme.button.copyWith(
-                        fontSize: 12,
-                        color: _editContentController.newSchedule
-                                .contains(index + 1)
-                            ? kBackGroundWhite
-                            : Color(widget.habit.habitColors["deep"]),
-                      ),
-                ),
-              ),
-            ),
-          ),
+          child: child,
         );
       },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: List.generate(
+          7,
+          (index) => BouncingButton(
+            onPressed: () {
+              if (!_isInEditMode) return;
+              int weekDayIndex = index + 1;
+
+              if (_editContentController.newSchedule.contains(weekDayIndex)) {
+                _editContentController.newSchedule.remove(weekDayIndex);
+              } else {
+                _editContentController.newSchedule.add(weekDayIndex);
+              }
+              _editContentController.newSchedule.sort();
+            },
+            height: 60,
+            width: 40,
+            color: _editContentController.newSchedule.contains(index + 1)
+                ? Color(widget.habit.habitColors["deep"])
+                : kBackGroundWhite,
+            child: Text(
+              dayNames[index],
+              style: Theme.of(context).textTheme.button.copyWith(
+                    fontSize: 12,
+                    color:
+                        _editContentController.newSchedule.contains(index + 1)
+                            ? kBackGroundWhite
+                            : Color(widget.habit.habitColors["deep"]),
+                  ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -563,27 +567,28 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
             builder: (BuildContext context, Widget child) {
               return SlideTransition(
                 position: _rewardListOffsets[index],
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: SelectableRewardContainer(
-                    reward: reward,
-                    isSelectedReward: isSelected,
-                    onTap: () {
-                      if (!_isInEditMode) return;
-                      setState(() {
-                        _editContentController.newRewardReferences
-                                .contains(reward.id)
-                            ? _editContentController.newRewardReferences
-                                .remove(reward.id)
-                            : _editContentController.newRewardReferences
-                                .add(reward.id);
-                      });
-                      _setJoinedRewardList();
-                    },
-                  ),
-                ),
+                child: child,
               );
             },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: SelectableRewardContainer(
+                reward: reward,
+                isSelectedReward: isSelected,
+                onTap: () {
+                  if (!_isInEditMode) return;
+                  setState(() {
+                    _editContentController.newRewardReferences
+                            .contains(reward.id)
+                        ? _editContentController.newRewardReferences
+                            .remove(reward.id)
+                        : _editContentController.newRewardReferences
+                            .add(reward.id);
+                  });
+                  _setJoinedRewardList();
+                },
+              ),
+            ),
           ),
         );
       },

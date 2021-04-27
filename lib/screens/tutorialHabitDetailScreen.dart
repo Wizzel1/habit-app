@@ -354,28 +354,30 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
           animation: _titleOffset,
           builder: (context, child) {
             return SlideTransition(
-                position: _titleOffset,
-                child: Material(
-                  type: MaterialType.transparency,
-                  child: IgnorePointer(
-                    ignoring: !_isInEditMode,
-                    child: TextField(
-                      controller: controller.titleController,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline3
-                          .copyWith(color: kBackGroundWhite),
-                      decoration: InputDecoration(
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: _isInEditMode
-                            ? const UnderlineInputBorder(
-                                borderSide: BorderSide(color: kBackGroundWhite))
-                            : InputBorder.none,
-                      ),
-                    ),
-                  ),
-                ));
+              position: _titleOffset,
+              child: child,
+            );
           },
+          child: Material(
+            type: MaterialType.transparency,
+            child: IgnorePointer(
+              ignoring: !_isInEditMode,
+              child: TextField(
+                controller: controller.titleController,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline3
+                    .copyWith(color: kBackGroundWhite),
+                decoration: InputDecoration(
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: _isInEditMode
+                      ? const UnderlineInputBorder(
+                          borderSide: BorderSide(color: kBackGroundWhite))
+                      : InputBorder.none,
+                ),
+              ),
+            ),
+          ),
         );
       },
     );
@@ -385,32 +387,34 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
     return GetBuilder<EditContentController>(
       builder: (EditContentController controller) {
         return AnimatedBuilder(
-            animation: _descriptionOffset,
-            builder: (context, child) {
-              return SlideTransition(
-                  position: _descriptionOffset,
-                  child: Material(
-                    type: MaterialType.transparency,
-                    child: IgnorePointer(
-                      ignoring: !_isInEditMode,
-                      child: TextField(
-                        controller: controller.descriptionController,
-                        style: Theme.of(context)
-                            .textTheme
-                            .subtitle1
-                            .copyWith(color: kBackGroundWhite, fontSize: 22),
-                        decoration: InputDecoration(
-                          focusedBorder: InputBorder.none,
-                          enabledBorder: _isInEditMode
-                              ? const UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: kBackGroundWhite))
-                              : InputBorder.none,
-                        ),
-                      ),
-                    ),
-                  ));
-            });
+          animation: _descriptionOffset,
+          builder: (context, child) {
+            return SlideTransition(
+              position: _descriptionOffset,
+              child: child,
+            );
+          },
+          child: Material(
+            type: MaterialType.transparency,
+            child: IgnorePointer(
+              ignoring: !_isInEditMode,
+              child: TextField(
+                controller: controller.descriptionController,
+                style: Theme.of(context)
+                    .textTheme
+                    .subtitle1
+                    .copyWith(color: kBackGroundWhite, fontSize: 22),
+                decoration: InputDecoration(
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: _isInEditMode
+                      ? const UnderlineInputBorder(
+                          borderSide: BorderSide(color: kBackGroundWhite))
+                      : InputBorder.none,
+                ),
+              ),
+            ),
+          ),
+        );
       },
     );
   }
@@ -425,26 +429,26 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
           builder: (BuildContext context, Widget child) {
             return SlideTransition(
               position: _goalStepperOffset,
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 200),
-                child: _isInEditMode
-                    ? BouncingButton(
-                        onPressed: () {
-                          if (_editContentController.newCompletionGoal <= 1)
-                            return;
-                          setState(() {
-                            _editContentController.newCompletionGoal--;
-                          });
-                        },
-                        child: Icon(
-                          Icons.remove,
-                          color: Theme.of(context).accentColor,
-                        ),
-                      )
-                    : const SizedBox.shrink(),
-              ),
+              child: child,
             );
           },
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 200),
+            child: _isInEditMode
+                ? BouncingButton(
+                    onPressed: () {
+                      if (_editContentController.newCompletionGoal <= 1) return;
+                      setState(() {
+                        _editContentController.newCompletionGoal--;
+                      });
+                    },
+                    child: Icon(
+                      Icons.remove,
+                      color: Theme.of(context).accentColor,
+                    ),
+                  )
+                : const SizedBox.shrink(),
+          ),
         ),
         Text(
           "${_editContentController.newCompletionGoal}",
@@ -455,24 +459,25 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
           builder: (BuildContext context, Widget child) {
             return SlideTransition(
               position: _goalStepperOffset,
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 200),
-                child: _isInEditMode
-                    ? BouncingButton(
-                        onPressed: () {
-                          if (_editContentController.newCompletionGoal >=
-                              ContentController.maxDailyCompletions) return;
-                          setState(() {
-                            _editContentController.newCompletionGoal++;
-                          });
-                        },
-                        child: Icon(Icons.add,
-                            color: Theme.of(context).accentColor),
-                      )
-                    : const SizedBox.shrink(),
-              ),
+              child: child,
             );
           },
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 200),
+            child: _isInEditMode
+                ? BouncingButton(
+                    onPressed: () {
+                      if (_editContentController.newCompletionGoal >=
+                          ContentController.maxDailyCompletions) return;
+                      setState(() {
+                        _editContentController.newCompletionGoal++;
+                      });
+                    },
+                    child:
+                        Icon(Icons.add, color: Theme.of(context).accentColor),
+                  )
+                : const SizedBox.shrink(),
+          ),
         ),
       ],
     );
@@ -511,53 +516,52 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
       builder: (BuildContext context, Widget child) {
         return SlideTransition(
           position: _scheduleOffset,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            key: _tutorialController.scheduleRowKey,
-            children: List.generate(
-              7,
-              (index) => GestureDetector(
-                onTap: () {
-                  if (!_isInEditMode) return;
-                  int weekDayIndex = index + 1;
+          child: child,
+        );
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        key: _tutorialController.scheduleRowKey,
+        children: List.generate(
+          7,
+          (index) => GestureDetector(
+            onTap: () {
+              if (!_isInEditMode) return;
+              int weekDayIndex = index + 1;
 
-                  if (_editContentController.newSchedule
-                      .contains(weekDayIndex)) {
-                    _editContentController.newSchedule.remove(weekDayIndex);
-                  } else {
-                    _editContentController.newSchedule.add(weekDayIndex);
-                  }
-                  _editContentController.newSchedule.sort();
-                  //TODO correct setstate
-                  setState(() {});
-                },
-                child: Container(
-                  height: 60,
-                  width: 40,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color:
-                          _editContentController.newSchedule.contains(index + 1)
-                              ? Color(widget.habit.habitColors["deep"])
-                              : kBackGroundWhite),
-                  child: Center(
-                    child: Text(
-                      dayNames[index],
-                      style: Theme.of(context).textTheme.button.copyWith(
-                            fontSize: 12,
-                            color: _editContentController.newSchedule
-                                    .contains(index + 1)
-                                ? kBackGroundWhite
-                                : Color(widget.habit.habitColors["deep"]),
-                          ),
-                    ),
-                  ),
+              if (_editContentController.newSchedule.contains(weekDayIndex)) {
+                _editContentController.newSchedule.remove(weekDayIndex);
+              } else {
+                _editContentController.newSchedule.add(weekDayIndex);
+              }
+              _editContentController.newSchedule.sort();
+              //TODO correct setstate
+              setState(() {});
+            },
+            child: Container(
+              height: 60,
+              width: 40,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: _editContentController.newSchedule.contains(index + 1)
+                      ? Color(widget.habit.habitColors["deep"])
+                      : kBackGroundWhite),
+              child: Center(
+                child: Text(
+                  dayNames[index],
+                  style: Theme.of(context).textTheme.button.copyWith(
+                        fontSize: 12,
+                        color: _editContentController.newSchedule
+                                .contains(index + 1)
+                            ? kBackGroundWhite
+                            : Color(widget.habit.habitColors["deep"]),
+                      ),
                 ),
               ),
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 
@@ -585,27 +589,28 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
             builder: (BuildContext context, Widget child) {
               return SlideTransition(
                 position: _rewardListOffsets[index],
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: SelectableRewardContainer(
-                    reward: reward,
-                    isSelectedReward: isSelected,
-                    onTap: () {
-                      if (!_isInEditMode) return;
-                      setState(() {
-                        _editContentController.newRewardReferences
-                                .contains(reward.id)
-                            ? _editContentController.newRewardReferences
-                                .remove(reward.id)
-                            : _editContentController.newRewardReferences
-                                .add(reward.id);
-                      });
-                      _setJoinedTutorialRewardList();
-                    },
-                  ),
-                ),
+                child: child,
               );
             },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: SelectableRewardContainer(
+                reward: reward,
+                isSelectedReward: isSelected,
+                onTap: () {
+                  if (!_isInEditMode) return;
+                  setState(() {
+                    _editContentController.newRewardReferences
+                            .contains(reward.id)
+                        ? _editContentController.newRewardReferences
+                            .remove(reward.id)
+                        : _editContentController.newRewardReferences
+                            .add(reward.id);
+                  });
+                  _setJoinedTutorialRewardList();
+                },
+              ),
+            ),
           ),
         );
       },

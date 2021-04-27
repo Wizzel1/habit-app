@@ -242,58 +242,63 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
       animation: _titleOffset,
       builder: (context, child) {
         return SlideTransition(
-            position: _titleOffset,
-            child: Material(
-              type: MaterialType.transparency,
-              child: IgnorePointer(
-                ignoring: !_isInEditMode,
-                child: TextField(
-                  controller: _editContentController.titleController,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline3
-                      .copyWith(color: kBackGroundWhite),
-                  decoration: InputDecoration(
-                    focusedBorder: InputBorder.none,
-                    enabledBorder: _isInEditMode
-                        ? const UnderlineInputBorder(
-                            borderSide: BorderSide(color: kBackGroundWhite))
-                        : InputBorder.none,
-                  ),
-                ),
-              ),
-            ));
+          position: _titleOffset,
+          child: child,
+        );
       },
+      child: Material(
+        type: MaterialType.transparency,
+        child: IgnorePointer(
+          ignoring: !_isInEditMode,
+          child: TextField(
+            controller: _editContentController.titleController,
+            style: Theme.of(context)
+                .textTheme
+                .headline3
+                .copyWith(color: kBackGroundWhite),
+            decoration: InputDecoration(
+              focusedBorder: InputBorder.none,
+              enabledBorder: _isInEditMode
+                  ? const UnderlineInputBorder(
+                      borderSide: BorderSide(color: kBackGroundWhite))
+                  : InputBorder.none,
+            ),
+          ),
+        ),
+      ),
     );
   }
 
   Widget _buildDescriptionTextField() {
     return AnimatedBuilder(
-        animation: _descriptionOffset,
-        builder: (context, child) {
-          return SlideTransition(
-              position: _descriptionOffset,
-              child: Material(
-                type: MaterialType.transparency,
-                child: IgnorePointer(
-                  ignoring: !_isInEditMode,
-                  child: TextField(
-                    controller: _editContentController.descriptionController,
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        .copyWith(color: kBackGroundWhite, fontSize: 22),
-                    decoration: InputDecoration(
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: _isInEditMode
-                          ? const UnderlineInputBorder(
-                              borderSide: BorderSide(color: kBackGroundWhite))
-                          : InputBorder.none,
-                    ),
-                  ),
-                ),
-              ));
-        });
+      animation: _descriptionOffset,
+      builder: (context, child) {
+        return SlideTransition(
+          position: _descriptionOffset,
+          child: child,
+        );
+      },
+      child: Material(
+        type: MaterialType.transparency,
+        child: IgnorePointer(
+          ignoring: !_isInEditMode,
+          child: TextField(
+            controller: _editContentController.descriptionController,
+            style: Theme.of(context)
+                .textTheme
+                .subtitle1
+                .copyWith(color: kBackGroundWhite, fontSize: 22),
+            decoration: InputDecoration(
+              focusedBorder: InputBorder.none,
+              enabledBorder: _isInEditMode
+                  ? const UnderlineInputBorder(
+                      borderSide: BorderSide(color: kBackGroundWhite))
+                  : InputBorder.none,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _buildEditButton({Function onPressed}) {
