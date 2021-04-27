@@ -76,104 +76,114 @@ class _TutorialContainerState extends State<TutorialContainer>
 
     return Hero(
       tag: widget.habit.id,
-      child: GestureDetector(
-        onTap: () {
-          if (_tutorialController.hasFinishedDetailScreenStep) return;
-          Get.to(() => TutorialHabitDetailScreen(habit: widget.habit))
-              .then((value) => widget.onDetailScreenPopped());
-        },
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          child: Container(
-            key: _tutorialController.homeTutorialHabitContainerKey,
-            height: 90,
-            decoration: BoxDecoration(
-              color: Color(
-                widget.habit.habitColors["light"],
-              ),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        child: Stack(
+          children: [
+            GestureDetector(
+              onTap: () {
+                if (_tutorialController.hasFinishedDetailScreenStep) return;
+                Get.to(() => TutorialHabitDetailScreen(habit: widget.habit))
+                    .then((value) => widget.onDetailScreenPopped());
+              },
+              child: Container(
+                key: _tutorialController.homeTutorialHabitContainerKey,
+                height: 90,
+                decoration: BoxDecoration(
+                  color: Color(
+                    widget.habit.habitColors["light"],
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Material(
-                        type: MaterialType.transparency,
-                        child: Text(
-                          widget.habit.title,
-                          style: Theme.of(context).textTheme.subtitle1.copyWith(
-                                color: kBackGroundWhite,
-                              ),
-                        ),
-                      ),
-                      Container(
-                        key: _tutorialController.completionRowKey,
-                        height: 20.0,
-                        width: widget.habit.completionGoal * 20.0,
-                        child: Stack(
-                          children: List.generate(
-                            widget.habit.completionGoal,
-                            (index) => Positioned(
-                              left: index * 20.0,
-                              bottom: 0,
-                              child: AnimatedContainer(
-                                curve: Curves.bounceInOut,
-                                onEnd: () {
-                                  setState(() {
-                                    containerSizeList[index] = 15.0;
-                                  });
-                                },
-                                width: index >= _todaysHabitCompletions
-                                    ? 15.0
-                                    : containerSizeList[index],
-                                height: index >= _todaysHabitCompletions
-                                    ? 15.0
-                                    : containerSizeList[index],
-                                decoration: BoxDecoration(
-                                    color: index >= _todaysHabitCompletions
-                                        ? kBackGroundWhite
-                                        : kDeepOrange,
-                                    borderRadius: BorderRadius.circular(3)),
-                                duration: Duration(milliseconds: 200),
-                              ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Material(
+                            type: MaterialType.transparency,
+                            child: Text(
+                              widget.habit.title,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle1
+                                  .copyWith(
+                                    color: kBackGroundWhite,
+                                  ),
                             ),
                           ),
-                        ),
-                      )
+                          Container(
+                            key: _tutorialController.completionRowKey,
+                            height: 20.0,
+                            width: widget.habit.completionGoal * 20.0,
+                            child: Stack(
+                              children: List.generate(
+                                widget.habit.completionGoal,
+                                (index) => Positioned(
+                                  left: index * 20.0,
+                                  bottom: 0,
+                                  child: AnimatedContainer(
+                                    curve: Curves.bounceInOut,
+                                    onEnd: () {
+                                      setState(() {
+                                        containerSizeList[index] = 15.0;
+                                      });
+                                    },
+                                    width: index >= _todaysHabitCompletions
+                                        ? 15.0
+                                        : containerSizeList[index],
+                                    height: index >= _todaysHabitCompletions
+                                        ? 15.0
+                                        : containerSizeList[index],
+                                    decoration: BoxDecoration(
+                                        color: index >= _todaysHabitCompletions
+                                            ? kBackGroundWhite
+                                            : kDeepOrange,
+                                        borderRadius: BorderRadius.circular(3)),
+                                    duration: Duration(milliseconds: 200),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ],
                   ),
-                  _tutorialController.hasFinishedDetailScreenStep
-                      ? BouncingButton(
-                          onPressed: () {
-                            setState(() {
-                              _todaysHabitCompletions ==
-                                      containerSizeList.length
-                                  ? containerSizeList.last = 20.0
-                                  : containerSizeList[_todaysHabitCompletions] =
-                                      20.0;
-                            });
-                            widget.onPressed();
-                          },
-                          key: _tutorialController.completeButtonKey,
-                          height: 56,
-                          width: 56,
-                          child: Icon(
-                            Icons.check_rounded,
-                            size: 36,
-                            color: kDeepOrange,
-                          ),
-                        )
-                      : const SizedBox.shrink(),
-                ],
+                ),
               ),
             ),
-          ),
+            Positioned(
+              top: 17,
+              right: 20,
+              child: _tutorialController.hasFinishedDetailScreenStep
+                  ? BouncingButton(
+                      onPressed: () {
+                        setState(() {
+                          _todaysHabitCompletions == containerSizeList.length
+                              ? containerSizeList.last = 20.0
+                              : containerSizeList[_todaysHabitCompletions] =
+                                  20.0;
+                        });
+                        widget.onPressed();
+                      },
+                      key: _tutorialController.completeButtonKey,
+                      height: 56,
+                      width: 56,
+                      child: Icon(
+                        Icons.check_rounded,
+                        size: 36,
+                        color: kDeepOrange,
+                      ),
+                    )
+                  : const SizedBox.shrink(),
+            )
+          ],
         ),
       ),
     );
