@@ -9,6 +9,6 @@ class GlobalControllerBindings extends Bindings {
     Get.lazyPut<ContentController>(() => ContentController());
     Get.lazyPut<EditContentController>(() => EditContentController(),
         fenix: true);
-    Get.lazyPut<AdController>(() => AdController());
+    Get.put<AdController>(AdController());
   }
 }
