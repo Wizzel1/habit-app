@@ -32,10 +32,10 @@ class _BouncingButtonState extends State<BouncingButton>
   void initState() {
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 100),
+      duration: const Duration(milliseconds: 50),
     );
     _scale = Tween<double>(begin: 1.0, end: 0.9)
-        .animate(CurvedAnimation(parent: _controller, curve: Curves.ease));
+        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
     super.initState();
   }
 
@@ -48,11 +48,13 @@ class _BouncingButtonState extends State<BouncingButton>
   @override
   Widget build(BuildContext context) {
     return Listener(
+      behavior: HitTestBehavior.opaque,
       onPointerDown: (PointerDownEvent event) {
         _controller.forward();
       },
-      onPointerUp: (PointerUpEvent event) {
-        _controller.reverse();
+      onPointerUp: (PointerUpEvent event) async {
+        await _controller.forward();
+        await _controller.reverse();
         if (widget.onPressed == null) return;
         widget.onPressed();
       },
