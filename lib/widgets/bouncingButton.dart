@@ -30,13 +30,13 @@ class _BouncingButtonState extends State<BouncingButton>
 
   @override
   void initState() {
-    super.initState();
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 100),
     );
     _scale = Tween<double>(begin: 1.0, end: 0.9)
         .animate(CurvedAnimation(parent: _controller, curve: Curves.ease));
+    super.initState();
   }
 
   @override
