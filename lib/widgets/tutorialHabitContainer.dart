@@ -3,6 +3,7 @@ import 'package:Marbit/models/models.dart';
 import 'package:Marbit/screens/screens.dart';
 import 'package:Marbit/screens/tutorialHabitDetailScreen.dart';
 import 'package:Marbit/util/util.dart';
+import 'package:Marbit/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -148,11 +149,9 @@ class _TutorialContainerState extends State<TutorialContainer>
                     ],
                   ),
                   _tutorialController.hasFinishedDetailScreenStep
-                      ? MaterialButton(
+                      ? BouncingWidget(
                           key: _tutorialController.completeButtonKey,
-                          elevation: 0,
-                          minWidth: 0,
-                          onPressed: () {
+                          onPress: () {
                             setState(() {
                               _todaysHabitCompletions ==
                                       containerSizeList.length
@@ -162,14 +161,16 @@ class _TutorialContainerState extends State<TutorialContainer>
                             });
                             widget.onPressed();
                           },
-                          color: kBackGroundWhite,
-                          padding: const EdgeInsets.all(10),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Icon(
-                            Icons.check_rounded,
-                            size: 36,
-                            color: kDeepOrange,
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                color: kBackGroundWhite,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Icon(
+                              Icons.check_rounded,
+                              size: 36,
+                              color: kDeepOrange,
+                            ),
                           ),
                         )
                       : const SizedBox.shrink(),

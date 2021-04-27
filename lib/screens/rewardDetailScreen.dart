@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:Marbit/controllers/controllers.dart';
 import 'package:Marbit/models/models.dart';
 import 'package:Marbit/util/constants.dart';
+import 'package:Marbit/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
@@ -186,60 +187,67 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        MaterialButton(
-          elevation: 0,
-          color: _editContentController.isSelfRemoving
-              ? kDeepOrange
-              : kBackGroundWhite,
-          child: Container(
-            height: 50,
-            width: 75,
-            child: Center(
-              child: Text(
-                'one_time'.tr,
-                style: Theme.of(context).textTheme.button.copyWith(
-                    color: _editContentController.isSelfRemoving
-                        ? kBackGroundWhite
-                        : Theme.of(context).accentColor),
+        Expanded(
+          flex: 10,
+          child: BouncingWidget(
+            onPress: () {
+              if (!_isInEditMode) return;
+              setState(() {
+                _editContentController.isSelfRemoving = true;
+              });
+            },
+            child: Container(
+              height: 50,
+              decoration: BoxDecoration(
+                  color: _editContentController.isSelfRemoving
+                      ? kDeepOrange
+                      : kBackGroundWhite,
+                  borderRadius: BorderRadius.circular(10)),
+              child: Container(
+                child: Center(
+                  child: Text(
+                    'one_time'.tr,
+                    style: Theme.of(context).textTheme.button.copyWith(
+                        color: _editContentController.isSelfRemoving
+                            ? kBackGroundWhite
+                            : Theme.of(context).accentColor),
+                  ),
+                ),
               ),
             ),
           ),
-          height: 50,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          onPressed: () {
-            if (!_isInEditMode) return;
-            setState(() {
-              _editContentController.isSelfRemoving = true;
-            });
-          },
         ),
-        MaterialButton(
-          elevation: 0,
-          color: _editContentController.isSelfRemoving
-              ? kBackGroundWhite
-              : kDeepOrange,
-          child: Container(
-            height: 50,
-            width: 75,
-            child: Center(
-              child: Text('regular'.tr,
-                  style: Theme.of(context).textTheme.button.copyWith(
-                        color: _editContentController.isSelfRemoving
-                            ? Theme.of(context).accentColor
-                            : kBackGroundWhite,
-                      )),
+        const Spacer(),
+        Expanded(
+          flex: 10,
+          child: BouncingWidget(
+            onPress: () {
+              if (!_isInEditMode) return;
+              setState(() {
+                _editContentController.isSelfRemoving = false;
+              });
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  color: _editContentController.isSelfRemoving
+                      ? kBackGroundWhite
+                      : kDeepOrange,
+                  borderRadius: BorderRadius.circular(10)),
+              child: Container(
+                height: 50,
+                child: Center(
+                  child: Text(
+                    'regular'.tr,
+                    style: Theme.of(context).textTheme.button.copyWith(
+                          color: _editContentController.isSelfRemoving
+                              ? Theme.of(context).accentColor
+                              : kBackGroundWhite,
+                        ),
+                  ),
+                ),
+              ),
             ),
           ),
-          height: 50,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          onPressed: () {
-            if (!_isInEditMode) return;
-            setState(() {
-              _editContentController.isSelfRemoving = false;
-            });
-          },
         ),
       ],
     );
@@ -304,49 +312,66 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
         });
   }
 
-  MaterialButton _buildEditButton({Function onPressed}) {
-    return MaterialButton(
-        onPressed: () {
-          onPressed();
-          setState(() {
-            _isInEditMode = !_isInEditMode;
-          });
-        },
-        elevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        color: kBackGroundWhite,
+  Widget _buildEditButton({Function onPressed}) {
+    return BouncingWidget(
+      onPress: () {
+        onPressed();
+        setState(() {
+          _isInEditMode = !_isInEditMode;
+        });
+      },
+      child: Container(
+        height: 40,
+        width: 100,
+        decoration: BoxDecoration(
+          color: kBackGroundWhite,
+          borderRadius: BorderRadius.circular(10),
+        ),
         child: _isInEditMode
-            ? Text(
-                'save_reward'.tr,
-                style: Theme.of(context).textTheme.button.copyWith(
-                      fontSize: 12,
-                      color: kDeepOrange,
-                    ),
+            ? Center(
+                child: Text(
+                  'save_reward'.tr,
+                  style: Theme.of(context).textTheme.button.copyWith(
+                        fontSize: 12,
+                        color: kDeepOrange,
+                      ),
+                ),
               )
-            : Text(
-                'edit_reward'.tr,
-                style: Theme.of(context).textTheme.button.copyWith(
-                      fontSize: 12,
-                      color: kDeepOrange,
-                    ),
-              ));
+            : Center(
+                child: Text(
+                  'edit_reward'.tr,
+                  style: Theme.of(context).textTheme.button.copyWith(
+                        fontSize: 12,
+                        color: kDeepOrange,
+                      ),
+                ),
+              ),
+      ),
+    );
   }
 
-  MaterialButton _buildRewardDeleteButton() {
-    return MaterialButton(
-      onPressed: () {
+  Widget _buildRewardDeleteButton() {
+    return BouncingWidget(
+      onPress: () {
         Get.back();
         Get.find<ContentController>().deleteReward(widget.reward);
       },
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      color: kLightRed,
-      child: Text(
-        'delete_reward'.tr,
-        style: Theme.of(context).textTheme.button.copyWith(
-              fontSize: 12,
-              color: kBackGroundWhite,
-            ),
+      child: Container(
+        height: 40,
+        width: 100,
+        decoration: BoxDecoration(
+          color: kLightRed,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Center(
+          child: Text(
+            'delete_reward'.tr,
+            style: Theme.of(context).textTheme.button.copyWith(
+                  fontSize: 12,
+                  color: kBackGroundWhite,
+                ),
+          ),
+        ),
       ),
     );
   }

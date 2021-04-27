@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+import 'package:Marbit/widgets/widgets.dart';
 
 class TutorialController extends GetxController {
   List<TargetFocus> targets = [];
@@ -695,17 +696,18 @@ class PreviousButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      elevation: 0,
-      color: kBackGroundWhite,
-      height: 50,
-      minWidth: 50,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-      onPressed: onPressed,
-      child: Icon(
-        FontAwesomeIcons.arrowLeft,
-        color: kDeepOrange,
-        size: 20,
+    return BouncingWidget(
+      onPress: onPressed,
+      child: Container(
+        decoration: BoxDecoration(
+            color: kBackGroundWhite, borderRadius: BorderRadius.circular(8.0)),
+        width: 50,
+        height: 50,
+        child: Icon(
+          FontAwesomeIcons.arrowLeft,
+          color: kDeepOrange,
+          size: 20,
+        ),
       ),
     );
   }
@@ -721,17 +723,18 @@ class NextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      elevation: 0,
-      color: kDeepOrange,
-      height: 50,
-      minWidth: 50,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-      onPressed: onPressed,
-      child: Icon(
-        FontAwesomeIcons.arrowRight,
-        color: kBackGroundWhite,
-        size: 20,
+    return BouncingWidget(
+      onPress: onPressed,
+      child: Container(
+        decoration: BoxDecoration(
+            color: kDeepOrange, borderRadius: BorderRadius.circular(8.0)),
+        width: 50,
+        height: 50,
+        child: Icon(
+          FontAwesomeIcons.arrowRight,
+          color: kBackGroundWhite,
+          size: 20,
+        ),
       ),
     );
   }
@@ -764,38 +767,55 @@ class WelcomeScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  MaterialButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                    elevation: 0,
-                    color: kBackGroundWhite,
-                    onPressed: () {
-                      Get.back(result: true);
-                    },
-                    //TODO translate
-                    child: Text(
-                      "Lets go",
-                      style: Theme.of(context)
-                          .textTheme
-                          .button
-                          .copyWith(color: kDeepOrange),
+                  Expanded(
+                    flex: 10,
+                    child: BouncingWidget(
+                      onPress: () {
+                        Get.back(result: true);
+                      },
+                      child: Container(
+                        height: 40,
+                        decoration: BoxDecoration(
+                            color: kBackGroundWhite,
+                            borderRadius: BorderRadius.circular(8)),
+
+                        //TODO translate
+                        child: Center(
+                          child: Text(
+                            "Lets go",
+                            style: Theme.of(context)
+                                .textTheme
+                                .button
+                                .copyWith(color: kDeepOrange),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                  MaterialButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                    elevation: 0,
-                    color: kBackGroundWhite,
-                    onPressed: () {
-                      Get.back(result: false);
-                    },
-                    //TODO translate
-                    child: Text(
-                      "I'll figure it out myself",
-                      style: Theme.of(context)
-                          .textTheme
-                          .button
-                          .copyWith(color: kDeepOrange),
+                  const Spacer(),
+                  Expanded(
+                    flex: 20,
+                    child: BouncingWidget(
+                      onPress: () {
+                        Get.back(result: false);
+                      },
+                      child: Container(
+                        height: 40,
+                        decoration: BoxDecoration(
+                            color: kBackGroundWhite,
+                            borderRadius: BorderRadius.circular(8)),
+
+                        //TODO translate
+                        child: Center(
+                          child: Text(
+                            "I'll figure it out myself",
+                            style: Theme.of(context)
+                                .textTheme
+                                .button
+                                .copyWith(color: kDeepOrange),
+                          ),
+                        ),
+                      ),
                     ),
                   )
                 ],

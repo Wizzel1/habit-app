@@ -2,6 +2,7 @@ import 'package:Marbit/models/models.dart';
 import 'package:Marbit/screens/screens.dart';
 import 'package:Marbit/util/constants.dart';
 import 'package:Marbit/util/util.dart';
+import 'package:Marbit/widgets/bouncingButton.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -41,46 +42,60 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        MaterialButton(
-            onPressed: () {
-              setState(() {
-                _maxBarValue = 0;
-                _timeSpan = TimeSpan.WEEK;
-                _updateData();
-              });
-            },
-            elevation: 0,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            color: _timeSpan == TimeSpan.WEEK ? kDeepOrange : kBackGroundWhite,
-            child: Text(
-              'this_week'.tr,
-              style: Theme.of(context).textTheme.button.copyWith(
-                  fontSize: 12,
+        BouncingWidget(
+          onPress: () {
+            setState(() {
+              _maxBarValue = 0;
+              _timeSpan = TimeSpan.WEEK;
+              _updateData();
+            });
+          },
+          child: Container(
+              height: 40,
+              width: 100,
+              decoration: BoxDecoration(
                   color: _timeSpan == TimeSpan.WEEK
-                      ? kBackGroundWhite
-                      : kDeepOrange),
-            )),
-        MaterialButton(
-          onPressed: () {
+                      ? kDeepOrange
+                      : kBackGroundWhite,
+                  borderRadius: BorderRadius.circular(10)),
+              child: Center(
+                child: Text(
+                  'this_week'.tr,
+                  style: Theme.of(context).textTheme.button.copyWith(
+                      fontSize: 12,
+                      color: _timeSpan == TimeSpan.WEEK
+                          ? kBackGroundWhite
+                          : kDeepOrange),
+                ),
+              )),
+        ),
+        BouncingWidget(
+          onPress: () {
             setState(() {
               _maxBarValue = 0;
               _timeSpan = TimeSpan.MONTH;
               _updateData();
             });
           },
-          elevation: 0,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          color: _timeSpan == TimeSpan.MONTH ? kDeepOrange : kBackGroundWhite,
-          child: Text(
-            'last_four_weeks'.tr,
-            style: Theme.of(context).textTheme.button.copyWith(
-                  fontSize: 12,
-                  color: _timeSpan == TimeSpan.MONTH
-                      ? kBackGroundWhite
-                      : kDeepOrange,
-                ),
+          child: Container(
+            height: 40,
+            width: 100,
+            decoration: BoxDecoration(
+                color: _timeSpan == TimeSpan.MONTH
+                    ? kDeepOrange
+                    : kBackGroundWhite,
+                borderRadius: BorderRadius.circular(10)),
+            child: Center(
+              child: Text(
+                'last_four_weeks'.tr,
+                style: Theme.of(context).textTheme.button.copyWith(
+                      fontSize: 12,
+                      color: _timeSpan == TimeSpan.MONTH
+                          ? kBackGroundWhite
+                          : kDeepOrange,
+                    ),
+              ),
+            ),
           ),
         ),
         // MaterialButton(

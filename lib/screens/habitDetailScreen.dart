@@ -263,7 +263,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: AnimationConfiguration.toStaggeredList(
                     duration:
@@ -401,9 +401,10 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
 
   Widget _buildCompletionGoalStepper() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        const Spacer(),
+        //TODO add child and move transition to builder
         AnimatedBuilder(
           animation: _goalStepperOffset,
           builder: (BuildContext context, Widget child) {
@@ -412,31 +413,38 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 200),
                 child: _isInEditMode
-                    ? MaterialButton(
-                        elevation: 0,
-                        onPressed: () {
+                    ? BouncingWidget(
+                        onPress: () {
                           if (_editContentController.newCompletionGoal <= 1)
                             return;
                           setState(() {
                             _editContentController.newCompletionGoal--;
                           });
                         },
-                        color: kBackGroundWhite,
-                        child: Icon(
-                          Icons.remove,
-                          color: Theme.of(context).accentColor,
+                        child: Container(
+                          height: 40,
+                          width: 100,
+                          decoration: BoxDecoration(
+                              color: kBackGroundWhite,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Icon(
+                            Icons.remove,
+                            color: Theme.of(context).accentColor,
+                          ),
                         ),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
                       )
                     : const SizedBox.shrink(),
               ),
             );
           },
         ),
-        Text(
-          "${_editContentController.newCompletionGoal}",
-          style: Theme.of(context).textTheme.headline3,
+        Expanded(
+          flex: 2,
+          child: Text(
+            "${_editContentController.newCompletionGoal}",
+            style: Theme.of(context).textTheme.headline3,
+            textAlign: TextAlign.center,
+          ),
         ),
         AnimatedBuilder(
           animation: _goalStepperOffset,
@@ -446,56 +454,67 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 200),
                 child: _isInEditMode
-                    ? MaterialButton(
-                        elevation: 0,
-                        onPressed: () {
+                    ? BouncingWidget(
+                        onPress: () {
                           if (_editContentController.newCompletionGoal >=
                               ContentController.maxDailyCompletions) return;
                           setState(() {
                             _editContentController.newCompletionGoal++;
                           });
                         },
-                        color: kBackGroundWhite,
-                        child: Icon(Icons.add,
-                            color: Theme.of(context).accentColor),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
+                        child: Container(
+                          height: 40,
+                          width: 100,
+                          decoration: BoxDecoration(
+                              color: kBackGroundWhite,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Icon(Icons.add,
+                              color: Theme.of(context).accentColor),
+                        ),
                       )
                     : const SizedBox.shrink(),
               ),
             );
           },
         ),
+        const Spacer(),
       ],
     );
   }
 
-  MaterialButton _buildEditButton({Function onPressed}) {
-    return MaterialButton(
-        onPressed: () {
-          onPressed();
-          setState(() {
-            _isInEditMode = !_isInEditMode;
-          });
-        },
-        elevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        color: kBackGroundWhite,
-        child: _isInEditMode
-            ? Text(
-                'save_habit'.tr,
-                style: Theme.of(context).textTheme.button.copyWith(
-                      fontSize: 12,
-                      color: Color(widget.habit.habitColors["deep"]),
-                    ),
-              )
-            : Text(
-                'edit_habit'.tr,
-                style: Theme.of(context).textTheme.button.copyWith(
-                      fontSize: 12,
-                      color: Color(widget.habit.habitColors["deep"]),
-                    ),
-              ));
+  Widget _buildEditButton({Function onPressed}) {
+    return BouncingWidget(
+      onPress: () {
+        onPressed();
+        setState(() {
+          _isInEditMode = !_isInEditMode;
+        });
+      },
+      child: Container(
+          decoration: BoxDecoration(
+              color: kBackGroundWhite, borderRadius: BorderRadius.circular(10)),
+          height: 40,
+          width: 100,
+          child: _isInEditMode
+              ? Center(
+                  child: Text(
+                    'save_habit'.tr,
+                    style: Theme.of(context).textTheme.button.copyWith(
+                          fontSize: 12,
+                          color: Color(widget.habit.habitColors["deep"]),
+                        ),
+                  ),
+                )
+              : Center(
+                  child: Text(
+                    'edit_habit'.tr,
+                    style: Theme.of(context).textTheme.button.copyWith(
+                          fontSize: 12,
+                          color: Color(widget.habit.habitColors["deep"]),
+                        ),
+                  ),
+                )),
+    );
   }
 
   Widget _buildScheduleRow() {
@@ -508,8 +527,8 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: List.generate(
               7,
-              (index) => GestureDetector(
-                onTap: () {
+              (index) => BouncingWidget(
+                onPress: () {
                   if (!_isInEditMode) return;
                   int weekDayIndex = index + 1;
 
@@ -520,8 +539,6 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                     _editContentController.newSchedule.add(weekDayIndex);
                   }
                   _editContentController.newSchedule.sort();
-                  //TODO correct setstate
-                  setState(() {});
                 },
                 child: Container(
                   height: 60,
@@ -603,21 +620,26 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
     );
   }
 
-  MaterialButton _buildHabitDeleteButton() {
-    return MaterialButton(
-      onPressed: () {
+  Widget _buildHabitDeleteButton() {
+    return BouncingWidget(
+      onPress: () {
         Get.back();
         Get.find<ContentController>().deleteHabit(widget.habit);
       },
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      color: kLightRed,
-      child: Text(
-        'delete_habit'.tr,
-        style: Theme.of(context).textTheme.button.copyWith(
-              fontSize: 12,
-              color: kBackGroundWhite,
-            ),
+      child: Container(
+        height: 40,
+        width: 100,
+        decoration: BoxDecoration(
+            color: kLightRed, borderRadius: BorderRadius.circular(10)),
+        child: Center(
+          child: Text(
+            'delete_habit'.tr,
+            style: Theme.of(context).textTheme.button.copyWith(
+                  fontSize: 12,
+                  color: kBackGroundWhite,
+                ),
+          ),
+        ),
       ),
     );
   }

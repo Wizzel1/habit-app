@@ -101,21 +101,8 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                   children: [
                     Expanded(
                       flex: 10,
-                      child: MaterialButton(
-                        height: 60,
-                        elevation: 0,
-                        color: kBackGroundWhite,
-                        child: Center(
-                          child: Text(
-                            'habit'.tr,
-                            style: Theme.of(context).textTheme.button.copyWith(
-                                fontSize: 18,
-                                color: Theme.of(context).accentColor),
-                          ),
-                        ),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        onPressed: () {
+                      child: BouncingWidget(
+                        onPress: () {
                           setState(() {
                             _wantToCreateHabit = true;
                           });
@@ -123,35 +110,57 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                               duration: Duration(milliseconds: 200),
                               curve: Curves.ease);
                         },
+                        child: Container(
+                          height: 60,
+                          decoration: BoxDecoration(
+                            color: kBackGroundWhite,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'habit'.tr,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .button
+                                  .copyWith(
+                                      fontSize: 18,
+                                      color: Theme.of(context).accentColor),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     const Spacer(),
                     Expanded(
-                      flex: 10,
-                      child: MaterialButton(
-                        height: 60,
-                        elevation: 0,
-                        color: kBackGroundWhite,
-                        child: Center(
-                          child: Text(
-                            'reward'.tr,
-                            style: Theme.of(context).textTheme.button.copyWith(
-                                fontSize: 18,
-                                color: Theme.of(context).accentColor),
+                        flex: 10,
+                        child: BouncingWidget(
+                          onPress: () {
+                            setState(() {
+                              _wantToCreateHabit = false;
+                            });
+                            _pageController.nextPage(
+                                duration: Duration(milliseconds: 200),
+                                curve: Curves.ease);
+                          },
+                          child: Container(
+                            height: 60,
+                            decoration: BoxDecoration(
+                              color: kBackGroundWhite,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'reward'.tr,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .button
+                                    .copyWith(
+                                        fontSize: 18,
+                                        color: Theme.of(context).accentColor),
+                              ),
+                            ),
                           ),
-                        ),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        onPressed: () {
-                          setState(() {
-                            _wantToCreateHabit = false;
-                          });
-                          _pageController.nextPage(
-                              duration: Duration(milliseconds: 200),
-                              curve: Curves.ease);
-                        },
-                      ),
-                    )
+                        ))
                   ],
                 ),
               ],
@@ -177,59 +186,68 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                   children: [
                     Expanded(
                       flex: 10,
-                      child: MaterialButton(
-                        elevation: 0,
-                        color: _createItemController.isSelfRemovingReward
-                            ? kDeepOrange
-                            : kBackGroundWhite,
-                        child: Center(
-                          child: Text(
-                            'one_time'.tr,
-                            style: Theme.of(context).textTheme.button.copyWith(
-                                color:
-                                    _createItemController.isSelfRemovingReward
-                                        ? kBackGroundWhite
-                                        : Theme.of(context).accentColor),
-                          ),
-                        ),
-                        height: 50,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        onPressed: () {
+                      child: BouncingWidget(
+                        onPress: () {
                           setState(() {
                             _createItemController.isSelfRemovingReward = true;
                           });
                         },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: _createItemController.isSelfRemovingReward
+                                ? kDeepOrange
+                                : kBackGroundWhite,
+                          ),
+                          child: Center(
+                            child: Text(
+                              'one_time'.tr,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .button
+                                  .copyWith(
+                                      color: _createItemController
+                                              .isSelfRemovingReward
+                                          ? kBackGroundWhite
+                                          : Theme.of(context).accentColor),
+                            ),
+                          ),
+                          height: 50,
+                        ),
                       ),
                     ),
                     const Spacer(),
                     Expanded(
-                      flex: 10,
-                      child: MaterialButton(
-                        elevation: 0,
-                        color: _createItemController.isSelfRemovingReward
-                            ? kBackGroundWhite
-                            : kDeepOrange,
-                        child: Center(
-                          child: Text('regular'.tr,
-                              style:
-                                  Theme.of(context).textTheme.button.copyWith(
-                                        color: _createItemController
-                                                .isSelfRemovingReward
-                                            ? Theme.of(context).accentColor
-                                            : kBackGroundWhite,
-                                      )),
-                        ),
-                        height: 50,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        onPressed: () {
-                          setState(() {
-                            _createItemController.isSelfRemovingReward = false;
-                          });
-                        },
-                      ),
-                    ),
+                        flex: 10,
+                        child: BouncingWidget(
+                          onPress: () {
+                            setState(() {
+                              _createItemController.isSelfRemovingReward =
+                                  false;
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: _createItemController.isSelfRemovingReward
+                                  ? kBackGroundWhite
+                                  : kDeepOrange,
+                            ),
+                            child: Center(
+                              child: Text(
+                                'regular'.tr,
+                                style:
+                                    Theme.of(context).textTheme.button.copyWith(
+                                          color: _createItemController
+                                                  .isSelfRemovingReward
+                                              ? Theme.of(context).accentColor
+                                              : kBackGroundWhite,
+                                        ),
+                              ),
+                            ),
+                            height: 50,
+                          ),
+                        )),
                   ],
                 ),
                 const SizedBox(height: 30),
@@ -241,24 +259,25 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                   ),
                 ),
                 const SizedBox(height: 30),
-                MaterialButton(
-                  elevation: 0,
-                  color: kBackGroundWhite,
-                  onPressed: () async {
+                BouncingWidget(
+                  onPress: () async {
                     _createItemController.createAndSaveReward();
                     await Get.find<NavigationController>().navigateToIndex(0);
                     _pageController.jumpToPage(0);
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15.0, vertical: 10.0),
-                    child: Text(
-                      'create_Button_title'.tr,
-                      style: Theme.of(context).textTheme.button,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: kBackGroundWhite,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15.0, vertical: 10.0),
+                      child: Text(
+                        'create_Button_title'.tr,
+                        style: Theme.of(context).textTheme.button,
+                      ),
                     ),
                   ),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
                 ),
                 Center(
                   child: PageScrollIconButton(
@@ -345,49 +364,64 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
           Expanded(
             flex: _contentFlex,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      MaterialButton(
-                        elevation: 0,
-                        onPressed: () {
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Spacer(),
+                    Expanded(
+                      flex: 2,
+                      child: BouncingWidget(
+                        onPress: () {
                           if (_createItemController.completionGoalCount <= 1)
                             return;
                           setState(() {
                             _createItemController.completionGoalCount--;
                           });
                         },
-                        color: kBackGroundWhite,
-                        child: Icon(
-                          Icons.remove,
-                          color: Theme.of(context).accentColor,
+                        child: Container(
+                          height: 40,
+                          decoration: BoxDecoration(
+                              color: kBackGroundWhite,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Icon(
+                            Icons.remove,
+                            color: Theme.of(context).accentColor,
+                          ),
                         ),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
                       ),
-                      Text(
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Text(
                         "${_createItemController.completionGoalCount}",
                         style: Theme.of(context).textTheme.headline3,
+                        textAlign: TextAlign.center,
                       ),
-                      MaterialButton(
-                        elevation: 0,
-                        onPressed: () {
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: BouncingWidget(
+                        onPress: () {
                           if (_createItemController.completionGoalCount >=
                               ContentController.maxDailyCompletions) return;
                           setState(() {
                             _createItemController.completionGoalCount++;
                           });
                         },
-                        color: kBackGroundWhite,
-                        child: Icon(Icons.add,
-                            color: Theme.of(context).accentColor),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
+                        child: Container(
+                          height: 40,
+                          decoration: BoxDecoration(
+                              color: kBackGroundWhite,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Icon(Icons.add,
+                              color: Theme.of(context).accentColor),
+                        ),
                       ),
-                    ],
-                  ),
+                    ),
+                    const Spacer(),
+                  ],
                 ),
                 Spacer(),
                 Row(
@@ -554,10 +588,8 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                 ),
               ),
               const SizedBox(height: 80),
-              MaterialButton(
-                elevation: 0,
-                color: kBackGroundWhite,
-                onPressed: () async {
+              BouncingWidget(
+                onPress: () async {
                   if (_createItemController.scheduledDays.isEmpty) {
                     SnackBars.showWarningSnackBar(
                         'warning'.tr, 'missing_schedule_warning'.tr);
@@ -566,20 +598,23 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                     await Get.find<NavigationController>().navigateToIndex(0);
                   }
                 },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 15.0, vertical: 10.0),
-                  child: Text(
-                    'create_Button_title'.tr,
-                    style: Theme.of(context)
-                        .textTheme
-                        .button
-                        .copyWith(color: kDeepOrange),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: kBackGroundWhite,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15.0, vertical: 10.0),
+                    child: Text(
+                      'create_Button_title'.tr,
+                      style: Theme.of(context)
+                          .textTheme
+                          .button
+                          .copyWith(color: kDeepOrange),
+                    ),
                   ),
                 ),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-              ),
+              )
             ],
           ),
         ),
@@ -744,8 +779,8 @@ class _ScheduleButtonState extends State<ScheduleButton> {
   bool isTapped = false;
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
+    return BouncingWidget(
+      onPress: () {
         setState(() {
           isTapped = !isTapped;
           widget.onTap(widget.index);

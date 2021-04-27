@@ -3,6 +3,7 @@ import 'package:Marbit/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:Marbit/models/habitModel.dart';
 import 'package:Marbit/util/constants.dart';
+import 'package:Marbit/widgets/widgets.dart';
 
 class CompletableHabitContainer extends StatefulWidget {
   final Habit habit;
@@ -106,10 +107,8 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
                       )
                     ],
                   ),
-                  MaterialButton(
-                    elevation: 0,
-                    minWidth: 0,
-                    onPressed: () {
+                  BouncingWidget(
+                    onPress: () {
                       setState(() {
                         _todaysHabitCompletions == containerSizeList.length
                             ? containerSizeList.last = 20.0
@@ -117,14 +116,16 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
                       });
                       widget.onPressed();
                     },
-                    color: kBackGroundWhite,
-                    padding: const EdgeInsets.all(10),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Icon(
-                      Icons.check_rounded,
-                      size: 36,
-                      color: kDeepOrange,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: kBackGroundWhite,
+                          borderRadius: BorderRadius.circular(10)),
+                      padding: const EdgeInsets.all(10),
+                      child: Icon(
+                        Icons.check_rounded,
+                        size: 36,
+                        color: kDeepOrange,
+                      ),
                     ),
                   ),
                 ],

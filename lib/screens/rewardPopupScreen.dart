@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:Marbit/controllers/controllers.dart';
+import 'package:Marbit/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:Marbit/models/models.dart';
 import 'package:Marbit/util/util.dart';
@@ -309,26 +310,27 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                       position: _slideUpAnimations[1],
                       child: FadeTransition(
                         opacity: _fadeInAnimations[1],
-                        child: Container(
-                          height: 60,
-                          width: 60,
-                          child: MaterialButton(
+                        child: BouncingWidget(
+                          onPress: () {
+                            _checkIfRewardIsRemoving();
+                            Get.back();
+                          },
+                          child: Container(
+                            height: 60,
+                            width: 60,
                             padding: const EdgeInsets.all(0),
-                            elevation: 0,
-                            color: Colors.green[400],
-                            child: const Center(
-                              child: Icon(
-                                Icons.check,
-                                color: Colors.white,
-                                size: 30,
+                            decoration: BoxDecoration(
+                                color: Colors.green[400],
+                                borderRadius: BorderRadius.circular(8)),
+                            child: Center(
+                              child: Container(
+                                child: Icon(
+                                  Icons.check,
+                                  color: Colors.white,
+                                  size: 30,
+                                ),
                               ),
                             ),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8)),
-                            onPressed: () {
-                              _checkIfRewardIsRemoving();
-                              Get.back();
-                            },
                           ),
                         ),
                       ),
