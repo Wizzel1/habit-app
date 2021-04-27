@@ -184,56 +184,54 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
   }
 
   Widget _buildChangeSelfRemovingOption() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Expanded(
-          flex: 10,
-          child: BouncingButton(
-            onPressed: () {
-              if (!_isInEditMode) return;
-              setState(() {
-                _editContentController.isSelfRemoving = true;
-              });
-            },
-            height: 50,
-            color: _editContentController.isSelfRemoving
-                ? kDeepOrange
-                : kBackGroundWhite,
-            child: Text(
-              'one_time'.tr,
-              style: Theme.of(context).textTheme.button.copyWith(
-                  color: _editContentController.isSelfRemoving
-                      ? kBackGroundWhite
-                      : Theme.of(context).accentColor),
+    return Obx(
+      () => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Expanded(
+            flex: 10,
+            child: BouncingButton(
+              onPressed: () {
+                if (!_isInEditMode) return;
+                _editContentController.isSelfRemoving.value = true;
+              },
+              height: 50,
+              color: _editContentController.isSelfRemoving.value
+                  ? kDeepOrange
+                  : kBackGroundWhite,
+              child: Text(
+                'one_time'.tr,
+                style: Theme.of(context).textTheme.button.copyWith(
+                    color: _editContentController.isSelfRemoving.value
+                        ? kBackGroundWhite
+                        : Theme.of(context).accentColor),
+              ),
             ),
           ),
-        ),
-        const Spacer(),
-        Expanded(
-          flex: 10,
-          child: BouncingButton(
-            onPressed: () {
-              if (!_isInEditMode) return;
-              setState(() {
-                _editContentController.isSelfRemoving = false;
-              });
-            },
-            height: 50,
-            color: _editContentController.isSelfRemoving
-                ? kBackGroundWhite
-                : kDeepOrange,
-            child: Text(
-              'regular'.tr,
-              style: Theme.of(context).textTheme.button.copyWith(
-                    color: _editContentController.isSelfRemoving
-                        ? Theme.of(context).accentColor
-                        : kBackGroundWhite,
-                  ),
+          const Spacer(),
+          Expanded(
+            flex: 10,
+            child: BouncingButton(
+              onPressed: () {
+                if (!_isInEditMode) return;
+                _editContentController.isSelfRemoving.value = false;
+              },
+              height: 50,
+              color: _editContentController.isSelfRemoving.value
+                  ? kBackGroundWhite
+                  : kDeepOrange,
+              child: Text(
+                'regular'.tr,
+                style: Theme.of(context).textTheme.button.copyWith(
+                      color: _editContentController.isSelfRemoving.value
+                          ? Theme.of(context).accentColor
+                          : kBackGroundWhite,
+                    ),
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

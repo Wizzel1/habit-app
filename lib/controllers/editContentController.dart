@@ -10,11 +10,11 @@ class EditContentController extends GetxController {
 
   TextEditingController titleController;
   TextEditingController descriptionController;
-  bool isSelfRemoving;
-  int newCompletionGoal;
-  List<int> newSchedule = [];
-  List<String> newRewardReferences = [];
-  DateTime newCompletionDate;
+  Rx<bool> isSelfRemoving = false.obs;
+  Rx<int> newCompletionGoal = 0.obs;
+  RxList<int> newSchedule = List<int>.empty().obs;
+  RxList<String> newRewardReferences = List<String>.empty().obs;
+  Rx<DateTime> newCompletionDate = DateTime.now().obs;
 
   @override
   void onInit() {
@@ -33,7 +33,7 @@ class EditContentController extends GetxController {
   void loadHabitValues(Habit habit) {
     titleController.text = habit.title;
     descriptionController.text = habit.description;
-    newCompletionGoal = habit.completionGoal;
+    newCompletionGoal.value = habit.completionGoal;
 
     for (var i = 0; i < habit.scheduledWeekDays.length; i++) {
       newSchedule.add(habit.scheduledWeekDays[i]);
@@ -47,7 +47,7 @@ class EditContentController extends GetxController {
   void loadRewardValues(Reward reward) {
     titleController.text = reward.name;
     descriptionController.text = reward.description;
-    isSelfRemoving = reward.isSelfRemoving;
+    isSelfRemoving.value = reward.isSelfRemoving;
   }
 
   void updateReward(String rewardID) {
@@ -69,7 +69,7 @@ class EditContentController extends GetxController {
           descriptionController.text;
     if (isSelfRemoving != null)
       _contentController.allRewardList[_updateIndex].isSelfRemoving =
-          isSelfRemoving;
+          isSelfRemoving.value;
 
     LocalStorageService.saveAllRewards(_contentController.allRewardList);
 
@@ -102,11 +102,11 @@ class EditContentController extends GetxController {
     if (newRewardReferences != null && newRewardReferences.isNotEmpty)
       _habitToUpdate.rewardIDReferences = newRewardReferences;
     if (newCompletionGoal != null)
-      _habitToUpdate.completionGoal = newCompletionGoal;
+      _habitToUpdate.completionGoal = newCompletionGoal.value;
 
     _habitToUpdate.updateToNextCompletionDate();
     if (newCompletionDate != null)
-      _habitToUpdate.nextCompletionDate = newCompletionDate;
+      _habitToUpdate.nextCompletionDate = newCompletionDate.value;
 
     LocalStorageService.saveAllHabits(_contentController.allHabitList);
 

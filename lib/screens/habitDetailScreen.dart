@@ -422,9 +422,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                 ? BouncingButton(
                     onPressed: () {
                       if (_editContentController.newCompletionGoal <= 1) return;
-                      setState(() {
-                        _editContentController.newCompletionGoal--;
-                      });
+                      _editContentController.newCompletionGoal--;
                     },
                     child: Icon(
                       Icons.remove,
@@ -436,11 +434,11 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
         ),
         Expanded(
           flex: 2,
-          child: Text(
-            "${_editContentController.newCompletionGoal}",
-            style: Theme.of(context).textTheme.headline3,
-            textAlign: TextAlign.center,
-          ),
+          child: Obx(() => Text(
+                "${_editContentController.newCompletionGoal}",
+                style: Theme.of(context).textTheme.headline3,
+                textAlign: TextAlign.center,
+              )),
         ),
         AnimatedBuilder(
           animation: _goalStepperOffset,
@@ -457,9 +455,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                     onPressed: () {
                       if (_editContentController.newCompletionGoal >=
                           ContentController.maxDailyCompletions) return;
-                      setState(() {
-                        _editContentController.newCompletionGoal++;
-                      });
+                      _editContentController.newCompletionGoal++;
                     },
                     child:
                         Icon(Icons.add, color: Theme.of(context).accentColor),
@@ -499,99 +495,99 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   }
 
   Widget _buildScheduleRow() {
-    return AnimatedBuilder(
-      animation: _scheduleOffset,
-      builder: (BuildContext context, Widget child) {
-        return SlideTransition(
-          position: _scheduleOffset,
-          child: child,
-        );
-      },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: List.generate(
-          7,
-          (index) => BouncingButton(
-            onPressed: () {
-              if (!_isInEditMode) return;
-              int weekDayIndex = index + 1;
-
-              if (_editContentController.newSchedule.contains(weekDayIndex)) {
-                _editContentController.newSchedule.remove(weekDayIndex);
-              } else {
-                _editContentController.newSchedule.add(weekDayIndex);
-              }
-              _editContentController.newSchedule.sort();
-            },
-            height: 60,
-            width: 40,
-            color: _editContentController.newSchedule.contains(index + 1)
-                ? Color(widget.habit.habitColors["deep"])
-                : kBackGroundWhite,
-            child: Text(
-              dayNames[index],
-              style: Theme.of(context).textTheme.button.copyWith(
-                    fontSize: 12,
-                    color:
-                        _editContentController.newSchedule.contains(index + 1)
+    return Obx(() => AnimatedBuilder(
+          animation: _scheduleOffset,
+          builder: (BuildContext context, Widget child) {
+            return SlideTransition(
+              position: _scheduleOffset,
+              child: child,
+            );
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: List.generate(
+              7,
+              (index) => BouncingButton(
+                onPressed: () {
+                  if (!_isInEditMode) return;
+                  int weekDayIndex = index + 1;
+                  if (_editContentController.newSchedule
+                      .contains(weekDayIndex)) {
+                    _editContentController.newSchedule.remove(weekDayIndex);
+                  } else {
+                    _editContentController.newSchedule.add(weekDayIndex);
+                  }
+                  _editContentController.newSchedule.sort();
+                },
+                height: 60,
+                width: 40,
+                color: _editContentController.newSchedule.contains(index + 1)
+                    ? Color(widget.habit.habitColors["deep"])
+                    : kBackGroundWhite,
+                child: Text(
+                  dayNames[index],
+                  style: Theme.of(context).textTheme.button.copyWith(
+                        fontSize: 12,
+                        color: _editContentController.newSchedule
+                                .contains(index + 1)
                             ? kBackGroundWhite
                             : Color(widget.habit.habitColors["deep"]),
-                  ),
+                      ),
+                ),
+              ),
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 
   Widget _buildImplicitList() {
-    return ImplicitlyAnimatedList<Reward>(
-      physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      removeDuration: const Duration(milliseconds: 200),
-      insertDuration: const Duration(milliseconds: 500),
-      updateDuration: const Duration(milliseconds: 200),
-      items: _joinedRewardList,
-      areItemsTheSame: (a, b) => a.id == b.id,
-      itemBuilder: (context, animation, reward, index) {
-        // Specifiy a transition to be used by the ImplicitlyAnimatedList.
-        // See the Transitions section on how to import this transition.
-        bool isSelected = (_editContentController.newRewardReferences
-            .any((element) => element == reward.id));
-        return SizeFadeTransition(
-          sizeFraction: 0.7,
-          curve: Curves.easeInOut,
-          animation: animation,
-          child: AnimatedBuilder(
-            animation: _rewardListOffsets[index],
-            builder: (BuildContext context, Widget child) {
-              return SlideTransition(
-                position: _rewardListOffsets[index],
-                child: child,
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: SelectableRewardContainer(
-                reward: reward,
-                isSelectedReward: isSelected,
-                onTap: () {
-                  if (!_isInEditMode) return;
-                  setState(() {
+    return Obx(
+      () => ImplicitlyAnimatedList<Reward>(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        removeDuration: const Duration(milliseconds: 200),
+        insertDuration: const Duration(milliseconds: 500),
+        updateDuration: const Duration(milliseconds: 200),
+        items: _joinedRewardList,
+        areItemsTheSame: (a, b) => a.id == b.id,
+        itemBuilder: (context, animation, reward, index) {
+          // Specifiy a transition to be used by the ImplicitlyAnimatedList.
+          // See the Transitions section on how to import this transition.
+          bool isSelected = (_editContentController.newRewardReferences
+              .any((element) => element == reward.id));
+          return SizeFadeTransition(
+            sizeFraction: 0.7,
+            curve: Curves.easeInOut,
+            animation: animation,
+            child: AnimatedBuilder(
+              animation: _rewardListOffsets[index],
+              builder: (BuildContext context, Widget child) {
+                return SlideTransition(
+                  position: _rewardListOffsets[index],
+                  child: child,
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: SelectableRewardContainer(
+                  reward: reward,
+                  isSelectedReward: isSelected,
+                  onTap: () {
+                    if (!_isInEditMode) return;
                     _editContentController.newRewardReferences
                             .contains(reward.id)
                         ? _editContentController.newRewardReferences
                             .remove(reward.id)
                         : _editContentController.newRewardReferences
                             .add(reward.id);
-                  });
-                  _setJoinedRewardList();
-                },
+                    _setJoinedRewardList();
+                  },
+                ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 

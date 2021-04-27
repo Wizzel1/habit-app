@@ -420,66 +420,65 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
   }
 
   Widget _buildCompletionGoalStepper() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        AnimatedBuilder(
-          animation: _goalStepperOffset,
-          builder: (BuildContext context, Widget child) {
-            return SlideTransition(
-              position: _goalStepperOffset,
-              child: child,
-            );
-          },
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 200),
-            child: _isInEditMode
-                ? BouncingButton(
-                    onPressed: () {
-                      if (_editContentController.newCompletionGoal <= 1) return;
-                      setState(() {
+    return Obx(
+      () => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          AnimatedBuilder(
+            animation: _goalStepperOffset,
+            builder: (BuildContext context, Widget child) {
+              return SlideTransition(
+                position: _goalStepperOffset,
+                child: child,
+              );
+            },
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 200),
+              child: _isInEditMode
+                  ? BouncingButton(
+                      onPressed: () {
+                        if (_editContentController.newCompletionGoal <= 1)
+                          return;
                         _editContentController.newCompletionGoal--;
-                      });
-                    },
-                    child: Icon(
-                      Icons.remove,
-                      color: Theme.of(context).accentColor,
-                    ),
-                  )
-                : const SizedBox.shrink(),
+                      },
+                      child: Icon(
+                        Icons.remove,
+                        color: Theme.of(context).accentColor,
+                      ),
+                    )
+                  : const SizedBox.shrink(),
+            ),
           ),
-        ),
-        Text(
-          "${_editContentController.newCompletionGoal}",
-          style: Theme.of(context).textTheme.headline3,
-        ),
-        AnimatedBuilder(
-          animation: _goalStepperOffset,
-          builder: (BuildContext context, Widget child) {
-            return SlideTransition(
-              position: _goalStepperOffset,
-              child: child,
-            );
-          },
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 200),
-            child: _isInEditMode
-                ? BouncingButton(
-                    onPressed: () {
-                      if (_editContentController.newCompletionGoal >=
-                          ContentController.maxDailyCompletions) return;
-                      setState(() {
+          Text(
+            "${_editContentController.newCompletionGoal}",
+            style: Theme.of(context).textTheme.headline3,
+          ),
+          AnimatedBuilder(
+            animation: _goalStepperOffset,
+            builder: (BuildContext context, Widget child) {
+              return SlideTransition(
+                position: _goalStepperOffset,
+                child: child,
+              );
+            },
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 200),
+              child: _isInEditMode
+                  ? BouncingButton(
+                      onPressed: () {
+                        if (_editContentController.newCompletionGoal >=
+                            ContentController.maxDailyCompletions) return;
                         _editContentController.newCompletionGoal++;
-                      });
-                    },
-                    child:
-                        Icon(Icons.add, color: Theme.of(context).accentColor),
-                  )
-                : const SizedBox.shrink(),
+                      },
+                      child:
+                          Icon(Icons.add, color: Theme.of(context).accentColor),
+                    )
+                  : const SizedBox.shrink(),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -511,51 +510,52 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
   }
 
   Widget _buildScheduleRow() {
-    return AnimatedBuilder(
-      animation: _scheduleOffset,
-      builder: (BuildContext context, Widget child) {
-        return SlideTransition(
-          position: _scheduleOffset,
-          child: child,
-        );
-      },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        key: _tutorialController.scheduleRowKey,
-        children: List.generate(
-          7,
-          (index) => GestureDetector(
-            onTap: () {
-              if (!_isInEditMode) return;
-              int weekDayIndex = index + 1;
+    return Obx(
+      () => AnimatedBuilder(
+        animation: _scheduleOffset,
+        builder: (BuildContext context, Widget child) {
+          return SlideTransition(
+            position: _scheduleOffset,
+            child: child,
+          );
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          key: _tutorialController.scheduleRowKey,
+          children: List.generate(
+            7,
+            (index) => GestureDetector(
+              onTap: () {
+                if (!_isInEditMode) return;
+                int weekDayIndex = index + 1;
 
-              if (_editContentController.newSchedule.contains(weekDayIndex)) {
-                _editContentController.newSchedule.remove(weekDayIndex);
-              } else {
-                _editContentController.newSchedule.add(weekDayIndex);
-              }
-              _editContentController.newSchedule.sort();
-              //TODO correct setstate
-              setState(() {});
-            },
-            child: Container(
-              height: 60,
-              width: 40,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: _editContentController.newSchedule.contains(index + 1)
-                      ? Color(widget.habit.habitColors["deep"])
-                      : kBackGroundWhite),
-              child: Center(
-                child: Text(
-                  dayNames[index],
-                  style: Theme.of(context).textTheme.button.copyWith(
-                        fontSize: 12,
-                        color: _editContentController.newSchedule
-                                .contains(index + 1)
-                            ? kBackGroundWhite
-                            : Color(widget.habit.habitColors["deep"]),
-                      ),
+                if (_editContentController.newSchedule.contains(weekDayIndex)) {
+                  _editContentController.newSchedule.remove(weekDayIndex);
+                } else {
+                  _editContentController.newSchedule.add(weekDayIndex);
+                }
+                _editContentController.newSchedule.sort();
+              },
+              child: Container(
+                height: 60,
+                width: 40,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color:
+                        _editContentController.newSchedule.contains(index + 1)
+                            ? Color(widget.habit.habitColors["deep"])
+                            : kBackGroundWhite),
+                child: Center(
+                  child: Text(
+                    dayNames[index],
+                    style: Theme.of(context).textTheme.button.copyWith(
+                          fontSize: 12,
+                          color: _editContentController.newSchedule
+                                  .contains(index + 1)
+                              ? kBackGroundWhite
+                              : Color(widget.habit.habitColors["deep"]),
+                        ),
+                  ),
                 ),
               ),
             ),
@@ -566,54 +566,54 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
   }
 
   Widget _buildImplicitList() {
-    return ImplicitlyAnimatedList<Reward>(
-      physics: NeverScrollableScrollPhysics(),
-      key: _tutorialController.rewardListKey,
-      shrinkWrap: true,
-      removeDuration: const Duration(milliseconds: 200),
-      insertDuration: const Duration(milliseconds: 500),
-      updateDuration: const Duration(milliseconds: 200),
-      items: _joinedRewardList,
-      areItemsTheSame: (a, b) => a.id == b.id,
-      itemBuilder: (context, animation, reward, index) {
-        // Specifiy a transition to be used by the ImplicitlyAnimatedList.
-        // See the Transitions section on how to import this transition.
-        bool isSelected = (_editContentController.newRewardReferences
-            .any((element) => element == reward.id));
-        return SizeFadeTransition(
-          sizeFraction: 0.7,
-          curve: Curves.easeInOut,
-          animation: animation,
-          child: AnimatedBuilder(
-            animation: _rewardListOffsets[index],
-            builder: (BuildContext context, Widget child) {
-              return SlideTransition(
-                position: _rewardListOffsets[index],
-                child: child,
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: SelectableRewardContainer(
-                reward: reward,
-                isSelectedReward: isSelected,
-                onTap: () {
-                  if (!_isInEditMode) return;
-                  setState(() {
+    return Obx(
+      () => ImplicitlyAnimatedList<Reward>(
+        physics: NeverScrollableScrollPhysics(),
+        key: _tutorialController.rewardListKey,
+        shrinkWrap: true,
+        removeDuration: const Duration(milliseconds: 200),
+        insertDuration: const Duration(milliseconds: 500),
+        updateDuration: const Duration(milliseconds: 200),
+        items: _joinedRewardList,
+        areItemsTheSame: (a, b) => a.id == b.id,
+        itemBuilder: (context, animation, reward, index) {
+          // Specifiy a transition to be used by the ImplicitlyAnimatedList.
+          // See the Transitions section on how to import this transition.
+          bool isSelected = (_editContentController.newRewardReferences
+              .any((element) => element == reward.id));
+          return SizeFadeTransition(
+            sizeFraction: 0.7,
+            curve: Curves.easeInOut,
+            animation: animation,
+            child: AnimatedBuilder(
+              animation: _rewardListOffsets[index],
+              builder: (BuildContext context, Widget child) {
+                return SlideTransition(
+                  position: _rewardListOffsets[index],
+                  child: child,
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: SelectableRewardContainer(
+                  reward: reward,
+                  isSelectedReward: isSelected,
+                  onTap: () {
+                    if (!_isInEditMode) return;
                     _editContentController.newRewardReferences
                             .contains(reward.id)
                         ? _editContentController.newRewardReferences
                             .remove(reward.id)
                         : _editContentController.newRewardReferences
                             .add(reward.id);
-                  });
-                  _setJoinedTutorialRewardList();
-                },
+                    _setJoinedTutorialRewardList();
+                  },
+                ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 

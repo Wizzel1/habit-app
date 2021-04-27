@@ -241,10 +241,10 @@ class Habit {
           (element) => element > DateUtilities.today.weekday,
           orElse: () => scheduledWeekDays.first);
       if (newCompletionWeekDay == DateUtilities.today.weekday) {
-        Get.find<EditContentController>().newCompletionDate =
+        Get.find<EditContentController>().newCompletionDate.value =
             DateUtilities.today.add(Duration(days: 7));
       } else {
-        Get.find<EditContentController>().newCompletionDate =
+        Get.find<EditContentController>().newCompletionDate.value =
             DateUtilities.getDateTimeOfNextWeekDayOccurrence(
                 newCompletionWeekDay);
       }
@@ -253,7 +253,7 @@ class Habit {
           (element) => element >= DateUtilities.today.weekday,
           orElse: () => scheduledWeekDays.first);
 
-      Get.find<EditContentController>().newCompletionDate =
+      Get.find<EditContentController>().newCompletionDate.value =
           DateUtilities.getDateTimeOfNextWeekDayOccurrence(
               newCompletionWeekDay);
     }
