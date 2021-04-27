@@ -101,7 +101,7 @@ class EditContentController extends GetxController {
       _habitToUpdate.scheduledWeekDays = newSchedule;
     if (newRewardReferences != null && newRewardReferences.isNotEmpty)
       _habitToUpdate.rewardIDReferences = newRewardReferences;
-    if (newCompletionGoal != null)
+    if (newCompletionGoal != null && newCompletionGoal.value != 0)
       _habitToUpdate.completionGoal = newCompletionGoal.value;
 
     _habitToUpdate.updateToNextCompletionDate();
