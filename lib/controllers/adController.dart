@@ -12,6 +12,7 @@ class AdController extends GetxController {
   @override
   void onInit() async {
     interstitialAd = InterstitialAd(unitId: MobileAds.interstitialAdTestUnitId);
+    interstitialAd.load();
     super.onInit();
   }
 
