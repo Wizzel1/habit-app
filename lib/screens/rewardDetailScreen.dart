@@ -189,63 +189,47 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
       children: [
         Expanded(
           flex: 10,
-          child: BouncingWidget(
-            onPress: () {
+          child: BouncingButton(
+            onPressed: () {
               if (!_isInEditMode) return;
               setState(() {
                 _editContentController.isSelfRemoving = true;
               });
             },
-            child: Container(
-              height: 50,
-              decoration: BoxDecoration(
+            height: 50,
+            color: _editContentController.isSelfRemoving
+                ? kDeepOrange
+                : kBackGroundWhite,
+            child: Text(
+              'one_time'.tr,
+              style: Theme.of(context).textTheme.button.copyWith(
                   color: _editContentController.isSelfRemoving
-                      ? kDeepOrange
-                      : kBackGroundWhite,
-                  borderRadius: BorderRadius.circular(10)),
-              child: Container(
-                child: Center(
-                  child: Text(
-                    'one_time'.tr,
-                    style: Theme.of(context).textTheme.button.copyWith(
-                        color: _editContentController.isSelfRemoving
-                            ? kBackGroundWhite
-                            : Theme.of(context).accentColor),
-                  ),
-                ),
-              ),
+                      ? kBackGroundWhite
+                      : Theme.of(context).accentColor),
             ),
           ),
         ),
         const Spacer(),
         Expanded(
           flex: 10,
-          child: BouncingWidget(
-            onPress: () {
+          child: BouncingButton(
+            onPressed: () {
               if (!_isInEditMode) return;
               setState(() {
                 _editContentController.isSelfRemoving = false;
               });
             },
-            child: Container(
-              decoration: BoxDecoration(
-                  color: _editContentController.isSelfRemoving
-                      ? kBackGroundWhite
-                      : kDeepOrange,
-                  borderRadius: BorderRadius.circular(10)),
-              child: Container(
-                height: 50,
-                child: Center(
-                  child: Text(
-                    'regular'.tr,
-                    style: Theme.of(context).textTheme.button.copyWith(
-                          color: _editContentController.isSelfRemoving
-                              ? Theme.of(context).accentColor
-                              : kBackGroundWhite,
-                        ),
+            height: 50,
+            color: _editContentController.isSelfRemoving
+                ? kBackGroundWhite
+                : kDeepOrange,
+            child: Text(
+              'regular'.tr,
+              style: Theme.of(context).textTheme.button.copyWith(
+                    color: _editContentController.isSelfRemoving
+                        ? Theme.of(context).accentColor
+                        : kBackGroundWhite,
                   ),
-                ),
-              ),
             ),
           ),
         ),
@@ -313,65 +297,44 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
   }
 
   Widget _buildEditButton({Function onPressed}) {
-    return BouncingWidget(
-      onPress: () {
+    return BouncingButton(
+      onPressed: () {
         onPressed();
         setState(() {
           _isInEditMode = !_isInEditMode;
         });
       },
-      child: Container(
-        height: 40,
-        width: 100,
-        decoration: BoxDecoration(
-          color: kBackGroundWhite,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: _isInEditMode
-            ? Center(
-                child: Text(
-                  'save_reward'.tr,
-                  style: Theme.of(context).textTheme.button.copyWith(
-                        fontSize: 12,
-                        color: kDeepOrange,
-                      ),
-                ),
-              )
-            : Center(
-                child: Text(
-                  'edit_reward'.tr,
-                  style: Theme.of(context).textTheme.button.copyWith(
-                        fontSize: 12,
-                        color: kDeepOrange,
-                      ),
-                ),
-              ),
-      ),
+      child: _isInEditMode
+          ? Text(
+              'save_reward'.tr,
+              style: Theme.of(context).textTheme.button.copyWith(
+                    fontSize: 12,
+                    color: kDeepOrange,
+                  ),
+            )
+          : Text(
+              'edit_reward'.tr,
+              style: Theme.of(context).textTheme.button.copyWith(
+                    fontSize: 12,
+                    color: kDeepOrange,
+                  ),
+            ),
     );
   }
 
   Widget _buildRewardDeleteButton() {
-    return BouncingWidget(
-      onPress: () {
+    return BouncingButton(
+      onPressed: () {
         Get.back();
         Get.find<ContentController>().deleteReward(widget.reward);
       },
-      child: Container(
-        height: 40,
-        width: 100,
-        decoration: BoxDecoration(
-          color: kLightRed,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Center(
-          child: Text(
-            'delete_reward'.tr,
-            style: Theme.of(context).textTheme.button.copyWith(
-                  fontSize: 12,
-                  color: kBackGroundWhite,
-                ),
-          ),
-        ),
+      color: kLightRed,
+      child: Text(
+        'delete_reward'.tr,
+        style: Theme.of(context).textTheme.button.copyWith(
+              fontSize: 12,
+              color: kBackGroundWhite,
+            ),
       ),
     );
   }

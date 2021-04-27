@@ -413,24 +413,17 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 200),
                 child: _isInEditMode
-                    ? BouncingWidget(
-                        onPress: () {
+                    ? BouncingButton(
+                        onPressed: () {
                           if (_editContentController.newCompletionGoal <= 1)
                             return;
                           setState(() {
                             _editContentController.newCompletionGoal--;
                           });
                         },
-                        child: Container(
-                          height: 40,
-                          width: 100,
-                          decoration: BoxDecoration(
-                              color: kBackGroundWhite,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Icon(
-                            Icons.remove,
-                            color: Theme.of(context).accentColor,
-                          ),
+                        child: Icon(
+                          Icons.remove,
+                          color: Theme.of(context).accentColor,
                         ),
                       )
                     : const SizedBox.shrink(),
@@ -454,23 +447,16 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 200),
                 child: _isInEditMode
-                    ? BouncingWidget(
-                        onPress: () {
+                    ? BouncingButton(
+                        onPressed: () {
                           if (_editContentController.newCompletionGoal >=
                               ContentController.maxDailyCompletions) return;
                           setState(() {
                             _editContentController.newCompletionGoal++;
                           });
                         },
-                        child: Container(
-                          height: 40,
-                          width: 100,
-                          decoration: BoxDecoration(
-                              color: kBackGroundWhite,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Icon(Icons.add,
-                              color: Theme.of(context).accentColor),
-                        ),
+                        child: Icon(Icons.add,
+                            color: Theme.of(context).accentColor),
                       )
                     : const SizedBox.shrink(),
               ),
@@ -483,37 +469,28 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   }
 
   Widget _buildEditButton({Function onPressed}) {
-    return BouncingWidget(
-      onPress: () {
+    return BouncingButton(
+      onPressed: () {
         onPressed();
         setState(() {
           _isInEditMode = !_isInEditMode;
         });
       },
-      child: Container(
-          decoration: BoxDecoration(
-              color: kBackGroundWhite, borderRadius: BorderRadius.circular(10)),
-          height: 40,
-          width: 100,
-          child: _isInEditMode
-              ? Center(
-                  child: Text(
-                    'save_habit'.tr,
-                    style: Theme.of(context).textTheme.button.copyWith(
-                          fontSize: 12,
-                          color: Color(widget.habit.habitColors["deep"]),
-                        ),
+      child: _isInEditMode
+          ? Text(
+              'save_habit'.tr,
+              style: Theme.of(context).textTheme.button.copyWith(
+                    fontSize: 12,
+                    color: Color(widget.habit.habitColors["deep"]),
                   ),
-                )
-              : Center(
-                  child: Text(
-                    'edit_habit'.tr,
-                    style: Theme.of(context).textTheme.button.copyWith(
-                          fontSize: 12,
-                          color: Color(widget.habit.habitColors["deep"]),
-                        ),
+            )
+          : Text(
+              'edit_habit'.tr,
+              style: Theme.of(context).textTheme.button.copyWith(
+                    fontSize: 12,
+                    color: Color(widget.habit.habitColors["deep"]),
                   ),
-                )),
+            ),
     );
   }
 
@@ -527,8 +504,8 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: List.generate(
               7,
-              (index) => BouncingWidget(
-                onPress: () {
+              (index) => BouncingButton(
+                onPressed: () {
                   if (!_isInEditMode) return;
                   int weekDayIndex = index + 1;
 
@@ -540,27 +517,20 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                   }
                   _editContentController.newSchedule.sort();
                 },
-                child: Container(
-                  height: 60,
-                  width: 40,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color:
-                          _editContentController.newSchedule.contains(index + 1)
-                              ? Color(widget.habit.habitColors["deep"])
-                              : kBackGroundWhite),
-                  child: Center(
-                    child: Text(
-                      dayNames[index],
-                      style: Theme.of(context).textTheme.button.copyWith(
-                            fontSize: 12,
-                            color: _editContentController.newSchedule
-                                    .contains(index + 1)
-                                ? kBackGroundWhite
-                                : Color(widget.habit.habitColors["deep"]),
-                          ),
-                    ),
-                  ),
+                height: 60,
+                width: 40,
+                color: _editContentController.newSchedule.contains(index + 1)
+                    ? Color(widget.habit.habitColors["deep"])
+                    : kBackGroundWhite,
+                child: Text(
+                  dayNames[index],
+                  style: Theme.of(context).textTheme.button.copyWith(
+                        fontSize: 12,
+                        color: _editContentController.newSchedule
+                                .contains(index + 1)
+                            ? kBackGroundWhite
+                            : Color(widget.habit.habitColors["deep"]),
+                      ),
                 ),
               ),
             ),
@@ -621,25 +591,18 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   }
 
   Widget _buildHabitDeleteButton() {
-    return BouncingWidget(
-      onPress: () {
+    return BouncingButton(
+      onPressed: () {
         Get.back();
         Get.find<ContentController>().deleteHabit(widget.habit);
       },
-      child: Container(
-        height: 40,
-        width: 100,
-        decoration: BoxDecoration(
-            color: kLightRed, borderRadius: BorderRadius.circular(10)),
-        child: Center(
-          child: Text(
-            'delete_habit'.tr,
-            style: Theme.of(context).textTheme.button.copyWith(
-                  fontSize: 12,
-                  color: kBackGroundWhite,
-                ),
-          ),
-        ),
+      color: kLightRed,
+      child: Text(
+        'delete_habit'.tr,
+        style: Theme.of(context).textTheme.button.copyWith(
+              fontSize: 12,
+              color: kBackGroundWhite,
+            ),
       ),
     );
   }

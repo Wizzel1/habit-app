@@ -149,9 +149,8 @@ class _TutorialContainerState extends State<TutorialContainer>
                     ],
                   ),
                   _tutorialController.hasFinishedDetailScreenStep
-                      ? BouncingWidget(
-                          key: _tutorialController.completeButtonKey,
-                          onPress: () {
+                      ? BouncingButton(
+                          onPressed: () {
                             setState(() {
                               _todaysHabitCompletions ==
                                       containerSizeList.length
@@ -161,16 +160,13 @@ class _TutorialContainerState extends State<TutorialContainer>
                             });
                             widget.onPressed();
                           },
-                          child: Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                color: kBackGroundWhite,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Icon(
-                              Icons.check_rounded,
-                              size: 36,
-                              color: kDeepOrange,
-                            ),
+                          key: _tutorialController.completeButtonKey,
+                          height: 56,
+                          width: 56,
+                          child: Icon(
+                            Icons.check_rounded,
+                            size: 36,
+                            color: kDeepOrange,
                           ),
                         )
                       : const SizedBox.shrink(),

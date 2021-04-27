@@ -310,27 +310,18 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                       position: _slideUpAnimations[1],
                       child: FadeTransition(
                         opacity: _fadeInAnimations[1],
-                        child: BouncingWidget(
-                          onPress: () {
+                        child: BouncingButton(
+                          onPressed: () {
                             _checkIfRewardIsRemoving();
                             Get.back();
                           },
-                          child: Container(
-                            height: 60,
-                            width: 60,
-                            padding: const EdgeInsets.all(0),
-                            decoration: BoxDecoration(
-                                color: Colors.green[400],
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Center(
-                              child: Container(
-                                child: Icon(
-                                  Icons.check,
-                                  color: Colors.white,
-                                  size: 30,
-                                ),
-                              ),
-                            ),
+                          height: 60,
+                          width: 60,
+                          color: Colors.green[400],
+                          child: Icon(
+                            Icons.check,
+                            color: Colors.white,
+                            size: 30,
                           ),
                         ),
                       ),

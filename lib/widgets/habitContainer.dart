@@ -107,8 +107,8 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
                       )
                     ],
                   ),
-                  BouncingWidget(
-                    onPress: () {
+                  BouncingButton(
+                    onPressed: () {
                       setState(() {
                         _todaysHabitCompletions == containerSizeList.length
                             ? containerSizeList.last = 20.0
@@ -116,16 +116,12 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
                       });
                       widget.onPressed();
                     },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: kBackGroundWhite,
-                          borderRadius: BorderRadius.circular(10)),
-                      padding: const EdgeInsets.all(10),
-                      child: Icon(
-                        Icons.check_rounded,
-                        size: 36,
-                        color: kDeepOrange,
-                      ),
+                    height: 56,
+                    width: 56,
+                    child: Icon(
+                      Icons.check_rounded,
+                      size: 36,
+                      color: kDeepOrange,
                     ),
                   ),
                 ],

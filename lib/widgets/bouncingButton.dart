@@ -1,18 +1,29 @@
+import 'package:Marbit/util/constants.dart';
 import 'package:flutter/material.dart';
 
-class BouncingWidget extends StatefulWidget {
+class BouncingButton extends StatefulWidget {
+  final VoidCallback onPressed;
   final Widget child;
-  final VoidCallback onPress;
+  final Color color;
+  final double height;
+  final double width;
+  final double borderRadius;
 
-  BouncingWidget({@required this.child, Key key, @required this.onPress})
-      : assert(child != null),
-        super(key: key);
+  const BouncingButton({
+    Key key,
+    @required this.onPressed,
+    @required this.child,
+    this.color = kBackGroundWhite,
+    this.height = 40,
+    this.width = 100,
+    this.borderRadius = 10,
+  }) : super(key: key);
 
   @override
-  _BouncingWidgetState createState() => _BouncingWidgetState();
+  _BouncingButtonState createState() => _BouncingButtonState();
 }
 
-class _BouncingWidgetState extends State<BouncingWidget>
+class _BouncingButtonState extends State<BouncingButton>
     with SingleTickerProviderStateMixin {
   Animation<double> _scale;
   AnimationController _controller;
@@ -42,12 +53,21 @@ class _BouncingWidgetState extends State<BouncingWidget>
       },
       onPointerUp: (PointerUpEvent event) {
         _controller.reverse();
-        if (widget.onPress == null) return;
-        widget.onPress();
+        if (widget.onPressed == null) return;
+        widget.onPressed();
       },
       child: ScaleTransition(
         scale: _scale,
-        child: widget.child,
+        child: Container(
+          height: widget.height,
+          width: widget.width,
+          decoration: BoxDecoration(
+              color: widget.color,
+              borderRadius: BorderRadius.circular(widget.borderRadius)),
+          child: Center(
+            child: widget.child,
+          ),
+        ),
       ),
     );
   }

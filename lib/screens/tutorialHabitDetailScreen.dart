@@ -428,24 +428,17 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 200),
                 child: _isInEditMode
-                    ? BouncingWidget(
-                        onPress: () {
+                    ? BouncingButton(
+                        onPressed: () {
                           if (_editContentController.newCompletionGoal <= 1)
                             return;
                           setState(() {
                             _editContentController.newCompletionGoal--;
                           });
                         },
-                        child: Container(
-                          height: 40,
-                          width: 100,
-                          decoration: BoxDecoration(
-                              color: kBackGroundWhite,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Icon(
-                            Icons.remove,
-                            color: Theme.of(context).accentColor,
-                          ),
+                        child: Icon(
+                          Icons.remove,
+                          color: Theme.of(context).accentColor,
                         ),
                       )
                     : const SizedBox.shrink(),
@@ -465,23 +458,16 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 200),
                 child: _isInEditMode
-                    ? BouncingWidget(
-                        onPress: () {
+                    ? BouncingButton(
+                        onPressed: () {
                           if (_editContentController.newCompletionGoal >=
                               ContentController.maxDailyCompletions) return;
                           setState(() {
                             _editContentController.newCompletionGoal++;
                           });
                         },
-                        child: Container(
-                          height: 40,
-                          width: 100,
-                          decoration: BoxDecoration(
-                              color: kBackGroundWhite,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Icon(Icons.add,
-                              color: Theme.of(context).accentColor),
-                        ),
+                        child: Icon(Icons.add,
+                            color: Theme.of(context).accentColor),
                       )
                     : const SizedBox.shrink(),
               ),
@@ -493,38 +479,29 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
   }
 
   Widget _buildEditButton({Function onPressed}) {
-    return BouncingWidget(
-      onPress: () {
+    return BouncingButton(
+      onPressed: () {
         onPressed();
         setState(() {
           _isInEditMode = !_isInEditMode;
         });
       },
-      child: Container(
-          key: _tutorialController.editButtonKey,
-          height: 40,
-          width: 100,
-          decoration: BoxDecoration(
-              color: kBackGroundWhite, borderRadius: BorderRadius.circular(10)),
-          child: _isInEditMode
-              ? Center(
-                  child: Text(
-                    'save_habit'.tr,
-                    style: Theme.of(context).textTheme.button.copyWith(
-                          fontSize: 12,
-                          color: Color(widget.habit.habitColors["deep"]),
-                        ),
+      key: _tutorialController.editButtonKey,
+      child: _isInEditMode
+          ? Text(
+              'save_habit'.tr,
+              style: Theme.of(context).textTheme.button.copyWith(
+                    fontSize: 12,
+                    color: Color(widget.habit.habitColors["deep"]),
                   ),
-                )
-              : Center(
-                  child: Text(
-                    'edit_habit'.tr,
-                    style: Theme.of(context).textTheme.button.copyWith(
-                          fontSize: 12,
-                          color: Color(widget.habit.habitColors["deep"]),
-                        ),
+            )
+          : Text(
+              'edit_habit'.tr,
+              style: Theme.of(context).textTheme.button.copyWith(
+                    fontSize: 12,
+                    color: Color(widget.habit.habitColors["deep"]),
                   ),
-                )),
+            ),
     );
   }
 
@@ -636,23 +613,16 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
   }
 
   Widget _buildHabitDeleteButton() {
-    return BouncingWidget(
-      onPress: () {},
-      child: Container(
-        //TODO add key
-        height: 40,
-        width: 100,
-        decoration: BoxDecoration(
-            color: kLightRed, borderRadius: BorderRadius.circular(10)),
-        child: Center(
-          child: Text(
-            'delete_habit'.tr,
-            style: Theme.of(context).textTheme.button.copyWith(
-                  fontSize: 12,
-                  color: kBackGroundWhite,
-                ),
-          ),
-        ),
+    //TODO add key
+    return BouncingButton(
+      onPressed: () {},
+      color: kLightRed,
+      child: Text(
+        'delete_habit'.tr,
+        style: Theme.of(context).textTheme.button.copyWith(
+              fontSize: 12,
+              color: kBackGroundWhite,
+            ),
       ),
     );
   }

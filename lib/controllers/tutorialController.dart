@@ -696,18 +696,14 @@ class PreviousButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BouncingWidget(
-      onPress: onPressed,
-      child: Container(
-        decoration: BoxDecoration(
-            color: kBackGroundWhite, borderRadius: BorderRadius.circular(8.0)),
-        width: 50,
-        height: 50,
-        child: Icon(
-          FontAwesomeIcons.arrowLeft,
-          color: kDeepOrange,
-          size: 20,
-        ),
+    return BouncingButton(
+      onPressed: onPressed,
+      width: 50,
+      height: 50,
+      child: Icon(
+        FontAwesomeIcons.arrowLeft,
+        color: kDeepOrange,
+        size: 20,
       ),
     );
   }
@@ -723,18 +719,14 @@ class NextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BouncingWidget(
-      onPress: onPressed,
-      child: Container(
-        decoration: BoxDecoration(
-            color: kDeepOrange, borderRadius: BorderRadius.circular(8.0)),
-        width: 50,
-        height: 50,
-        child: Icon(
-          FontAwesomeIcons.arrowRight,
-          color: kBackGroundWhite,
-          size: 20,
-        ),
+    return BouncingButton(
+      onPressed: onPressed,
+      width: 50,
+      height: 50,
+      child: Icon(
+        FontAwesomeIcons.arrowRight,
+        color: kBackGroundWhite,
+        size: 20,
       ),
     );
   }
@@ -769,52 +761,34 @@ class WelcomeScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     flex: 10,
-                    child: BouncingWidget(
-                      onPress: () {
+                    child: BouncingButton(
+                      onPressed: () {
                         Get.back(result: true);
                       },
-                      child: Container(
-                        height: 40,
-                        decoration: BoxDecoration(
-                            color: kBackGroundWhite,
-                            borderRadius: BorderRadius.circular(8)),
-
+                      child: Text(
                         //TODO translate
-                        child: Center(
-                          child: Text(
-                            "Lets go",
-                            style: Theme.of(context)
-                                .textTheme
-                                .button
-                                .copyWith(color: kDeepOrange),
-                          ),
-                        ),
+                        "Lets go",
+                        style: Theme.of(context)
+                            .textTheme
+                            .button
+                            .copyWith(color: kDeepOrange),
                       ),
                     ),
                   ),
                   const Spacer(),
                   Expanded(
                     flex: 20,
-                    child: BouncingWidget(
-                      onPress: () {
+                    child: BouncingButton(
+                      onPressed: () {
                         Get.back(result: false);
                       },
-                      child: Container(
-                        height: 40,
-                        decoration: BoxDecoration(
-                            color: kBackGroundWhite,
-                            borderRadius: BorderRadius.circular(8)),
-
+                      child: Text(
                         //TODO translate
-                        child: Center(
-                          child: Text(
-                            "I'll figure it out myself",
-                            style: Theme.of(context)
-                                .textTheme
-                                .button
-                                .copyWith(color: kDeepOrange),
-                          ),
-                        ),
+                        "I'll figure it out myself",
+                        style: Theme.of(context)
+                            .textTheme
+                            .button
+                            .copyWith(color: kDeepOrange),
                       ),
                     ),
                   )

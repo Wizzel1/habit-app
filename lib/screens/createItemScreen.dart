@@ -101,8 +101,8 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                   children: [
                     Expanded(
                       flex: 10,
-                      child: BouncingWidget(
-                        onPress: () {
+                      child: BouncingButton(
+                        onPressed: () {
                           setState(() {
                             _wantToCreateHabit = true;
                           });
@@ -110,31 +110,20 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                               duration: Duration(milliseconds: 200),
                               curve: Curves.ease);
                         },
-                        child: Container(
-                          height: 60,
-                          decoration: BoxDecoration(
-                            color: kBackGroundWhite,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'habit'.tr,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .button
-                                  .copyWith(
-                                      fontSize: 18,
-                                      color: Theme.of(context).accentColor),
-                            ),
-                          ),
+                        height: 60,
+                        child: Text(
+                          'habit'.tr,
+                          style: Theme.of(context).textTheme.button.copyWith(
+                              fontSize: 18,
+                              color: Theme.of(context).accentColor),
                         ),
                       ),
                     ),
                     const Spacer(),
                     Expanded(
                         flex: 10,
-                        child: BouncingWidget(
-                          onPress: () {
+                        child: BouncingButton(
+                          onPressed: () {
                             setState(() {
                               _wantToCreateHabit = false;
                             });
@@ -142,23 +131,12 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                                 duration: Duration(milliseconds: 200),
                                 curve: Curves.ease);
                           },
-                          child: Container(
-                            height: 60,
-                            decoration: BoxDecoration(
-                              color: kBackGroundWhite,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Center(
-                              child: Text(
-                                'reward'.tr,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .button
-                                    .copyWith(
-                                        fontSize: 18,
-                                        color: Theme.of(context).accentColor),
-                              ),
-                            ),
+                          height: 60,
+                          child: Text(
+                            'reward'.tr,
+                            style: Theme.of(context).textTheme.button.copyWith(
+                                fontSize: 18,
+                                color: Theme.of(context).accentColor),
                           ),
                         ))
                   ],
@@ -185,69 +163,50 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Expanded(
+                        flex: 10,
+                        child: BouncingButton(
+                          onPressed: () {
+                            setState(() {
+                              _createItemController.isSelfRemovingReward = true;
+                            });
+                          },
+                          height: 50,
+                          color: _createItemController.isSelfRemovingReward
+                              ? kDeepOrange
+                              : kBackGroundWhite,
+                          child: Text(
+                            'one_time'.tr,
+                            style: Theme.of(context).textTheme.button.copyWith(
+                                color:
+                                    _createItemController.isSelfRemovingReward
+                                        ? kBackGroundWhite
+                                        : Theme.of(context).accentColor),
+                          ),
+                        )),
+                    const Spacer(),
+                    Expanded(
                       flex: 10,
-                      child: BouncingWidget(
-                        onPress: () {
+                      child: BouncingButton(
+                        onPressed: () {
                           setState(() {
-                            _createItemController.isSelfRemovingReward = true;
+                            _createItemController.isSelfRemovingReward = false;
                           });
                         },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: _createItemController.isSelfRemovingReward
-                                ? kDeepOrange
-                                : kBackGroundWhite,
-                          ),
-                          child: Center(
-                            child: Text(
-                              'one_time'.tr,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .button
-                                  .copyWith(
-                                      color: _createItemController
-                                              .isSelfRemovingReward
-                                          ? kBackGroundWhite
-                                          : Theme.of(context).accentColor),
-                            ),
-                          ),
-                          height: 50,
+                        height: 50,
+                        color: _createItemController.isSelfRemovingReward
+                            ? kBackGroundWhite
+                            : kDeepOrange,
+                        child: Text(
+                          'regular'.tr,
+                          style: Theme.of(context).textTheme.button.copyWith(
+                                color:
+                                    _createItemController.isSelfRemovingReward
+                                        ? Theme.of(context).accentColor
+                                        : kBackGroundWhite,
+                              ),
                         ),
                       ),
                     ),
-                    const Spacer(),
-                    Expanded(
-                        flex: 10,
-                        child: BouncingWidget(
-                          onPress: () {
-                            setState(() {
-                              _createItemController.isSelfRemovingReward =
-                                  false;
-                            });
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: _createItemController.isSelfRemovingReward
-                                  ? kBackGroundWhite
-                                  : kDeepOrange,
-                            ),
-                            child: Center(
-                              child: Text(
-                                'regular'.tr,
-                                style:
-                                    Theme.of(context).textTheme.button.copyWith(
-                                          color: _createItemController
-                                                  .isSelfRemovingReward
-                                              ? Theme.of(context).accentColor
-                                              : kBackGroundWhite,
-                                        ),
-                              ),
-                            ),
-                            height: 50,
-                          ),
-                        )),
                   ],
                 ),
                 const SizedBox(height: 30),
@@ -259,24 +218,15 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                   ),
                 ),
                 const SizedBox(height: 30),
-                BouncingWidget(
-                  onPress: () async {
+                BouncingButton(
+                  onPressed: () async {
                     _createItemController.createAndSaveReward();
                     await Get.find<NavigationController>().navigateToIndex(0);
                     _pageController.jumpToPage(0);
                   },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: kBackGroundWhite,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15.0, vertical: 10.0),
-                      child: Text(
-                        'create_Button_title'.tr,
-                        style: Theme.of(context).textTheme.button,
-                      ),
-                    ),
+                  child: Text(
+                    'create_Button_title'.tr,
+                    style: Theme.of(context).textTheme.button,
                   ),
                 ),
                 Center(
@@ -372,23 +322,17 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                     const Spacer(),
                     Expanded(
                       flex: 2,
-                      child: BouncingWidget(
-                        onPress: () {
+                      child: BouncingButton(
+                        onPressed: () {
                           if (_createItemController.completionGoalCount <= 1)
                             return;
                           setState(() {
                             _createItemController.completionGoalCount--;
                           });
                         },
-                        child: Container(
-                          height: 40,
-                          decoration: BoxDecoration(
-                              color: kBackGroundWhite,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Icon(
-                            Icons.remove,
-                            color: Theme.of(context).accentColor,
-                          ),
+                        child: Icon(
+                          Icons.remove,
+                          color: Theme.of(context).accentColor,
                         ),
                       ),
                     ),
@@ -402,22 +346,16 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                     ),
                     Expanded(
                       flex: 2,
-                      child: BouncingWidget(
-                        onPress: () {
+                      child: BouncingButton(
+                        onPressed: () {
                           if (_createItemController.completionGoalCount >=
                               ContentController.maxDailyCompletions) return;
                           setState(() {
                             _createItemController.completionGoalCount++;
                           });
                         },
-                        child: Container(
-                          height: 40,
-                          decoration: BoxDecoration(
-                              color: kBackGroundWhite,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Icon(Icons.add,
-                              color: Theme.of(context).accentColor),
-                        ),
+                        child: Icon(Icons.add,
+                            color: Theme.of(context).accentColor),
                       ),
                     ),
                     const Spacer(),
@@ -588,8 +526,8 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                 ),
               ),
               const SizedBox(height: 80),
-              BouncingWidget(
-                onPress: () async {
+              BouncingButton(
+                onPressed: () async {
                   if (_createItemController.scheduledDays.isEmpty) {
                     SnackBars.showWarningSnackBar(
                         'warning'.tr, 'missing_schedule_warning'.tr);
@@ -598,23 +536,14 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                     await Get.find<NavigationController>().navigateToIndex(0);
                   }
                 },
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: kBackGroundWhite,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15.0, vertical: 10.0),
-                    child: Text(
-                      'create_Button_title'.tr,
-                      style: Theme.of(context)
-                          .textTheme
-                          .button
-                          .copyWith(color: kDeepOrange),
-                    ),
-                  ),
+                child: Text(
+                  'create_Button_title'.tr,
+                  style: Theme.of(context)
+                      .textTheme
+                      .button
+                      .copyWith(color: kDeepOrange),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -779,28 +708,22 @@ class _ScheduleButtonState extends State<ScheduleButton> {
   bool isTapped = false;
   @override
   Widget build(BuildContext context) {
-    return BouncingWidget(
-      onPress: () {
+    return BouncingButton(
+      onPressed: () {
         setState(() {
           isTapped = !isTapped;
           widget.onTap(widget.index);
         });
       },
-      child: Container(
-        height: 60,
-        width: 40,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: isTapped ? kDeepOrange : kBackGroundWhite),
-        child: Center(
-          child: Text(
-            dayNames[widget.index],
-            style: Theme.of(context).textTheme.button.copyWith(
-                  fontSize: 12,
-                  color: isTapped ? kBackGroundWhite : kDeepOrange,
-                ),
-          ),
-        ),
+      height: 60,
+      width: 40,
+      color: isTapped ? kDeepOrange : kBackGroundWhite,
+      child: Text(
+        dayNames[widget.index],
+        style: Theme.of(context).textTheme.button.copyWith(
+              fontSize: 12,
+              color: isTapped ? kBackGroundWhite : kDeepOrange,
+            ),
       ),
     );
   }
