@@ -74,18 +74,18 @@ class _TutorialContainerState extends State<TutorialContainer>
   Widget build(BuildContext context) {
     int _todaysHabitCompletions = widget.habit.getTodaysCompletions();
 
-    return Hero(
-      tag: widget.habit.id,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        child: Stack(
-          children: [
-            GestureDetector(
-              onTap: () {
-                if (_tutorialController.hasFinishedDetailScreenStep) return;
-                Get.to(() => TutorialHabitDetailScreen(habit: widget.habit))
-                    .then((value) => widget.onDetailScreenPopped());
-              },
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+      child: Stack(
+        children: [
+          GestureDetector(
+            onTap: () {
+              if (_tutorialController.hasFinishedDetailScreenStep) return;
+              Get.to(() => TutorialHabitDetailScreen(habit: widget.habit))
+                  .then((value) => widget.onDetailScreenPopped());
+            },
+            child: Hero(
+              tag: widget.habit.id,
               child: Container(
                 key: _tutorialController.homeTutorialHabitContainerKey,
                 height: 90,
@@ -158,33 +158,32 @@ class _TutorialContainerState extends State<TutorialContainer>
                 ),
               ),
             ),
-            Positioned(
-              top: 17,
-              right: 20,
-              child: _tutorialController.hasFinishedDetailScreenStep
-                  ? BouncingButton(
-                      onPressed: () {
-                        setState(() {
-                          _todaysHabitCompletions == containerSizeList.length
-                              ? containerSizeList.last = 20.0
-                              : containerSizeList[_todaysHabitCompletions] =
-                                  20.0;
-                        });
-                        widget.onPressed();
-                      },
-                      key: _tutorialController.completeButtonKey,
-                      height: 56,
-                      width: 56,
-                      child: Icon(
-                        Icons.check_rounded,
-                        size: 36,
-                        color: kDeepOrange,
-                      ),
-                    )
-                  : const SizedBox.shrink(),
-            )
-          ],
-        ),
+          ),
+          Positioned(
+            top: 17,
+            right: 20,
+            child: _tutorialController.hasFinishedDetailScreenStep
+                ? BouncingButton(
+                    onPressed: () {
+                      setState(() {
+                        _todaysHabitCompletions == containerSizeList.length
+                            ? containerSizeList.last = 20.0
+                            : containerSizeList[_todaysHabitCompletions] = 20.0;
+                      });
+                      widget.onPressed();
+                    },
+                    key: _tutorialController.completeButtonKey,
+                    height: 56,
+                    width: 56,
+                    child: Icon(
+                      Icons.check_rounded,
+                      size: 36,
+                      color: kDeepOrange,
+                    ),
+                  )
+                : const SizedBox.shrink(),
+          )
+        ],
       ),
     );
   }

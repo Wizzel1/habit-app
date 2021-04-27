@@ -30,19 +30,19 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
   Widget build(BuildContext context) {
     int _todaysHabitCompletions = widget.habit.getTodaysCompletions();
 
-    return Hero(
-      tag: widget.habit.id,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
-        child: Stack(
-          children: [
-            GestureDetector(
-              onTap: () {
-                Get.to(() => HabitDetailScreen(
-                      habit: widget.habit,
-                      alterHeroTag: false,
-                    ));
-              },
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+      child: Stack(
+        children: [
+          GestureDetector(
+            onTap: () {
+              Get.to(() => HabitDetailScreen(
+                    habit: widget.habit,
+                    alterHeroTag: false,
+                  ));
+            },
+            child: Hero(
+              tag: widget.habit.id,
               child: Container(
                 height: 90,
                 decoration: BoxDecoration(
@@ -113,29 +113,29 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
                 ),
               ),
             ),
-            Positioned(
-              top: 17,
-              right: 20,
-              child: BouncingButton(
-                onPressed: () {
-                  setState(() {
-                    _todaysHabitCompletions == containerSizeList.length
-                        ? containerSizeList.last = 20.0
-                        : containerSizeList[_todaysHabitCompletions] = 20.0;
-                  });
-                  widget.onPressed();
-                },
-                height: 56,
-                width: 56,
-                child: Icon(
-                  Icons.check_rounded,
-                  size: 36,
-                  color: kDeepOrange,
-                ),
+          ),
+          Positioned(
+            top: 17,
+            right: 20,
+            child: BouncingButton(
+              onPressed: () {
+                setState(() {
+                  _todaysHabitCompletions == containerSizeList.length
+                      ? containerSizeList.last = 20.0
+                      : containerSizeList[_todaysHabitCompletions] = 20.0;
+                });
+                widget.onPressed();
+              },
+              height: 56,
+              width: 56,
+              child: Icon(
+                Icons.check_rounded,
+                size: 36,
+                color: kDeepOrange,
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }
