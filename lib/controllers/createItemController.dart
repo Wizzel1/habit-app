@@ -13,10 +13,11 @@ class CreateItemController extends GetxController {
   TextEditingController minTextController = TextEditingController();
   TextEditingController maxTextController = TextEditingController();
 
-  List<String> selectedRewardReferences = [];
-  List<int> scheduledDays = [];
-  int completionGoalCount = 1;
-  bool isSelfRemovingReward = false;
+  RxList<String> selectedRewardReferences = List<String>.empty().obs;
+  RxList<int> scheduledDays = List<int>.empty().obs;
+  Rx<int> completionGoalCount = 1.obs;
+  Rx<bool> isSelfRemovingReward = false.obs;
+  Rx<bool> createHabit = false.obs;
 
   @override
   void onInit() {
@@ -48,7 +49,7 @@ class CreateItemController extends GetxController {
       creationDate: _today,
       title: createTitleTextController.text,
       id: Uuid().v4(),
-      completionGoal: completionGoalCount,
+      completionGoal: completionGoalCount.value,
       description: createDescriptionController.text,
       scheduledWeekDays: scheduledDays,
       rewardIDReferences: selectedRewardReferences,
@@ -77,7 +78,7 @@ class CreateItemController extends GetxController {
                   return TrackedDay(
                       dayCount: thisWeeksDates[index],
                       doneAmount: 0,
-                      goalAmount: completionGoalCount);
+                      goalAmount: completionGoalCount.value);
                 },
               ),
             )
@@ -91,7 +92,7 @@ class CreateItemController extends GetxController {
     Reward newReward = Reward(
         name: createTitleTextController.text,
         id: Uuid().v4(),
-        isSelfRemoving: isSelfRemovingReward,
+        isSelfRemoving: isSelfRemovingReward.value,
         description: createDescriptionController.text);
     Get.find<ContentController>().saveNewReward(newReward);
   }

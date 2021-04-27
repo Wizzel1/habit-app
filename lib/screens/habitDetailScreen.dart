@@ -541,53 +541,56 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   }
 
   Widget _buildImplicitList() {
-    return Obx(
-      () => ImplicitlyAnimatedList<Reward>(
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        removeDuration: const Duration(milliseconds: 200),
-        insertDuration: const Duration(milliseconds: 500),
-        updateDuration: const Duration(milliseconds: 200),
-        items: _joinedRewardList,
-        areItemsTheSame: (a, b) => a.id == b.id,
-        itemBuilder: (context, animation, reward, index) {
-          // Specifiy a transition to be used by the ImplicitlyAnimatedList.
-          // See the Transitions section on how to import this transition.
-          bool isSelected = (_editContentController.newRewardReferences
-              .any((element) => element == reward.id));
-          return SizeFadeTransition(
-            sizeFraction: 0.7,
-            curve: Curves.easeInOut,
-            animation: animation,
-            child: AnimatedBuilder(
-              animation: _rewardListOffsets[index],
-              builder: (BuildContext context, Widget child) {
-                return SlideTransition(
-                  position: _rewardListOffsets[index],
-                  child: child,
-                );
-              },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: SelectableRewardContainer(
-                  reward: reward,
-                  isSelectedReward: isSelected,
-                  onTap: () {
-                    if (!_isInEditMode) return;
-                    _editContentController.newRewardReferences
-                            .contains(reward.id)
-                        ? _editContentController.newRewardReferences
-                            .remove(reward.id)
-                        : _editContentController.newRewardReferences
-                            .add(reward.id);
-                    _setJoinedRewardList();
-                  },
-                ),
+    return ImplicitlyAnimatedList<Reward>(
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      removeDuration: const Duration(milliseconds: 200),
+      insertDuration: const Duration(milliseconds: 500),
+      updateDuration: const Duration(milliseconds: 200),
+      items: _joinedRewardList,
+      areItemsTheSame: (a, b) => a.id == b.id,
+      itemBuilder: (context, animation, reward, index) {
+        // Specifiy a transition to be used by the ImplicitlyAnimatedList.
+        // See the Transitions section on how to import this transition.
+
+        return SizeFadeTransition(
+          sizeFraction: 0.7,
+          curve: Curves.easeInOut,
+          animation: animation,
+          child: AnimatedBuilder(
+            animation: _rewardListOffsets[index],
+            builder: (BuildContext context, Widget child) {
+              return SlideTransition(
+                position: _rewardListOffsets[index],
+                child: child,
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: Obx(
+                () {
+                  bool isSelected = (_editContentController.newRewardReferences
+                      .any((element) => element == reward.id));
+                  return SelectableRewardContainer(
+                    reward: reward,
+                    isSelectedReward: isSelected,
+                    onTap: () {
+                      if (!_isInEditMode) return;
+                      _editContentController.newRewardReferences
+                              .contains(reward.id)
+                          ? _editContentController.newRewardReferences
+                              .remove(reward.id)
+                          : _editContentController.newRewardReferences
+                              .add(reward.id);
+                      _setJoinedRewardList();
+                    },
+                  );
+                },
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 

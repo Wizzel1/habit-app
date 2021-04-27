@@ -25,7 +25,6 @@ class CreateItemScreen extends StatefulWidget {
 
 class _CreateItemScreenState extends State<CreateItemScreen> {
   PageController _pageController;
-  bool _wantToCreateHabit = false;
   CreateItemController _createItemController;
 
   final int _contentFlex = 1;
@@ -61,24 +60,26 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
             Positioned.fill(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: PageView(
-                  physics: NeverScrollableScrollPhysics(),
-                  scrollDirection: Axis.vertical,
-                  controller: _pageController,
-                  children: [
-                    buildSelectionButtonRow(),
-                    if (_wantToCreateHabit) ...[
-                      buildTitleInputPage(),
-                      buildDescriptionInputPage(),
-                      buildCompletionGoalStepper(),
-                      buildRewardSelectionPage(),
-                      buildSchedulerPage()
-                    ] else ...[
-                      buildTitleInputPage(),
-                      buildDescriptionInputPage(),
-                      buildRewardIntervalPage()
-                    ]
-                  ],
+                child: Obx(
+                  () => PageView(
+                    physics: NeverScrollableScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    controller: _pageController,
+                    children: [
+                      buildSelectionButtonRow(),
+                      if (_createItemController.createHabit.value) ...[
+                        buildTitleInputPage(),
+                        buildDescriptionInputPage(),
+                        buildCompletionGoalStepper(),
+                        buildRewardSelectionPage(),
+                        buildSchedulerPage()
+                      ] else ...[
+                        buildTitleInputPage(),
+                        buildDescriptionInputPage(),
+                        buildRewardIntervalPage()
+                      ]
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -103,9 +104,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                       flex: 10,
                       child: BouncingButton(
                         onPressed: () {
-                          setState(() {
-                            _wantToCreateHabit = true;
-                          });
+                          _createItemController.createHabit.value = true;
                           _pageController.nextPage(
                               duration: Duration(milliseconds: 200),
                               curve: Curves.ease);
@@ -124,9 +123,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                         flex: 10,
                         child: BouncingButton(
                           onPressed: () {
-                            setState(() {
-                              _wantToCreateHabit = false;
-                            });
+                            _createItemController.createHabit.value = false;
                             _pageController.nextPage(
                                 duration: Duration(milliseconds: 200),
                                 curve: Curves.ease);
@@ -164,46 +161,53 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                   children: [
                     Expanded(
                         flex: 10,
-                        child: BouncingButton(
-                          onPressed: () {
-                            setState(() {
-                              _createItemController.isSelfRemovingReward = true;
-                            });
-                          },
-                          height: 50,
-                          color: _createItemController.isSelfRemovingReward
-                              ? kDeepOrange
-                              : kBackGroundWhite,
-                          child: Text(
-                            'one_time'.tr,
-                            style: Theme.of(context).textTheme.button.copyWith(
-                                color:
-                                    _createItemController.isSelfRemovingReward
-                                        ? kBackGroundWhite
-                                        : Theme.of(context).accentColor),
+                        child: Obx(
+                          () => BouncingButton(
+                            onPressed: () {
+                              _createItemController.isSelfRemovingReward.value =
+                                  true;
+                            },
+                            height: 50,
+                            color:
+                                _createItemController.isSelfRemovingReward.value
+                                    ? kDeepOrange
+                                    : kBackGroundWhite,
+                            child: Text(
+                              'one_time'.tr,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .button
+                                  .copyWith(
+                                      color: _createItemController
+                                              .isSelfRemovingReward.value
+                                          ? kBackGroundWhite
+                                          : Theme.of(context).accentColor),
+                            ),
                           ),
                         )),
                     const Spacer(),
                     Expanded(
                       flex: 10,
-                      child: BouncingButton(
-                        onPressed: () {
-                          setState(() {
-                            _createItemController.isSelfRemovingReward = false;
-                          });
-                        },
-                        height: 50,
-                        color: _createItemController.isSelfRemovingReward
-                            ? kBackGroundWhite
-                            : kDeepOrange,
-                        child: Text(
-                          'regular'.tr,
-                          style: Theme.of(context).textTheme.button.copyWith(
-                                color:
-                                    _createItemController.isSelfRemovingReward
-                                        ? Theme.of(context).accentColor
-                                        : kBackGroundWhite,
-                              ),
+                      child: Obx(
+                        () => BouncingButton(
+                          onPressed: () {
+                            _createItemController.isSelfRemovingReward.value =
+                                false;
+                          },
+                          height: 50,
+                          color:
+                              _createItemController.isSelfRemovingReward.value
+                                  ? kBackGroundWhite
+                                  : kDeepOrange,
+                          child: Text(
+                            'regular'.tr,
+                            style: Theme.of(context).textTheme.button.copyWith(
+                                  color: _createItemController
+                                          .isSelfRemovingReward.value
+                                      ? Theme.of(context).accentColor
+                                      : kBackGroundWhite,
+                                ),
+                          ),
                         ),
                       ),
                     ),
@@ -262,7 +266,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                     controller: _createItemController.createTitleTextController,
                     title: 'title_textfield_hint'.tr),
                 const SizedBox(height: 10),
-                _wantToCreateHabit
+                _createItemController.createHabit.value
                     ? const SizedBox.shrink()
                     : Center(
                         child: Text(
@@ -326,9 +330,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                         onPressed: () {
                           if (_createItemController.completionGoalCount <= 1)
                             return;
-                          setState(() {
-                            _createItemController.completionGoalCount--;
-                          });
+                          _createItemController.completionGoalCount--;
                         },
                         child: Icon(
                           Icons.remove,
@@ -338,10 +340,12 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                     ),
                     Expanded(
                       flex: 2,
-                      child: Text(
-                        "${_createItemController.completionGoalCount}",
-                        style: Theme.of(context).textTheme.headline3,
-                        textAlign: TextAlign.center,
+                      child: Obx(
+                        () => Text(
+                          "${_createItemController.completionGoalCount}",
+                          style: Theme.of(context).textTheme.headline3,
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
                     Expanded(
@@ -350,9 +354,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                         onPressed: () {
                           if (_createItemController.completionGoalCount >=
                               ContentController.maxDailyCompletions) return;
-                          setState(() {
-                            _createItemController.completionGoalCount++;
-                          });
+                          _createItemController.completionGoalCount++;
                         },
                         child: Icon(Icons.add,
                             color: Theme.of(context).accentColor),
@@ -440,35 +442,38 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
         children: [
           TitleSection(title: 'rewards'.tr),
           Expanded(
-              flex: _contentFlex,
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: _contentController.allRewardList.length,
-                itemBuilder: (context, index) {
-                  String rewardReference =
-                      _contentController.allRewardList[index].id;
-                  bool isSelected = (_createItemController
-                      .selectedRewardReferences
-                      .any((element) => element == rewardReference));
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: SelectableRewardContainer(
-                      reward: _contentController.allRewardList[index],
-                      isSelectedReward: isSelected,
-                      onTap: () {
-                        setState(() {
+            flex: _contentFlex,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: _contentController.allRewardList.length,
+              itemBuilder: (context, index) {
+                String rewardReference =
+                    _contentController.allRewardList[index].id;
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: Obx(
+                    () {
+                      bool isSelected = (_createItemController
+                          .selectedRewardReferences
+                          .any((element) => element == rewardReference));
+                      return SelectableRewardContainer(
+                        reward: _contentController.allRewardList[index],
+                        isSelectedReward: isSelected,
+                        onTap: () {
                           _createItemController.selectedRewardReferences
                                   .contains(rewardReference)
                               ? _createItemController.selectedRewardReferences
                                   .remove(rewardReference)
                               : _createItemController.selectedRewardReferences
                                   .add(rewardReference);
-                        });
-                      },
-                    ),
-                  );
-                },
-              )),
+                        },
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
           Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -709,6 +714,7 @@ class _ScheduleButtonState extends State<ScheduleButton> {
   @override
   Widget build(BuildContext context) {
     return BouncingButton(
+      //TODO refactor
       onPressed: () {
         setState(() {
           isTapped = !isTapped;
