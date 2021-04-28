@@ -440,7 +440,7 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
                       onPressed: () {
                         if (_editContentController.newCompletionGoal <= 1)
                           return;
-                        _editContentController.newCompletionGoal--;
+                        _editContentController.newCompletionGoal.value--;
                       },
                       child: Icon(
                         Icons.remove,
@@ -469,7 +469,7 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
                       onPressed: () {
                         if (_editContentController.newCompletionGoal >=
                             ContentController.maxDailyCompletions) return;
-                        _editContentController.newCompletionGoal++;
+                        _editContentController.newCompletionGoal.value++;
                       },
                       child:
                           Icon(Icons.add, color: Theme.of(context).accentColor),

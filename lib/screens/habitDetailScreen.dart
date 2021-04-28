@@ -422,7 +422,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                 ? BouncingButton(
                     onPressed: () {
                       if (_editContentController.newCompletionGoal <= 1) return;
-                      _editContentController.newCompletionGoal--;
+                      _editContentController.newCompletionGoal.value--;
                     },
                     child: Icon(
                       Icons.remove,
@@ -455,7 +455,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                     onPressed: () {
                       if (_editContentController.newCompletionGoal >=
                           ContentController.maxDailyCompletions) return;
-                      _editContentController.newCompletionGoal++;
+                      _editContentController.newCompletionGoal.value++;
                     },
                     child:
                         Icon(Icons.add, color: Theme.of(context).accentColor),

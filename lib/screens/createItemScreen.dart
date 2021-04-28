@@ -330,7 +330,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                         onPressed: () {
                           if (_createItemController.completionGoalCount <= 1)
                             return;
-                          _createItemController.completionGoalCount--;
+                          _createItemController.completionGoalCount.value--;
                         },
                         child: Icon(
                           Icons.remove,
@@ -354,7 +354,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                         onPressed: () {
                           if (_createItemController.completionGoalCount >=
                               ContentController.maxDailyCompletions) return;
-                          _createItemController.completionGoalCount++;
+                          _createItemController.completionGoalCount.value++;
                         },
                         child: Icon(Icons.add,
                             color: Theme.of(context).accentColor),
