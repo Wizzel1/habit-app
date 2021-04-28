@@ -32,8 +32,8 @@ class Messages extends Translations {
           'homeScreenTutorial_container_heading': 'Habits',
           'homeScreenTutorial_container_message':
               'Your Habits get Displayed by these Containers.',
-          'homeScreenTutorial_completionrow_heading': 'Completions',
-          'homeScreenTutorial_completionrow_message':
+          'completionScreenTutorial_completionrow_heading': 'Completions',
+          'completionScreenTutorial_completionrow_message':
               'This row shows you, how many times this Habit need to be completed today.',
           'homeScreenTutorial_completeButton_heading': 'Complete Habit',
           'homeScreenTutorial_completeButton_message':
@@ -141,8 +141,8 @@ class Messages extends Translations {
           'homeScreenTutorial_container_heading': 'Gewohnheiten',
           'homeScreenTutorial_container_message':
               'Deine täglichen Gewohnheiten werden als Container angezeigt.',
-          'homeScreenTutorial_completionrow_heading': 'Tagesziel',
-          'homeScreenTutorial_completionrow_message':
+          'completionScreenTutorial_completionrow_heading': 'Tagesziel',
+          'completionScreenTutorial_completionrow_message':
               'Diese Reihe zeigt dir dein heutiges Tagesziel',
           'homeScreenTutorial_completeButton_heading': 'Abschluss hinzufügen',
           'homeScreenTutorial_completeButton_message':

@@ -293,42 +293,7 @@ class TutorialController extends GetxController {
         ],
       ),
     );
-    targets.add(
-      TargetFocus(
-        identify: "Target 2",
-        shape: ShapeLightFocus.RRect,
-        enableOverlayTab: true,
-        radius: targetFocusRadius,
-        keyTarget: completionRowKey,
-        contents: [
-          TargetContent(
-              align: ContentAlign.bottom,
-              child: Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'homeScreenTutorial_completionrow_heading'.tr,
-                      style: _themeData.textTheme.headline4,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Text(
-                        'homeScreenTutorial_completionrow_message'.tr,
-                        style: _themeData.textTheme.caption,
-                      ),
-                    ),
-                    ButtonRow(
-                      onNextTapped: _nextTutorialStep,
-                      onPreviousTapped: _previousTutorialStep,
-                    ),
-                  ],
-                ),
-              ))
-        ],
-      ),
-    );
+
     targets.add(
       TargetFocus(
         identify: "Target 1",
@@ -578,6 +543,42 @@ class TutorialController extends GetxController {
 
   void _addCompletionTutorialTargets() {
     targets.clear();
+    targets.add(
+      TargetFocus(
+        identify: "Target 2",
+        shape: ShapeLightFocus.RRect,
+        enableOverlayTab: true,
+        radius: targetFocusRadius,
+        keyTarget: completionRowKey,
+        contents: [
+          TargetContent(
+              align: ContentAlign.bottom,
+              child: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'completionScreenTutorial_completionrow_heading'.tr,
+                      style: _themeData.textTheme.headline4,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Text(
+                        'completionScreenTutorial_completionrow_message'.tr,
+                        style: _themeData.textTheme.caption,
+                      ),
+                    ),
+                    ButtonRow(
+                      onNextTapped: _nextTutorialStep,
+                      onPreviousTapped: _previousTutorialStep,
+                    ),
+                  ],
+                ),
+              ))
+        ],
+      ),
+    );
     targets.add(
       TargetFocus(
         identify: "completion_completeButton",
