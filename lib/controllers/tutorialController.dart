@@ -723,6 +723,7 @@ class NextButton extends StatelessWidget {
       onPressed: onPressed,
       width: 50,
       height: 50,
+      color: kDeepOrange,
       child: Icon(
         FontAwesomeIcons.arrowRight,
         color: kBackGroundWhite,
