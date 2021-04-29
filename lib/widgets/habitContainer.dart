@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:Marbit/models/habitModel.dart';
 import 'package:Marbit/util/constants.dart';
 import 'package:Marbit/widgets/widgets.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class CompletableHabitContainer extends StatefulWidget {
@@ -129,9 +130,10 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
               height: 56,
               width: 56,
               child: Icon(
-                Icons.check_rounded,
-                size: 36,
-                color: kDeepOrange,
+                FontAwesomeIcons.check,
+                // Icons.check_rounded,
+                size: 30,
+                color: kLightOrange,
               ),
             ),
           )

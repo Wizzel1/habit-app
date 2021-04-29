@@ -5,6 +5,7 @@ import 'package:Marbit/screens/tutorialHabitDetailScreen.dart';
 import 'package:Marbit/util/util.dart';
 import 'package:Marbit/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class TutorialHabitContainer extends StatelessWidget {
@@ -184,9 +185,10 @@ class _TutorialContainerState extends State<TutorialContainer>
                     height: 56,
                     width: 56,
                     child: Icon(
-                      Icons.check_rounded,
-                      size: 36,
-                      color: kDeepOrange,
+                      FontAwesomeIcons.check,
+                      // Icons.check_rounded,
+                      size: 30,
+                      color: kLightOrange,
                     ),
                   )
                 : const SizedBox.shrink(),
