@@ -117,40 +117,48 @@ class _TutorialContainerState extends State<TutorialContainer>
                                   ),
                             ),
                           ),
-                          Container(
-                            key: _tutorialController.completionRowKey,
-                            height: 20.0,
-                            width: widget.habit.completionGoal * 20.0,
-                            child: Stack(
-                              children: List.generate(
-                                widget.habit.completionGoal,
-                                (index) => Positioned(
-                                  left: index * 20.0,
-                                  bottom: 0,
-                                  child: AnimatedContainer(
-                                    curve: Curves.bounceInOut,
-                                    onEnd: () {
-                                      setState(() {
-                                        containerSizeList[index] = 15.0;
-                                      });
-                                    },
-                                    width: index >= _todaysHabitCompletions
-                                        ? 15.0
-                                        : containerSizeList[index],
-                                    height: index >= _todaysHabitCompletions
-                                        ? 15.0
-                                        : containerSizeList[index],
-                                    decoration: BoxDecoration(
-                                        color: index >= _todaysHabitCompletions
-                                            ? kBackGroundWhite
-                                            : kDeepOrange,
-                                        borderRadius: BorderRadius.circular(3)),
-                                    duration: Duration(milliseconds: 200),
+                          _tutorialController.hasFinishedDetailScreenStep
+                              ? Container(
+                                  key: _tutorialController.completionRowKey,
+                                  height: 20.0,
+                                  width: widget.habit.completionGoal * 20.0,
+                                  child: Stack(
+                                    children: List.generate(
+                                      widget.habit.completionGoal,
+                                      (index) => Positioned(
+                                        left: index * 20.0,
+                                        bottom: 0,
+                                        child: AnimatedContainer(
+                                          curve: Curves.bounceInOut,
+                                          onEnd: () {
+                                            setState(() {
+                                              containerSizeList[index] = 15.0;
+                                            });
+                                          },
+                                          width:
+                                              index >= _todaysHabitCompletions
+                                                  ? 15.0
+                                                  : containerSizeList[index],
+                                          height:
+                                              index >= _todaysHabitCompletions
+                                                  ? 15.0
+                                                  : containerSizeList[index],
+                                          decoration: BoxDecoration(
+                                              color: index >=
+                                                      _todaysHabitCompletions
+                                                  ? kBackGroundWhite
+                                                  : kDeepOrange,
+                                              borderRadius:
+                                                  BorderRadius.circular(3)),
+                                          duration: Duration(milliseconds: 200),
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ),
-                          )
+                                )
+                              : const SizedBox(
+                                  height: 20,
+                                )
                         ],
                       ),
                     ],
