@@ -5,6 +5,7 @@ import 'package:Marbit/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:Marbit/models/models.dart';
 import 'package:Marbit/util/util.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class RewardPopupScreen extends StatefulWidget {
@@ -317,13 +318,13 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                                 const Duration(milliseconds: 100));
                             Get.back();
                           },
-                          height: 60,
-                          width: 60,
+                          height: 56,
+                          width: 56,
                           color: Colors.green[400],
                           child: Icon(
-                            Icons.check,
+                            FontAwesomeIcons.check,
                             color: Colors.white,
-                            size: 30,
+                            size: 25,
                           ),
                         ),
                       ),
