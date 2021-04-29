@@ -524,8 +524,8 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
           key: _tutorialController.scheduleRowKey,
           children: List.generate(
             7,
-            (index) => GestureDetector(
-              onTap: () {
+            (index) => BouncingButton(
+              onPressed: () {
                 if (!_isInEditMode) return;
                 int weekDayIndex = index + 1;
 
@@ -536,27 +536,20 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
                 }
                 _editContentController.newSchedule.sort();
               },
-              child: Container(
-                height: 60,
-                width: 40,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color:
-                        _editContentController.newSchedule.contains(index + 1)
-                            ? Color(widget.habit.habitColors["deep"])
-                            : kBackGroundWhite),
-                child: Center(
-                  child: Text(
-                    dayNames[index],
-                    style: Theme.of(context).textTheme.button.copyWith(
-                          fontSize: 12,
-                          color: _editContentController.newSchedule
-                                  .contains(index + 1)
+              height: 60,
+              width: 40,
+              color: _editContentController.newSchedule.contains(index + 1)
+                  ? Color(widget.habit.habitColors["deep"])
+                  : kBackGroundWhite,
+              child: Text(
+                dayNames[index],
+                style: Theme.of(context).textTheme.button.copyWith(
+                      fontSize: 12,
+                      color:
+                          _editContentController.newSchedule.contains(index + 1)
                               ? kBackGroundWhite
                               : Color(widget.habit.habitColors["deep"]),
-                        ),
-                  ),
-                ),
+                    ),
               ),
             ),
           ),
