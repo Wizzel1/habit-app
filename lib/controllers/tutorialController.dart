@@ -262,7 +262,8 @@ class TutorialController extends GetxController {
       TargetFocus(
         identify: "Target 1",
         shape: ShapeLightFocus.RRect,
-        enableOverlayTab: true,
+        enableOverlayTab: false,
+        enableTargetTab: false,
         radius: targetFocusRadius,
         keyTarget: homeTutorialHabitContainerKey,
         contents: [
@@ -293,12 +294,12 @@ class TutorialController extends GetxController {
         ],
       ),
     );
-
     targets.add(
       TargetFocus(
         identify: "Target 1",
         shape: ShapeLightFocus.RRect,
-        enableOverlayTab: true,
+        enableOverlayTab: false,
+        enableTargetTab: false,
         radius: targetFocusRadius,
         keyTarget: homeTutorialHabitContainerKey,
         contents: [
@@ -336,10 +337,10 @@ class TutorialController extends GetxController {
     targets.clear();
     targets.add(
       TargetFocus(
-        enableTargetTab: false,
-        enableOverlayTab: false,
         identify: "detail_scheduleRowKey",
         shape: ShapeLightFocus.RRect,
+        enableTargetTab: false,
+        enableOverlayTab: false,
         radius: targetFocusRadius,
         keyTarget: scheduleRowKey,
         contents: [
@@ -378,10 +379,10 @@ class TutorialController extends GetxController {
     );
     targets.add(
       TargetFocus(
-        enableTargetTab: false,
-        enableOverlayTab: false,
         identify: "detail_rewardListKey",
         shape: ShapeLightFocus.RRect,
+        enableTargetTab: false,
+        enableOverlayTab: false,
         radius: targetFocusRadius,
         keyTarget: rewardListKey,
         contents: [
@@ -448,10 +449,10 @@ class TutorialController extends GetxController {
     );
     targets.add(
       TargetFocus(
-        enableTargetTab: false,
-        enableOverlayTab: false,
         identify: "detail_statisticsElementKey",
         shape: ShapeLightFocus.RRect,
+        enableTargetTab: false,
+        enableOverlayTab: false,
         radius: targetFocusRadius,
         keyTarget: statisticsElementKey,
         contents: [
@@ -498,10 +499,10 @@ class TutorialController extends GetxController {
     );
     targets.add(
       TargetFocus(
-        enableTargetTab: false,
-        enableOverlayTab: false,
         identify: "detail_editButtonKey",
         shape: ShapeLightFocus.RRect,
+        enableTargetTab: false,
+        enableOverlayTab: false,
         radius: targetFocusRadius,
         keyTarget: editButtonKey,
         contents: [
@@ -547,7 +548,8 @@ class TutorialController extends GetxController {
       TargetFocus(
         identify: "Target 2",
         shape: ShapeLightFocus.RRect,
-        enableOverlayTab: true,
+        enableOverlayTab: false,
+        enableTargetTab: false,
         radius: targetFocusRadius,
         keyTarget: completionRowKey,
         contents: [
@@ -583,6 +585,8 @@ class TutorialController extends GetxController {
       TargetFocus(
         identify: "completion_completeButton",
         shape: ShapeLightFocus.RRect,
+        enableOverlayTab: false,
+        enableTargetTab: false,
         radius: targetFocusRadius,
         keyTarget: completeButtonKey,
         contents: [
@@ -625,7 +629,8 @@ class TutorialController extends GetxController {
       TargetFocus(
         identify: "Target 3",
         shape: ShapeLightFocus.RRect,
-        enableOverlayTab: true,
+        enableOverlayTab: false,
+        enableTargetTab: false,
         radius: targetFocusRadius,
         keyTarget: drawerExtensionKey,
         contents: [
