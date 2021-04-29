@@ -31,7 +31,7 @@ class _SelectableRewardContainerState extends State<SelectableRewardContainer> {
         height: 70,
         decoration: BoxDecoration(
           color: widget.isSelectedReward ? kDeepOrange : kBackGroundWhite,
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(10),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
