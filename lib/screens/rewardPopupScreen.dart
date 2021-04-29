@@ -297,7 +297,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                         opacity: _fadeInAnimations[0],
                         //TODO translate
                         child: Text(
-                          "You are on a ${widget.habit.streak}x streak!",
+                          "You are on a ${widget.habit.streak} day streak!",
                           style: Theme.of(context)
                               .textTheme
                               .headline6
@@ -311,8 +311,10 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                       child: FadeTransition(
                         opacity: _fadeInAnimations[1],
                         child: BouncingButton(
-                          onPressed: () {
+                          onPressed: () async {
                             _checkIfRewardIsRemoving();
+                            await Future.delayed(
+                                const Duration(milliseconds: 100));
                             Get.back();
                           },
                           height: 60,
