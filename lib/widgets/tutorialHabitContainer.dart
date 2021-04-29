@@ -187,7 +187,7 @@ class _TutorialContainerState extends State<TutorialContainer>
                     child: Icon(
                       FontAwesomeIcons.check,
                       // Icons.check_rounded,
-                      size: 30,
+                      size: 25,
                       color: kLightOrange,
                     ),
                   )

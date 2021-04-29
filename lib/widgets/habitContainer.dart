@@ -132,7 +132,7 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
               child: Icon(
                 FontAwesomeIcons.check,
                 // Icons.check_rounded,
-                size: 30,
+                size: 25,
                 color: kLightOrange,
               ),
             ),
