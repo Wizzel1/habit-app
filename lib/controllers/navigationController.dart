@@ -30,7 +30,6 @@ class NavigationController extends GetxController {
 
   Future<void> navigateToIndex(int index) async {
     currentPageIndex = index;
-    innerDrawerKey.currentState.open();
     await openDrawer()
         .then((value) => {
               navigatorPage = appPages[index],
@@ -41,6 +40,7 @@ class NavigationController extends GetxController {
 
   Future<void> openDrawer() async {
     final completer = Completer();
+    innerDrawerKey.currentState.open();
     if (!isDrawerOpen) {
       await 200.milliseconds.delay();
       return openDrawer();
