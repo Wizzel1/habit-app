@@ -79,13 +79,13 @@ class _InnerDrawerScreenState extends State<InnerDrawerScreen> {
                   colorTransitionScaffold:
                       Colors.transparent, // default Color.black54
                   //When setting the vertical offset, be sure to use only top or bottom
-                  offset: IDOffset.only(bottom: 0.05, right: 0.0, left: 0.0),
+                  offset: IDOffset.only(bottom: 0.0, right: 0.0, left: 0.0),
                   scale: IDOffset.horizontal(
-                      0.8), // set the offset in both directions
+                      1), // set the offset in both directions
                   proportionalChildArea: true, // default true
-                  borderRadius: 20, // default 0
+                  borderRadius: 10, // default 0
                   leftAnimationType:
-                      InnerDrawerAnimation.static, // default static
+                      InnerDrawerAnimation.quadratic, // default static
                   rightAnimationType: InnerDrawerAnimation.quadratic,
                   backgroundDecoration: BoxDecoration(
                       color:
