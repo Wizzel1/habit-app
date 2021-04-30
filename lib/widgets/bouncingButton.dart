@@ -16,7 +16,7 @@ class BouncingButton extends StatefulWidget {
     this.color = kBackGroundWhite,
     this.height = 40,
     this.width = 100,
-    this.borderRadius = 10,
+    this.borderRadius = 8,
   }) : super(key: key);
 
   @override
@@ -35,7 +35,7 @@ class _BouncingButtonState extends State<BouncingButton>
       duration: const Duration(milliseconds: 50),
     );
     _scale = Tween<double>(begin: 1.0, end: 0.9)
-        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+        .animate(CurvedAnimation(parent: _controller, curve: Curves.ease));
     super.initState();
   }
 
@@ -51,12 +51,12 @@ class _BouncingButtonState extends State<BouncingButton>
       behavior: HitTestBehavior.opaque,
       onPointerDown: (PointerDownEvent event) {
         _controller.forward();
+        if (widget.onPressed == null) return;
+        widget.onPressed();
       },
       onPointerUp: (PointerUpEvent event) async {
         await _controller.forward();
         await _controller.reverse();
-        if (widget.onPressed == null) return;
-        widget.onPressed();
       },
       child: ScaleTransition(
         scale: _scale,
