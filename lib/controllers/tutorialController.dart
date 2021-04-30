@@ -111,8 +111,7 @@ class TutorialController extends GetxController {
   void _showWelcomeScreen(BuildContext context) async {
     if (hasSeenWelcomeScreen) return;
 
-    bool wantToWatchTutorial =
-        await Get.to(() => WelcomeScreen(), transition: Transition.fade);
+    bool wantToWatchTutorial = await Get.to(() => WelcomeScreen());
 
     hasSeenWelcomeScreen = true;
 
