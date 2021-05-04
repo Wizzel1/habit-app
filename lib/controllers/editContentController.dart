@@ -11,6 +11,7 @@ class EditContentController extends GetxController {
 
   TextEditingController titleController;
   TextEditingController descriptionController;
+  bool hasChangedNotificationTimes = false;
   Rx<bool> isSelfRemoving = false.obs;
   Rx<int> newCompletionGoal = 0.obs;
   RxList<int> newSchedule = List<int>.empty().obs;
@@ -19,12 +20,12 @@ class EditContentController extends GetxController {
   RxList<NotificationObject> newNotificationObjects =
       List<NotificationObject>.empty().obs;
 
-  RxList<int> selectedHours = List<int>.filled(
-          ContentController.maxDailyCompletions, 12,
+  RxList<int> selectedHours = List<int>.generate(
+          ContentController.maxDailyCompletions, (_) => 12,
           growable: false)
       .obs;
-  RxList<int> selectedMinutes = List<int>.filled(
-          ContentController.maxDailyCompletions, 00,
+  RxList<int> selectedMinutes = List<int>.generate(
+          ContentController.maxDailyCompletions, (_) => 00,
           growable: false)
       .obs;
 
@@ -56,9 +57,24 @@ class EditContentController extends GetxController {
     }
 
     for (var i = 0; i < habit.notificationObjects.length; i++) {
-      NotificationObject object = habit.notificationObjects[i];
-      selectedHours[i] = object.hour;
-      selectedMinutes[i] = object.minutes;
+      newNotificationObjects.add(habit.notificationObjects[i]);
+    }
+
+    List<String> times = [];
+
+    for (var i = 0; i < newNotificationObjects.length; i++) {
+      NotificationObject _object = newNotificationObjects[i];
+      String stringTime = _object.hour.toString().padLeft(2, "0") +
+          _object.minutes.toString().padRight(2, "0");
+
+      times.add(stringTime);
+    }
+
+    times.toSet().toList().sort((a, b) => int.parse(a).compareTo(int.parse(b)));
+
+    for (var i = 0; i < times.length; i++) {
+      selectedHours[i] = int.parse(times[i].substring(0, 2));
+      selectedMinutes[i] = int.parse(times[i].substring(2, 4));
     }
   }
 
@@ -103,6 +119,7 @@ class EditContentController extends GetxController {
       selectedMinutes[index] = 30;
     }
     _setMinMaxTimes(index);
+    hasChangedNotificationTimes = true;
   }
 
   void subtract30Minutes(int index) {
@@ -114,6 +131,7 @@ class EditContentController extends GetxController {
       selectedMinutes[index] = 00;
     }
     _setMinMaxTimes(index);
+    hasChangedNotificationTimes = true;
   }
 
   void _setMinMaxTimes(int changeIndex) {
@@ -194,8 +212,9 @@ class EditContentController extends GetxController {
     bool _hasChangedCompletionGoal =
         habitToUpdate.completionGoal != newCompletionGoal.value;
 
-    bool _needsPartialNotificationUpdate =
-        (_hasChangedCompletionGoal || _hasChangedSchedule);
+    bool _needsPartialNotificationUpdate = (_hasChangedCompletionGoal ||
+        _hasChangedSchedule ||
+        hasChangedNotificationTimes);
     bool _needsCompleteNotificationUpdate = _hasChangedTitle;
 
     if (!_needsCompleteNotificationUpdate && !_needsPartialNotificationUpdate)

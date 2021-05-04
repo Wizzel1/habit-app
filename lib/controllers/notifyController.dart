@@ -67,10 +67,10 @@ class NotifyController extends GetxController {
       {List<NotificationObject> oldObjects,
       List<NotificationObject> newObjects}) async {
     List<NotificationObject> _objectsToDelete =
-        oldObjects.toSet().difference(newObjects.toSet()).toList();
+        _getListDifferences(oldObjects, newObjects);
 
     List<NotificationObject> _objectsToCreate =
-        newObjects.toSet().difference(oldObjects.toSet()).toList();
+        _getListDifferences(newObjects, oldObjects);
 
     _objectsToDelete.forEach((element) async {
       await flutterLocalNotificationsPlugin.cancel(element.notificationId);
@@ -79,6 +79,23 @@ class NotifyController extends GetxController {
     _objectsToCreate.forEach((element) async {
       await _createNotificationFromObject(element);
     });
+  }
+
+  List<NotificationObject> _getListDifferences(List listA, List listB) {
+    List<NotificationObject> _differences = [];
+    for (NotificationObject objA in listA) {
+      bool found = false;
+      for (NotificationObject objB in listB) {
+        if (objA.notificationId == objB.notificationId) {
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        _differences.add(objA);
+      }
+    }
+    return _differences;
   }
 
   Future<void> _createNotificationFromObject(NotificationObject object) async {
