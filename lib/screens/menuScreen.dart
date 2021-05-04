@@ -105,7 +105,8 @@ class MenuScreen extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () async {
-                    await Get.find<NotifyController>().cancelAllNotifications();
+                    await Get.find<NotifyController>()
+                        .utilCancelAllNotifications();
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(

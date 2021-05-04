@@ -125,8 +125,15 @@ class NotifyController extends GetxController {
     return scheduledDate;
   }
 
-  Future<void> cancelAllNotifications() async {
+  Future<void> utilCancelAllNotifications() async {
     await flutterLocalNotificationsPlugin.cancelAll();
+  }
+
+  Future<void> cancelAllHabitNotifications(Habit habit) async {
+    for (var i = 0; i < habit.notificationObjects.length; i++) {
+      int _cancellationID = habit.notificationObjects[i].notificationId;
+      await flutterLocalNotificationsPlugin.cancel(_cancellationID);
+    }
   }
 
   Future<void> listScheduledNotifications(BuildContext context) async {

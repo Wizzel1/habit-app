@@ -1,3 +1,4 @@
+import 'package:Marbit/controllers/controllers.dart';
 import 'package:Marbit/util/util.dart';
 import 'package:get/get.dart';
 import 'package:Marbit/models/models.dart';
@@ -24,10 +25,11 @@ class ContentController extends GetxController {
     }
   }
 
-  void deleteHabit(Habit habit) {
+  Future<void> deleteHabit(Habit habit) async {
     assert(habit != null);
     try {
       allHabitList.remove(habit);
+      await Get.find<NotifyController>().cancelAllHabitNotifications(habit);
       updateHabitList();
       LocalStorageService.saveAllHabits(allHabitList);
       reloadHabitList();
