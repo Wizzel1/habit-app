@@ -45,19 +45,6 @@ class MyApp extends StatelessWidget {
           MobileAds.initialize(),
           Firebase.initializeApp(),
           Get.find<NotifyController>().initializeNotificationPlugin(),
-          // AwesomeNotifications().initialize(
-          //     // set the icon to null if you want to use the default app icon
-          //     null,
-          //     [
-          //       NotificationChannel(
-          //           importance: NotificationImportance.Max,
-          //           defaultPrivacy: NotificationPrivacy.Public,
-          //           channelKey: 'scheduled',
-          //           channelName: 'Basic notifications',
-          //           channelDescription: 'Notification channel for basic tests',
-          //           defaultColor: Color(0xFF9D50DD),
-          //           ledColor: Colors.white)
-          //     ]),
           GetStorage.init()
         ]),
         backgroundColor: kBackGroundWhite,
