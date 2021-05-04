@@ -1,5 +1,6 @@
 import 'package:Marbit/controllers/controllers.dart';
 import 'package:Marbit/util/util.dart';
+import 'package:Marbit/widgets/bouncingButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_funding_choices/flutter_funding_choices.dart';
 import 'package:get/get.dart';
@@ -16,10 +17,10 @@ class MenuScreen extends StatelessWidget {
         children: [
           Spacer(),
           Expanded(
-            flex: 2,
+            flex: 5,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 MenuItem(
                   onTap: () => navigationController.navigateToIndex(0),
@@ -55,28 +56,70 @@ class MenuScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 30),
                 InkWell(
-                    onTap: () async {
-                      ConsentInformation consentInfo =
-                          await FlutterFundingChoices
-                              .requestConsentInformation();
-                      //TODO add IOS consent
-                      if (consentInfo.isConsentFormAvailable &&
-                          consentInfo.consentStatus == ConsentStatus.OBTAINED) {
-                        await FlutterFundingChoices.showConsentForm();
-                        // You can check the result by calling `FlutterFundingChoices.requestConsentInformation()` again !
-                      }
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0, vertical: 10.0),
-                      child: Text(
-                        'my_content_menutitle'.tr,
-                        style: Theme.of(context).textTheme.button,
-                      ),
-                    )),
+                  onTap: () async {
+                    ConsentInformation consentInfo =
+                        await FlutterFundingChoices.requestConsentInformation();
+                    //TODO add IOS consent
+                    if (consentInfo.isConsentFormAvailable &&
+                        consentInfo.consentStatus == ConsentStatus.OBTAINED) {
+                      await FlutterFundingChoices.showConsentForm();
+                      // You can check the result by calling `FlutterFundingChoices.requestConsentInformation()` again !
+                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 10.0),
+                    child: Text(
+                      'my_content_menutitle'.tr,
+                      style: Theme.of(context).textTheme.button,
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () async {
+                    // await Get.find<LocalNotifyController>()
+                    //     .scheduleWeeklyHabitNotifications(1);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 10.0),
+                    child: Text(
+                      'start repeated notification every minute',
+                      style: Theme.of(context).textTheme.button,
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () async {
+                    await Get.find<NotifyController>()
+                        .listScheduledNotifications(context);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 10.0),
+                    child: Text(
+                      'list all notifications',
+                      style: Theme.of(context).textTheme.button,
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () async {
+                    await Get.find<NotifyController>().cancelAllNotifications();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 10.0),
+                    child: Text(
+                      'cancel all notifications',
+                      style: Theme.of(context).textTheme.button,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
+          Spacer(),
         ],
       ),
     );
@@ -95,25 +138,14 @@ class MenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 100,
-      decoration: BoxDecoration(
+    return BouncingButton(
+        width: 100,
         color: backGroundColor,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(8),
-          bottomLeft: Radius.circular(8),
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
-        child: InkWell(
-            onTap: onTap,
-            child: Text(
-              title,
-              style:
-                  Theme.of(context).textTheme.button.copyWith(color: textColor),
-            )),
-      ),
-    );
+        onPressed: onTap,
+        child: Text(
+          title,
+          style: Theme.of(context).textTheme.button.copyWith(color: textColor),
+          textAlign: TextAlign.center,
+        ));
   }
 }

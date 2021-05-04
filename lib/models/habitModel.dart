@@ -6,16 +6,39 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Habit {
+  /// The Title of the Habit.
   String title;
+
+  /// The uuid of the Habit.
   String id;
+
+  /// A counting number that is used as prefix for the Habit's [NotificationObject]s.
+  int notificationIDprefix;
   DateTime creationDate;
+
+  /// The optional Description.
   String description;
+
+  /// The scheduled Weekdays (1-7).
   List<int> scheduledWeekDays;
+
+  /// The references to this Habit's [Reward]s.
   List<String> rewardIDReferences;
+
+  /// The Datastructure that holds completiondata about this Habit.
   TrackedCompletions trackedCompletions;
+
+  /// The Date of the next scheduled Weekday.
   DateTime nextCompletionDate;
+
+  /// The current completionstreak.
   int streak;
+
+  /// The daily completiongoal.
   int completionGoal;
+
+  /// The list of [NotificationObject]s, based on the Habit's current Schedule.
+  List<NotificationObject> notificationObjects;
 
   //TODO: implement color serialization
   Map<String, int> habitColors = {
@@ -23,23 +46,25 @@ class Habit {
     "deep": kDeepOrange.value
   };
 
-  Habit({
-    @required this.title,
-    @required this.description,
-    @required this.id,
-    @required this.creationDate,
-    @required this.scheduledWeekDays,
-    @required this.rewardIDReferences,
-    @required this.nextCompletionDate,
-    @required this.trackedCompletions,
-    @required this.streak,
-    @required this.completionGoal,
-  });
+  Habit(
+      {@required this.title,
+      @required this.description,
+      @required this.id,
+      @required this.notificationIDprefix,
+      @required this.creationDate,
+      @required this.scheduledWeekDays,
+      @required this.rewardIDReferences,
+      @required this.nextCompletionDate,
+      @required this.trackedCompletions,
+      @required this.streak,
+      @required this.completionGoal,
+      @required this.notificationObjects});
 
   Map<String, dynamic> toJson() => {
         "title": title,
         "description": description,
         "id": id,
+        "notificationIDprefix": notificationIDprefix,
         "completionGoal": completionGoal,
         "streak": streak,
         "creationDate":
@@ -51,12 +76,15 @@ class Habit {
         "rewardIDReferences":
             List<dynamic>.from(rewardIDReferences.map((x) => x)),
         "trackedCompletions": trackedCompletions.toJson(),
+        "notificationObjects":
+            List<dynamic>.from(notificationObjects.map((x) => x.toJson())),
       };
 
   factory Habit.fromJson(Map<String, dynamic> json) => Habit(
         title: json["title"],
         description: json["description"],
         id: json["id"],
+        notificationIDprefix: json["notificationIDprefix"],
         streak: json["streak"],
         completionGoal: json["completionGoal"],
         creationDate: DateTime.parse(json["creationDate"]),
@@ -67,6 +95,8 @@ class Habit {
             List<String>.from(json["rewardIDReferences"].map((x) => x)),
         trackedCompletions:
             TrackedCompletions.fromJson(json["trackedCompletions"]),
+        notificationObjects: List<NotificationObject>.from(
+            json["notificationObjects"].map((x) => x)),
       );
 
   bool isScheduledForToday() {

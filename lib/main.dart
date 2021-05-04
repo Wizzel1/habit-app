@@ -12,7 +12,6 @@ import 'package:Marbit/controllers/navigationController.dart';
 import 'package:Marbit/util/util.dart';
 import 'package:native_admob_flutter/native_admob_flutter.dart';
 import 'package:rive_splash_screen/rive_splash_screen.dart';
-
 import 'controllers/controllers.dart';
 
 Future<void> main() async {
@@ -45,6 +44,20 @@ class MyApp extends StatelessWidget {
         until: () => Future.wait([
           MobileAds.initialize(),
           Firebase.initializeApp(),
+          Get.find<NotifyController>().initializeNotificationPlugin(),
+          // AwesomeNotifications().initialize(
+          //     // set the icon to null if you want to use the default app icon
+          //     null,
+          //     [
+          //       NotificationChannel(
+          //           importance: NotificationImportance.Max,
+          //           defaultPrivacy: NotificationPrivacy.Public,
+          //           channelKey: 'scheduled',
+          //           channelName: 'Basic notifications',
+          //           channelDescription: 'Notification channel for basic tests',
+          //           defaultColor: Color(0xFF9D50DD),
+          //           ledColor: Colors.white)
+          //     ]),
           GetStorage.init()
         ]),
         backgroundColor: kBackGroundWhite,

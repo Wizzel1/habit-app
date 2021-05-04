@@ -50,4 +50,14 @@ class LocalStorageService {
     if (value == null) return false;
     return value;
   }
+
+  static Future<int> loadLatestNotificationIDprefix() async {
+    int value = await storageBox.read("latestPrefix");
+    if (value == null) return 1;
+    return value;
+  }
+
+  static Future<void> saveLatestNotificationIDprefix(int value) async {
+    await storageBox.write("latestPrefix", value);
+  }
 }

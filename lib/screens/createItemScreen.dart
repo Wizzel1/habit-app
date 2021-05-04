@@ -34,6 +34,10 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
   void initState() {
     _createItemController = Get.put(CreateItemController());
     _pageController = PageController();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      //TODO remove
+      // Get.find<NotificationController>().requestPermission();
+    });
     super.initState();
   }
 
@@ -71,6 +75,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                         buildTitleInputPage(),
                         buildDescriptionInputPage(),
                         buildCompletionGoalStepper(),
+                        _buildNotificationTimeSelectionPage(),
                         buildRewardSelectionPage(),
                         buildSchedulerPage()
                       ] else ...[
@@ -549,6 +554,92 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                       .copyWith(color: kDeepOrange),
                 ),
               ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildNotificationTimeSelectionPage() {
+    return Column(
+      children: [
+        //TODO translate
+        TitleSection(title: "notification times"),
+        Expanded(
+          flex: _contentFlex,
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: _createItemController.completionGoalCount.value,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Spacer(),
+                          BouncingButton(
+                            onPressed: () {
+                              _createItemController.subtract30Minutes(index);
+                            },
+                            child: Text("-30",
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .button
+                                    .copyWith(color: kDeepOrange)),
+                          ),
+                          Expanded(
+                            flex: 6,
+                            child: Obx(
+                              () => Text(
+                                  "${_createItemController.selectedHours[index]}:${_createItemController.selectedMinutes[index].toString().padLeft(2, "0")}",
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context).textTheme.headline4),
+                            ),
+                          ),
+                          BouncingButton(
+                            onPressed: () {
+                              _createItemController.add30Minutes(index);
+                            },
+                            child: Text("+30",
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .button
+                                    .copyWith(color: kDeepOrange)),
+                          ),
+                          const Spacer(),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 30),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  PageScrollIconButton(
+                    scrollToNextPage: false,
+                    pageController: _pageController,
+                    onPressedButton: (scrollFunction) {
+                      scrollFunction();
+                    },
+                  ),
+                  PageScrollIconButton(
+                    scrollToNextPage: true,
+                    pageController: _pageController,
+                    onPressedButton: (scrollFunction) {
+                      scrollFunction();
+                    },
+                  )
+                ],
+              )
             ],
           ),
         ),

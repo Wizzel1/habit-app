@@ -283,6 +283,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                       _buildNextCompletiondateText(),
                       const SizedBox(height: 30),
                       _buildCompletionGoalStepper(),
+                      _buildScheduledTimesWrapper(),
                       const SizedBox(height: 30),
                       Center(
                         child: _buildEditButton(
@@ -490,6 +491,86 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                     fontSize: 12,
                     color: Color(widget.habit.habitColors["deep"]),
                   ),
+            ),
+    );
+  }
+
+  Widget _buildScheduledTimesWrapper() {
+    return AnimatedSwitcher(
+      duration: Duration(milliseconds: 800),
+      switchInCurve: Curves.easeOutQuint,
+      switchOutCurve: Curves.easeOutQuint,
+      child: _isInEditMode
+          ? Obx(
+              () => ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: _editContentController.newCompletionGoal.value,
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Spacer(),
+                        BouncingButton(
+                          onPressed: () {
+                            _editContentController.subtract30Minutes(index);
+                          },
+                          child: Text("-30",
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .button
+                                  .copyWith(color: kDeepOrange)),
+                        ),
+                        Expanded(
+                          flex: 6,
+                          child: Obx(
+                            () => Text(
+                                "${_editContentController.selectedHours[index]}:${_editContentController.selectedMinutes[index].toString().padLeft(2, "0")}",
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context).textTheme.headline4),
+                          ),
+                        ),
+                        BouncingButton(
+                          onPressed: () {
+                            _editContentController.add30Minutes(index);
+                          },
+                          child: Text("+30",
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .button
+                                  .copyWith(color: kDeepOrange)),
+                        ),
+                        const Spacer(),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            )
+          : Obx(
+              () => Wrap(
+                children: [
+                  ...List.generate(
+                    _editContentController.newCompletionGoal.value,
+                    (index) => Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Obx(
+                        () => Text(
+                          "${_editContentController.selectedHours[index]}:${_editContentController.selectedMinutes[index].toString().padLeft(2, "0")}",
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline6
+                              .copyWith(color: kBackGroundWhite),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
     );
   }

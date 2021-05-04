@@ -1,6 +1,7 @@
 import 'package:Marbit/models/models.dart';
 import 'package:Marbit/services/services.dart';
 import 'package:Marbit/util/util.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'controllers.dart';
@@ -15,6 +16,17 @@ class EditContentController extends GetxController {
   RxList<int> newSchedule = List<int>.empty().obs;
   RxList<String> newRewardReferences = List<String>.empty().obs;
   Rx<DateTime> newCompletionDate = DateTime.now().obs;
+  RxList<NotificationObject> newNotificationObjects =
+      List<NotificationObject>.empty().obs;
+
+  RxList<int> selectedHours = List<int>.filled(
+          ContentController.maxDailyCompletions, 12,
+          growable: false)
+      .obs;
+  RxList<int> selectedMinutes = List<int>.filled(
+          ContentController.maxDailyCompletions, 00,
+          growable: false)
+      .obs;
 
   @override
   void onInit() {
@@ -41,6 +53,12 @@ class EditContentController extends GetxController {
 
     for (var i = 0; i < habit.rewardIDReferences.length; i++) {
       newRewardReferences.add(habit.rewardIDReferences[i]);
+    }
+
+    for (var i = 0; i < habit.notificationObjects.length; i++) {
+      NotificationObject object = habit.notificationObjects[i];
+      selectedHours[i] = object.hour;
+      selectedMinutes[i] = object.minutes;
     }
   }
 
@@ -76,7 +94,60 @@ class EditContentController extends GetxController {
     _contentController.updateRewardList();
   }
 
-  void updateHabit(String habitID) {
+  void add30Minutes(int index) {
+    if (selectedHours[index] == 23 && selectedMinutes[index] == 30) return;
+    if (selectedMinutes[index] == 30) {
+      selectedMinutes[index] = 00;
+      selectedHours[index] = (selectedHours[index] + 1).clamp(0, 23);
+    } else {
+      selectedMinutes[index] = 30;
+    }
+    _setMinMaxTimes(index);
+  }
+
+  void subtract30Minutes(int index) {
+    if (selectedHours[index] == 0 && selectedMinutes[index] == 00) return;
+    if (selectedMinutes[index] == 00) {
+      selectedMinutes[index] = 30;
+      selectedHours[index] = (selectedHours[index] - 1).clamp(0, 23);
+    } else {
+      selectedMinutes[index] = 00;
+    }
+    _setMinMaxTimes(index);
+  }
+
+  void _setMinMaxTimes(int changeIndex) {
+    int _changedHour = selectedHours[changeIndex];
+    int _changedMinute = selectedMinutes[changeIndex];
+
+    for (var i = 0; i < selectedHours.length; i++) {
+      if (i == changeIndex) continue;
+      if (i < changeIndex) {
+        if (selectedHours[i] >= _changedHour) {
+          if (_changedMinute == 30) {
+            selectedMinutes[i] = 00;
+            selectedHours[i] = _changedHour;
+          } else {
+            selectedMinutes[i] = 30;
+            selectedHours[i] = (_changedHour - 1).clamp(0, 23);
+          }
+        }
+      }
+      if (i > changeIndex) {
+        if (selectedHours[i] <= _changedHour) {
+          if (_changedMinute == 30) {
+            selectedMinutes[i] = 00;
+            selectedHours[i] = (_changedHour + 1).clamp(0, 23);
+          } else {
+            selectedMinutes[i] = 30;
+            selectedHours[i] = _changedHour;
+          }
+        }
+      }
+    }
+  }
+
+  void updateHabit(String habitID) async {
     assert(habitID != null, "update habit was called on a null ID");
 
     if (habitID == "tutorialHabit" || habitID == null) return;
@@ -91,6 +162,8 @@ class EditContentController extends GetxController {
     newSchedule?.sort();
 
     Habit _habitToUpdate = _contentController.allHabitList[_updateIndex];
+
+    await _updateNotifications(_habitToUpdate);
 
     if (titleController.text != null && titleController.text.isNotEmpty)
       _habitToUpdate.title = titleController.text;
@@ -112,6 +185,47 @@ class EditContentController extends GetxController {
 
     _contentController.updateHabitList();
     _contentController.reloadHabitList();
+  }
+
+  Future<void> _updateNotifications(Habit habitToUpdate) async {
+    bool _hasChangedTitle = habitToUpdate.title != titleController.text;
+    bool _hasChangedSchedule =
+        !listEquals(habitToUpdate.scheduledWeekDays, newSchedule);
+    bool _hasChangedCompletionGoal =
+        habitToUpdate.completionGoal != newCompletionGoal.value;
+
+    bool _needsPartialNotificationUpdate =
+        (_hasChangedCompletionGoal || _hasChangedSchedule);
+    bool _needsCompleteNotificationUpdate = _hasChangedTitle;
+
+    if (!_needsCompleteNotificationUpdate && !_needsPartialNotificationUpdate)
+      return;
+
+    List<NotificationObject> _newObjects =
+        NotificationObject.createNotificationObjects(
+            prefix: habitToUpdate.notificationIDprefix,
+            scheduledDays: newSchedule,
+            completionGoal: newCompletionGoal.value,
+            hours: selectedHours,
+            minutes: selectedMinutes,
+            title: titleController.text,
+            body: "");
+
+    if (_needsCompleteNotificationUpdate) {
+      await Get.find<NotifyController>().updateAllHabitNotifications(
+          oldObjects: habitToUpdate.notificationObjects,
+          newObjects: _newObjects);
+      return;
+    }
+
+    if (!_needsCompleteNotificationUpdate && _needsPartialNotificationUpdate) {
+      await Get.find<NotifyController>().updateHabitNotificationsPartially(
+          oldObjects: habitToUpdate.notificationObjects,
+          newObjects: _newObjects);
+
+      habitToUpdate.notificationObjects = _newObjects;
+      return;
+    }
   }
 
   // //TODO improve this method
