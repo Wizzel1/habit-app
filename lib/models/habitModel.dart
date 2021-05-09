@@ -223,7 +223,7 @@ class Habit {
     return wasFinishedToday;
   }
 
-  void addCompletionForToday({Function onCompletionGoalReached}) {
+  Future<void> addCompletionForToday({Function onCompletionGoalReached}) async {
     List<int> _yearWeekDayIndexList = _getYearWeekDayIndexList();
     print("addCompletionForToday : $_yearWeekDayIndexList");
 
@@ -241,17 +241,41 @@ class Habit {
         .trackedDays[_trackedDayIndex]
         .doneAmount++;
 
-    if (trackedCompletions
-            .trackedYears[_yearIndex]
-            .calendarWeeks[_calendarWeekIndex]
-            .trackedDays[_trackedDayIndex]
-            .doneAmount >=
-        completionGoal) {
+    await _checkRelatedNotificationForRescheduling(trackedCompletions
+        .trackedYears[_yearIndex]
+        .calendarWeeks[_calendarWeekIndex]
+        .trackedDays[_trackedDayIndex]
+        .doneAmount);
+
+    if (wasFinishedToday()) {
       onCompletionGoalReached();
       Get.find<ContentController>().reloadHabitList();
     }
 
     Get.find<EditContentController>().updateHabit(id);
+  }
+
+  Future<void> _checkRelatedNotificationForRescheduling(
+      int completionStep) async {
+    NotificationObject _relatedNotification =
+        _identifyStepRelatedNotification(completionStep);
+
+    if (_relatedNotification == null) return;
+
+    await Get.find<NotifyController>()
+        .checkAndHandleNotificationRescheduling(_relatedNotification);
+  }
+
+  NotificationObject _identifyStepRelatedNotification(int completionStep) {
+    assert(completionStep > 0, "completionStep parameter must not be negative");
+    assert(completionStep <= ContentController.maxDailyCompletions,
+        "completionStep must not be greater than the max completion goal");
+
+    return notificationObjects.firstWhere(
+        (element) =>
+            element.weekDay == DateUtilities.today.weekday &&
+            element.relatedCompletionStep == completionStep,
+        orElse: () => null);
   }
 
   void _updateCompletionStreak() {

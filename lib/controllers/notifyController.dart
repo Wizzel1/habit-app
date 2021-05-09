@@ -1,3 +1,4 @@
+import 'package:Marbit/services/localStorage.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 
@@ -14,8 +15,8 @@ FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 class NotifyController extends GetxController {
   @override
-  void onInit() {
-    _configureLocalTimeZone();
+  Future<void> onInit() async {
+    await _configureLocalTimeZone();
     super.onInit();
   }
 
@@ -48,6 +49,22 @@ class NotifyController extends GetxController {
     for (NotificationObject _object in notificationObjects) {
       await _createNotificationFromObject(_object);
     }
+  }
+
+  Future<void> checkAndHandleNotificationRescheduling(
+      NotificationObject object) async {
+    final tz.TZDateTime _now = tz.TZDateTime.now(tz.local);
+
+    final tz.TZDateTime _scheduledTime = tz.TZDateTime(
+        tz.local, _now.year, _now.month, _now.day, object.hour, object.minutes);
+
+    bool _wasCompletedBeforeScheduledTime = _now.isBefore(_scheduledTime);
+
+    if (!_wasCompletedBeforeScheduledTime) return;
+
+    await flutterLocalNotificationsPlugin.cancel(object.notificationId);
+
+    await LocalStorageService.saveObjectForRescheduling(object);
   }
 
   Future<void> updateAllHabitNotifications(
@@ -134,12 +151,12 @@ class NotifyController extends GetxController {
 
   tz.TZDateTime _nextInstanceOfTime({int hour, int minutes}) {
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduledDate =
-        tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minutes);
-    if (scheduledDate.isBefore(now)) {
-      scheduledDate = scheduledDate.add(const Duration(days: 1));
+    tz.TZDateTime _scheduledDate =
+        tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minutes, 0);
+    if (_scheduledDate.isBefore(now)) {
+      _scheduledDate = _scheduledDate.add(const Duration(days: 1));
     }
-    return scheduledDate;
+    return _scheduledDate;
   }
 
   Future<void> utilCancelAllNotifications() async {

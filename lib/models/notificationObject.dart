@@ -35,6 +35,12 @@ class NotificationObject {
   /// notificationId = 23742330
   int notificationId;
 
+  /// The completion step that this Object was created for.
+  /// It is used to reschedule Notifications for AheadOfScheduledTime-Completed completionSteps.
+  ///
+  /// So if the parent Habits completionGoal is 4, this number can be 1-4.
+  int relatedCompletionStep;
+
   /// The hour (0-23) to schedule.
   int hour;
 
@@ -61,18 +67,19 @@ class NotificationObject {
     @required this.shouldShow,
     @required this.title,
     @required this.body,
+    @required this.relatedCompletionStep,
   });
 
   factory NotificationObject.fromJson(Map<String, dynamic> json) =>
       NotificationObject(
-        notificationId: json["notificationID"],
-        hour: json["hour"],
-        minutes: json["minutes"],
-        weekDay: json["weekDay"],
-        shouldShow: json["shouldShow"],
-        title: json["title"],
-        body: json["body"],
-      );
+          notificationId: json["notificationID"],
+          hour: json["hour"],
+          minutes: json["minutes"],
+          weekDay: json["weekDay"],
+          shouldShow: json["shouldShow"],
+          title: json["title"],
+          body: json["body"],
+          relatedCompletionStep: json["relatedCompletionStep"]);
 
   Map<String, dynamic> toJson() => {
         "notificationID": notificationId,
@@ -82,6 +89,7 @@ class NotificationObject {
         "shouldShow": shouldShow,
         "title": title,
         "body": body,
+        "relatedCompletionStep": relatedCompletionStep,
       };
 
   static List<NotificationObject> createNotificationObjects({
@@ -96,17 +104,19 @@ class NotificationObject {
     List<NotificationObject> _objectList = [];
 
     for (var i = 0; i < scheduledDays.length; i++) {
+      int _currentWeekday = scheduledDays[i];
       for (var j = 0; j < completionGoal; j++) {
-        int _currentWeekday = scheduledDays[i];
+        int _completionStep = j + 1;
         NotificationObject _newObject = NotificationObject(
-            notificationId:
-                int.parse("$prefix$_currentWeekday$j${hours[j]}${minutes[j]}"),
+            notificationId: int.parse(
+                "$prefix$_currentWeekday$_completionStep${hours[j]}${minutes[j]}"),
             hour: hours[j],
             minutes: minutes[j],
             weekDay: _currentWeekday,
             shouldShow: true,
             title: title,
-            body: body);
+            body: body,
+            relatedCompletionStep: _completionStep);
 
         _objectList.add(_newObject);
       }

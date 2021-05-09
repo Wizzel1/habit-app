@@ -23,6 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+    #TODO setup for iOS
   flutter_funding_choices: ^0.2.0
   cupertino_icons: ^1.0.0
   device_info: ^2.0.0
@@ -33,9 +34,10 @@ dependencies:
   font_awesome_flutter: ^9.0.0
   get: ^4.1.4
   get_storage: ^2.0.2
-  google_mobile_ads: ^0.12.1
+  #google_mobile_ads: ^0.12.1
   implicitly_animated_reorderable_list: ^0.4.0
   intl: ^0.17.0
+  #TODO setup for iOS
   native_admob_flutter: ^1.2.4
   rich_text_controller: ^1.3.0
   scroll_to_index: ^2.0.0
@@ -44,9 +46,12 @@ dependencies:
   week_of_year: ^2.0.0
   rive_splash_screen: ^0.1.0
   flutter_launcher_icons: ^0.9.0
-  flutter_local_notifications: ^5.0.0+3
+  flutter_local_notifications: ^5.0.0+4
+  #TODO setup for iOS
+  workmanager: ^0.4.0
   timezone: ^0.7.0
   flutter_native_timezone: ^1.0.10
+  shared_preferences: ^2.0.5
 
 dev_dependencies:
   flutter_test:

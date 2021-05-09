@@ -206,6 +206,11 @@ class EditContentController extends GetxController {
   }
 
   Future<void> _updateNotifications(Habit habitToUpdate) async {
+    if (titleController == null) return;
+    if (titleController.text == null) return;
+    if (newSchedule.isEmpty) return;
+    if (newCompletionGoal.value == 0) return;
+
     bool _hasChangedTitle = habitToUpdate.title != titleController.text;
     bool _hasChangedSchedule =
         !listEquals(habitToUpdate.scheduledWeekDays, newSchedule);

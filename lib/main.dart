@@ -13,10 +13,10 @@ import 'package:Marbit/util/util.dart';
 import 'package:native_admob_flutter/native_admob_flutter.dart';
 import 'package:rive_splash_screen/rive_splash_screen.dart';
 import 'controllers/controllers.dart';
+import 'package:workmanager/workmanager.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(MyApp());
 }
 
@@ -42,10 +42,19 @@ class MyApp extends StatelessWidget {
         loopAnimation: 'Loop',
         endAnimation: 'End',
         until: () => Future.wait([
+          // 3 hours
+          GetStorage.init(),
           MobileAds.initialize(),
           Firebase.initializeApp(),
+          SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]),
+          //Get.find<AdController>().initializeInterstitialAd(),
           Get.find<NotifyController>().initializeNotificationPlugin(),
-          GetStorage.init()
+          Workmanager().initialize(
+              callbackDispatcher, // The top level function, aka callbackDispatcher
+              isInDebugMode: true), // Send notification on task run
+          Workmanager().registerPeriodicTask("1", "rescheduleNotifications",
+              frequency: const Duration(minutes: 15),
+              existingWorkPolicy: ExistingWorkPolicy.replace),
         ]),
         backgroundColor: kBackGroundWhite,
         next: (context) => InnerDrawerScreen(),
