@@ -105,13 +105,11 @@ class CreateItemController extends GetxController {
 
   Future<void> createAndSaveHabit() async {
     scheduledDays.sort();
-    DateTime _today = DateUtilities.today;
     int nextScheduledWeekday = scheduledDays.firstWhere(
         (element) => element >= DateUtilities.today.weekday,
         orElse: () => scheduledDays.first);
     int prefix = await _getNotificationIDprefix();
     Habit newHabit = Habit(
-      creationDate: _today,
       title: createTitleTextController.text,
       id: Uuid().v4(),
       completionGoal: completionGoalCount.value,

@@ -14,7 +14,6 @@ class Habit {
 
   /// A counting number that is used as prefix for the Habit's [NotificationObject]s.
   int notificationIDprefix;
-  DateTime creationDate;
 
   /// The optional Description.
   String description;
@@ -51,7 +50,6 @@ class Habit {
       @required this.description,
       @required this.id,
       @required this.notificationIDprefix,
-      @required this.creationDate,
       @required this.scheduledWeekDays,
       @required this.rewardIDReferences,
       @required this.nextCompletionDate,
@@ -67,8 +65,6 @@ class Habit {
         "notificationIDprefix": notificationIDprefix,
         "completionGoal": completionGoal,
         "streak": streak,
-        "creationDate":
-            "${creationDate.year.toString().padLeft(4, '0')}-${creationDate.month.toString().padLeft(2, '0')}-${creationDate.day.toString().padLeft(2, '0')}",
         "nextCompletionDate":
             "${nextCompletionDate.year.toString().padLeft(4, '0')}-${nextCompletionDate.month.toString().padLeft(2, '0')}-${nextCompletionDate.day.toString().padLeft(2, '0')}",
         "scheduledWeekDays":
@@ -87,7 +83,6 @@ class Habit {
         notificationIDprefix: json["notificationIDprefix"],
         streak: json["streak"],
         completionGoal: json["completionGoal"],
-        creationDate: DateTime.parse(json["creationDate"]),
         nextCompletionDate: DateTime.parse(json["nextCompletionDate"]),
         scheduledWeekDays:
             List<int>.from(json["scheduledWeekDays"].map((x) => x)),
