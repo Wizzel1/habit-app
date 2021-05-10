@@ -45,6 +45,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
   @override
   void dispose() {
     _pageController.dispose();
+    Get.delete<NotificationTimesController>();
     Get.delete<CreateItemController>();
     super.dispose();
   }
