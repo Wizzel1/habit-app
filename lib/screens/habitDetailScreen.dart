@@ -39,7 +39,8 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   final Completer _screenBuiltCompleter = Completer();
   final int _mainScreenAnimationDuration = 200;
   final ContentController _contentController = Get.find<ContentController>();
-
+  final NotificationTimesController _notificationTimesController =
+      Get.find<NotificationTimesController>();
   final EditContentController _editContentController =
       Get.find<EditContentController>();
 
@@ -515,7 +516,8 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                         const Spacer(),
                         BouncingButton(
                           onPressed: () {
-                            _editContentController.subtract30Minutes(index);
+                            _notificationTimesController
+                                .subtract30MinutesFromIndex(index);
                           },
                           child: Text("-30",
                               textAlign: TextAlign.center,
@@ -528,14 +530,15 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                           flex: 6,
                           child: Obx(
                             () => Text(
-                                "${_editContentController.selectedHours[index]}:${_editContentController.selectedMinutes[index].toString().padLeft(2, "0")}",
+                                "${_notificationTimesController.selectedHours[index]}:${_notificationTimesController.selectedMinutes[index].toString().padLeft(2, "0")}",
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context).textTheme.headline4),
                           ),
                         ),
                         BouncingButton(
                           onPressed: () {
-                            _editContentController.add30Minutes(index);
+                            _notificationTimesController
+                                .add30MinutesToIndex(index);
                           },
                           child: Text("+30",
                               textAlign: TextAlign.center,
@@ -560,7 +563,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                       padding: const EdgeInsets.all(8.0),
                       child: Obx(
                         () => Text(
-                          "${_editContentController.selectedHours[index]}:${_editContentController.selectedMinutes[index].toString().padLeft(2, "0")}",
+                          "${_notificationTimesController.selectedHours[index]}:${_notificationTimesController.selectedMinutes[index].toString().padLeft(2, "0")}",
                           style: Theme.of(context)
                               .textTheme
                               .headline6

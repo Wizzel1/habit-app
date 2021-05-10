@@ -6,3 +6,4 @@ export 'package:Marbit/controllers/tutorialController.dart';
 export 'package:Marbit/controllers/editContentController.dart';
 export 'package:Marbit/controllers/dateController.dart';
 export 'package:Marbit/controllers/notifyController.dart';
+export 'package:Marbit/controllers/notificationTimesController.dart';

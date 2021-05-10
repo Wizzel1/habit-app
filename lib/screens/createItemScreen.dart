@@ -29,7 +29,8 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
 
   final int _contentFlex = 1;
   final ContentController _contentController = Get.find<ContentController>();
-
+  final NotificationTimesController _notificationTimesController =
+      Get.find<NotificationTimesController>();
   @override
   void initState() {
     _createItemController = Get.put(CreateItemController());
@@ -583,7 +584,8 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                           const Spacer(),
                           BouncingButton(
                             onPressed: () {
-                              _createItemController.subtract30Minutes(index);
+                              _notificationTimesController
+                                  .subtract30MinutesFromIndex(index);
                             },
                             child: Text("-30",
                                 textAlign: TextAlign.center,
@@ -596,14 +598,15 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                             flex: 6,
                             child: Obx(
                               () => Text(
-                                  "${_createItemController.selectedHours[index]}:${_createItemController.selectedMinutes[index].toString().padLeft(2, "0")}",
+                                  "${_notificationTimesController.selectedHours[index]}:${_notificationTimesController.selectedMinutes[index].toString().padLeft(2, "0")}",
                                   textAlign: TextAlign.center,
                                   style: Theme.of(context).textTheme.headline4),
                             ),
                           ),
                           BouncingButton(
                             onPressed: () {
-                              _createItemController.add30Minutes(index);
+                              _notificationTimesController
+                                  .add30MinutesToIndex(index);
                             },
                             child: Text("+30",
                                 textAlign: TextAlign.center,

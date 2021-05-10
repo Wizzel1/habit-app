@@ -21,14 +21,8 @@ class CreateItemController extends GetxController {
   Rx<bool> isSelfRemovingReward = false.obs;
   Rx<bool> createHabit = false.obs;
 
-  RxList<int> selectedHours = List<int>.filled(
-          ContentController.maxDailyCompletions, 12,
-          growable: false)
-      .obs;
-  RxList<int> selectedMinutes = List<int>.filled(
-          ContentController.maxDailyCompletions, 00,
-          growable: false)
-      .obs;
+  final NotificationTimesController _notificationTimesController =
+      Get.find<NotificationTimesController>();
 
   @override
   void onInit() {
@@ -48,59 +42,6 @@ class CreateItemController extends GetxController {
     createTitleTextController.dispose();
     createDescriptionController.dispose();
     super.onClose();
-  }
-
-  void add30Minutes(int index) {
-    if (selectedHours[index] == 23 && selectedMinutes[index] == 30) return;
-    if (selectedMinutes[index] == 30) {
-      selectedMinutes[index] = 00;
-      selectedHours[index] = (selectedHours[index] + 1).clamp(0, 23);
-    } else {
-      selectedMinutes[index] = 30;
-    }
-    _setMinMaxTimes(index);
-  }
-
-  void subtract30Minutes(int index) {
-    if (selectedHours[index] == 0 && selectedMinutes[index] == 00) return;
-    if (selectedMinutes[index] == 00) {
-      selectedMinutes[index] = 30;
-      selectedHours[index] = (selectedHours[index] - 1).clamp(0, 23);
-    } else {
-      selectedMinutes[index] = 00;
-    }
-    _setMinMaxTimes(index);
-  }
-
-  void _setMinMaxTimes(int changeIndex) {
-    int _changedHour = selectedHours[changeIndex];
-    int _changedMinute = selectedMinutes[changeIndex];
-
-    for (var i = 0; i < selectedHours.length; i++) {
-      if (i == changeIndex) continue;
-      if (i < changeIndex) {
-        if (selectedHours[i] >= _changedHour) {
-          if (_changedMinute == 30) {
-            selectedMinutes[i] = 00;
-            selectedHours[i] = _changedHour;
-          } else {
-            selectedMinutes[i] = 30;
-            selectedHours[i] = (_changedHour - 1).clamp(0, 23);
-          }
-        }
-      }
-      if (i > changeIndex) {
-        if (selectedHours[i] <= _changedHour) {
-          if (_changedMinute == 30) {
-            selectedMinutes[i] = 00;
-            selectedHours[i] = (_changedHour + 1).clamp(0, 23);
-          } else {
-            selectedMinutes[i] = 30;
-            selectedHours[i] = _changedHour;
-          }
-        }
-      }
-    }
   }
 
   Future<void> createAndSaveHabit() async {
@@ -125,8 +66,8 @@ class CreateItemController extends GetxController {
           prefix: prefix,
           scheduledDays: scheduledDays,
           completionGoal: completionGoalCount.value,
-          hours: selectedHours,
-          minutes: selectedMinutes,
+          hours: _notificationTimesController.selectedHours,
+          minutes: _notificationTimesController.selectedMinutes,
           title: createTitleTextController.text,
           body: ""),
     );
