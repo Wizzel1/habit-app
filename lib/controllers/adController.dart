@@ -9,9 +9,9 @@ class AdController extends GetxController {
   int _interstitialCounter = 0;
   final int _interstitialInterval = 4;
 
-  Future<void> initializeInterstitialAd() {
+  Future<void> initializeInterstitialAd() async {
     interstitialAd = InterstitialAd(unitId: MobileAds.interstitialAdTestUnitId);
-    return interstitialAd.load();
+    await interstitialAd.load();
   }
 
   static Widget getAdaptiveBannerAd(BuildContext context) {

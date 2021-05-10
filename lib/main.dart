@@ -41,14 +41,15 @@ class MyApp extends StatelessWidget {
         loopAnimation: 'Loop',
         endAnimation: 'End',
         until: () => Future.wait([
-          MobileAds.initialize(),
+          MobileAds.initialize().then(
+            (value) => Get.find<AdController>().initializeInterstitialAd(),
+          ),
           Firebase.initializeApp(),
           SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]),
-          //Get.find<AdController>().initializeInterstitialAd(),
           Get.find<NotifyController>().initializeNotificationPlugin(),
           Workmanager().initialize(callbackDispatcher, isInDebugMode: true),
           Workmanager().registerPeriodicTask("1", "rescheduleNotifications",
-              frequency: const Duration(minutes: 375),
+              frequency: const Duration(minutes: 15),
               existingWorkPolicy: ExistingWorkPolicy.replace),
         ]),
         backgroundColor: kBackGroundWhite,
