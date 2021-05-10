@@ -3,6 +3,7 @@ import 'package:Marbit/util/util.dart';
 import 'package:get/get.dart';
 import 'package:Marbit/models/models.dart';
 import 'package:Marbit/services/localStorage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 class ContentController extends GetxController {
@@ -106,7 +107,8 @@ class ContentController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    LocalStorageService.storageBox.erase();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
     await initializeContent();
     super.onInit();
   }

@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inner_drawer/inner_drawer.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:Marbit/controllers/navigationController.dart';
 import 'package:Marbit/util/util.dart';
 import 'package:native_admob_flutter/native_admob_flutter.dart';
@@ -42,18 +41,14 @@ class MyApp extends StatelessWidget {
         loopAnimation: 'Loop',
         endAnimation: 'End',
         until: () => Future.wait([
-          // 3 hours
-          GetStorage.init(),
           MobileAds.initialize(),
           Firebase.initializeApp(),
           SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]),
           //Get.find<AdController>().initializeInterstitialAd(),
           Get.find<NotifyController>().initializeNotificationPlugin(),
-          Workmanager().initialize(
-              callbackDispatcher, // The top level function, aka callbackDispatcher
-              isInDebugMode: true), // Send notification on task run
+          Workmanager().initialize(callbackDispatcher, isInDebugMode: true),
           Workmanager().registerPeriodicTask("1", "rescheduleNotifications",
-              frequency: const Duration(minutes: 15),
+              frequency: const Duration(minutes: 375),
               existingWorkPolicy: ExistingWorkPolicy.replace),
         ]),
         backgroundColor: kBackGroundWhite,
