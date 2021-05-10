@@ -91,7 +91,8 @@ class Habit {
         trackedCompletions:
             TrackedCompletions.fromJson(json["trackedCompletions"]),
         notificationObjects: List<NotificationObject>.from(
-            json["notificationObjects"].map((x) => x)),
+            json["notificationObjects"]
+                .map((x) => NotificationObject.fromJson(x))),
       );
 
   bool isScheduledForToday() {

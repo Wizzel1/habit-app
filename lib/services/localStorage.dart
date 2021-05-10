@@ -32,8 +32,9 @@ class LocalStorageService {
 
     if (_encodedJsonList == null) return [];
 
-    List<Map<String, dynamic>> _decodedJsonList =
-        _encodedJsonList.map((e) => jsonDecode(e)).toList();
+    List<Map<String, dynamic>> _decodedJsonList = _encodedJsonList
+        .map((e) => jsonDecode(e) as Map<String, dynamic>)
+        .toList();
 
     List<Habit> _habits =
         _decodedJsonList.map((e) => Habit.fromJson(e)).toList();
@@ -63,8 +64,9 @@ class LocalStorageService {
 
     if (_encodedJsonList == null) return [];
 
-    List<Map<String, dynamic>> _decodedJsonList =
-        _encodedJsonList.map((e) => jsonDecode(e)).toList();
+    List<Map<String, dynamic>> _decodedJsonList = _encodedJsonList
+        .map((e) => jsonDecode(e) as Map<String, dynamic>)
+        .toList();
 
     List<Reward> _rewardList =
         _decodedJsonList.map((e) => Reward.fromJson(e)).toList();
