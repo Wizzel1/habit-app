@@ -107,8 +107,8 @@ class ContentController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.clear();
+    //SharedPreferences prefs = await SharedPreferences.getInstance();
+    // await prefs.clear();
     await initializeContent();
     super.onInit();
   }

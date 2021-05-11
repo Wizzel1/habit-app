@@ -422,7 +422,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
           child: AnimatedSwitcher(
             duration: const Duration(milliseconds: 200),
             child: _isInEditMode
-                ? BouncingButton(
+                ? CustomNeumorphButton(
                     onPressed: () {
                       if (_editContentController.newCompletionGoal <= 1) return;
                       _editContentController.newCompletionGoal.value--;
@@ -454,7 +454,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
           child: AnimatedSwitcher(
             duration: const Duration(milliseconds: 200),
             child: _isInEditMode
-                ? BouncingButton(
+                ? CustomNeumorphButton(
                     onPressed: () {
                       if (_editContentController.newCompletionGoal >=
                           ContentController.maxDailyCompletions) return;
@@ -472,7 +472,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   }
 
   Widget _buildEditButton({Function onPressed}) {
-    return BouncingButton(
+    return TestButton(
       onPressed: () {
         onPressed();
         setState(() {
@@ -515,7 +515,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Spacer(),
-                        BouncingButton(
+                        CustomNeumorphButton(
                           onPressed: () {
                             _notificationTimesController
                                 .subtract30MinutesFromIndex(index);
@@ -536,7 +536,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                                 style: Theme.of(context).textTheme.headline4),
                           ),
                         ),
-                        BouncingButton(
+                        CustomNeumorphButton(
                           onPressed: () {
                             _notificationTimesController
                                 .add30MinutesToIndex(index);
@@ -592,7 +592,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: List.generate(
               7,
-              (index) => BouncingButton(
+              (index) => CustomNeumorphButton(
                 onPressed: () {
                   if (!_isInEditMode) return;
                   int weekDayIndex = index + 1;
@@ -682,7 +682,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   }
 
   Widget _buildHabitDeleteButton() {
-    return BouncingButton(
+    return CustomNeumorphButton(
       onPressed: () {
         Get.back();
         Get.find<ContentController>().deleteHabit(widget.habit);

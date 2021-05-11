@@ -134,7 +134,7 @@ class MenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BouncingButton(
+    return CustomNeumorphButton(
         width: 100,
         color: backGroundColor,
         inPressedState: isActive,

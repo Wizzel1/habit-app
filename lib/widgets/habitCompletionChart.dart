@@ -42,7 +42,7 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        BouncingButton(
+        CustomNeumorphButton(
           onPressed: () {
             setState(() {
               _maxBarValue = 0;
@@ -61,7 +61,7 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
                     : kDeepOrange),
           ),
         ),
-        BouncingButton(
+        CustomNeumorphButton(
           onPressed: () {
             setState(() {
               _maxBarValue = 0;

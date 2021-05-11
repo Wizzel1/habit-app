@@ -5,6 +5,7 @@ import 'package:Marbit/models/habitModel.dart';
 import 'package:Marbit/util/constants.dart';
 import 'package:Marbit/widgets/widgets.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -25,6 +26,26 @@ class CompletableHabitContainer extends StatefulWidget {
 
 class _CompletableHabitContainerState extends State<CompletableHabitContainer>
     with SingleTickerProviderStateMixin {
+  Animation<double> _popupSequence;
+  AnimationController _buttonAnimController;
+
+  @override
+  void initState() {
+    _buttonAnimController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    _popupSequence = TweenSequence([
+      TweenSequenceItem(
+          tween: Tween<double>(begin: 1.0, end: 1.2), weight: 1.0),
+      TweenSequenceItem(
+          tween: Tween<double>(begin: 1.2, end: 0.0), weight: 0.3),
+    ]).animate(
+      CurvedAnimation(parent: _buttonAnimController, curve: Curves.easeInOut),
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     int _todaysHabitCompletions = widget.habit.getTodaysCompletions();
@@ -36,11 +57,14 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
           Hero(
             tag: widget.habit.id,
             child: GestureDetector(
-              onTap: () {
-                Get.to(() => HabitDetailScreen(
+              onTap: () async {
+                await _buttonAnimController.forward();
+                await Get.to(() => HabitDetailScreen(
                       habit: widget.habit,
                       alterHeroTag: false,
                     ));
+                await 300.milliseconds.delay();
+                await _buttonAnimController.reverse();
               },
               child: Container(
                 height: 90,
@@ -102,10 +126,21 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
                                             ],
                                           ),
                                         )
-                                      : InnerShadow(
-                                          blur: 1,
-                                          color: kBoxShadowBlack,
-                                          offset: const Offset(1, 3),
+                                      : Neumorphic(
+                                          style: NeumorphicStyle(
+                                            lightSource: kLightSource,
+                                            depth: -2.0,
+                                            intensity: 1.0,
+                                            shadowLightColor:
+                                                Colors.transparent,
+                                            shadowLightColorEmboss:
+                                                Colors.transparent,
+                                            color: kDeepOrange,
+                                            shape: NeumorphicShape.flat,
+                                            boxShape:
+                                                NeumorphicBoxShape.roundRect(
+                                                    BorderRadius.circular(3)),
+                                          ),
                                           child: Container(
                                             width: 15,
                                             height: 15,
@@ -131,17 +166,20 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
           Positioned(
             top: 17,
             right: 20,
-            child: BouncingButton(
-              onPressed: () {
-                widget.onPressed();
-              },
-              height: 56,
-              width: 56,
-              child: Icon(
-                FontAwesomeIcons.check,
-                // Icons.check_rounded,
-                size: 25,
-                color: kLightOrange,
+            child: ScaleTransition(
+              scale: _popupSequence,
+              child: CustomNeumorphButton(
+                onPressed: () {
+                  widget.onPressed();
+                },
+                height: 56,
+                width: 56,
+                child: Icon(
+                  FontAwesomeIcons.check,
+                  // Icons.check_rounded,
+                  size: 25,
+                  color: kLightOrange,
+                ),
               ),
             ),
           )
@@ -201,16 +239,25 @@ class AllHabitContainer extends StatelessWidget {
                     child: ListView.builder(
                         itemCount: 7,
                         scrollDirection: Axis.horizontal,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(
                             padding: const EdgeInsets.all(2.0),
                             child: habit.scheduledWeekDays.contains(index + 1)
-                                ? InnerShadow(
-                                    blur: 1,
-                                    color: kBoxShadowBlack,
-                                    offset: const Offset(1, 5),
+                                ? Neumorphic(
+                                    style: NeumorphicStyle(
+                                      lightSource: kLightSource,
+                                      depth: -2.0,
+                                      intensity: 0.8,
+                                      shadowLightColor: Colors.transparent,
+                                      shadowLightColorEmboss:
+                                          Colors.transparent,
+                                      color: kDeepOrange,
+                                      shape: NeumorphicShape.flat,
+                                      boxShape: NeumorphicBoxShape.roundRect(
+                                          BorderRadius.circular(3)),
+                                    ),
                                     child: Container(
                                       height: 25,
                                       width: 25,
@@ -233,24 +280,39 @@ class AllHabitContainer extends StatelessWidget {
                                       ),
                                     ),
                                   )
-                                : Container(
-                                    height: 25,
-                                    width: 25,
-                                    decoration: BoxDecoration(
-                                        boxShadow: [kBoxShadow],
-                                        borderRadius: BorderRadius.circular(3),
-                                        color: kBackGroundWhite),
-                                    child: Center(
-                                      child: Text(
-                                        dayNames[index],
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .button
-                                            .copyWith(
-                                              fontSize: 10,
-                                              color: Color(
-                                                  habit.habitColors["deep"]),
-                                            ),
+                                : Neumorphic(
+                                    style: NeumorphicStyle(
+                                      lightSource: kLightSource,
+                                      depth: 2.0,
+                                      intensity: 0.8,
+                                      shadowLightColor: Colors.transparent,
+                                      shadowLightColorEmboss:
+                                          Colors.transparent,
+                                      color: kBackGroundWhite,
+                                      shape: NeumorphicShape.flat,
+                                      boxShape: NeumorphicBoxShape.roundRect(
+                                          BorderRadius.circular(3)),
+                                    ),
+                                    child: Container(
+                                      height: 25,
+                                      width: 25,
+                                      decoration: BoxDecoration(
+                                          boxShadow: [kBoxShadow],
+                                          borderRadius:
+                                              BorderRadius.circular(3),
+                                          color: kBackGroundWhite),
+                                      child: Center(
+                                        child: Text(
+                                          dayNames[index],
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .button
+                                              .copyWith(
+                                                fontSize: 10,
+                                                color: Color(
+                                                    habit.habitColors["deep"]),
+                                              ),
+                                        ),
                                       ),
                                     ),
                                   ),
