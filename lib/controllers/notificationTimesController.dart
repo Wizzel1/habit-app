@@ -83,13 +83,11 @@ class NotificationTimesController extends GetxController {
       String stringTime = _object.hour.toString().padLeft(2, "0") +
           _object.minutes.toString().padRight(2, "0");
 
+      if (_times.contains(stringTime)) continue;
       _times.add(stringTime);
     }
 
-    _times
-        .toSet()
-        .toList()
-        .sort((a, b) => int.parse(a).compareTo(int.parse(b)));
+    _times.sort((a, b) => int.parse(a).compareTo(int.parse(b)));
 
     for (var i = 0; i < _times.length; i++) {
       selectedHours[i] = int.parse(_times[i].substring(0, 2));
