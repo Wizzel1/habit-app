@@ -3,6 +3,7 @@ import 'package:Marbit/screens/screens.dart';
 import 'package:Marbit/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 
 class RewardContainer extends StatelessWidget {
   final Reward reward;
@@ -15,13 +16,8 @@ class RewardContainer extends StatelessWidget {
       tag: "all${reward.id}",
       child: GestureDetector(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => RewardDetailScreen(
-                reward: reward,
-              ),
-            ),
+          Get.to(
+            () => RewardDetailScreen(reward: reward),
           );
         },
         child: Padding(
