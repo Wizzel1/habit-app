@@ -31,6 +31,7 @@ class MenuScreen extends StatelessWidget {
                   backGroundColor: navigationController.currentPageIndex == 0
                       ? kDeepOrange
                       : kBackGroundWhite,
+                  isActive: navigationController.currentPageIndex == 0,
                 ),
                 const SizedBox(height: 30),
                 MenuItem(
@@ -42,6 +43,7 @@ class MenuScreen extends StatelessWidget {
                   backGroundColor: navigationController.currentPageIndex == 1
                       ? kDeepOrange
                       : kBackGroundWhite,
+                  isActive: navigationController.currentPageIndex == 1,
                 ),
                 const SizedBox(height: 30),
                 MenuItem(
@@ -53,6 +55,7 @@ class MenuScreen extends StatelessWidget {
                   backGroundColor: navigationController.currentPageIndex == 2
                       ? kDeepOrange
                       : kBackGroundWhite,
+                  isActive: navigationController.currentPageIndex == 2,
                 ),
                 const SizedBox(height: 30),
                 InkWell(
@@ -71,20 +74,6 @@ class MenuScreen extends StatelessWidget {
                         horizontal: 8.0, vertical: 10.0),
                     child: Text(
                       'my_content_menutitle'.tr,
-                      style: Theme.of(context).textTheme.button,
-                    ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () async {
-                    // await Get.find<LocalNotifyController>()
-                    //     .scheduleWeeklyHabitNotifications(1);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0, vertical: 10.0),
-                    child: Text(
-                      'start repeated notification every minute',
                       style: Theme.of(context).textTheme.button,
                     ),
                   ),
@@ -132,9 +121,15 @@ class MenuItem extends StatelessWidget {
   final String title;
   final Color backGroundColor;
   final Color textColor;
+  final bool isActive;
 
   const MenuItem(
-      {Key key, this.onTap, this.title, this.backGroundColor, this.textColor})
+      {Key key,
+      this.onTap,
+      this.title,
+      this.backGroundColor,
+      this.textColor,
+      this.isActive})
       : super(key: key);
 
   @override
@@ -142,6 +137,7 @@ class MenuItem extends StatelessWidget {
     return BouncingButton(
         width: 100,
         color: backGroundColor,
+        inPressedState: isActive,
         onPressed: onTap,
         child: Text(
           title,

@@ -51,6 +51,7 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
             });
           },
           color: _timeSpan == TimeSpan.WEEK ? kDeepOrange : kBackGroundWhite,
+          inPressedState: _timeSpan == TimeSpan.WEEK,
           child: Text(
             'this_week'.tr,
             style: Theme.of(context).textTheme.button.copyWith(
@@ -69,6 +70,7 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
             });
           },
           color: _timeSpan == TimeSpan.MONTH ? kDeepOrange : kBackGroundWhite,
+          inPressedState: _timeSpan == TimeSpan.MONTH,
           child: Text(
             'last_four_weeks'.tr,
             style: Theme.of(context).textTheme.button.copyWith(
@@ -125,11 +127,11 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
           ),
           Expanded(
             flex: 3,
-            child: Card(
-              elevation: 0,
-              shape: RoundedRectangleBorder(
+            child: Container(
+              decoration: BoxDecoration(
+                  boxShadow: [kBoxShadow],
+                  color: elementColor,
                   borderRadius: BorderRadius.circular(10)),
-              color: elementColor,
               child: Stack(
                 children: <Widget>[
                   Padding(

@@ -27,3 +27,8 @@ const kErrorRed = Color(0xFFD4174E);
 
 //Warning yellow
 const kWarningYellow = Color(0xFFFEC02C);
+
+const kBoxShadowBlack = Color(0x15000000);
+
+const kBoxShadow = BoxShadow(
+    color: kBoxShadowBlack, offset: const Offset(0, 5), blurRadius: 2);

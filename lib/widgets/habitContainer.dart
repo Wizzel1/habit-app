@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:Marbit/models/habitModel.dart';
 import 'package:Marbit/util/constants.dart';
 import 'package:Marbit/widgets/widgets.dart';
+import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -24,9 +25,6 @@ class CompletableHabitContainer extends StatefulWidget {
 
 class _CompletableHabitContainerState extends State<CompletableHabitContainer>
     with SingleTickerProviderStateMixin {
-  final List<double> containerSizeList =
-      List.generate(ContentController.maxDailyCompletions, (index) => 15);
-
   @override
   Widget build(BuildContext context) {
     int _todaysHabitCompletions = widget.habit.getTodaysCompletions();
@@ -35,18 +33,19 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
       child: Stack(
         children: [
-          GestureDetector(
-            onTap: () {
-              Get.to(() => HabitDetailScreen(
-                    habit: widget.habit,
-                    alterHeroTag: false,
-                  ));
-            },
-            child: Hero(
-              tag: widget.habit.id,
+          Hero(
+            tag: widget.habit.id,
+            child: GestureDetector(
+              onTap: () {
+                Get.to(() => HabitDetailScreen(
+                      habit: widget.habit,
+                      alterHeroTag: false,
+                    ));
+              },
               child: Container(
                 height: 90,
                 decoration: BoxDecoration(
+                  boxShadow: [kBoxShadow],
                   color: Color(
                     widget.habit.habitColors["light"],
                   ),
@@ -77,36 +76,50 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
                           Container(
                             height: 20.0,
                             width: widget.habit.completionGoal * 20.0,
-                            child: Stack(
-                              children: List.generate(
-                                widget.habit.completionGoal,
-                                (index) => Positioned(
-                                  left: index * 20.0,
-                                  bottom: 0,
-                                  child: AnimatedContainer(
-                                    curve: Curves.bounceInOut,
-                                    onEnd: () {
-                                      setState(() {
-                                        containerSizeList[index] = 15.0;
-                                      });
-                                    },
-                                    width: index >= _todaysHabitCompletions
-                                        ? 15.0
-                                        : containerSizeList[index],
-                                    height: index >= _todaysHabitCompletions
-                                        ? 15.0
-                                        : containerSizeList[index],
-                                    decoration: BoxDecoration(
-                                        color: index >= _todaysHabitCompletions
-                                            ? kBackGroundWhite
-                                            : kDeepOrange,
-                                        borderRadius: BorderRadius.circular(3)),
-                                    duration: Duration(milliseconds: 200),
-                                  ),
-                                ),
-                              ),
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: widget.habit.completionGoal,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 2.0, vertical: 2.0),
+                                  child: index >= _todaysHabitCompletions
+                                      ? Container(
+                                          width: 15,
+                                          height: 15,
+                                          decoration: BoxDecoration(
+                                            color: kBackGroundWhite,
+                                            borderRadius:
+                                                BorderRadius.circular(3),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Colors.black
+                                                      .withOpacity(0.1),
+                                                  offset: const Offset(0, 3),
+                                                  blurRadius: 1)
+                                            ],
+                                          ),
+                                        )
+                                      : InnerShadow(
+                                          blur: 1,
+                                          color: kBoxShadowBlack,
+                                          offset: const Offset(1, 3),
+                                          child: Container(
+                                            width: 15,
+                                            height: 15,
+                                            decoration: BoxDecoration(
+                                              color: kDeepOrange,
+                                              borderRadius:
+                                                  BorderRadius.circular(3),
+                                            ),
+                                          ),
+                                        ),
+                                );
+                              },
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ],
@@ -120,11 +133,6 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
             right: 20,
             child: BouncingButton(
               onPressed: () {
-                setState(() {
-                  _todaysHabitCompletions == containerSizeList.length
-                      ? containerSizeList.last = 20.0
-                      : containerSizeList[_todaysHabitCompletions] = 20.0;
-                });
                 widget.onPressed();
               },
               height: 56,
@@ -153,25 +161,25 @@ class AllHabitContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: "all${habit.id}",
-      child: GestureDetector(
-        onTap: () {
-          Get.to(() => HabitDetailScreen(
-                habit: habit,
-                alterHeroTag: true,
-              ));
-        },
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+      child: Hero(
+        tag: "all${habit.id}",
+        child: GestureDetector(
+          onTap: () {
+            Get.to(() => HabitDetailScreen(
+                  habit: habit,
+                  alterHeroTag: true,
+                ));
+          },
           child: Container(
             height: 90,
             decoration: BoxDecoration(
-              color: Color(
-                habit.habitColors["light"],
-              ),
-              borderRadius: BorderRadius.circular(10),
-            ),
+                color: Color(
+                  habit.habitColors["light"],
+                ),
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [kBoxShadow]),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Column(
@@ -188,37 +196,67 @@ class AllHabitContainer extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: List.generate(
-                      7,
-                      (index) => Padding(
-                        padding: EdgeInsets.only(right: index == 6 ? 0 : 6),
-                        child: Container(
-                          height: 25,
-                          width: 25,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(3),
-                              color: habit.scheduledWeekDays.contains(index + 1)
-                                  ? Color(habit.habitColors["deep"])
-                                  : kBackGroundWhite),
-                          child: Center(
-                            child: Text(
-                              dayNames[index],
-                              style:
-                                  Theme.of(context).textTheme.button.copyWith(
-                                        fontSize: 10,
-                                        color: habit.scheduledWeekDays
-                                                .contains(index + 1)
-                                            ? kBackGroundWhite
-                                            : Color(habit.habitColors["deep"]),
+                  Container(
+                    height: 30,
+                    child: ListView.builder(
+                        itemCount: 7,
+                        scrollDirection: Axis.horizontal,
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: habit.scheduledWeekDays.contains(index + 1)
+                                ? InnerShadow(
+                                    blur: 1,
+                                    color: kBoxShadowBlack,
+                                    offset: const Offset(1, 5),
+                                    child: Container(
+                                      height: 25,
+                                      width: 25,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(3),
+                                          color:
+                                              Color(habit.habitColors["deep"])),
+                                      child: Center(
+                                        child: Text(
+                                          dayNames[index],
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .button
+                                              .copyWith(
+                                                fontSize: 10,
+                                                color: kBackGroundWhite,
+                                              ),
+                                        ),
                                       ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
+                                    ),
+                                  )
+                                : Container(
+                                    height: 25,
+                                    width: 25,
+                                    decoration: BoxDecoration(
+                                        boxShadow: [kBoxShadow],
+                                        borderRadius: BorderRadius.circular(3),
+                                        color: kBackGroundWhite),
+                                    child: Center(
+                                      child: Text(
+                                        dayNames[index],
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .button
+                                            .copyWith(
+                                              fontSize: 10,
+                                              color: Color(
+                                                  habit.habitColors["deep"]),
+                                            ),
+                                      ),
+                                    ),
+                                  ),
+                          );
+                        }),
+                  ),
                 ],
               ),
             ),

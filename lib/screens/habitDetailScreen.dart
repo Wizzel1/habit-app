@@ -282,7 +282,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                       _buildDescriptionTextField(),
                       const SizedBox(height: 30),
                       _buildScheduleRow(),
-                      _buildNextCompletiondateText(),
+                      //_buildNextCompletiondateText(),
                       const SizedBox(height: 30),
                       _buildCompletionGoalStepper(),
                       _buildScheduledTimesWrapper(),
@@ -609,6 +609,8 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                 color: _editContentController.newSchedule.contains(index + 1)
                     ? Color(widget.habit.habitColors["deep"])
                     : kBackGroundWhite,
+                inPressedState:
+                    _editContentController.newSchedule.contains(index + 1),
                 child: Text(
                   dayNames[index],
                   style: Theme.of(context).textTheme.button.copyWith(

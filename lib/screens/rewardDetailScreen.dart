@@ -196,6 +196,7 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
                 _editContentController.isSelfRemoving.value = true;
               },
               height: 50,
+              inPressedState: _editContentController.isSelfRemoving.value,
               color: _editContentController.isSelfRemoving.value
                   ? kDeepOrange
                   : kBackGroundWhite,
@@ -217,6 +218,7 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
                 _editContentController.isSelfRemoving.value = false;
               },
               height: 50,
+              inPressedState: !_editContentController.isSelfRemoving.value,
               color: _editContentController.isSelfRemoving.value
                   ? kBackGroundWhite
                   : kDeepOrange,

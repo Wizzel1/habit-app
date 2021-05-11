@@ -12,19 +12,18 @@ class RewardContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: "all${reward.id}",
-      child: GestureDetector(
-        onTap: () {
-          Get.to(
-            () => RewardDetailScreen(reward: reward),
-          );
-        },
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+      child: Hero(
+        tag: "all${reward.id}",
+        child: GestureDetector(
+          onTap: () {
+            Get.to(() => RewardDetailScreen(reward: reward));
+          },
           child: Container(
             height: 90,
             decoration: BoxDecoration(
+              boxShadow: [kBoxShadow],
               color: kLightOrange,
               borderRadius: BorderRadius.circular(10),
             ),

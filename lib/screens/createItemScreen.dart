@@ -35,10 +35,6 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
   void initState() {
     _createItemController = Get.put(CreateItemController());
     _pageController = PageController();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      //TODO remove
-      // Get.find<NotificationController>().requestPermission();
-    });
     super.initState();
   }
 
@@ -179,6 +175,8 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                                 _createItemController.isSelfRemovingReward.value
                                     ? kDeepOrange
                                     : kBackGroundWhite,
+                            inPressedState: _createItemController
+                                .isSelfRemovingReward.value,
                             child: Text(
                               'one_time'.tr,
                               style: Theme.of(context)
@@ -206,6 +204,8 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                               _createItemController.isSelfRemovingReward.value
                                   ? kBackGroundWhite
                                   : kDeepOrange,
+                          inPressedState:
+                              !_createItemController.isSelfRemovingReward.value,
                           child: Text(
                             'regular'.tr,
                             style: Theme.of(context).textTheme.button.copyWith(
@@ -818,6 +818,7 @@ class _ScheduleButtonState extends State<ScheduleButton> {
       },
       height: 60,
       width: 40,
+      inPressedState: isTapped,
       color: isTapped ? kDeepOrange : kBackGroundWhite,
       child: Text(
         dayNames[widget.index],

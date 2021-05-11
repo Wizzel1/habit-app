@@ -1,3 +1,4 @@
+import 'package:Marbit/util/constants.dart';
 import 'package:flutter/material.dart';
 
 class DrawerExtension extends StatelessWidget {
@@ -13,6 +14,7 @@ class DrawerExtension extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           color: color,
+          boxShadow: [kBoxShadow],
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10), bottomLeft: Radius.circular(10))),
       height: 90,
