@@ -105,7 +105,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                   children: [
                     Expanded(
                       flex: 10,
-                      child: CustomNeumorphButton(
+                      child: NeumorphPressSwitch(
                         onPressed: () {
                           _createItemController.createHabit.value = true;
                           _pageController.nextPage(
@@ -124,7 +124,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                     const Spacer(),
                     Expanded(
                         flex: 10,
-                        child: CustomNeumorphButton(
+                        child: NeumorphPressSwitch(
                           onPressed: () {
                             _createItemController.createHabit.value = false;
                             _pageController.nextPage(
@@ -165,7 +165,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                     Expanded(
                         flex: 10,
                         child: Obx(
-                          () => CustomNeumorphButton(
+                          () => NeumorphPressSwitch(
                             onPressed: () {
                               _createItemController.isSelfRemovingReward.value =
                                   true;
@@ -194,7 +194,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                     Expanded(
                       flex: 10,
                       child: Obx(
-                        () => CustomNeumorphButton(
+                        () => NeumorphPressSwitch(
                           onPressed: () {
                             _createItemController.isSelfRemovingReward.value =
                                 false;
@@ -229,7 +229,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                   ),
                 ),
                 const SizedBox(height: 30),
-                CustomNeumorphButton(
+                NeumorphPressSwitch(
                   onPressed: () async {
                     _createItemController.createAndSaveReward();
                     await Get.find<NavigationController>().navigateToIndex(0);
@@ -333,7 +333,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                     const Spacer(),
                     Expanded(
                       flex: 2,
-                      child: CustomNeumorphButton(
+                      child: NeumorphPressSwitch(
                         onPressed: () {
                           if (_createItemController.completionGoalCount <= 1)
                             return;
@@ -357,7 +357,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                     ),
                     Expanded(
                       flex: 2,
-                      child: CustomNeumorphButton(
+                      child: NeumorphPressSwitch(
                         onPressed: () {
                           if (_createItemController.completionGoalCount >=
                               ContentController.maxDailyCompletions) return;
@@ -538,7 +538,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                 ),
               ),
               const SizedBox(height: 80),
-              CustomNeumorphButton(
+              NeumorphPressSwitch(
                 onPressed: () async {
                   if (_createItemController.scheduledDays.isEmpty) {
                     SnackBars.showWarningSnackBar(
@@ -583,7 +583,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Spacer(),
-                          CustomNeumorphButton(
+                          NeumorphPressSwitch(
                             onPressed: () {
                               _notificationTimesController
                                   .subtract30MinutesFromIndex(index);
@@ -604,7 +604,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                                   style: Theme.of(context).textTheme.headline4),
                             ),
                           ),
-                          CustomNeumorphButton(
+                          NeumorphPressSwitch(
                             onPressed: () {
                               _notificationTimesController
                                   .add30MinutesToIndex(index);
@@ -808,7 +808,7 @@ class _ScheduleButtonState extends State<ScheduleButton> {
   bool isTapped = false;
   @override
   Widget build(BuildContext context) {
-    return CustomNeumorphButton(
+    return NeumorphPressSwitch(
       //TODO refactor
       onPressed: () {
         setState(() {

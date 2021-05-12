@@ -436,7 +436,7 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 200),
               child: _isInEditMode
-                  ? CustomNeumorphButton(
+                  ? NeumorphPressSwitch(
                       onPressed: () {
                         if (_editContentController.newCompletionGoal <= 1)
                           return;
@@ -465,7 +465,7 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 200),
               child: _isInEditMode
-                  ? CustomNeumorphButton(
+                  ? NeumorphPressSwitch(
                       onPressed: () {
                         if (_editContentController.newCompletionGoal >=
                             ContentController.maxDailyCompletions) return;
@@ -483,7 +483,7 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
   }
 
   Widget _buildEditButton({Function onPressed}) {
-    return CustomNeumorphButton(
+    return NeumorphPressSwitch(
       onPressed: () {
         onPressed();
         setState(() {
@@ -524,7 +524,7 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
           key: _tutorialController.scheduleRowKey,
           children: List.generate(
             7,
-            (index) => CustomNeumorphButton(
+            (index) => NeumorphPressSwitch(
               onPressed: () {
                 if (!_isInEditMode) return;
                 int weekDayIndex = index + 1;
@@ -613,7 +613,7 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
 
   Widget _buildHabitDeleteButton() {
     //TODO add key
-    return CustomNeumorphButton(
+    return NeumorphPressSwitch(
       onPressed: () {},
       color: kLightRed,
       child: Text(

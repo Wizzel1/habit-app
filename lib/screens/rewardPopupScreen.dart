@@ -311,7 +311,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                       position: _slideUpAnimations[1],
                       child: FadeTransition(
                         opacity: _fadeInAnimations[1],
-                        child: CustomNeumorphButton(
+                        child: NeumorphPressSwitch(
                           onPressed: () async {
                             _checkIfRewardIsRemoving();
                             await Future.delayed(

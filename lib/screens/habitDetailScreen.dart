@@ -422,7 +422,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
           child: AnimatedSwitcher(
             duration: const Duration(milliseconds: 200),
             child: _isInEditMode
-                ? CustomNeumorphButton(
+                ? NeumorphPressSwitch(
                     onPressed: () {
                       if (_editContentController.newCompletionGoal <= 1) return;
                       _editContentController.newCompletionGoal.value--;
@@ -454,7 +454,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
           child: AnimatedSwitcher(
             duration: const Duration(milliseconds: 200),
             child: _isInEditMode
-                ? CustomNeumorphButton(
+                ? NeumorphPressSwitch(
                     onPressed: () {
                       if (_editContentController.newCompletionGoal >=
                           ContentController.maxDailyCompletions) return;
@@ -515,7 +515,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Spacer(),
-                        CustomNeumorphButton(
+                        NeumorphPressSwitch(
                           onPressed: () {
                             _notificationTimesController
                                 .subtract30MinutesFromIndex(index);
@@ -536,7 +536,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                                 style: Theme.of(context).textTheme.headline4),
                           ),
                         ),
-                        CustomNeumorphButton(
+                        NeumorphPressSwitch(
                           onPressed: () {
                             _notificationTimesController
                                 .add30MinutesToIndex(index);
@@ -592,7 +592,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: List.generate(
               7,
-              (index) => CustomNeumorphButton(
+              (index) => NeumorphPressSwitch(
                 onPressed: () {
                   if (!_isInEditMode) return;
                   int weekDayIndex = index + 1;
@@ -682,7 +682,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   }
 
   Widget _buildHabitDeleteButton() {
-    return CustomNeumorphButton(
+    return NeumorphPressSwitch(
       onPressed: () {
         Get.back();
         Get.find<ContentController>().deleteHabit(widget.habit);

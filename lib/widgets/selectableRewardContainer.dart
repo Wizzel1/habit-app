@@ -24,7 +24,7 @@ class SelectableRewardContainer extends StatefulWidget {
 class _SelectableRewardContainerState extends State<SelectableRewardContainer> {
   @override
   Widget build(BuildContext context) {
-    return CustomNeumorphButton(
+    return NeumorphPressSwitch(
       onPressed: () {
         widget.onTap();
       },

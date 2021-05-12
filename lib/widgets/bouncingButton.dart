@@ -5,7 +5,7 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'dart:ui';
 import '../util/constants.dart';
 
-class CustomNeumorphButton extends StatefulWidget {
+class NeumorphPressSwitch extends StatefulWidget {
   final VoidCallback onPressed;
   final Widget child;
   final Color color;
@@ -14,7 +14,7 @@ class CustomNeumorphButton extends StatefulWidget {
   final double borderRadius;
   final bool inPressedState;
 
-  const CustomNeumorphButton({
+  const NeumorphPressSwitch({
     Key key,
     @required this.onPressed,
     @required this.child,
@@ -26,10 +26,10 @@ class CustomNeumorphButton extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CustomNeumorphButtonState createState() => _CustomNeumorphButtonState();
+  _NeumorphPressSwitchState createState() => _NeumorphPressSwitchState();
 }
 
-class _CustomNeumorphButtonState extends State<CustomNeumorphButton>
+class _NeumorphPressSwitchState extends State<NeumorphPressSwitch>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {

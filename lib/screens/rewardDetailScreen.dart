@@ -190,7 +190,7 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
         children: [
           Expanded(
             flex: 10,
-            child: CustomNeumorphButton(
+            child: NeumorphPressSwitch(
               onPressed: () {
                 if (!_isInEditMode) return;
                 _editContentController.isSelfRemoving.value = true;
@@ -212,7 +212,7 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
           const Spacer(),
           Expanded(
             flex: 10,
-            child: CustomNeumorphButton(
+            child: NeumorphPressSwitch(
               onPressed: () {
                 if (!_isInEditMode) return;
                 _editContentController.isSelfRemoving.value = false;
@@ -302,7 +302,7 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
   }
 
   Widget _buildEditButton({Function onPressed}) {
-    return CustomNeumorphButton(
+    return NeumorphPressSwitch(
       onPressed: () {
         onPressed();
         setState(() {
@@ -328,7 +328,7 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
   }
 
   Widget _buildRewardDeleteButton() {
-    return CustomNeumorphButton(
+    return NeumorphPressSwitch(
       onPressed: () {
         Get.back();
         Get.find<ContentController>().deleteReward(widget.reward);

@@ -172,7 +172,7 @@ class _TutorialContainerState extends State<TutorialContainer>
             top: 17,
             right: 20,
             child: _tutorialController.hasFinishedDetailScreenStep
-                ? CustomNeumorphButton(
+                ? NeumorphPressSwitch(
                     onPressed: () {
                       setState(() {
                         _todaysHabitCompletions == containerSizeList.length

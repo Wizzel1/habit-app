@@ -699,7 +699,7 @@ class PreviousButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomNeumorphButton(
+    return NeumorphPressSwitch(
       onPressed: onPressed,
       width: 50,
       height: 50,
@@ -722,7 +722,7 @@ class NextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomNeumorphButton(
+    return NeumorphPressSwitch(
       onPressed: onPressed,
       width: 50,
       height: 50,
@@ -765,7 +765,7 @@ class WelcomeScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     flex: 10,
-                    child: CustomNeumorphButton(
+                    child: NeumorphPressSwitch(
                       onPressed: () {
                         Get.back(result: true);
                       },
@@ -782,7 +782,7 @@ class WelcomeScreen extends StatelessWidget {
                   const Spacer(),
                   Expanded(
                     flex: 20,
-                    child: CustomNeumorphButton(
+                    child: NeumorphPressSwitch(
                       onPressed: () {
                         Get.back(result: false);
                       },
