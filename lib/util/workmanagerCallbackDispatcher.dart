@@ -13,6 +13,7 @@ void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
     if (task == "rescheduleNotifications") {
       await _configureLocalTimeZone();
+      print("configured timezones");
 
       List<NotificationObject> _skippedNotificationObjects =
           await _loadSharedSkippedNotifications();
@@ -20,17 +21,26 @@ void callbackDispatcher() {
       if (_skippedNotificationObjects == null) return Future.value(true);
 
       final tz.TZDateTime _now = tz.TZDateTime.now(tz.local);
+      print("$_now");
+
+      List<NotificationObject> _rescheduledObjects = [];
 
       for (NotificationObject object in _skippedNotificationObjects) {
+        print("checking ${object.title}");
+
         if (!_isLaterThanObjectsSchedule(_now, object)) continue;
 
         await _createNotificationFromObject(object);
+        print("created new notification");
 
+        _rescheduledObjects.add(object);
+      }
+      for (NotificationObject object in _rescheduledObjects) {
         _skippedNotificationObjects.removeWhere(
             (element) => element.notificationId == object.notificationId);
-
-        await _saveSharedNewSkippedObjects(_skippedNotificationObjects);
+        print("removed ${object.title} from skippedList");
       }
+      await _saveSharedNewSkippedObjects(_skippedNotificationObjects);
       return Future.value(true);
     }
     return Future.value(true);
@@ -42,8 +52,11 @@ bool _isLaterThanObjectsSchedule(tz.TZDateTime now, NotificationObject object) {
   bool _isLaterHour = now.hour > object.hour;
   bool _isLaterMinutes = now.minute > object.minutes;
   if (_isLaterWeekday) return true;
+  print("isLaterWeekday : $_isLaterWeekday");
   if (_isLaterHour) return true;
+  print("isLaterHour : $_isLaterHour");
   if (_isLaterMinutes) return true;
+  print("isLaterMinutes : $_isLaterMinutes");
   return false;
 }
 
@@ -59,29 +72,36 @@ Future<List<NotificationObject>> _loadSharedSkippedNotifications() async {
   List<String> _encodedObjects =
       prefs.getStringList("reschedulingNotifications");
 
-  if (_encodedObjects == null) return null;
+  if (_encodedObjects == null) {
+    print("no encoded objects found");
+    return null;
+  }
 
   List<dynamic> _decodedObjects =
       _encodedObjects.map((e) => jsonDecode(e)).toList();
 
-  if (_decodedObjects == null) return null;
+  if (_decodedObjects == null) {
+    print("unable to decode objects");
+    return null;
+  }
 
   List<NotificationObject> _notificationObjects =
       _decodedObjects.map((e) => NotificationObject.fromJson(e)).toList();
+  print("returning ${_notificationObjects.length} objects");
 
   return _notificationObjects;
 }
 
 Future<void> _saveSharedNewSkippedObjects(
     List<NotificationObject> newObjects) async {
-  if (newObjects.isEmpty || newObjects == null) return;
-
+  if (newObjects == null) return;
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
   List<String> _encodedObjects = [];
 
   newObjects.forEach((element) {
     _encodedObjects.add(jsonEncode(element.toJson()));
+    print("added ${element.title} to encoded objects");
   });
 
   await prefs.setStringList("reschedulingNotifications", _encodedObjects);
