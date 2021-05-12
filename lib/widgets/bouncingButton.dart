@@ -29,8 +29,7 @@ class NeumorphPressSwitch extends StatefulWidget {
   _NeumorphPressSwitchState createState() => _NeumorphPressSwitchState();
 }
 
-class _NeumorphPressSwitchState extends State<NeumorphPressSwitch>
-    with SingleTickerProviderStateMixin {
+class _NeumorphPressSwitchState extends State<NeumorphPressSwitch> {
   @override
   Widget build(BuildContext context) {
     return Listener(
@@ -43,8 +42,9 @@ class _NeumorphPressSwitchState extends State<NeumorphPressSwitch>
       child: Neumorphic(
         style: kInactiveNeumorphStyle.copyWith(
             color: widget.color,
-            borderRadius: widget.borderRadius,
-            depth: widget.inPressedState ? -2.0 : 2.0),
+            depth: widget.inPressedState ? -2.0 : 2.0,
+            boxShape: NeumorphicBoxShape.roundRect(
+                BorderRadius.circular(widget.borderRadius))),
         child: Container(
           height: widget.height,
           width: widget.width,
@@ -85,7 +85,10 @@ class _CustomNeumorphButtonState extends State<CustomNeumorphButton> {
       duration: const Duration(milliseconds: 1),
       padding: EdgeInsets.zero,
       onPressed: widget.onPressed,
-      style: kInactiveNeumorphStyle.copyWith(color: widget.color),
+      style: kInactiveNeumorphStyle.copyWith(
+          color: widget.color,
+          boxShape: NeumorphicBoxShape.roundRect(
+              BorderRadius.circular(widget.borderRadius))),
       child: Container(
         height: widget.height,
         width: widget.width,

@@ -2,6 +2,7 @@ import 'package:Marbit/models/models.dart';
 import 'package:Marbit/screens/screens.dart';
 import 'package:Marbit/util/util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -20,36 +21,34 @@ class RewardContainer extends StatelessWidget {
           onTap: () {
             Get.to(() => RewardDetailScreen(reward: reward));
           },
-          child: Container(
-            height: 90,
-            decoration: BoxDecoration(
-              boxShadow: [kBoxShadow],
-              color: kLightOrange,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Material(
-                    type: MaterialType.transparency,
-                    child: Text(
-                      reward.name,
-                      style: Theme.of(context).textTheme.headline5.copyWith(
-                            color: kBackGroundWhite,
-                          ),
+          child: Neumorphic(
+            style: kInactiveNeumorphStyle.copyWith(color: kLightOrange),
+            child: Container(
+              height: 90,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0, vertical: 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Material(
+                      type: MaterialType.transparency,
+                      child: Text(
+                        reward.name,
+                        style: Theme.of(context).textTheme.headline5.copyWith(
+                              color: kBackGroundWhite,
+                            ),
+                      ),
                     ),
-                  ),
-                  Icon(
-                    reward.isSelfRemoving
-                        ? FontAwesomeIcons.ban
-                        : FontAwesomeIcons.redoAlt,
-                    color: kBackGroundWhite,
-                  )
-                ],
+                    Icon(
+                      reward.isSelfRemoving
+                          ? FontAwesomeIcons.ban
+                          : FontAwesomeIcons.redoAlt,
+                      color: kBackGroundWhite,
+                    )
+                  ],
+                ),
               ),
             ),
           ),

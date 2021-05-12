@@ -6,6 +6,7 @@ import 'package:Marbit/widgets/widgets.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:get/get.dart';
 
 enum TimeSpan { WEEK, MONTH, YEAR }
@@ -127,40 +128,39 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
           ),
           Expanded(
             flex: 3,
-            child: Container(
-              decoration: BoxDecoration(
-                  boxShadow: [kBoxShadow],
-                  color: elementColor,
-                  borderRadius: BorderRadius.circular(10)),
-              child: Stack(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: BarChart(
-                              mainBarData(),
-                              swapAnimationDuration: animDuration,
+            child: Neumorphic(
+              style: kInactiveNeumorphStyle,
+              child: Container(
+                child: Stack(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: BarChart(
+                                mainBarData(),
+                                swapAnimationDuration: animDuration,
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                      ],
+                          const SizedBox(
+                            height: 12,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

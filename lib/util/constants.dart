@@ -29,37 +29,24 @@ const kErrorRed = const Color(0xFFD4174E);
 //Warning yellow
 const kWarningYellow = const Color(0xFFFEC02C);
 
-const kBoxShadowBlack = const Color(0x15000000);
-
-const kBoxShadow = const BoxShadow(
-    color: kBoxShadowBlack, offset: const Offset(1, 5), blurRadius: 1);
-
-const kInnerShadow = const Shadow(
-  blurRadius: 1,
-  color: kBoxShadowBlack,
-  offset: const Offset(1, 5),
-);
-
 const kLightSource = LightSource.topLeft;
 
-final kInactiveNeumorphStyle = NeumorphicStyle(
+const NeumorphicStyle kInactiveNeumorphStyle = NeumorphicStyle(
   lightSource: kLightSource,
-  depth: 2.0,
-  intensity: 0.9,
+  depth: 3.0,
+  intensity: 0.85,
   shadowLightColor: Colors.transparent,
   shadowLightColorEmboss: Colors.transparent,
   color: kBackGroundWhite,
   shape: NeumorphicShape.flat,
-  boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(10)),
 );
 
-final kActiveNeumorphStyle = NeumorphicStyle(
+const NeumorphicStyle kActiveNeumorphStyle = NeumorphicStyle(
   lightSource: kLightSource,
-  depth: -2.0,
-  intensity: 0.9,
+  depth: -3.0,
+  intensity: 0.85,
   shadowLightColor: Colors.transparent,
   shadowLightColorEmboss: Colors.transparent,
   color: kDeepOrange,
   shape: NeumorphicShape.flat,
-  boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(10)),
 );

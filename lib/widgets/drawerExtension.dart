@@ -1,5 +1,6 @@
 import 'package:Marbit/util/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class DrawerExtension extends StatelessWidget {
   final Color color;
@@ -11,14 +12,15 @@ class DrawerExtension extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
+    return Neumorphic(
+      style: kActiveNeumorphStyle.copyWith(
           color: color,
-          boxShadow: [kBoxShadow],
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10), bottomLeft: Radius.circular(10))),
-      height: 90,
-      width: 10,
+          boxShape: NeumorphicBoxShape.roundRect(BorderRadius.only(
+              topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)))),
+      child: Container(
+        height: 90,
+        width: 10,
+      ),
     );
   }
 }
