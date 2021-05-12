@@ -302,7 +302,7 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
   }
 
   Widget _buildEditButton({Function onPressed}) {
-    return NeumorphPressSwitch(
+    return CustomNeumorphButton(
       onPressed: () {
         onPressed();
         setState(() {

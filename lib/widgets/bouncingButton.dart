@@ -57,33 +57,35 @@ class _NeumorphPressSwitchState extends State<NeumorphPressSwitch>
   }
 }
 
-class TestButton extends StatefulWidget {
+class CustomNeumorphButton extends StatefulWidget {
   final Function onPressed;
   final Widget child;
   final double height;
   final double width;
   final double borderRadius;
+  final Color color;
 
-  TestButton({
-    Key key,
-    this.onPressed,
-    this.child,
-    this.height = 40,
-    this.width = 100,
-    this.borderRadius = 8,
-  }) : super(key: key);
+  CustomNeumorphButton(
+      {Key key,
+      this.onPressed,
+      this.child,
+      this.height = 40,
+      this.width = 100,
+      this.borderRadius = 8,
+      this.color = kBackGroundWhite})
+      : super(key: key);
   @override
-  _TestButtonState createState() => _TestButtonState();
+  _CustomNeumorphButtonState createState() => _CustomNeumorphButtonState();
 }
 
-class _TestButtonState extends State<TestButton> {
+class _CustomNeumorphButtonState extends State<CustomNeumorphButton> {
   @override
   Widget build(BuildContext context) {
     return NeumorphicButton(
+      duration: const Duration(milliseconds: 1),
       padding: EdgeInsets.zero,
       onPressed: widget.onPressed,
-      minDistance: 0.0,
-      style: kInactiveNeumorphStyle,
+      style: kInactiveNeumorphStyle.copyWith(color: widget.color),
       child: Container(
         height: widget.height,
         width: widget.width,

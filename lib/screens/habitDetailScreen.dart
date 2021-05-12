@@ -472,7 +472,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   }
 
   Widget _buildEditButton({Function onPressed}) {
-    return TestButton(
+    return CustomNeumorphButton(
       onPressed: () {
         onPressed();
         setState(() {
@@ -682,7 +682,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   }
 
   Widget _buildHabitDeleteButton() {
-    return NeumorphPressSwitch(
+    return CustomNeumorphButton(
       onPressed: () {
         Get.back();
         Get.find<ContentController>().deleteHabit(widget.habit);
