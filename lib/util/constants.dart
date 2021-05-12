@@ -41,3 +41,25 @@ const kInnerShadow = const Shadow(
 );
 
 const kLightSource = LightSource.topLeft;
+
+final kInactiveNeumorphStyle = NeumorphicStyle(
+  lightSource: kLightSource,
+  depth: 2.0,
+  intensity: 0.9,
+  shadowLightColor: Colors.transparent,
+  shadowLightColorEmboss: Colors.transparent,
+  color: kBackGroundWhite,
+  shape: NeumorphicShape.flat,
+  boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(10)),
+);
+
+final kActiveNeumorphStyle = NeumorphicStyle(
+  lightSource: kLightSource,
+  depth: -2.0,
+  intensity: 0.9,
+  shadowLightColor: Colors.transparent,
+  shadowLightColorEmboss: Colors.transparent,
+  color: kDeepOrange,
+  shape: NeumorphicShape.flat,
+  boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(10)),
+);

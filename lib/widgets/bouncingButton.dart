@@ -41,17 +41,10 @@ class _NeumorphPressSwitchState extends State<NeumorphPressSwitch>
       },
       onPointerUp: (PointerUpEvent event) async {},
       child: Neumorphic(
-        style: NeumorphicStyle(
-          lightSource: kLightSource,
-          depth: widget.inPressedState ? -2.0 : 2.0,
-          intensity: 0.9,
-          shadowLightColor: Colors.transparent,
-          shadowLightColorEmboss: Colors.transparent,
-          color: widget.color,
-          shape: NeumorphicShape.flat,
-          boxShape: NeumorphicBoxShape.roundRect(
-              BorderRadius.circular(widget.borderRadius)),
-        ),
+        style: kInactiveNeumorphStyle.copyWith(
+            color: widget.color,
+            borderRadius: widget.borderRadius,
+            depth: widget.inPressedState ? -2.0 : 2.0),
         child: Container(
           height: widget.height,
           width: widget.width,
@@ -90,16 +83,7 @@ class _TestButtonState extends State<TestButton> {
       padding: EdgeInsets.zero,
       onPressed: widget.onPressed,
       minDistance: 0.0,
-      style: NeumorphicStyle(
-        lightSource: kLightSource,
-        depth: 2.0,
-        intensity: 0.9,
-        shadowLightColor: Colors.transparent,
-        shadowLightColorEmboss: Colors.transparent,
-        color: kBackGroundWhite,
-        shape: NeumorphicShape.flat,
-        boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(10)),
-      ),
+      style: kInactiveNeumorphStyle,
       child: Container(
         height: widget.height,
         width: widget.width,
