@@ -1,9 +1,7 @@
-import 'package:Marbit/controllers/controllers.dart';
 import 'package:Marbit/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:Marbit/models/habitModel.dart';
 import 'package:Marbit/util/constants.dart';
-import 'package:Marbit/widgets/widgets.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -37,7 +35,7 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
-    _pressAnimation = Tween<double>(begin: 1.0, end: -3.0).animate(
+    _pressAnimation = Tween<double>(begin: 2.0, end: -3.0).animate(
       CurvedAnimation(
           parent: _buttonAnimController,
           curve: const Interval(0, 0.6, curve: Curves.easeInOut)),
@@ -65,7 +63,7 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
         if (_buttonAnimController.value > 0.6) return;
         if (_switchedAnimations) return;
         setState(() {
-          _pressAnimation = Tween<double>(begin: 1.0, end: -3.0).animate(
+          _pressAnimation = Tween<double>(begin: 2.0, end: -3.0).animate(
             CurvedAnimation(
                 parent: _buttonAnimController,
                 curve: const Interval(0, 0.6, curve: Curves.easeInOut)),
