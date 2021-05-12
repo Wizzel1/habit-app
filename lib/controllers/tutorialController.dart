@@ -58,12 +58,10 @@ class TutorialController extends GetxController {
         viewportBoundaryGetter: () => Rect.fromLTRB(0, 0, 0, 12),
         axis: Axis.vertical,
         suggestedRowHeight: 400);
-
-    _loadTutorialInfo();
     super.onInit();
   }
 
-  void _loadTutorialInfo() async {
+  Future<void> loadTutorialInfo() async {
     hasFinishedHomeScreenStep = await LocalStorageService.loadTutorialProgress(
         "hasFinishedHomeScreenStep");
     hasFinishedDetailScreenStep =
@@ -701,7 +699,7 @@ class PreviousButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BouncingButton(
+    return CustomNeumorphButton(
       onPressed: onPressed,
       width: 50,
       height: 50,
@@ -724,7 +722,7 @@ class NextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BouncingButton(
+    return CustomNeumorphButton(
       onPressed: onPressed,
       width: 50,
       height: 50,
@@ -767,7 +765,7 @@ class WelcomeScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     flex: 10,
-                    child: BouncingButton(
+                    child: CustomNeumorphButton(
                       onPressed: () {
                         Get.back(result: true);
                       },
@@ -784,7 +782,7 @@ class WelcomeScreen extends StatelessWidget {
                   const Spacer(),
                   Expanded(
                     flex: 20,
-                    child: BouncingButton(
+                    child: CustomNeumorphButton(
                       onPressed: () {
                         Get.back(result: false);
                       },

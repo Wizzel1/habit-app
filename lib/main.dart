@@ -47,9 +47,10 @@ class MyApp extends StatelessWidget {
           Firebase.initializeApp(),
           SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]),
           Get.find<NotifyController>().initializeNotificationPlugin(),
+          Get.find<TutorialController>().loadTutorialInfo(),
           Workmanager().initialize(callbackDispatcher, isInDebugMode: true),
           Workmanager().registerPeriodicTask("1", "rescheduleNotifications",
-              frequency: const Duration(minutes: 15),
+              frequency: const Duration(minutes: 375),
               existingWorkPolicy: ExistingWorkPolicy.replace),
         ]),
         backgroundColor: kBackGroundWhite,
@@ -137,3 +138,8 @@ class _InnerDrawerScreenState extends State<InnerDrawerScreen> {
         });
   }
 }
+
+//TODO before release: complete localnotification steps for code shrink
+//TODO before release: replace test adunitids
+//TODO before release: remove prefs.clear() from contentcontroller
+//TODO before release: add app icons
