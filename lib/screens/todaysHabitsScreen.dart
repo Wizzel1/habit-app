@@ -16,8 +16,8 @@ class TodaysHabitScreen extends StatefulWidget {
 
 class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
   ScrollController _scrollContoller;
-  ContentController _contentController = Get.find<ContentController>();
-  TutorialController _tutorialController = Get.find<TutorialController>();
+  final ContentController _contentController = Get.find<ContentController>();
+  final TutorialController _tutorialController = Get.find<TutorialController>();
 
   @override
   void initState() {
@@ -25,7 +25,7 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       ConsentInformation consentInfo =
           await FlutterFundingChoices.requestConsentInformation();
-      //TODO add IOS consent
+
       if (consentInfo.isConsentFormAvailable &&
           consentInfo.consentStatus == ConsentStatus.REQUIRED_ANDROID) {
         await FlutterFundingChoices.showConsentForm();
@@ -87,8 +87,8 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
                                   child: FadeInAnimation(
                                     child: CompletableHabitContainer(
                                       habit: tappedHabit,
-                                      onPressed: () {
-                                        tappedHabit.addCompletionForToday(
+                                      onPressed: () async {
+                                        await tappedHabit.addCompletionForToday(
                                           onCompletionGoalReached: () {
                                             400.milliseconds.delay().then(
                                               (value) {
