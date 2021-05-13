@@ -313,6 +313,9 @@ class Habit {
     int year = DateUtilities.today.year;
     int currentYearIndex = trackedCompletions.trackedYears
         .indexWhere((element) => element.yearCount == year);
+    int lastYearIndex = trackedCompletions.trackedYears
+        .indexWhere((element) => element.yearCount == year - 1);
+    if (lastYearIndex < 0) lastYearIndex = null;
 
     switch (timeSpan) {
       case TimeSpan.WEEK:
@@ -341,17 +344,25 @@ class Habit {
         break;
 
       case TimeSpan.MONTH:
-
-        //TODO: check if last four calendarweeks do not count <1
-        //
         List<CalendarWeek> lastFourCalendarWeekObjects = [];
         List<int> lastFourCalendarWeekNumbers =
             DateUtilities.getLastFourCalendarWeeks();
+        final int _lastWeek = DateUtilities.currentCalendarWeek - 1;
 
+        //TODO: debug
         for (var i = 0; i < lastFourCalendarWeekNumbers.length; i++) {
-          CalendarWeek week = _getCalendarWeekObject(
-              currentYearIndex, lastFourCalendarWeekNumbers[i]);
-          lastFourCalendarWeekObjects.add(week);
+          final bool _isWeekOfLastYear =
+              lastFourCalendarWeekNumbers[i] > _lastWeek;
+
+          if (_isWeekOfLastYear) {
+            CalendarWeek week = _getCalendarWeekObject(
+                lastYearIndex, lastFourCalendarWeekNumbers[i]);
+            lastFourCalendarWeekObjects.add(week);
+          } else {
+            CalendarWeek week = _getCalendarWeekObject(
+                currentYearIndex, lastFourCalendarWeekNumbers[i]);
+            lastFourCalendarWeekObjects.add(week);
+          }
         }
         assert(lastFourCalendarWeekNumbers.length == 4,
             "Returned ${lastFourCalendarWeekNumbers.length} WeekObjects");
@@ -363,10 +374,9 @@ class Habit {
     }
   }
 
-  CalendarWeek _getCalendarWeekObject(int currentYearIndex, int weekNumber) {
-    CalendarWeek _calendarWeekObject = trackedCompletions
-        .trackedYears[currentYearIndex].calendarWeeks
-        .firstWhere(
+  CalendarWeek _getCalendarWeekObject(int yearIndex, int weekNumber) {
+    CalendarWeek _calendarWeekObject =
+        trackedCompletions.trackedYears[yearIndex].calendarWeeks.firstWhere(
       (element) => element.weekNumber == weekNumber,
       orElse: () => CalendarWeek(
           trackedDays: List.generate(

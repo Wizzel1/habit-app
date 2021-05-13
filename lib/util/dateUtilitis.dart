@@ -14,11 +14,11 @@ class DateUtilities {
 
   static List<int> getCurrentWeeksDateList() {
     int _weekDay = today.weekday;
-    DateTime _monday = today.subtract(Duration(days: _weekDay - 1));
+    DateTime _thisMonday = today.subtract(Duration(days: _weekDay - 1));
     List<int> _thisWeeksDates = [];
 
     for (var i = 0; i < 7; i++) {
-      int _dayCount = _monday.add(Duration(days: i)).day;
+      int _dayCount = _thisMonday.add(Duration(days: i)).day;
       _thisWeeksDates.add(_dayCount);
     }
     assert(_thisWeeksDates.length == 7,
@@ -27,18 +27,37 @@ class DateUtilities {
   }
 
   static List<int> getLastFourCalendarWeeks() {
-    int lastWeek = currentCalendarWeek - 1;
-    List<int> lastFourCalendarWeeks = [];
+    final int _lastWeek = currentCalendarWeek - 1;
+    final bool _needsWeeksFromLastYear = _lastWeek < 4;
+    List<int> _lastFourCalendarWeeks = [];
+    int _lastCalendarWeekLastYear;
+    //TODO debug
 
-    //TODO this function needs to be able to count to weeks before 1
-    if (lastWeek > 4) {
-      for (var i = 0; i < 4; i++) {
-        lastFourCalendarWeeks.add(lastWeek - i);
+    if (_needsWeeksFromLastYear) {
+      final DateTime _firstDayThisYear = DateTime.parse("${today.year}-01-01");
+      DateTime _lastDayLastYear =
+          _firstDayThisYear.subtract(const Duration(days: 1));
+      _lastCalendarWeekLastYear = _lastDayLastYear.weekOfYear;
+      while (
+          _lastCalendarWeekLastYear != 53 || _lastCalendarWeekLastYear != 52) {
+        _lastDayLastYear = _lastDayLastYear.subtract(const Duration(days: 1));
+        _lastCalendarWeekLastYear = _lastDayLastYear.weekOfYear;
       }
     }
-    assert(lastFourCalendarWeeks.length == 4,
-        "LastfourCalendarWeeks has length ${lastFourCalendarWeeks.length}");
-    return lastFourCalendarWeeks;
+
+    for (var i = 0; i < 4; i++) {
+      int _newWeekNumber;
+      int _weekToAdd = _lastWeek - i;
+      if (_weekToAdd >= 1) _newWeekNumber = _weekToAdd;
+      if (_weekToAdd < 1) {
+        _newWeekNumber = _lastCalendarWeekLastYear - _weekToAdd.abs();
+      }
+      _lastFourCalendarWeeks.add(_newWeekNumber);
+    }
+
+    assert(_lastFourCalendarWeeks.length == 4,
+        "LastfourCalendarWeeks has length ${_lastFourCalendarWeeks.length}");
+    return _lastFourCalendarWeeks;
   }
 
   static DateTime getDateTimeOfNextWeekDayOccurrence(int nextScheduledWeekDay) {
