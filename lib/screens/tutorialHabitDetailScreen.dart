@@ -280,8 +280,6 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
                             const SizedBox(height: 30),
                             _buildScheduleRow(),
                             const SizedBox(height: 30),
-                            _buildCompletionGoalStepper(),
-                            const SizedBox(height: 30),
                             Center(
                               child: AutoScrollTag(
                                 index: 3,
@@ -299,6 +297,8 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
                                 ),
                               ),
                             ),
+                            const SizedBox(height: 30),
+                            _buildCompletionGoalStepper(),
                             const SizedBox(height: 30),
                             AutoScrollTag(
                               index: 1,
