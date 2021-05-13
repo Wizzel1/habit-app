@@ -296,9 +296,9 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                       position: _slideUpAnimations[0],
                       child: FadeTransition(
                         opacity: _fadeInAnimations[0],
-                        //TODO translate
                         child: Text(
-                          "You are on a ${widget.habit.streak} day streak!",
+                          'streak_message'
+                              .trParams({'streak': '${widget.habit.streak}'}),
                           style: Theme.of(context)
                               .textTheme
                               .headline6

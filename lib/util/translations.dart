@@ -29,6 +29,11 @@ class Messages extends Translations {
           'example_reward_title_4': 'Take a Day off',
           'example_reward_description_4': 'Be the lazy Bird',
           //tutorial
+          'welcomeScreen_welcome_heading': 'Welcome to Marbit',
+          'welcomeScreen_welcome_message':
+              'Do you want to watch an interactive introduction?',
+          'welcomeScreen_startButton_title': '',
+          'welcomeScreen_skipButton_title': '',
           'homeScreenTutorial_container_heading': 'Habits',
           'homeScreenTutorial_container_message':
               'Your Habits get Displayed by these Containers.',
@@ -47,6 +52,15 @@ class Messages extends Translations {
           'detailScreenTutorial_editButton_message': '',
           'detailScreenTutorial_rewardList_heading': '',
           'detailScreenTutorial_rewardList_message': '',
+          'homeScreenTutorial_details_heading': 'Details',
+          'homeScreenTutorial_details_message':
+              'Tippe jetzt auf die Gewohnheit, um Details anzuzeigen.',
+          'detailScreenTutorial_statistics_heading': 'Statistiken',
+          'detailScreenTutorial_statistics_message':
+              'Hier siehst du auf einen Blick, wie oft du diese Gewohnheit in letzter Zeit abgeschlossen hast.',
+          'completionStepTutorial_complete_heading': 'Abschließen',
+          'completionStepTutorial_complete_message':
+              'Schließ jetzt das Tagesziel ab, um eine Belohnung zu erhalten!',
           //screens
           //createItemScreen
           'createItemScreen_create_title': 'Create a ...',
@@ -69,11 +83,14 @@ class Messages extends Translations {
           'warning': 'Warning',
           'times_per_day': 'Times per Day',
           'description': 'Description',
+          'notification_times': 'Notification Times',
           'description_textfield_hint': 'Your Description',
           'rewards': 'Rewards',
           'reward_missing_warning': 'Please select at least one Reward',
           'schedule': 'Schedule',
           'missing_schedule_warning': 'Please schedule at least one Day',
+          //Rewardpopup Screen
+          'streak_message': 'You are on a @streak day streak!',
           //Habit detail screen
           'save_habit': 'Save Habit',
           'edit_habit': 'Edit Habit',
@@ -138,6 +155,11 @@ class Messages extends Translations {
           'example_reward_title_4': 'Take a Day off',
           'example_reward_description_4': 'Be the lazy Bird',
           //tutorial
+          'welcomeScreen_welcome_heading': 'Welcome to Marbit',
+          'welcomeScreen_welcome_message':
+              'Do you want to watch an interactive introduction?',
+          'welcomeScreen_startButton_title': '',
+          'welcomeScreen_skipButton_title': '',
           'homeScreenTutorial_container_heading': 'Gewohnheiten',
           'homeScreenTutorial_container_message':
               'Deine täglichen Gewohnheiten werden als Container angezeigt.',
@@ -158,6 +180,15 @@ class Messages extends Translations {
           'detailScreenTutorial_rewardList_heading': 'Belohnungen',
           'detailScreenTutorial_rewardList_message':
               'Hier siehst du alle aktiven Belohnungen für deine Gewohnheit.',
+          'homeScreenTutorial_details_heading': 'Details',
+          'homeScreenTutorial_details_message':
+              'Tippe jetzt auf die Gewohnheit, um Details anzuzeigen.',
+          'detailScreenTutorial_statistics_heading': 'Statistiken',
+          'detailScreenTutorial_statistics_message':
+              'Hier siehst du auf einen Blick, wie oft du diese Gewohnheit in letzter Zeit abgeschlossen hast.',
+          'completionStepTutorial_complete_heading': 'Abschließen',
+          'completionStepTutorial_complete_message':
+              'Schließ jetzt das Tagesziel ab, um eine Belohnung zu erhalten!',
           //screens
           //createItemScreen
           'createItemScreen_create_title': 'Erstelle eine neue ...',
@@ -181,10 +212,13 @@ class Messages extends Translations {
           'times_per_day': 'Wie oft pro Tag?',
           'description': 'Beschreibung',
           'description_textfield_hint': 'Deine Beschreibung (Optional)',
+          'notification_times': 'Notification Times',
           'rewards': 'Belohnungen',
           'reward_missing_warning': 'Bitte wähle mindestens eine Belohnung',
           'schedule': 'Zeitplan',
           'missing_schedule_warning': 'Bitte wähle mindestens einen Tag',
+          //Rewardpopup Screen
+          'streak_message': 'You are on a @streak day streak!',
           //Habit detail screen
           'save_habit': 'Speichern',
           'edit_habit': 'Bearbeiten',

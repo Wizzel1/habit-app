@@ -308,14 +308,13 @@ class TutorialController extends GetxController {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      //TODO translate
-                      'Details',
+                      'homeScreenTutorial_details_heading'.tr,
                       style: _themeData.textTheme.headline4,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Text(
-                        'Tippe jetzt auf die Gewohnheit, um Details anzuzeigen.',
+                        'homeScreenTutorial_details_message'.tr,
                         style: _themeData.textTheme.caption,
                       ),
                     ),
@@ -460,16 +459,14 @@ class TutorialController extends GetxController {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  //TODO translate
                   Text(
-                    'Statistiken',
+                    'detailScreenTutorial_statistics_heading'.tr,
                     style: _themeData.textTheme.headline4,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0),
-                    //TODO translate
                     child: Text(
-                      'Hier siehst du auf einen Blick, wie oft du diese Gewohnheit in letzter Zeit abgeschlossen hast.',
+                      'detailScreenTutorial_statistics_message'.tr,
                       style: _themeData.textTheme.caption,
                     ),
                   ),
@@ -594,9 +591,8 @@ class TutorialController extends GetxController {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  //TODO translate
                   Text(
-                    'Abschließen',
+                    'completionStepTutorial_complete_heading'.tr,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -604,9 +600,8 @@ class TutorialController extends GetxController {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0),
-                    //TODO translate
                     child: Text(
-                      'Schließ jetzt das Tagesziel ab, um eine Belohnung zu erhalten!',
+                      'completionStepTutorial_complete_message'.tr,
                       style: _themeData.textTheme.caption,
                     ),
                   ),
@@ -750,13 +745,11 @@ class WelcomeScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              //TODO translate
               Text(
-                "Welcome to Marbit",
+                'welcomeScreen_welcome_heading'.tr,
                 style: Theme.of(context).textTheme.headline4,
               ),
-              //TODO translate
-              Text("Do you want to watch an interactive introduction?",
+              Text('welcomeScreen_welcome_message'.tr,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.caption),
               const SizedBox(height: 30),
@@ -770,8 +763,7 @@ class WelcomeScreen extends StatelessWidget {
                         Get.back(result: true);
                       },
                       child: Text(
-                        //TODO translate
-                        "Lets go",
+                        'welcomeScreen_startButton_title'.tr,
                         style: Theme.of(context)
                             .textTheme
                             .button
@@ -787,8 +779,7 @@ class WelcomeScreen extends StatelessWidget {
                         Get.back(result: false);
                       },
                       child: Text(
-                        //TODO translate
-                        "I'll figure it out myself",
+                        'welcomeScreen_skipButton_title'.tr,
                         style: Theme.of(context)
                             .textTheme
                             .button

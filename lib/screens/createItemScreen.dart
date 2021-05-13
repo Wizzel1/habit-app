@@ -566,8 +566,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
   Widget _buildNotificationTimeSelectionPage() {
     return Column(
       children: [
-        //TODO translate
-        TitleSection(title: "notification times"),
+        TitleSection(title: 'notification_times'.tr),
         Expanded(
           flex: _contentFlex,
           child: Column(
