@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:Marbit/widgets/widgets.dart';
@@ -571,55 +572,95 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
           flex: _contentFlex,
           child: Column(
             children: [
-              Expanded(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: _createItemController.completionGoalCount.value,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Spacer(),
-                          CustomNeumorphButton(
-                            onPressed: () {
-                              _notificationTimesController
-                                  .subtract30MinutesFromIndex(index);
-                            },
-                            child: Text("-30",
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .button
-                                    .copyWith(color: kDeepOrange)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                      flex: 10,
+                      child: Obx(
+                        () => NeumorphPressSwitch(
+                          onPressed: () {
+                            _createItemController.activeNotifications.value =
+                                true;
+                          },
+                          height: 50,
+                          color: _createItemController.activeNotifications.value
+                              ? kDeepOrange
+                              : kBackGroundWhite,
+                          inPressedState:
+                              _createItemController.activeNotifications.value,
+                          child: Text(
+                            //TODO translate
+                            'notifications_active',
+                            style: Theme.of(context).textTheme.button.copyWith(
+                                color: _createItemController
+                                        .activeNotifications.value
+                                    ? kBackGroundWhite
+                                    : Theme.of(context).accentColor),
                           ),
-                          Expanded(
-                            flex: 6,
-                            child: Obx(
-                              () => Text(
-                                  "${_notificationTimesController.selectedHours[index]}:${_notificationTimesController.selectedMinutes[index].toString().padLeft(2, "0")}",
-                                  textAlign: TextAlign.center,
-                                  style: Theme.of(context).textTheme.headline4),
-                            ),
-                          ),
-                          CustomNeumorphButton(
-                            onPressed: () {
-                              _notificationTimesController
-                                  .add30MinutesToIndex(index);
-                            },
-                            child: Text("+30",
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .button
-                                    .copyWith(color: kDeepOrange)),
-                          ),
-                          const Spacer(),
-                        ],
+                        ),
+                      )),
+                  const Spacer(),
+                  Expanded(
+                    flex: 10,
+                    child: Obx(
+                      () => NeumorphPressSwitch(
+                        onPressed: () {
+                          _createItemController.activeNotifications.value =
+                              false;
+                        },
+                        height: 50,
+                        color: _createItemController.activeNotifications.value
+                            ? kBackGroundWhite
+                            : kDeepOrange,
+                        inPressedState:
+                            !_createItemController.activeNotifications.value,
+                        child: Text(
+                          //TODO translate
+                          'notifications_inactive',
+                          style: Theme.of(context).textTheme.button.copyWith(
+                                color: _createItemController
+                                        .activeNotifications.value
+                                    ? Theme.of(context).accentColor
+                                    : kBackGroundWhite,
+                              ),
+                        ),
                       ),
-                    );
-                  },
+                    ),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing:
+                      ((MediaQuery.of(context).size.width - 40) - (7 * 40)) / 8,
+                  children: [
+                    ...List.generate(
+                      _createItemController.completionGoalCount.value,
+                      (index) => CustomNeumorphButton(
+                        width: 40,
+                        height: 60,
+                        onPressed: () async {
+                          _notificationTimesController
+                              .setControllerValues(index);
+                          Get.defaultDialog(
+                            barrierDismissible: false,
+                            content: DialogContent(index: index),
+                          );
+                        },
+                        child: Obx(
+                          () => Text(
+                              "${_notificationTimesController.selectedHours[index]} \n${_notificationTimesController.selectedMinutes[index].toString().padLeft(2, "0")}",
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .button
+                                  .copyWith(color: kDeepOrange)),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 30),
@@ -763,27 +804,29 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      textAlign: TextAlign.center,
-      style: Theme.of(context)
-          .textTheme
-          .headline6
-          .copyWith(color: Theme.of(context).accentColor),
-      decoration: InputDecoration(
-        contentPadding: const EdgeInsets.fromLTRB(6, 24, 6, 16),
-        filled: true,
-        fillColor: kBackGroundWhite,
-        hintText: title,
-        hintStyle: Theme.of(context)
+    return Neumorphic(
+      style: kActiveNeumorphStyle.copyWith(
+          color: kBackGroundWhite, intensity: 1.0),
+      child: TextField(
+        controller: controller,
+        textAlign: TextAlign.center,
+        style: Theme.of(context)
             .textTheme
             .headline6
             .copyWith(color: Theme.of(context).accentColor),
-        border: OutlineInputBorder(
-          borderRadius: const BorderRadius.all(
-            const Radius.circular(10.0),
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.fromLTRB(6, 24, 6, 16),
+          hintText: title,
+          hintStyle: Theme.of(context)
+              .textTheme
+              .headline6
+              .copyWith(color: Theme.of(context).accentColor),
+          border: OutlineInputBorder(
+            borderRadius: const BorderRadius.all(
+              const Radius.circular(10.0),
+            ),
+            borderSide: BorderSide.none,
           ),
-          borderSide: BorderSide.none,
         ),
       ),
     );

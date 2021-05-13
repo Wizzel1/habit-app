@@ -20,6 +20,7 @@ class CreateItemController extends GetxController {
   Rx<int> completionGoalCount = 1.obs;
   Rx<bool> isSelfRemovingReward = false.obs;
   Rx<bool> createHabit = false.obs;
+  Rx<bool> activeNotifications = true.obs;
 
   final NotificationTimesController _notificationTimesController =
       Get.find<NotificationTimesController>();

@@ -5,12 +5,16 @@ import 'package:Marbit/models/models.dart';
 import 'package:Marbit/widgets/widgets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:Marbit/screens/screens.dart';
 import 'package:Marbit/util/util.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:implicitly_animated_reorderable_list/transitions.dart';
+import 'dart:math' as math;
 
 const double offset = -0.15;
 
@@ -284,9 +288,6 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                       _buildScheduleRow(),
                       //_buildNextCompletiondateText(),
                       const SizedBox(height: 30),
-                      _buildCompletionGoalStepper(),
-                      _buildScheduledTimesWrapper(),
-                      const SizedBox(height: 30),
                       Center(
                         child: _buildEditButton(
                           onPressed: () {
@@ -302,6 +303,10 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                           },
                         ),
                       ),
+                      const SizedBox(height: 30),
+                      _buildCompletionGoalStepper(),
+                      const SizedBox(height: 30),
+                      _buildScheduledTimesRow(),
                       const SizedBox(height: 30),
                       AnimatedContainer(
                         height: _isInEditMode
@@ -439,7 +444,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
           flex: 2,
           child: Obx(() => Text(
                 "${_editContentController.newCompletionGoal}",
-                style: Theme.of(context).textTheme.headline3,
+                style: Theme.of(context).textTheme.headline3.copyWith(),
                 textAlign: TextAlign.center,
               )),
         ),
@@ -484,98 +489,50 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
               'save_habit'.tr,
               style: Theme.of(context).textTheme.button.copyWith(
                     fontSize: 12,
-                    color: Color(widget.habit.habitColors["deep"]),
+                    color: kDeepOrange,
                   ),
             )
           : Text(
               'edit_habit'.tr,
               style: Theme.of(context).textTheme.button.copyWith(
                     fontSize: 12,
-                    color: Color(widget.habit.habitColors["deep"]),
+                    color: kDeepOrange,
                   ),
             ),
     );
   }
 
-  Widget _buildScheduledTimesWrapper() {
-    return AnimatedSwitcher(
-      duration: Duration(milliseconds: 800),
-      switchInCurve: Curves.easeOutQuint,
-      switchOutCurve: Curves.easeOutQuint,
-      child: _isInEditMode
-          ? Obx(
-              () => ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: _editContentController.newCompletionGoal.value,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Spacer(),
-                        NeumorphPressSwitch(
-                          onPressed: () {
-                            _notificationTimesController
-                                .subtract30MinutesFromIndex(index);
-                          },
-                          child: Text("-30",
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .button
-                                  .copyWith(color: kDeepOrange)),
-                        ),
-                        Expanded(
-                          flex: 6,
-                          child: Obx(
-                            () => Text(
-                                "${_notificationTimesController.selectedHours[index]}:${_notificationTimesController.selectedMinutes[index].toString().padLeft(2, "0")}",
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.headline4),
-                          ),
-                        ),
-                        NeumorphPressSwitch(
-                          onPressed: () {
-                            _notificationTimesController
-                                .add30MinutesToIndex(index);
-                          },
-                          child: Text("+30",
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .button
-                                  .copyWith(color: kDeepOrange)),
-                        ),
-                        const Spacer(),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            )
-          : Obx(
-              () => Wrap(
-                children: [
-                  ...List.generate(
-                    _editContentController.newCompletionGoal.value,
-                    (index) => Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Obx(
-                        () => Text(
-                          "${_notificationTimesController.selectedHours[index]}:${_notificationTimesController.selectedMinutes[index].toString().padLeft(2, "0")}",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6
-                              .copyWith(color: kBackGroundWhite),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+  Widget _buildScheduledTimesRow() {
+    return Obx(
+      () => Wrap(
+        alignment: WrapAlignment.center,
+        spacing: ((MediaQuery.of(context).size.width - 40) - (7 * 40)) / 8,
+        children: [
+          ...List.generate(
+            _editContentController.newCompletionGoal.value,
+            (index) => CustomNeumorphButton(
+              width: 40,
+              height: 60,
+              onPressed: () async {
+                _notificationTimesController.setControllerValues(index);
+                Get.defaultDialog(
+                  barrierDismissible: false,
+                  content: DialogContent(index: index),
+                );
+              },
+              child: Obx(
+                () => Text(
+                    "${_notificationTimesController.selectedHours[index]} \n${_notificationTimesController.selectedMinutes[index].toString().padLeft(2, "0")}",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .button
+                        .copyWith(color: kDeepOrange)),
               ),
             ),
+          ),
+        ],
+      ),
     );
   }
 
