@@ -6,7 +6,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:Marbit/widgets/bouncingButton.dart';
 
 class CompletableHabitContainer extends StatefulWidget {
   final Habit habit;
@@ -86,7 +85,7 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
 
   @override
   Widget build(BuildContext context) {
-    int _todaysHabitCompletions = widget.habit.getTodaysCompletions();
+    final int _todaysHabitCompletions = widget.habit.getTodaysCompletions();
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),

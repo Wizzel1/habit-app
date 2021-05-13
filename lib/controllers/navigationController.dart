@@ -12,7 +12,7 @@ class NavigationController extends GetxController {
   HeroController heroController;
   int currentPageIndex;
 
-  List<Page> appPages = [
+  final List<Page> appPages = [
     MaterialPage(child: TodaysHabitScreen()),
     MaterialPage(child: CreateItemScreen()),
     MaterialPage(child: MyContentScreen()),

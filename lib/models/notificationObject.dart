@@ -104,10 +104,10 @@ class NotificationObject {
     List<NotificationObject> _objectList = [];
 
     for (var i = 0; i < scheduledDays.length; i++) {
-      int _currentWeekday = scheduledDays[i];
+      final int _currentWeekday = scheduledDays[i];
       for (var j = 0; j < completionGoal; j++) {
-        int _completionStep = j + 1;
-        NotificationObject _newObject = NotificationObject(
+        final int _completionStep = j + 1;
+        final NotificationObject _newObject = NotificationObject(
             notificationId: int.parse(
                 "$prefix$_currentWeekday$_completionStep${hours[j]}${minutes[j]}"),
             hour: hours[j],

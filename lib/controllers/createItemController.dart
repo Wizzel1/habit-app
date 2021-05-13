@@ -46,11 +46,11 @@ class CreateItemController extends GetxController {
 
   Future<void> createAndSaveHabit() async {
     scheduledDays.sort();
-    int nextScheduledWeekday = scheduledDays.firstWhere(
+    final int nextScheduledWeekday = scheduledDays.firstWhere(
         (element) => element >= DateUtilities.today.weekday,
         orElse: () => scheduledDays.first);
-    int prefix = await _getNotificationIDprefix();
-    Habit newHabit = Habit(
+    final int prefix = await _getNotificationIDprefix();
+    final Habit newHabit = Habit(
       title: createTitleTextController.text,
       id: Uuid().v4(),
       completionGoal: completionGoalCount.value,
@@ -77,14 +77,15 @@ class CreateItemController extends GetxController {
   }
 
   Future<int> _getNotificationIDprefix() async {
-    int _prefix = await LocalStorageService.loadLatestNotificationIDprefix();
+    final int _prefix =
+        await LocalStorageService.loadLatestNotificationIDprefix();
     await LocalStorageService.saveLatestNotificationIDprefix(_prefix + 1);
     return _prefix;
   }
 
   TrackedCompletions _createInitialTrackedCompletions() {
-    List<int> thisWeeksDates = DateUtilities.getCurrentWeeksDateList();
-    DateTime _today = DateUtilities.today;
+    final List<int> thisWeeksDates = DateUtilities.getCurrentWeeksDateList();
+    final DateTime _today = DateUtilities.today;
 
     return TrackedCompletions(
       trackedYears: [
@@ -110,7 +111,7 @@ class CreateItemController extends GetxController {
   }
 
   void createAndSaveReward() {
-    Reward newReward = Reward(
+    final Reward newReward = Reward(
         name: createTitleTextController.text,
         id: Uuid().v4(),
         isSelfRemoving: isSelfRemovingReward.value,

@@ -157,9 +157,7 @@ class _TutorialContainerState extends State<TutorialContainer>
                                     ),
                                   ),
                                 )
-                              : const SizedBox(
-                                  height: 20,
-                                )
+                              : const SizedBox(height: 20)
                         ],
                       ),
                     ],

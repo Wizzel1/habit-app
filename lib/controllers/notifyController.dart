@@ -10,7 +10,7 @@ import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 
-FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 class NotifyController extends GetxController {
@@ -58,7 +58,7 @@ class NotifyController extends GetxController {
     final tz.TZDateTime _scheduledTime = tz.TZDateTime(
         tz.local, _now.year, _now.month, _now.day, object.hour, object.minutes);
 
-    bool _wasCompletedBeforeScheduledTime = _now.isBefore(_scheduledTime);
+    final bool _wasCompletedBeforeScheduledTime = _now.isBefore(_scheduledTime);
 
     if (!_wasCompletedBeforeScheduledTime) return;
 
@@ -75,7 +75,7 @@ class NotifyController extends GetxController {
           .cancel(oldObjects[i].notificationId);
     }
     for (var i = 0; i < newObjects.length; i++) {
-      NotificationObject _object = newObjects[i];
+      final NotificationObject _object = newObjects[i];
       await _createNotificationFromObject(_object);
     }
   }
@@ -83,10 +83,10 @@ class NotifyController extends GetxController {
   Future<void> updateHabitNotificationsPartially(
       {List<NotificationObject> oldObjects,
       List<NotificationObject> newObjects}) async {
-    List<NotificationObject> _objectsToDelete =
+    final List<NotificationObject> _objectsToDelete =
         _getListDifferences(oldObjects, newObjects);
 
-    List<NotificationObject> _objectsToCreate =
+    final List<NotificationObject> _objectsToCreate =
         _getListDifferences(newObjects, oldObjects);
 
     _objectsToDelete.forEach((element) async {
@@ -116,7 +116,7 @@ class NotifyController extends GetxController {
   }
 
   Future<void> _createNotificationFromObject(NotificationObject object) async {
-    tz.TZDateTime _schedule = _nextInstanceOfDayAndTime(
+    final tz.TZDateTime _schedule = _nextInstanceOfDayAndTime(
         weekday: object.weekDay, hour: object.hour, minutes: object.minutes);
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
@@ -165,7 +165,7 @@ class NotifyController extends GetxController {
 
   Future<void> cancelAllHabitNotifications(Habit habit) async {
     for (var i = 0; i < habit.notificationObjects.length; i++) {
-      int _cancellationID = habit.notificationObjects[i].notificationId;
+      final int _cancellationID = habit.notificationObjects[i].notificationId;
       await flutterLocalNotificationsPlugin.cancel(_cancellationID);
     }
   }

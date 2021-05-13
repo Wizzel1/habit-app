@@ -45,8 +45,8 @@ class NotificationTimesController extends GetxController {
   }
 
   void _setMinMaxTimes(int changeIndex) {
-    int _changedHour = selectedHours[changeIndex];
-    int _changedMinute = selectedMinutes[changeIndex];
+    final int _changedHour = selectedHours[changeIndex];
+    final int _changedMinute = selectedMinutes[changeIndex];
 
     for (var i = 0; i < selectedHours.length; i++) {
       if (i == changeIndex) continue;
@@ -78,8 +78,8 @@ class NotificationTimesController extends GetxController {
   void setNotificationTimes(List<NotificationObject> objectList) {
     List<String> _times = [];
     for (var i = 0; i < objectList.length; i++) {
-      NotificationObject _object = objectList[i];
-      String stringTime = _object.hour.toString().padLeft(2, "0") +
+      final NotificationObject _object = objectList[i];
+      final String stringTime = _object.hour.toString().padLeft(2, "0") +
           _object.minutes.toString().padRight(2, "0");
 
       if (_times.contains(stringTime)) continue;

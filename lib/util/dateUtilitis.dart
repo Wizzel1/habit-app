@@ -13,12 +13,12 @@ class DateUtilities {
   }
 
   static List<int> getCurrentWeeksDateList() {
-    int _weekDay = today.weekday;
-    DateTime _thisMonday = today.subtract(Duration(days: _weekDay - 1));
+    final int _weekDay = today.weekday;
+    final DateTime _thisMonday = today.subtract(Duration(days: _weekDay - 1));
     List<int> _thisWeeksDates = [];
 
     for (var i = 0; i < 7; i++) {
-      int _dayCount = _thisMonday.add(Duration(days: i)).day;
+      final int _dayCount = _thisMonday.add(Duration(days: i)).day;
       _thisWeeksDates.add(_dayCount);
     }
     assert(_thisWeeksDates.length == 7,

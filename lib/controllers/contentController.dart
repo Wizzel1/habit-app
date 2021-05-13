@@ -67,7 +67,7 @@ class ContentController extends GetxController {
     List<Reward> _rewardList = [];
 
     for (String rewardID in rewardIds) {
-      Reward _reward = allRewardList
+      final Reward _reward = allRewardList
           .firstWhere((element) => element.id == rewardID, orElse: () => null);
       if (_reward == null) continue;
       _rewardList.add(_reward);
@@ -82,7 +82,7 @@ class ContentController extends GetxController {
     List<Reward> _tutorialRewardList = [];
 
     for (String rewardID in rewardIds) {
-      Reward _reward = exampleRewards
+      final Reward _reward = exampleRewards
           .firstWhere((element) => element.id == rewardID, orElse: () => null);
       if (_reward == null) continue;
       _tutorialRewardList.add(_reward);
@@ -95,7 +95,7 @@ class ContentController extends GetxController {
     List<String> _filteredIDs = [];
 
     for (String reference in rewardReferenceIDs) {
-      Reward reward = allRewardList
+      final Reward reward = allRewardList
           .firstWhere((element) => element.id == reference, orElse: () => null);
       if (reward == null) continue;
       _filteredIDs.add(reward.id);
@@ -115,7 +115,7 @@ class ContentController extends GetxController {
 
   void _filterAllHabitsForTodaysHabits() {
     for (var i = 0; i < allHabitList.length; i++) {
-      Habit _habit = allHabitList[i];
+      final Habit _habit = allHabitList[i];
       if (_habit.isScheduledForToday() && !_habit.wasFinishedToday()) {
         todaysHabitList.add(_habit);
       }

@@ -104,9 +104,10 @@ class Habit {
   ///Returns a List of Indices. This list leads to the reference of the current Day as TrackedDay if used on "TrackedCompletions".
   //TODO find a way to improve this method
   List<int> _getYearWeekDayIndexList() {
-    DateController _dateController = Get.find<DateController>();
-    bool isIndexListEmpty = _dateController.todaysYearWeekDayIndexList.isEmpty;
-    bool wasUpdatedToday =
+    final DateController _dateController = Get.find<DateController>();
+    final bool isIndexListEmpty =
+        _dateController.todaysYearWeekDayIndexList.isEmpty;
+    final bool wasUpdatedToday =
         _dateController.indexListLastUpdateDate == DateUtilities.today;
 
     if (!isIndexListEmpty && wasUpdatedToday) {
@@ -116,13 +117,14 @@ class Habit {
     }
     _dateController.todaysYearWeekDayIndexList.clear();
 
-    int yearIndex = _getYearIndex();
+    final int yearIndex = _getYearIndex();
     _dateController.todaysYearWeekDayIndexList.add(yearIndex);
 
-    int weekIndex = _getCalendarWeekIndex(yearIndex: yearIndex);
+    final int weekIndex = _getCalendarWeekIndex(yearIndex: yearIndex);
     _dateController.todaysYearWeekDayIndexList.add(weekIndex);
 
-    int dayIndex = _getTodaysIndex(yearIndex: yearIndex, weekIndex: weekIndex);
+    final int dayIndex =
+        _getTodaysIndex(yearIndex: yearIndex, weekIndex: weekIndex);
     _dateController.todaysYearWeekDayIndexList.add(dayIndex);
 
     _dateController.indexListLastUpdateDate = DateUtilities.today;
@@ -133,14 +135,14 @@ class Habit {
   }
 
   int _getYearIndex() {
-    int _year = DateUtilities.today.year;
+    final int _year = DateUtilities.today.year;
 
     if (!trackedCompletions.trackedYears
         .any((element) => element.yearCount == _year)) {
       trackedCompletions.trackedYears
           .add(Year(yearCount: _year, calendarWeeks: []));
     }
-    int _yearIndex = trackedCompletions.trackedYears
+    final int _yearIndex = trackedCompletions.trackedYears
         .indexWhere((element) => element.yearCount == _year);
 
     assert(_yearIndex >= 0, "YearIndex must not be negative");
@@ -148,7 +150,7 @@ class Habit {
   }
 
   int _getCalendarWeekIndex({int yearIndex}) {
-    int _calendarWeek = DateUtilities.currentCalendarWeek;
+    final int _calendarWeek = DateUtilities.currentCalendarWeek;
 
     if (!trackedCompletions.trackedYears[yearIndex].calendarWeeks
         .any((element) => element.weekNumber == _calendarWeek)) {
@@ -156,7 +158,7 @@ class Habit {
           .add(CalendarWeek(weekNumber: _calendarWeek, trackedDays: []));
     }
 
-    int _calendarWeekIndex = trackedCompletions
+    final int _calendarWeekIndex = trackedCompletions
         .trackedYears[yearIndex].calendarWeeks
         .indexWhere((element) => element.weekNumber == _calendarWeek);
 
@@ -165,7 +167,7 @@ class Habit {
   }
 
   int _getTodaysIndex({int yearIndex, int weekIndex}) {
-    int _todayCount = DateUtilities.today.day;
+    final int _todayCount = DateUtilities.today.day;
 
     if (!trackedCompletions
         .trackedYears[yearIndex].calendarWeeks[weekIndex].trackedDays
@@ -178,7 +180,7 @@ class Habit {
               goalAmount: completionGoal));
     }
 
-    int _todaysIndex = trackedCompletions
+    final int _todaysIndex = trackedCompletions
         .trackedYears[yearIndex].calendarWeeks[weekIndex].trackedDays
         .indexWhere((element) => element.dayCount == _todayCount);
 
@@ -187,47 +189,47 @@ class Habit {
   }
 
   int getTodaysCompletions() {
-    List<int> _yearWeekDayIndexList = _getYearWeekDayIndexList();
+    final List<int> _yearWeekDayIndexList = _getYearWeekDayIndexList();
     print("todaysCompletionsList : $_yearWeekDayIndexList");
 
     if (_yearWeekDayIndexList == null) return null;
 
-    int _yearIndex = _yearWeekDayIndexList[0];
-    int _calendarWeekIndex = _yearWeekDayIndexList[1];
-    int _trackedDayIndex = _yearWeekDayIndexList[2];
+    final int _yearIndex = _yearWeekDayIndexList[0];
+    final int _calendarWeekIndex = _yearWeekDayIndexList[1];
+    final int _trackedDayIndex = _yearWeekDayIndexList[2];
 
-    TrackedDay _trackedToday = trackedCompletions.trackedYears[_yearIndex]
+    final TrackedDay _trackedToday = trackedCompletions.trackedYears[_yearIndex]
         .calendarWeeks[_calendarWeekIndex].trackedDays[_trackedDayIndex];
 
     return _trackedToday.doneAmount;
   }
 
   bool wasFinishedToday() {
-    List<int> _yearWeekDayIndexList = _getYearWeekDayIndexList();
+    final List<int> _yearWeekDayIndexList = _getYearWeekDayIndexList();
     print("wasFinishedToday : $_yearWeekDayIndexList");
 
     if (_yearWeekDayIndexList == null) return false;
 
-    int _yearIndex = _yearWeekDayIndexList[0];
-    int _calendarWeekIndex = _yearWeekDayIndexList[1];
-    int _trackedDayIndex = _yearWeekDayIndexList[2];
+    final int _yearIndex = _yearWeekDayIndexList[0];
+    final int _calendarWeekIndex = _yearWeekDayIndexList[1];
+    final int _trackedDayIndex = _yearWeekDayIndexList[2];
 
-    TrackedDay _trackedToday = trackedCompletions.trackedYears[_yearIndex]
+    final TrackedDay _trackedToday = trackedCompletions.trackedYears[_yearIndex]
         .calendarWeeks[_calendarWeekIndex].trackedDays[_trackedDayIndex];
 
-    bool wasFinishedToday = _trackedToday.doneAmount >= completionGoal;
+    final bool wasFinishedToday = _trackedToday.doneAmount >= completionGoal;
     return wasFinishedToday;
   }
 
   Future<void> addCompletionForToday({Function onCompletionGoalReached}) async {
-    List<int> _yearWeekDayIndexList = _getYearWeekDayIndexList();
+    final List<int> _yearWeekDayIndexList = _getYearWeekDayIndexList();
     print("addCompletionForToday : $_yearWeekDayIndexList");
 
     if (_yearWeekDayIndexList == null) return;
 
-    int _yearIndex = _yearWeekDayIndexList[0];
-    int _calendarWeekIndex = _yearWeekDayIndexList[1];
-    int _trackedDayIndex = _yearWeekDayIndexList[2];
+    final int _yearIndex = _yearWeekDayIndexList[0];
+    final int _calendarWeekIndex = _yearWeekDayIndexList[1];
+    final int _trackedDayIndex = _yearWeekDayIndexList[2];
 
     _updateCompletionStreak();
 
@@ -253,7 +255,7 @@ class Habit {
 
   Future<void> _checkRelatedNotificationForRescheduling(
       int completionStep) async {
-    NotificationObject _relatedNotification =
+    final NotificationObject _relatedNotification =
         _identifyStepRelatedNotification(completionStep);
 
     if (_relatedNotification == null) return;
@@ -310,8 +312,8 @@ class Habit {
   }
 
   List getCompletionDataForTimeSpan(TimeSpan timeSpan) {
-    int year = DateUtilities.today.year;
-    int currentYearIndex = trackedCompletions.trackedYears
+    final int year = DateUtilities.today.year;
+    final int currentYearIndex = trackedCompletions.trackedYears
         .indexWhere((element) => element.yearCount == year);
     int lastYearIndex = trackedCompletions.trackedYears
         .indexWhere((element) => element.yearCount == year - 1);
@@ -319,14 +321,15 @@ class Habit {
 
     switch (timeSpan) {
       case TimeSpan.WEEK:
-        int _currentCalendarWeek = DateUtilities.currentCalendarWeek;
-        CalendarWeek _currentWeekObject =
+        final int _currentCalendarWeek = DateUtilities.currentCalendarWeek;
+        final CalendarWeek _currentWeekObject =
             _getCalendarWeekObject(currentYearIndex, _currentCalendarWeek);
-        List<TrackedDay> _dayList = _currentWeekObject.trackedDays;
+        final List<TrackedDay> _dayList = _currentWeekObject.trackedDays;
 
         if (_dayList.length < 7) {
           List<TrackedDay> _filledUpList = [];
-          List<int> thisWeeksDates = DateUtilities.getCurrentWeeksDateList();
+          final List<int> thisWeeksDates =
+              DateUtilities.getCurrentWeeksDateList();
 
           for (var i = 0; i < thisWeeksDates.length; i++) {
             TrackedDay _day = _dayList.firstWhere(
@@ -345,7 +348,7 @@ class Habit {
 
       case TimeSpan.MONTH:
         List<CalendarWeek> lastFourCalendarWeekObjects = [];
-        List<int> lastFourCalendarWeekNumbers =
+        final List<int> lastFourCalendarWeekNumbers =
             DateUtilities.getLastFourCalendarWeeks();
         final int _lastWeek = DateUtilities.currentCalendarWeek - 1;
 
@@ -355,11 +358,11 @@ class Habit {
               lastFourCalendarWeekNumbers[i] > _lastWeek;
 
           if (_isWeekOfLastYear) {
-            CalendarWeek week = _getCalendarWeekObject(
+            final CalendarWeek week = _getCalendarWeekObject(
                 lastYearIndex, lastFourCalendarWeekNumbers[i]);
             lastFourCalendarWeekObjects.add(week);
           } else {
-            CalendarWeek week = _getCalendarWeekObject(
+            final CalendarWeek week = _getCalendarWeekObject(
                 currentYearIndex, lastFourCalendarWeekNumbers[i]);
             lastFourCalendarWeekObjects.add(week);
           }
@@ -375,7 +378,7 @@ class Habit {
   }
 
   CalendarWeek _getCalendarWeekObject(int yearIndex, int weekNumber) {
-    CalendarWeek _calendarWeekObject =
+    final CalendarWeek _calendarWeekObject =
         trackedCompletions.trackedYears[yearIndex].calendarWeeks.firstWhere(
       (element) => element.weekNumber == weekNumber,
       orElse: () => CalendarWeek(

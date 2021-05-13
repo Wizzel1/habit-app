@@ -48,9 +48,9 @@ void callbackDispatcher() {
 }
 
 bool _isLaterThanObjectsSchedule(tz.TZDateTime now, NotificationObject object) {
-  bool _isLaterWeekday = now.weekday != object.weekDay;
-  bool _isLaterHour = now.hour > object.hour;
-  bool _isLaterMinutes = now.minute > object.minutes;
+  final bool _isLaterWeekday = now.weekday != object.weekDay;
+  final bool _isLaterHour = now.hour > object.hour;
+  final bool _isLaterMinutes = now.minute > object.minutes;
   if (_isLaterWeekday) return true;
   print("isLaterWeekday : $_isLaterWeekday");
   if (_isLaterHour) return true;
@@ -69,7 +69,7 @@ Future<void> _configureLocalTimeZone() async {
 Future<List<NotificationObject>> _loadSharedSkippedNotifications() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  List<String> _encodedObjects =
+  final List<String> _encodedObjects =
       prefs.getStringList("reschedulingNotifications");
 
   if (_encodedObjects == null) {
@@ -77,7 +77,7 @@ Future<List<NotificationObject>> _loadSharedSkippedNotifications() async {
     return null;
   }
 
-  List<dynamic> _decodedObjects =
+  final List<dynamic> _decodedObjects =
       _encodedObjects.map((e) => jsonDecode(e)).toList();
 
   if (_decodedObjects == null) {
@@ -85,7 +85,7 @@ Future<List<NotificationObject>> _loadSharedSkippedNotifications() async {
     return null;
   }
 
-  List<NotificationObject> _notificationObjects =
+  final List<NotificationObject> _notificationObjects =
       _decodedObjects.map((e) => NotificationObject.fromJson(e)).toList();
   print("returning ${_notificationObjects.length} objects");
 

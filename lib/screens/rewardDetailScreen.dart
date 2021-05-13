@@ -26,7 +26,6 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
 
   final Completer _screenBuiltCompleter = Completer();
   final int _mainScreenAnimationDuration = 200;
-  final TutorialController _tutorialController = Get.find<TutorialController>();
   final EditContentController _editContentController =
       Get.find<EditContentController>();
 

@@ -11,7 +11,7 @@ class TutorialController extends GetxController {
   List<TargetFocus> targets = [];
   ThemeData _themeData;
   AutoScrollController tutorialHabitDetailScrollController;
-  Duration scrollDuration = const Duration(milliseconds: 500);
+  final Duration scrollDuration = const Duration(milliseconds: 500);
 
   //true after the welcome screen has been closed
   bool hasSeenWelcomeScreen = false;
@@ -109,7 +109,7 @@ class TutorialController extends GetxController {
   void _showWelcomeScreen(BuildContext context) async {
     if (hasSeenWelcomeScreen) return;
 
-    bool wantToWatchTutorial = await Get.to(() => WelcomeScreen());
+    final bool wantToWatchTutorial = await Get.to(() => WelcomeScreen());
 
     hasSeenWelcomeScreen = true;
 

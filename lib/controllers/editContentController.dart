@@ -132,21 +132,21 @@ class EditContentController extends GetxController {
     if (newSchedule.isEmpty) return;
     if (newCompletionGoal.value == 0) return;
 
-    bool _hasChangedTitle = habitToUpdate.title != titleController.text;
-    bool _hasChangedSchedule =
+    final bool _hasChangedTitle = habitToUpdate.title != titleController.text;
+    final bool _hasChangedSchedule =
         !listEquals(habitToUpdate.scheduledWeekDays, newSchedule);
-    bool _hasChangedCompletionGoal =
+    final bool _hasChangedCompletionGoal =
         habitToUpdate.completionGoal != newCompletionGoal.value;
 
-    bool _needsPartialNotificationUpdate = (_hasChangedCompletionGoal ||
+    final bool _needsPartialNotificationUpdate = (_hasChangedCompletionGoal ||
         _hasChangedSchedule ||
         hasChangedNotificationTimes);
-    bool _needsCompleteNotificationUpdate = _hasChangedTitle;
+    final bool _needsCompleteNotificationUpdate = _hasChangedTitle;
 
     if (!_needsCompleteNotificationUpdate && !_needsPartialNotificationUpdate)
       return;
 
-    List<NotificationObject> _newObjects =
+    final List<NotificationObject> _newObjects =
         NotificationObject.createNotificationObjects(
             prefix: habitToUpdate.notificationIDprefix,
             scheduledDays: newSchedule,
@@ -175,7 +175,6 @@ class EditContentController extends GetxController {
 
   // //TODO improve this method
   // bool isValidOrShowSnackbar(dynamic dynamicData) {
-  //   //TODO prevent data saving
   //   if (dynamicData == null) return false;
 
   //   if (dynamicData is String) {

@@ -16,10 +16,10 @@ class LocalStorageService {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    List<Map<String, dynamic>> _decodedJsonList =
+    final List<Map<String, dynamic>> _decodedJsonList =
         allHabits.map((e) => e.toJson()).toList();
 
-    List<String> _encodedJsonList =
+    final List<String> _encodedJsonList =
         _decodedJsonList.map((e) => jsonEncode(e)).toList();
 
     await prefs.setStringList(habitsKey, _encodedJsonList);
@@ -28,15 +28,15 @@ class LocalStorageService {
   static Future<List<Habit>> loadHabits() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    List<String> _encodedJsonList = prefs.getStringList(habitsKey);
+    final List<String> _encodedJsonList = prefs.getStringList(habitsKey);
 
     if (_encodedJsonList == null) return [];
 
-    List<Map<String, dynamic>> _decodedJsonList = _encodedJsonList
+    final List<Map<String, dynamic>> _decodedJsonList = _encodedJsonList
         .map((e) => jsonDecode(e) as Map<String, dynamic>)
         .toList();
 
-    List<Habit> _habits =
+    final List<Habit> _habits =
         _decodedJsonList.map((e) => Habit.fromJson(e)).toList();
 
     return _habits;
@@ -48,10 +48,10 @@ class LocalStorageService {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    List<Map<String, dynamic>> _decodedJsonList =
+    final List<Map<String, dynamic>> _decodedJsonList =
         allRewards.map((e) => e.toJson()).toList();
 
-    List<String> _encodedJsonList =
+    final List<String> _encodedJsonList =
         _decodedJsonList.map((e) => jsonEncode(e)).toList();
 
     await prefs.setStringList(rewardsKey, _encodedJsonList);
@@ -60,15 +60,15 @@ class LocalStorageService {
   static Future<List<Reward>> loadRewards() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    List<String> _encodedJsonList = prefs.getStringList(rewardsKey);
+    final List<String> _encodedJsonList = prefs.getStringList(rewardsKey);
 
     if (_encodedJsonList == null) return [];
 
-    List<Map<String, dynamic>> _decodedJsonList = _encodedJsonList
+    final List<Map<String, dynamic>> _decodedJsonList = _encodedJsonList
         .map((e) => jsonDecode(e) as Map<String, dynamic>)
         .toList();
 
-    List<Reward> _rewardList =
+    final List<Reward> _rewardList =
         _decodedJsonList.map((e) => Reward.fromJson(e)).toList();
 
     return _rewardList;
@@ -88,7 +88,7 @@ class LocalStorageService {
     if (name == null) return false;
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool _value = prefs.getBool(name);
+    final bool _value = prefs.getBool(name);
 
     if (_value == null) return false;
     return _value;
@@ -97,7 +97,7 @@ class LocalStorageService {
   static Future<int> loadLatestNotificationIDprefix() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    int _value = prefs.getInt(latestPrefixKey);
+    final int _value = prefs.getInt(latestPrefixKey);
 
     if (_value == null) return 1;
 
@@ -119,9 +119,9 @@ class LocalStorageService {
     assert(object != null, "Object must not be null");
     if (object == null) return;
 
-    String _encodedObject = jsonEncode(object.toJson());
+    final String _encodedObject = jsonEncode(object.toJson());
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     List<String> _encodedObjects =
         prefs.getStringList(reschedulingNotificationsKey);
