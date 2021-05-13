@@ -314,7 +314,6 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
         show: true,
         bottomTitles: SideTitles(
           showTitles: true,
-          //TODO change textstyle
           getTextStyles: (value) =>
               Theme.of(context).textTheme.caption.copyWith(color: kDeepOrange),
           margin: 16,

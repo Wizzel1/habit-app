@@ -9,7 +9,6 @@ class NotificationTimesController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
     selectedHours = List<int>.generate(
             ContentController.maxDailyCompletions, (_) => 12,
             growable: false)
