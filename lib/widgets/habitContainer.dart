@@ -146,6 +146,8 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
                                         ? Neumorphic(
                                             style:
                                                 kInactiveNeumorphStyle.copyWith(
+                                              intensity: 0.9,
+                                              depth: 2,
                                               boxShape:
                                                   NeumorphicBoxShape.roundRect(
                                                       BorderRadius.circular(3)),
@@ -158,6 +160,8 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
                                         : Neumorphic(
                                             style:
                                                 kActiveNeumorphStyle.copyWith(
+                                              intensity: 0.9,
+                                              depth: -2,
                                               boxShape:
                                                   NeumorphicBoxShape.roundRect(
                                                       BorderRadius.circular(3)),
@@ -269,6 +273,8 @@ class AllHabitContainer extends StatelessWidget {
                               child: habit.scheduledWeekDays.contains(index + 1)
                                   ? Neumorphic(
                                       style: kActiveNeumorphStyle.copyWith(
+                                          intensity: 0.9,
+                                          depth: -2,
                                           boxShape:
                                               NeumorphicBoxShape.roundRect(
                                                   BorderRadius.circular(3))),
@@ -291,6 +297,8 @@ class AllHabitContainer extends StatelessWidget {
                                     )
                                   : Neumorphic(
                                       style: kInactiveNeumorphStyle.copyWith(
+                                          intensity: 0.9,
+                                          depth: 2,
                                           boxShape:
                                               NeumorphicBoxShape.roundRect(
                                                   BorderRadius.circular(3))),
