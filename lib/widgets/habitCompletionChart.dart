@@ -24,7 +24,7 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
   final Color barBackgroundColor = kLightOrange;
   final Color barColor = kDeepOrange;
   final Color elementColor = kBackGroundWhite;
-  final Duration animDuration = const Duration(milliseconds: 250);
+  final Duration animDuration = const Duration(milliseconds: 100);
   int _touchedIndex;
   bool _isPlaying = false;
   double _maxBarValue = 0;
@@ -128,36 +128,38 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
           ),
           Expanded(
             flex: 3,
-            child: Neumorphic(
-              style: kInactiveNeumorphStyle,
-              child: Container(
-                child: Stack(
+            child: Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black.withOpacity(0.15),
+                      offset: const Offset(3, 3),
+                      blurRadius: 3)
+                ],
+                color: elementColor,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.max,
-                        children: <Widget>[
-                          const SizedBox(
-                            height: 12,
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: BarChart(
-                                mainBarData(),
-                                swapAnimationDuration: animDuration,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 12,
-                          ),
-                        ],
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: BarChart(
+                          mainBarData(),
+                          swapAnimationDuration: animDuration,
+                        ),
                       ),
+                    ),
+                    const SizedBox(
+                      height: 12,
                     ),
                   ],
                 ),
@@ -352,7 +354,7 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
     int _weeklyCompletionGoal =
         widget.habit.completionGoal * widget.habit.scheduledWeekDays.length;
     double _weeklyCompletionPercentage = (rod.y / _weeklyCompletionGoal) * 100;
-    //todo add translation
+    //TODO add translation
     return BarTooltipItem(
         'Week ' +
             weekNumber +
