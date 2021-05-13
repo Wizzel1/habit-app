@@ -808,7 +808,6 @@ class _ScheduleButtonState extends State<ScheduleButton> {
   @override
   Widget build(BuildContext context) {
     return NeumorphPressSwitch(
-      //TODO refactor
       onPressed: () {
         setState(() {
           isTapped = !isTapped;

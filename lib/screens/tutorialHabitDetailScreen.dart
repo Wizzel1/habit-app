@@ -612,7 +612,7 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
   }
 
   Widget _buildHabitDeleteButton() {
-    //TODO add key
+    //TODO add tutorial key
     return NeumorphPressSwitch(
       onPressed: () {},
       color: kLightRed,
