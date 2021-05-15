@@ -5,16 +5,13 @@ import 'package:Marbit/models/models.dart';
 import 'package:Marbit/widgets/widgets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:Marbit/screens/screens.dart';
 import 'package:Marbit/util/util.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:implicitly_animated_reorderable_list/transitions.dart';
-import 'dart:math' as math;
 
 const double offset = -0.15;
 
@@ -30,15 +27,17 @@ class HabitDetailScreen extends StatefulWidget {
 
 class _HabitDetailScreenState extends State<HabitDetailScreen>
     with TickerProviderStateMixin {
+  static const double _maxDepth = 4.0;
+  static const double _maxScale = 1.02;
+
   bool _isInEditMode = false;
   List<Reward> _joinedRewardList;
 
-  Animation<Offset> _titleOffset;
-  Animation<Offset> _descriptionOffset;
-  Animation<Offset> _scheduleOffset;
-  Animation<Offset> _goalStepperOffset;
-  List<Animation<Offset>> _rewardListOffsets = [];
-  AnimationController _editAnimController;
+  AnimationController _testController;
+  Animation<double> _positiveDepthAnimation;
+  Animation<double> _negativeDepthAnmation;
+  Animation<double> _positiveScaleAnimation;
+  Animation<double> _negativeScaleAnimation;
 
   final Completer _screenBuiltCompleter = Completer();
   final int _mainScreenAnimationDuration = 200;
@@ -49,133 +48,64 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
       Get.find<EditContentController>();
 
   void _initializeAnimations() {
-    _titleOffset = TweenSequence<Offset>([
+    _positiveDepthAnimation = TweenSequence([
       TweenSequenceItem(
-          tween: Tween<Offset>(
-              begin: const Offset(0, 0), end: const Offset(0.0, offset)),
-          weight: 10.0),
+          tween: Tween<double>(begin: 2.0, end: _maxDepth), weight: 1.0),
       TweenSequenceItem(
-          tween: Tween<Offset>(
-              begin: const Offset(0.0, offset), end: const Offset(0, 0)),
-          weight: 20.0),
-      TweenSequenceItem(
-          tween: Tween<Offset>(
-              begin: const Offset(0.0, 0.0), end: const Offset(0, 0)),
-          weight: 70.0)
-    ]).animate(
-      CurvedAnimation(
-        parent: _editAnimController,
-        curve: const Interval(
-          0.0,
-          0.4,
-          curve: Curves.ease,
-        ),
+          tween: Tween<double>(begin: _maxDepth, end: 2.0), weight: 1.0)
+    ]).animate(CurvedAnimation(
+      parent: _testController,
+      curve: const Interval(
+        0.0,
+        0.4,
+        curve: Curves.ease,
       ),
-    );
-
-    _descriptionOffset = TweenSequence<Offset>([
+    ));
+    _negativeDepthAnmation = TweenSequence([
       TweenSequenceItem(
-          tween: Tween<Offset>(
-              begin: const Offset(0, 0), end: const Offset(0.0, offset)),
-          weight: 10.0),
+          tween: Tween<double>(begin: -2.0, end: -_maxDepth), weight: 1.0),
       TweenSequenceItem(
-          tween: Tween<Offset>(
-              begin: const Offset(0.0, offset), end: const Offset(0, 0)),
-          weight: 20.0),
-      TweenSequenceItem(
-          tween: Tween<Offset>(
-              begin: const Offset(0.0, 0.0), end: const Offset(0, 0)),
-          weight: 70.0)
-    ]).animate(
-      CurvedAnimation(
-        parent: _editAnimController,
-        curve: const Interval(
-          0.05,
-          0.45,
-          curve: Curves.ease,
-        ),
+          tween: Tween<double>(begin: -_maxDepth, end: -2.0), weight: 1.0)
+    ]).animate(CurvedAnimation(
+      parent: _testController,
+      curve: const Interval(
+        0.0,
+        0.4,
+        curve: Curves.ease,
       ),
-    );
-
-    _scheduleOffset = TweenSequence<Offset>([
+    ));
+    _positiveScaleAnimation = TweenSequence([
       TweenSequenceItem(
-          tween: Tween<Offset>(
-              begin: const Offset(0, 0), end: const Offset(0.0, offset)),
-          weight: 10.0),
+          tween: Tween<double>(begin: 1.0, end: _maxScale), weight: 1.0),
       TweenSequenceItem(
-          tween: Tween<Offset>(
-              begin: const Offset(0.0, offset), end: const Offset(0, 0)),
-          weight: 20.0),
-      TweenSequenceItem(
-          tween: Tween<Offset>(
-              begin: const Offset(0.0, 0.0), end: const Offset(0, 0)),
-          weight: 70.0)
-    ]).animate(
-      CurvedAnimation(
-        parent: _editAnimController,
-        curve: Interval(
-          0.1,
-          0.5,
-          curve: Curves.ease,
-        ),
+          tween: Tween<double>(begin: _maxScale, end: 1.0), weight: 1.0),
+    ]).animate(CurvedAnimation(
+      parent: _testController,
+      curve: const Interval(
+        0.0,
+        0.4,
+        curve: Curves.ease,
       ),
-    );
+    ));
 
-    _goalStepperOffset = TweenSequence<Offset>([
+    _negativeScaleAnimation = TweenSequence([
       TweenSequenceItem(
-          tween: Tween<Offset>(
-              begin: const Offset(0, 0), end: const Offset(0.0, offset)),
-          weight: 10.0),
+          tween: Tween<double>(begin: 1.0, end: 1.0), weight: 1.0),
       TweenSequenceItem(
-          tween: Tween<Offset>(
-              begin: const Offset(0.0, offset), end: const Offset(0, 0)),
-          weight: 20.0),
-      TweenSequenceItem(
-          tween: Tween<Offset>(
-              begin: const Offset(0.0, 0.0), end: const Offset(0, 0)),
-          weight: 70.0)
-    ]).animate(
-      CurvedAnimation(
-        parent: _editAnimController,
-        curve: Interval(
-          0.15,
-          0.55,
-          curve: Curves.ease,
-        ),
+          tween: Tween<double>(begin: 1.0, end: 1.0), weight: 1.0),
+    ]).animate(CurvedAnimation(
+      parent: _testController,
+      curve: const Interval(
+        0.0,
+        0.4,
+        curve: Curves.ease,
       ),
-    );
-
-    for (var i = 0; i < _contentController.allRewardList.length; i++) {
-      var animation = TweenSequence<Offset>([
-        TweenSequenceItem(
-            tween: Tween<Offset>(
-                begin: const Offset(0, 0), end: const Offset(0.0, offset)),
-            weight: 10.0),
-        TweenSequenceItem(
-            tween: Tween<Offset>(
-                begin: const Offset(0.0, offset), end: const Offset(0, 0)),
-            weight: 20.0),
-        TweenSequenceItem(
-            tween: Tween<Offset>(
-                begin: const Offset(0.0, 0.0), end: const Offset(0, 0)),
-            weight: 70.0)
-      ]).animate(
-        CurvedAnimation(
-          parent: _editAnimController,
-          curve: Interval(
-            0.2 + (i / 25),
-            0.6 + (i / 25),
-            curve: Curves.ease,
-          ),
-        ),
-      );
-      _rewardListOffsets.add(animation);
-    }
+    ));
   }
 
   @override
   void initState() {
-    _editAnimController = AnimationController(vsync: this);
+    _testController = AnimationController(vsync: this);
     _filterOutDeletedRewardReferences();
     _editContentController.loadHabitValues(widget.habit);
     _setJoinedRewardList();
@@ -201,7 +131,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
 
   @override
   void dispose() {
-    _editAnimController.dispose();
+    _testController.dispose();
     Get.delete<NotificationTimesController>();
     Get.delete<EditContentController>();
     super.dispose();
@@ -237,9 +167,9 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   }
 
   Future<void> _toggleEditingAnimation() async {
-    _editAnimController.isAnimating
-        ? _editAnimController.reset()
-        : _editAnimController.repeat(period: const Duration(seconds: 3));
+    _testController.isAnimating
+        ? _testController.reset()
+        : _testController.repeat(period: const Duration(seconds: 2));
   }
 
   Widget _buildNextCompletiondateText() {
@@ -281,33 +211,31 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                       ),
                     ),
                     children: [
-                      const SizedBox(height: 30),
                       _buildTitleTextField(),
-                      _buildDescriptionTextField(),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 50),
                       _buildScheduleRow(),
                       //_buildNextCompletiondateText(),
+                      const SizedBox(height: 50),
+                      _buildCompletionGoalStepper(),
+                      const SizedBox(height: 30),
+                      _buildScheduledTimesRow(),
                       const SizedBox(height: 30),
                       Center(
                         child: _buildEditButton(
                           onPressed: () {
                             if (_isInEditMode) {
                               FocusScope.of(context).unfocus();
-
                               _editContentController
                                   .updateHabit(widget.habit.id);
 
                               _setJoinedRewardList();
                             }
+
                             _toggleEditingAnimation();
                           },
                         ),
                       ),
-                      const SizedBox(height: 30),
-                      _buildCompletionGoalStepper(),
-                      const SizedBox(height: 30),
-                      _buildScheduledTimesRow(),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 50),
                       AnimatedContainer(
                         height: _isInEditMode
                             ? (_contentController.allRewardList.length * 90.0)
@@ -319,7 +247,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                         child: _buildImplicitList(),
                       ),
                       AdController.getLargeBannerAd(context),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 50),
                       Container(
                         height: 300,
                         child: HabitCompletionChart(
@@ -328,6 +256,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                       ),
                       const SizedBox(height: 50),
                       Center(child: _buildHabitDeleteButton()),
+                      const SizedBox(height: 50),
                     ],
                   ),
                 ),
@@ -342,31 +271,22 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   Widget _buildTitleTextField() {
     return GetBuilder<EditContentController>(
       builder: (EditContentController controller) {
-        return AnimatedBuilder(
-          animation: _titleOffset,
-          builder: (context, child) {
-            return SlideTransition(
-              position: _titleOffset,
-              child: child,
-            );
-          },
-          child: Material(
-            type: MaterialType.transparency,
-            child: IgnorePointer(
-              ignoring: !_isInEditMode,
-              child: TextField(
-                controller: controller.titleController,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline3
-                    .copyWith(color: kBackGroundWhite),
-                decoration: InputDecoration(
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: _isInEditMode
-                      ? const UnderlineInputBorder(
-                          borderSide: BorderSide(color: kBackGroundWhite))
-                      : InputBorder.none,
-                ),
+        return Material(
+          type: MaterialType.transparency,
+          child: IgnorePointer(
+            ignoring: !_isInEditMode,
+            child: TextField(
+              controller: controller.titleController,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline3
+                  .copyWith(color: kBackGroundWhite),
+              decoration: InputDecoration(
+                focusedBorder: InputBorder.none,
+                enabledBorder: _isInEditMode
+                    ? const UnderlineInputBorder(
+                        borderSide: BorderSide(color: kBackGroundWhite))
+                    : InputBorder.none,
               ),
             ),
           ),
@@ -378,31 +298,22 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   Widget _buildDescriptionTextField() {
     return GetBuilder<EditContentController>(
       builder: (EditContentController controller) {
-        return AnimatedBuilder(
-          animation: _descriptionOffset,
-          builder: (context, child) {
-            return SlideTransition(
-              position: _descriptionOffset,
-              child: child,
-            );
-          },
-          child: Material(
-            type: MaterialType.transparency,
-            child: IgnorePointer(
-              ignoring: !_isInEditMode,
-              child: TextField(
-                controller: controller.descriptionController,
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle1
-                    .copyWith(color: kBackGroundWhite, fontSize: 22),
-                decoration: InputDecoration(
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: _isInEditMode
-                      ? const UnderlineInputBorder(
-                          borderSide: BorderSide(color: kBackGroundWhite))
-                      : InputBorder.none,
-                ),
+        return Material(
+          type: MaterialType.transparency,
+          child: IgnorePointer(
+            ignoring: !_isInEditMode,
+            child: TextField(
+              controller: controller.descriptionController,
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle1
+                  .copyWith(color: kBackGroundWhite, fontSize: 22),
+              decoration: InputDecoration(
+                focusedBorder: InputBorder.none,
+                enabledBorder: _isInEditMode
+                    ? const UnderlineInputBorder(
+                        borderSide: BorderSide(color: kBackGroundWhite))
+                    : InputBorder.none,
               ),
             ),
           ),
@@ -416,60 +327,63 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         const Spacer(),
-        AnimatedBuilder(
-          animation: _goalStepperOffset,
-          builder: (BuildContext context, Widget child) {
-            return SlideTransition(
-              position: _goalStepperOffset,
-              child: child,
-            );
-          },
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 200),
-            child: _isInEditMode
-                ? NeumorphPressSwitch(
-                    onPressed: () {
-                      if (_editContentController.newCompletionGoal <= 1) return;
-                      _editContentController.newCompletionGoal.value--;
-                    },
-                    child: Icon(
-                      Icons.remove,
-                      color: Theme.of(context).accentColor,
-                    ),
-                  )
-                : const SizedBox.shrink(),
-          ),
+        AnimatedSwitcher(
+          duration: const Duration(milliseconds: 200),
+          child: _isInEditMode
+              ? AnimatedBuilder(
+                  animation: _positiveDepthAnimation,
+                  builder: (BuildContext context, Widget child) {
+                    return CustomNeumorphButton(
+                      onPressed: () {
+                        if (_editContentController.newCompletionGoal <= 1)
+                          return;
+                        _editContentController.newCompletionGoal.value--;
+                      },
+                      style: kInactiveNeumorphStyle.copyWith(
+                          depth: _positiveDepthAnimation.value),
+                      child: Icon(Icons.remove,
+                          color: Theme.of(context).accentColor),
+                    );
+                  })
+              : const SizedBox.shrink(),
         ),
         Expanded(
-          flex: 2,
-          child: Obx(() => Text(
-                "${_editContentController.newCompletionGoal}",
-                style: Theme.of(context).textTheme.headline3.copyWith(),
+          flex: 3,
+          child: Column(
+            children: [
+              Obx(() => Text(
+                    "${_editContentController.newCompletionGoal}",
+                    style: Theme.of(context).textTheme.headline3.copyWith(),
+                    textAlign: TextAlign.center,
+                  )),
+              //TODO translate
+              Text(
+                "per Day",
+                style: Theme.of(context).textTheme.caption,
                 textAlign: TextAlign.center,
-              )),
-        ),
-        AnimatedBuilder(
-          animation: _goalStepperOffset,
-          builder: (BuildContext context, Widget child) {
-            return SlideTransition(
-              position: _goalStepperOffset,
-              child: child,
-            );
-          },
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 200),
-            child: _isInEditMode
-                ? NeumorphPressSwitch(
-                    onPressed: () {
-                      if (_editContentController.newCompletionGoal >=
-                          ContentController.maxDailyCompletions) return;
-                      _editContentController.newCompletionGoal.value++;
-                    },
-                    child:
-                        Icon(Icons.add, color: Theme.of(context).accentColor),
-                  )
-                : const SizedBox.shrink(),
+              ),
+            ],
           ),
+        ),
+        AnimatedSwitcher(
+          duration: const Duration(milliseconds: 200),
+          child: _isInEditMode
+              ? AnimatedBuilder(
+                  animation: _positiveDepthAnimation,
+                  builder: (BuildContext context, Widget child) {
+                    return CustomNeumorphButton(
+                      onPressed: () {
+                        if (_editContentController.newCompletionGoal >=
+                            ContentController.maxDailyCompletions) return;
+                        _editContentController.newCompletionGoal.value++;
+                      },
+                      style: kInactiveNeumorphStyle.copyWith(
+                          depth: _positiveDepthAnimation.value),
+                      child:
+                          Icon(Icons.add, color: Theme.of(context).accentColor),
+                    );
+                  })
+              : const SizedBox.shrink(),
         ),
         const Spacer(),
       ],
@@ -505,80 +419,90 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   Widget _buildScheduledTimesRow() {
     return Obx(
       () => Wrap(
-        alignment: WrapAlignment.center,
-        spacing: ((MediaQuery.of(context).size.width - 40) - (7 * 40)) / 8,
-        children: [
-          ...List.generate(
-            _editContentController.newCompletionGoal.value,
-            (index) => CustomNeumorphButton(
-              width: 40,
-              height: 60,
-              onPressed: () async {
-                _notificationTimesController.setControllerValues(index);
-                Get.defaultDialog(
-                  barrierDismissible: false,
-                  content: DialogContent(index: index),
-                );
-              },
-              child: Obx(
-                () => Text(
-                    "${_notificationTimesController.selectedHours[index]} \n${_notificationTimesController.selectedMinutes[index].toString().padLeft(2, "0")}",
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .button
-                        .copyWith(color: kDeepOrange)),
-              ),
-            ),
+        spacing: ((MediaQuery.of(context).size.width - 40) - (280)) / 7,
+        children: List.generate(
+          _editContentController.newCompletionGoal.value,
+          (index) => AnimatedBuilder(
+            animation: _testController,
+            builder: (BuildContext context, Widget child) {
+              return ScaleTransition(
+                scale: _positiveScaleAnimation,
+                child: CustomNeumorphButton(
+                  width: 40,
+                  height: 60,
+                  style: kInactiveNeumorphStyle.copyWith(
+                      depth: _positiveDepthAnimation.value),
+                  onPressed: () async {
+                    if (!_isInEditMode) return;
+                    _notificationTimesController.setControllerValues(index);
+                    Get.defaultDialog(
+                      barrierDismissible: false,
+                      content: DialogContent(index: index),
+                    );
+                  },
+                  child: Obx(
+                    () => Text(
+                        "${_notificationTimesController.selectedHours[index]} \n${_notificationTimesController.selectedMinutes[index].toString().padLeft(2, "0")}",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context)
+                            .textTheme
+                            .button
+                            .copyWith(color: kDeepOrange)),
+                  ),
+                ),
+              );
+            },
           ),
-        ],
+        ),
       ),
     );
   }
 
   Widget _buildScheduleRow() {
-    return Obx(() => AnimatedBuilder(
-          animation: _scheduleOffset,
-          builder: (BuildContext context, Widget child) {
-            return SlideTransition(
-              position: _scheduleOffset,
-              child: child,
-            );
-          },
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: List.generate(
-              7,
-              (index) => NeumorphPressSwitch(
-                onPressed: () {
-                  if (!_isInEditMode) return;
-                  int weekDayIndex = index + 1;
-                  if (_editContentController.newSchedule
-                      .contains(weekDayIndex)) {
-                    _editContentController.newSchedule.remove(weekDayIndex);
-                  } else {
-                    _editContentController.newSchedule.add(weekDayIndex);
-                  }
-                  _editContentController.newSchedule.sort();
-                },
-                height: 60,
-                width: 40,
-                color: _editContentController.newSchedule.contains(index + 1)
-                    ? Color(widget.habit.habitColors["deep"])
-                    : kBackGroundWhite,
-                inPressedState:
-                    _editContentController.newSchedule.contains(index + 1),
-                child: Text(
-                  dayNames[index],
-                  style: Theme.of(context).textTheme.button.copyWith(
-                        fontSize: 12,
-                        color: _editContentController.newSchedule
-                                .contains(index + 1)
-                            ? kBackGroundWhite
-                            : Color(widget.habit.habitColors["deep"]),
-                      ),
-                ),
-              ),
+    return Obx(() => Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: List.generate(
+            7,
+            (index) => AnimatedBuilder(
+              animation: _positiveDepthAnimation,
+              builder: (BuildContext context, Widget child) {
+                int _weekDayIndex = index + 1;
+                bool _isActiveWeekDay =
+                    _editContentController.newSchedule.contains(_weekDayIndex);
+                return ScaleTransition(
+                  scale: _isActiveWeekDay
+                      ? _negativeScaleAnimation
+                      : _positiveScaleAnimation,
+                  child: NeumorphPressSwitch(
+                    onPressed: () {
+                      if (!_isInEditMode) return;
+                      if (_isActiveWeekDay) {
+                        _editContentController.newSchedule
+                            .remove(_weekDayIndex);
+                      } else {
+                        _editContentController.newSchedule.add(_weekDayIndex);
+                      }
+                      _editContentController.newSchedule.sort();
+                    },
+                    height: 60,
+                    width: 40,
+                    style: _isActiveWeekDay
+                        ? kActiveNeumorphStyle.copyWith(
+                            depth: _negativeDepthAnmation.value)
+                        : kInactiveNeumorphStyle.copyWith(
+                            depth: _positiveDepthAnimation.value),
+                    child: Text(
+                      dayNames[index],
+                      style: Theme.of(context).textTheme.button.copyWith(
+                            fontSize: 12,
+                            color: _isActiveWeekDay
+                                ? kBackGroundWhite
+                                : Color(widget.habit.habitColors["deep"]),
+                          ),
+                    ),
+                  ),
+                );
+              },
             ),
           ),
         ));
@@ -596,42 +520,42 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
       itemBuilder: (context, animation, reward, index) {
         // Specifiy a transition to be used by the ImplicitlyAnimatedList.
         // See the Transitions section on how to import this transition.
-
         return SizeFadeTransition(
           sizeFraction: 0.7,
           curve: Curves.easeInOut,
           animation: animation,
           child: AnimatedBuilder(
-            animation: _rewardListOffsets[index],
+            animation: _testController,
             builder: (BuildContext context, Widget child) {
-              return SlideTransition(
-                position: _rewardListOffsets[index],
-                child: child,
+              bool isSelected = (_editContentController.newRewardReferences
+                  .any((element) => element == reward.id));
+              return ScaleTransition(
+                scale: isSelected
+                    ? _negativeScaleAnimation
+                    : _positiveScaleAnimation,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: Obx(
+                    () {
+                      return SelectableRewardContainer(
+                        reward: reward,
+                        isSelectedReward: isSelected,
+                        onTap: () {
+                          if (!_isInEditMode) return;
+                          _editContentController.newRewardReferences
+                                  .contains(reward.id)
+                              ? _editContentController.newRewardReferences
+                                  .remove(reward.id)
+                              : _editContentController.newRewardReferences
+                                  .add(reward.id);
+                          _setJoinedRewardList();
+                        },
+                      );
+                    },
+                  ),
+                ),
               );
             },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: Obx(
-                () {
-                  bool isSelected = (_editContentController.newRewardReferences
-                      .any((element) => element == reward.id));
-                  return SelectableRewardContainer(
-                    reward: reward,
-                    isSelectedReward: isSelected,
-                    onTap: () {
-                      if (!_isInEditMode) return;
-                      _editContentController.newRewardReferences
-                              .contains(reward.id)
-                          ? _editContentController.newRewardReferences
-                              .remove(reward.id)
-                          : _editContentController.newRewardReferences
-                              .add(reward.id);
-                      _setJoinedRewardList();
-                    },
-                  );
-                },
-              ),
-            ),
           ),
         );
       },

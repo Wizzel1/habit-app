@@ -538,9 +538,9 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
               },
               height: 60,
               width: 40,
-              color: _editContentController.newSchedule.contains(index + 1)
-                  ? Color(widget.habit.habitColors["deep"])
-                  : kBackGroundWhite,
+              style: _editContentController.newSchedule.contains(index + 1)
+                  ? kActiveNeumorphStyle
+                  : kInactiveNeumorphStyle,
               child: Text(
                 dayNames[index],
                 style: Theme.of(context).textTheme.button.copyWith(
@@ -615,7 +615,7 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
     //TODO add tutorial key
     return NeumorphPressSwitch(
       onPressed: () {},
-      color: kLightRed,
+      style: kInactiveNeumorphStyle.copyWith(color: kLightRed),
       child: Text(
         'delete_habit'.tr,
         style: Theme.of(context).textTheme.button.copyWith(

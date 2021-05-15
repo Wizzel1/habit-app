@@ -6,6 +6,7 @@ import 'package:Marbit/widgets/widgets.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:get/get.dart';
 
@@ -51,8 +52,9 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
               _updateData();
             });
           },
-          color: _timeSpan == TimeSpan.WEEK ? kDeepOrange : kBackGroundWhite,
-          inPressedState: _timeSpan == TimeSpan.WEEK,
+          style: _timeSpan == TimeSpan.WEEK
+              ? kActiveNeumorphStyle
+              : kInactiveNeumorphStyle,
           child: Text(
             'this_week'.tr,
             style: Theme.of(context).textTheme.button.copyWith(
@@ -70,8 +72,9 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
               _updateData();
             });
           },
-          color: _timeSpan == TimeSpan.MONTH ? kDeepOrange : kBackGroundWhite,
-          inPressedState: _timeSpan == TimeSpan.MONTH,
+          style: _timeSpan == TimeSpan.MONTH
+              ? kActiveNeumorphStyle
+              : kInactiveNeumorphStyle,
           child: Text(
             'last_four_weeks'.tr,
             style: Theme.of(context).textTheme.button.copyWith(

@@ -172,12 +172,10 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                                   true;
                             },
                             height: 50,
-                            color:
+                            style:
                                 _createItemController.isSelfRemovingReward.value
-                                    ? kDeepOrange
-                                    : kBackGroundWhite,
-                            inPressedState: _createItemController
-                                .isSelfRemovingReward.value,
+                                    ? kActiveNeumorphStyle
+                                    : kInactiveNeumorphStyle,
                             child: Text(
                               'one_time'.tr,
                               style: Theme.of(context)
@@ -201,12 +199,10 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                                 false;
                           },
                           height: 50,
-                          color:
+                          style:
                               _createItemController.isSelfRemovingReward.value
-                                  ? kBackGroundWhite
-                                  : kDeepOrange,
-                          inPressedState:
-                              !_createItemController.isSelfRemovingReward.value,
+                                  ? kInactiveNeumorphStyle
+                                  : kActiveNeumorphStyle,
                           child: Text(
                             'regular'.tr,
                             style: Theme.of(context).textTheme.button.copyWith(
@@ -576,7 +572,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Expanded(
-                      flex: 10,
+                      flex: 4,
                       child: Obx(
                         () => NeumorphPressSwitch(
                           onPressed: () {
@@ -584,11 +580,9 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                                 true;
                           },
                           height: 50,
-                          color: _createItemController.activeNotifications.value
-                              ? kDeepOrange
-                              : kBackGroundWhite,
-                          inPressedState:
-                              _createItemController.activeNotifications.value,
+                          style: _createItemController.activeNotifications.value
+                              ? kActiveNeumorphStyle
+                              : kInactiveNeumorphStyle,
                           child: Text(
                             //TODO translate
                             'notifications_active',
@@ -602,7 +596,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                       )),
                   const Spacer(),
                   Expanded(
-                    flex: 10,
+                    flex: 4,
                     child: Obx(
                       () => NeumorphPressSwitch(
                         onPressed: () {
@@ -610,11 +604,9 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                               false;
                         },
                         height: 50,
-                        color: _createItemController.activeNotifications.value
-                            ? kBackGroundWhite
-                            : kDeepOrange,
-                        inPressedState:
-                            !_createItemController.activeNotifications.value,
+                        style: _createItemController.activeNotifications.value
+                            ? kInactiveNeumorphStyle
+                            : kActiveNeumorphStyle,
                         child: Text(
                           //TODO translate
                           'notifications_inactive',
@@ -630,6 +622,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                   ),
                 ],
               ),
+              const SizedBox(height: 30),
               Expanded(
                 child: Wrap(
                   alignment: WrapAlignment.center,
@@ -859,8 +852,7 @@ class _ScheduleButtonState extends State<ScheduleButton> {
       },
       height: 60,
       width: 40,
-      inPressedState: isTapped,
-      color: isTapped ? kDeepOrange : kBackGroundWhite,
+      style: isTapped ? kActiveNeumorphStyle : kInactiveNeumorphStyle,
       child: Text(
         dayNames[widget.index],
         style: Theme.of(context).textTheme.button.copyWith(

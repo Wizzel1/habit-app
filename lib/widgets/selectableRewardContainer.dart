@@ -30,8 +30,9 @@ class _SelectableRewardContainerState extends State<SelectableRewardContainer> {
       },
       height: 70,
       width: double.infinity,
-      inPressedState: widget.isSelectedReward,
-      color: widget.isSelectedReward ? kDeepOrange : kBackGroundWhite,
+      style: widget.isSelectedReward
+          ? kActiveNeumorphStyle
+          : kInactiveNeumorphStyle,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
         child: Row(

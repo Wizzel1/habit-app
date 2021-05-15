@@ -33,8 +33,8 @@ const kLightSource = LightSource.topLeft;
 
 const NeumorphicStyle kInactiveNeumorphStyle = NeumorphicStyle(
   lightSource: kLightSource,
-  depth: 3.0,
-  intensity: 0.85,
+  depth: 2.0,
+  intensity: 1,
   shadowLightColor: Colors.transparent,
   shadowLightColorEmboss: Colors.transparent,
   color: kBackGroundWhite,
@@ -43,8 +43,8 @@ const NeumorphicStyle kInactiveNeumorphStyle = NeumorphicStyle(
 
 const NeumorphicStyle kActiveNeumorphStyle = NeumorphicStyle(
   lightSource: kLightSource,
-  depth: -3.0,
-  intensity: 0.85,
+  depth: -2.0,
+  intensity: 1,
   shadowLightColor: Colors.transparent,
   shadowLightColorEmboss: Colors.transparent,
   color: kDeepOrange,

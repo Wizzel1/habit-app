@@ -320,7 +320,8 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                           },
                           height: 56,
                           width: 56,
-                          color: Colors.green[400],
+                          style: kInactiveNeumorphStyle.copyWith(
+                              color: Colors.green[400]),
                           child: Icon(
                             FontAwesomeIcons.check,
                             color: Colors.white,

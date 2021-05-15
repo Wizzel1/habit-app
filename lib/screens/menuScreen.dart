@@ -136,8 +136,7 @@ class MenuItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return NeumorphPressSwitch(
         width: 100,
-        color: backGroundColor,
-        inPressedState: isActive,
+        style: isActive ? kActiveNeumorphStyle : kInactiveNeumorphStyle,
         onPressed: onTap,
         child: Text(
           title,

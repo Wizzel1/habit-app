@@ -195,10 +195,9 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
                 _editContentController.isSelfRemoving.value = true;
               },
               height: 50,
-              inPressedState: _editContentController.isSelfRemoving.value,
-              color: _editContentController.isSelfRemoving.value
-                  ? kDeepOrange
-                  : kBackGroundWhite,
+              style: _editContentController.isSelfRemoving.value
+                  ? kActiveNeumorphStyle
+                  : kInactiveNeumorphStyle,
               child: Text(
                 'one_time'.tr,
                 style: Theme.of(context).textTheme.button.copyWith(
@@ -217,10 +216,9 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
                 _editContentController.isSelfRemoving.value = false;
               },
               height: 50,
-              inPressedState: !_editContentController.isSelfRemoving.value,
-              color: _editContentController.isSelfRemoving.value
-                  ? kBackGroundWhite
-                  : kDeepOrange,
+              style: _editContentController.isSelfRemoving.value
+                  ? kInactiveNeumorphStyle
+                  : kActiveNeumorphStyle,
               child: Text(
                 'regular'.tr,
                 style: Theme.of(context).textTheme.button.copyWith(
@@ -332,7 +330,7 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
         Get.back();
         Get.find<ContentController>().deleteReward(widget.reward);
       },
-      color: kLightRed,
+      style: kInactiveNeumorphStyle.copyWith(color: kLightRed),
       child: Text(
         'delete_reward'.tr,
         style: Theme.of(context).textTheme.button.copyWith(

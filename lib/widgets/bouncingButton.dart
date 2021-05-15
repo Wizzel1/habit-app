@@ -8,21 +8,19 @@ import '../util/constants.dart';
 class NeumorphPressSwitch extends StatefulWidget {
   final VoidCallback onPressed;
   final Widget child;
-  final Color color;
   final double height;
   final double width;
+  final NeumorphicStyle style;
   final double borderRadius;
-  final bool inPressedState;
 
   const NeumorphPressSwitch({
     Key key,
     @required this.onPressed,
     @required this.child,
-    this.color = kBackGroundWhite,
     this.height = 40,
     this.width = 100,
+    this.style,
     this.borderRadius = 8,
-    this.inPressedState = false,
   }) : super(key: key);
 
   @override
@@ -40,11 +38,7 @@ class _NeumorphPressSwitchState extends State<NeumorphPressSwitch> {
       },
       onPointerUp: (PointerUpEvent event) async {},
       child: Neumorphic(
-        style: kInactiveNeumorphStyle.copyWith(
-            color: widget.color,
-            depth: widget.inPressedState ? -2.0 : 2.0,
-            boxShape: NeumorphicBoxShape.roundRect(
-                BorderRadius.circular(widget.borderRadius))),
+        style: widget.style,
         child: Container(
           height: widget.height,
           width: widget.width,
@@ -64,6 +58,7 @@ class CustomNeumorphButton extends StatefulWidget {
   final double width;
   final double borderRadius;
   final Color color;
+  final NeumorphicStyle style;
 
   CustomNeumorphButton(
       {Key key,
@@ -72,7 +67,8 @@ class CustomNeumorphButton extends StatefulWidget {
       this.height = 40,
       this.width = 100,
       this.borderRadius = 8,
-      this.color = kBackGroundWhite})
+      this.color = kBackGroundWhite,
+      this.style = kInactiveNeumorphStyle})
       : super(key: key);
   @override
   _CustomNeumorphButtonState createState() => _CustomNeumorphButtonState();
@@ -85,7 +81,7 @@ class _CustomNeumorphButtonState extends State<CustomNeumorphButton> {
       duration: const Duration(milliseconds: 1),
       padding: EdgeInsets.zero,
       onPressed: widget.onPressed,
-      style: kInactiveNeumorphStyle.copyWith(
+      style: widget.style.copyWith(
           color: widget.color,
           boxShape: NeumorphicBoxShape.roundRect(
               BorderRadius.circular(widget.borderRadius))),
