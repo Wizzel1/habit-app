@@ -371,9 +371,8 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
                     style: Theme.of(context).textTheme.headline3.copyWith(),
                     textAlign: TextAlign.center,
                   )),
-              //TODO translate
               Text(
-                "per Day",
+                'per_day'.tr,
                 style: Theme.of(context).textTheme.caption,
                 textAlign: TextAlign.center,
               ),
@@ -538,7 +537,6 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
       itemBuilder: (context, animation, reward, index) {
         // Specifiy a transition to be used by the ImplicitlyAnimatedList.
         // See the Transitions section on how to import this transition.
-
         return SizeFadeTransition(
           sizeFraction: 0.7,
           curve: Curves.easeInOut,
@@ -554,22 +552,18 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
                     : _positiveScaleAnimation,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: Obx(
-                    () {
-                      return SelectableRewardContainer(
-                        reward: reward,
-                        isSelectedReward: isSelected,
-                        onTap: () {
-                          if (!_isInEditMode) return;
-                          _editContentController.newRewardReferences
-                                  .contains(reward.id)
-                              ? _editContentController.newRewardReferences
-                                  .remove(reward.id)
-                              : _editContentController.newRewardReferences
-                                  .add(reward.id);
-                          _setJoinedTutorialRewardList();
-                        },
-                      );
+                  child: SelectableRewardContainer(
+                    reward: reward,
+                    isSelectedReward: isSelected,
+                    onTap: () {
+                      if (!_isInEditMode) return;
+                      _editContentController.newRewardReferences
+                              .contains(reward.id)
+                          ? _editContentController.newRewardReferences
+                              .remove(reward.id)
+                          : _editContentController.newRewardReferences
+                              .add(reward.id);
+                      _setJoinedTutorialRewardList();
                     },
                   ),
                 ),

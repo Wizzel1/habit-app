@@ -584,8 +584,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                               ? kActiveNeumorphStyle
                               : kInactiveNeumorphStyle,
                           child: Text(
-                            //TODO translate
-                            'notifications_active',
+                            'notifications_active'.tr,
                             style: Theme.of(context).textTheme.button.copyWith(
                                 color: _createItemController
                                         .activeNotifications.value
@@ -608,8 +607,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                             ? kInactiveNeumorphStyle
                             : kActiveNeumorphStyle,
                         child: Text(
-                          //TODO translate
-                          'notifications_inactive',
+                          'notifications_inactive'.tr,
                           style: Theme.of(context).textTheme.button.copyWith(
                                 color: _createItemController
                                         .activeNotifications.value
