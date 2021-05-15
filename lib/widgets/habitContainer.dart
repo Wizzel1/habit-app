@@ -111,12 +111,12 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
                 await _buttonAnimController.forward();
                 await 200.milliseconds.delay();
                 widget.isTutorialContainer
-                    ? await Get.to(() => HabitDetailScreen(
+                    ? await Get.to(() => TutorialHabitDetailScreen(
+                          habit: ContentController.tutorialHabit,
+                        ))
+                    : await Get.to(() => HabitDetailScreen(
                           habit: widget.habit,
                           alterHeroTag: false,
-                        ))
-                    : await Get.to(() => TutorialHabitDetailScreen(
-                          habit: widget.habit,
                         ));
                 await 200.milliseconds.delay();
                 await _buttonAnimController.reverse();
@@ -151,119 +151,80 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
                                     ),
                               ),
                             ),
-                            widget.isTutorialContainer
-                                ? widget._tutorialController
-                                        .hasFinishedDetailScreenStep
-                                    ? Container(
-                                        key: widget._tutorialController
-                                            .completionRowKey,
-                                        height: 20.0,
-                                        width:
-                                            widget.habit.completionGoal * 20.0,
-                                        child: ListView.builder(
-                                          scrollDirection: Axis.horizontal,
-                                          physics:
-                                              NeverScrollableScrollPhysics(),
-                                          shrinkWrap: true,
-                                          itemCount:
-                                              widget.habit.completionGoal,
-                                          itemBuilder: (BuildContext context,
-                                              int index) {
-                                            return Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 2.0,
-                                                      vertical: 2.0),
-                                              child: index >=
-                                                      _todaysHabitCompletions
-                                                  ? Neumorphic(
-                                                      style:
-                                                          kInactiveNeumorphStyle
-                                                              .copyWith(
-                                                        intensity: 0.9,
-                                                        depth: 2,
-                                                        boxShape:
-                                                            NeumorphicBoxShape
-                                                                .roundRect(
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            3)),
-                                                      ),
-                                                      child: Container(
-                                                        width: 15,
-                                                        height: 15,
-                                                      ),
-                                                    )
-                                                  : Neumorphic(
-                                                      style:
-                                                          kActiveNeumorphStyle
-                                                              .copyWith(
-                                                        intensity: 0.9,
-                                                        depth: -2,
-                                                        boxShape:
-                                                            NeumorphicBoxShape
-                                                                .roundRect(
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            3)),
-                                                      ),
-                                                      child: Container(
-                                                        width: 15,
-                                                        height: 15,
-                                                      ),
-                                                    ),
-                                            );
-                                          },
-                                        ),
-                                      )
-                                    : const SizedBox(height: 20)
-                                : Container(
-                                    height: 20.0,
-                                    width: widget.habit.completionGoal * 20.0,
-                                    child: ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      shrinkWrap: true,
-                                      itemCount: widget.habit.completionGoal,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 2.0, vertical: 2.0),
-                                          child: index >=
-                                                  _todaysHabitCompletions
-                                              ? Neumorphic(
-                                                  style: kInactiveNeumorphStyle
-                                                      .copyWith(
-                                                    intensity: 0.9,
-                                                    depth: 2,
-                                                    boxShape: NeumorphicBoxShape
-                                                        .roundRect(BorderRadius
-                                                            .circular(3)),
-                                                  ),
-                                                  child: Container(
-                                                    width: 15,
-                                                    height: 15,
-                                                  ),
-                                                )
-                                              : Neumorphic(
-                                                  style: kActiveNeumorphStyle
-                                                      .copyWith(
-                                                    intensity: 0.9,
-                                                    depth: -2,
-                                                    boxShape: NeumorphicBoxShape
-                                                        .roundRect(BorderRadius
-                                                            .circular(3)),
-                                                  ),
-                                                  child: Container(
-                                                    width: 15,
-                                                    height: 15,
-                                                  ),
-                                                ),
-                                        );
-                                      },
-                                    ),
-                                  ),
+                            widget._tutorialController
+                                    .hasFinishedDetailScreenStep
+                                ? CompletionContainer(
+                                    completionGoal: widget.habit.completionGoal,
+                                    todaysCompletions: _todaysHabitCompletions,
+                                    key: widget.isTutorialContainer
+                                        ? widget._tutorialController
+                                            .completionRowKey
+                                        : null,
+                                  )
+
+                                //  Container(
+                                //     key: widget._tutorialController
+                                //         .completionRowKey,
+                                //     height: 20.0,
+                                //     width:
+                                //         widget.habit.completionGoal * 20.0,
+                                //     child: ListView.builder(
+                                //       scrollDirection: Axis.horizontal,
+                                //       physics:
+                                //           NeverScrollableScrollPhysics(),
+                                //       shrinkWrap: true,
+                                //       itemCount:
+                                //           widget.habit.completionGoal,
+                                //       itemBuilder: (BuildContext context,
+                                //           int index) {
+                                //         return Padding(
+                                //           padding:
+                                //               const EdgeInsets.symmetric(
+                                //                   horizontal: 2.0,
+                                //                   vertical: 2.0),
+                                //           child: index >=
+                                //                   _todaysHabitCompletions
+                                //               ? Neumorphic(
+                                //                   style:
+                                //                       kInactiveNeumorphStyle
+                                //                           .copyWith(
+                                //                     intensity: 0.9,
+                                //                     depth: 2,
+                                //                     boxShape:
+                                //                         NeumorphicBoxShape
+                                //                             .roundRect(
+                                //                                 BorderRadius
+                                //                                     .circular(
+                                //                                         3)),
+                                //                   ),
+                                //                   child: Container(
+                                //                     width: 15,
+                                //                     height: 15,
+                                //                   ),
+                                //                 )
+                                //               : Neumorphic(
+                                //                   style:
+                                //                       kActiveNeumorphStyle
+                                //                           .copyWith(
+                                //                     intensity: 0.9,
+                                //                     depth: -2,
+                                //                     boxShape:
+                                //                         NeumorphicBoxShape
+                                //                             .roundRect(
+                                //                                 BorderRadius
+                                //                                     .circular(
+                                //                                         3)),
+                                //                   ),
+                                //                   child: Container(
+                                //                     width: 15,
+                                //                     height: 15,
+                                //                   ),
+                                //                 ),
+                                //         );
+                                //       },
+                                //     ),
+                                //   )
+                                : const SizedBox(height: 20)
                           ],
                         ),
                       ],
@@ -274,65 +235,117 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
             ),
           ),
           Positioned(
-            top: 17,
-            right: 20,
-            child: widget.isTutorialContainer
-                ? widget._tutorialController.hasFinishedDetailScreenStep
-                    ? AnimatedBuilder(
-                        animation: _buttonAnimController,
-                        builder: (BuildContext context, Widget child) {
-                          return NeumorphicButton(
-                            onPressed: () {
-                              widget.onPressed();
-                            },
-                            key: widget._tutorialController.completeButtonKey,
-                            minDistance: 0.0,
-                            style: kInactiveNeumorphStyle.copyWith(
-                                depth: _pressAnimation.value,
-                                color: _colorTween.value),
-                            padding: EdgeInsets.zero,
-                            child: Container(
-                              height: 56,
-                              width: 56,
-                              child: Icon(
-                                FontAwesomeIcons.check,
-                                // Icons.check_rounded,
-                                size: 25,
-                                color: kLightOrange,
-                              ),
-                            ),
-                          );
-                        },
-                      )
-                    : const SizedBox.shrink()
-                : AnimatedBuilder(
-                    animation: _buttonAnimController,
-                    builder: (BuildContext context, Widget child) {
-                      return NeumorphicButton(
-                        onPressed: () {
-                          widget.onPressed();
-                        },
-                        key: widget._tutorialController.completeButtonKey,
-                        minDistance: 0.0,
-                        style: kInactiveNeumorphStyle.copyWith(
-                            depth: _pressAnimation.value,
-                            color: _colorTween.value),
-                        padding: EdgeInsets.zero,
-                        child: Container(
-                          height: 56,
-                          width: 56,
-                          child: Icon(
-                            FontAwesomeIcons.check,
-                            // Icons.check_rounded,
-                            size: 25,
-                            color: kLightOrange,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-          )
+              top: 17,
+              right: 20,
+              child: widget._tutorialController.hasFinishedDetailScreenStep
+                  ? AnimatedCompleteButton(
+                      colorTween: _colorTween,
+                      pressAnimation: _pressAnimation,
+                      onPressed: widget.onPressed,
+                      key: widget.isTutorialContainer
+                          ? widget._tutorialController.completeButtonKey
+                          : null,
+                      buttonAnimController: _buttonAnimController,
+                    )
+                  : const SizedBox.shrink())
         ],
+      ),
+    );
+  }
+}
+
+class AnimatedCompleteButton extends StatelessWidget {
+  final AnimationController buttonAnimController;
+  final Function onPressed;
+  final Animation<double> pressAnimation;
+  final Animation<Color> colorTween;
+  final Key tutorialKey;
+
+  const AnimatedCompleteButton(
+      {Key key,
+      this.buttonAnimController,
+      this.onPressed,
+      this.pressAnimation,
+      this.colorTween,
+      this.tutorialKey})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: buttonAnimController,
+      builder: (BuildContext context, Widget child) {
+        return NeumorphicButton(
+          onPressed: onPressed,
+          key: tutorialKey,
+          minDistance: 0.0,
+          style: kInactiveNeumorphStyle.copyWith(
+              depth: pressAnimation.value, color: colorTween.value),
+          padding: EdgeInsets.zero,
+          child: Container(
+            height: 56,
+            width: 56,
+            child: Icon(
+              FontAwesomeIcons.check,
+              // Icons.check_rounded,
+              size: 25,
+              color: kLightOrange,
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class CompletionContainer extends StatelessWidget {
+  final int completionGoal;
+  final int todaysCompletions;
+
+  const CompletionContainer(
+      {Key key, this.completionGoal, this.todaysCompletions})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 20.0,
+      width: completionGoal * 20.0,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: completionGoal,
+        itemBuilder: (BuildContext context, int index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 2.0),
+            child: index >= todaysCompletions
+                ? Neumorphic(
+                    style: kInactiveNeumorphStyle.copyWith(
+                      intensity: 0.9,
+                      depth: 2,
+                      boxShape: NeumorphicBoxShape.roundRect(
+                          BorderRadius.circular(3)),
+                    ),
+                    child: Container(
+                      width: 15,
+                      height: 15,
+                    ),
+                  )
+                : Neumorphic(
+                    style: kActiveNeumorphStyle.copyWith(
+                      intensity: 0.9,
+                      depth: -2,
+                      boxShape: NeumorphicBoxShape.roundRect(
+                          BorderRadius.circular(3)),
+                    ),
+                    child: Container(
+                      width: 15,
+                      height: 15,
+                    ),
+                  ),
+          );
+        },
       ),
     );
   }

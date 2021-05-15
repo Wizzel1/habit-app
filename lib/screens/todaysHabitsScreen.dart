@@ -86,6 +86,8 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
                                   verticalOffset: 50.0,
                                   child: FadeInAnimation(
                                     child: CompletableHabitContainer(
+                                      onDetailScreenPopped: () {},
+                                      isTutorialContainer: false,
                                       habit: tappedHabit,
                                       onPressed: () async {
                                         await tappedHabit.addCompletionForToday(
