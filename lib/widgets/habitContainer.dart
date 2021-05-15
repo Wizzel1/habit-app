@@ -161,69 +161,6 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
                                             .completionRowKey
                                         : null,
                                   )
-
-                                //  Container(
-                                //     key: widget._tutorialController
-                                //         .completionRowKey,
-                                //     height: 20.0,
-                                //     width:
-                                //         widget.habit.completionGoal * 20.0,
-                                //     child: ListView.builder(
-                                //       scrollDirection: Axis.horizontal,
-                                //       physics:
-                                //           NeverScrollableScrollPhysics(),
-                                //       shrinkWrap: true,
-                                //       itemCount:
-                                //           widget.habit.completionGoal,
-                                //       itemBuilder: (BuildContext context,
-                                //           int index) {
-                                //         return Padding(
-                                //           padding:
-                                //               const EdgeInsets.symmetric(
-                                //                   horizontal: 2.0,
-                                //                   vertical: 2.0),
-                                //           child: index >=
-                                //                   _todaysHabitCompletions
-                                //               ? Neumorphic(
-                                //                   style:
-                                //                       kInactiveNeumorphStyle
-                                //                           .copyWith(
-                                //                     intensity: 0.9,
-                                //                     depth: 2,
-                                //                     boxShape:
-                                //                         NeumorphicBoxShape
-                                //                             .roundRect(
-                                //                                 BorderRadius
-                                //                                     .circular(
-                                //                                         3)),
-                                //                   ),
-                                //                   child: Container(
-                                //                     width: 15,
-                                //                     height: 15,
-                                //                   ),
-                                //                 )
-                                //               : Neumorphic(
-                                //                   style:
-                                //                       kActiveNeumorphStyle
-                                //                           .copyWith(
-                                //                     intensity: 0.9,
-                                //                     depth: -2,
-                                //                     boxShape:
-                                //                         NeumorphicBoxShape
-                                //                             .roundRect(
-                                //                                 BorderRadius
-                                //                                     .circular(
-                                //                                         3)),
-                                //                   ),
-                                //                   child: Container(
-                                //                     width: 15,
-                                //                     height: 15,
-                                //                   ),
-                                //                 ),
-                                //         );
-                                //       },
-                                //     ),
-                                //   )
                                 : const SizedBox(height: 20)
                           ],
                         ),
