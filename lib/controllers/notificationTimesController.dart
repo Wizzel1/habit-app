@@ -58,8 +58,8 @@ class NotificationTimesController extends GetxController {
   }
 
   void _showWarningSnackBar() {
-    //TODO translate
-    SnackBars.showWarningSnackBar('invalid_time_title', 'invalid_time_message');
+    SnackBars.showWarningSnackBar(
+        'invalid_time_title'.tr, 'invalid_time_message'.tr);
   }
 
   void _setMinMaxTimes(int changeIndex) {

@@ -16,6 +16,8 @@ class Messages extends Translations {
           'no_rewards_warning_message': 'You have no saved Rewards',
           'habit_deleted_message': 'Your Habit was deleted',
           'reward_deleted_message': 'Your Reward was deleted',
+          'invalid_time_title': '',
+          'invalid_time_message': '',
           //example habit
           'example_title': 'Example',
           'example_description': 'This is an Example.',
@@ -143,6 +145,8 @@ class Messages extends Translations {
               'Es wurden keine Belohnungen gespeichert',
           'habit_deleted_message': 'Deine Gewohnheit wurde gelöscht',
           'reward_deleted_message': 'Deine Belohnung wurde gelöscht',
+          'invalid_time_title': '',
+          'invalid_time_message': '',
           //example habit
           'example_title': 'Beispiel',
           'example_description': 'Beispiel',
