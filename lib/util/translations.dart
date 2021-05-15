@@ -94,6 +94,7 @@ class Messages extends Translations {
           //Habit detail screen
           'save_habit': 'Save Habit',
           'edit_habit': 'Edit Habit',
+          'per_day': 'per Day',
           'delete_habit': 'Delete Habit',
           //Reward detail screen
           'save_reward': 'Save Reward',
@@ -222,6 +223,7 @@ class Messages extends Translations {
           //Habit detail screen
           'save_habit': 'Speichern',
           'edit_habit': 'Bearbeiten',
+          'per_day': 'pro Tag',
           'delete_habit': 'Löschen',
           //Reward detail screen
           'save_reward': 'Speichern',
