@@ -17,6 +17,7 @@ const double offset = -0.15;
 
 class HabitDetailScreen extends StatefulWidget {
   final Habit habit;
+
   final bool alterHeroTag;
   const HabitDetailScreen({Key key, this.habit, this.alterHeroTag})
       : super(key: key);
