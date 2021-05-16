@@ -12,14 +12,16 @@ import 'package:Marbit/screens/screens.dart';
 import 'package:Marbit/util/util.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:implicitly_animated_reorderable_list/transitions.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 const double offset = -0.15;
 
 class HabitDetailScreen extends StatefulWidget {
   final Habit habit;
-
+  final bool isTutorialScreen;
   final bool alterHeroTag;
-  const HabitDetailScreen({Key key, this.habit, this.alterHeroTag})
+  const HabitDetailScreen(
+      {Key key, this.habit, this.alterHeroTag, this.isTutorialScreen})
       : super(key: key);
 
   @override
@@ -43,6 +45,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   final Completer _screenBuiltCompleter = Completer();
   final int _mainScreenAnimationDuration = 200;
   final ContentController _contentController = Get.find<ContentController>();
+  final TutorialController _tutorialController = Get.find<TutorialController>();
   final NotificationTimesController _notificationTimesController =
       Get.find<NotificationTimesController>();
   final EditContentController _editContentController =
@@ -107,10 +110,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   @override
   void initState() {
     _testController = AnimationController(vsync: this);
-    _filterOutDeletedRewardReferences();
-    _editContentController.loadHabitValues(widget.habit);
-    _setJoinedRewardList();
-    Get.find<AdController>().showInterstitialAd();
+    widget.isTutorialScreen ? _setupTutorialScreen() : _setupRegularScreen();
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
@@ -121,13 +121,25 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
 
             (_mainScreenAnimationDuration + 100).milliseconds.delay().then(
               (value) {
-                setState(() {});
+                _tutorialController.resumeToLatestTutorialStep(context);
               },
             );
           },
         );
       },
     );
+  }
+
+  void _setupTutorialScreen() {
+    _editContentController.loadHabitValues(widget.habit);
+    _setJoinedTutorialRewardList();
+  }
+
+  void _setupRegularScreen() {
+    _filterOutDeletedRewardReferences();
+    _editContentController.loadHabitValues(widget.habit);
+    _setJoinedRewardList();
+    Get.find<AdController>().showInterstitialAd();
   }
 
   @override
@@ -167,6 +179,28 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
     });
   }
 
+  void _setJoinedTutorialRewardList() {
+    List<String> _selectedRewardIDs =
+        _editContentController.cachedRewardReferences;
+    List<Reward> _selectedRewards =
+        _contentController.getTutorialRewardListByID(_selectedRewardIDs);
+    List<Reward> _exampleRewards = ContentController.exampleRewards;
+    List<Reward> _joinedRewards = [];
+    _joinedRewards.addAll(_selectedRewards);
+
+    for (var i = 0; i < _exampleRewards.length; i++) {
+      Reward _reward = _exampleRewards[i];
+      if (_joinedRewards.any((element) => element.id == _reward.id)) {
+        continue;
+      }
+      _joinedRewards.add(_reward);
+    }
+
+    setState(() {
+      _joinedRewardList = _joinedRewards;
+    });
+  }
+
   Future<void> _toggleEditingAnimation() async {
     _testController.isAnimating
         ? _testController.reset()
@@ -181,90 +215,126 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   Widget build(BuildContext context) {
     return Hero(
       tag: widget.alterHeroTag ? "all${widget.habit.id}" : widget.habit.id,
-      child: Scaffold(
-        backgroundColor: Color(
-          widget.habit.habitColors["light"],
-        ),
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-        ),
-        body: FutureBuilder(
-          future: _screenBuiltCompleter.future,
-          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting)
-              return const SizedBox.shrink();
-            return SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: AnimationConfiguration.toStaggeredList(
-                    duration:
-                        Duration(milliseconds: _mainScreenAnimationDuration),
-                    childAnimationBuilder: (widget) => SlideAnimation(
-                      verticalOffset: 50.0,
-                      child: FadeInAnimation(
-                        child: widget,
+      child: GetBuilder(
+        id: TutorialController.habitDetailBuilderID,
+        builder: (TutorialController controller) {
+          return IgnorePointer(
+            ignoring: !_tutorialController.hasFinishedDetailScreenStep,
+            child: Scaffold(
+              backgroundColor: Color(
+                widget.habit.habitColors["light"],
+              ),
+              appBar: AppBar(
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+              ),
+              body: FutureBuilder(
+                future: _screenBuiltCompleter.future,
+                builder:
+                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting)
+                    return const SizedBox.shrink();
+                  return SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: AnimationConfiguration.toStaggeredList(
+                          duration: Duration(
+                              milliseconds: _mainScreenAnimationDuration),
+                          childAnimationBuilder: (widget) => SlideAnimation(
+                            verticalOffset: 50.0,
+                            child: FadeInAnimation(
+                              child: widget,
+                            ),
+                          ),
+                          children: [
+                            _buildTitleTextField(),
+                            const SizedBox(height: 50),
+                            _buildScheduleRow(),
+                            //_buildNextCompletiondateText(),
+                            const SizedBox(height: 50),
+                            _buildCompletionGoalStepper(),
+                            const SizedBox(height: 30),
+                            _buildScheduledTimesRow(),
+                            const SizedBox(height: 50),
+                            Center(
+                              child: AutoScrollTag(
+                                index: 3,
+                                controller: _tutorialController
+                                    .tutorialHabitDetailScrollController,
+                                key: ValueKey(3),
+                                child: _buildEditButton(
+                                  onPressed: () {
+                                    if (_isInEditMode) {
+                                      FocusScope.of(context).unfocus();
+                                      if (widget.isTutorialScreen) {
+                                        _setJoinedTutorialRewardList();
+                                        return;
+                                      }
+                                      _editContentController
+                                          .updateHabit(widget.habit.id);
+                                      _setJoinedRewardList();
+                                    }
+
+                                    _toggleEditingAnimation();
+                                  },
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 50),
+                            AutoScrollTag(
+                              index: 1,
+                              controller: _tutorialController
+                                  .tutorialHabitDetailScrollController,
+                              key: ValueKey(1),
+                              child: AnimatedContainer(
+                                height: _isInEditMode
+                                    ? (_contentController.allRewardList.length *
+                                        90.0)
+                                    : (_editContentController
+                                            .cachedRewardReferences.length *
+                                        90.0),
+                                duration: Duration(milliseconds: 800),
+                                curve: Curves.easeOutQuint,
+                                child: _buildImplicitList(),
+                              ),
+                            ),
+                            widget.isTutorialScreen
+                                ? const SizedBox.shrink()
+                                : AdController.getLargeBannerAd(context),
+                            const SizedBox(height: 50),
+                            AutoScrollTag(
+                              index: 2,
+                              controller: _tutorialController
+                                  .tutorialHabitDetailScrollController,
+                              key: ValueKey(2),
+                              child: Container(
+                                height: 300,
+                                child: HabitCompletionChart(
+                                  key: widget.isTutorialScreen
+                                      ? _tutorialController.statisticsElementKey
+                                      : null,
+                                  habit: widget.habit,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 50),
+                            Center(child: _buildHabitDeleteButton()),
+                            const SizedBox(height: 50),
+                          ],
+                        ),
                       ),
                     ),
-                    children: [
-                      _buildTitleTextField(),
-                      const SizedBox(height: 50),
-                      _buildScheduleRow(),
-                      //_buildNextCompletiondateText(),
-                      const SizedBox(height: 50),
-                      _buildCompletionGoalStepper(),
-                      const SizedBox(height: 30),
-                      _buildScheduledTimesRow(),
-                      const SizedBox(height: 50),
-                      Center(
-                        child: _buildEditButton(
-                          onPressed: () {
-                            if (_isInEditMode) {
-                              FocusScope.of(context).unfocus();
-                              _editContentController
-                                  .updateHabit(widget.habit.id);
-
-                              _setJoinedRewardList();
-                            }
-
-                            _toggleEditingAnimation();
-                          },
-                        ),
-                      ),
-                      const SizedBox(height: 50),
-                      AnimatedContainer(
-                        height: _isInEditMode
-                            ? (_contentController.allRewardList.length * 90.0)
-                            : (_editContentController
-                                    .cachedRewardReferences.length *
-                                90.0),
-                        duration: Duration(milliseconds: 800),
-                        curve: Curves.easeOutQuint,
-                        child: _buildImplicitList(),
-                      ),
-                      AdController.getLargeBannerAd(context),
-                      const SizedBox(height: 50),
-                      Container(
-                        height: 300,
-                        child: HabitCompletionChart(
-                          habit: widget.habit,
-                        ),
-                      ),
-                      const SizedBox(height: 50),
-                      Center(child: _buildHabitDeleteButton()),
-                      const SizedBox(height: 50),
-                    ],
-                  ),
-                ),
+                  );
+                },
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -282,33 +352,6 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                   .textTheme
                   .headline3
                   .copyWith(color: kBackGroundWhite),
-              decoration: InputDecoration(
-                focusedBorder: InputBorder.none,
-                enabledBorder: _isInEditMode
-                    ? const UnderlineInputBorder(
-                        borderSide: BorderSide(color: kBackGroundWhite))
-                    : InputBorder.none,
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildDescriptionTextField() {
-    return GetBuilder<EditContentController>(
-      builder: (EditContentController controller) {
-        return Material(
-          type: MaterialType.transparency,
-          child: IgnorePointer(
-            ignoring: !_isInEditMode,
-            child: TextField(
-              controller: controller.descriptionController,
-              style: Theme.of(context)
-                  .textTheme
-                  .subtitle1
-                  .copyWith(color: kBackGroundWhite, fontSize: 22),
               decoration: InputDecoration(
                 focusedBorder: InputBorder.none,
                 enabledBorder: _isInEditMode
@@ -413,6 +456,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
         });
       },
       style: _isInEditMode ? kActiveNeumorphStyle : kInactiveNeumorphStyle,
+      key: widget.isTutorialScreen ? _tutorialController.editButtonKey : null,
       child: _isInEditMode
           ? Text(
               'save_habit'.tr,
@@ -503,6 +547,9 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
 
   Widget _buildScheduleRow() {
     return Obx(() => Row(
+          key: widget.isTutorialScreen
+              ? _tutorialController.scheduleRowKey
+              : null,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: List.generate(
             7,
@@ -565,6 +612,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
     return ImplicitlyAnimatedList<Reward>(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
+      key: widget.isTutorialScreen ? _tutorialController.rewardListKey : null,
       removeDuration: const Duration(milliseconds: 200),
       insertDuration: const Duration(milliseconds: 500),
       updateDuration: const Duration(milliseconds: 200),
@@ -611,7 +659,9 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                           .remove(reward.id)
                       : _editContentController.cachedRewardReferences
                           .add(reward.id);
-                  _setJoinedRewardList();
+                  widget.isTutorialScreen
+                      ? _setJoinedTutorialRewardList()
+                      : _setJoinedRewardList();
                 },
               ),
             );
