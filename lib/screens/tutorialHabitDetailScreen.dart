@@ -140,7 +140,7 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
 
   void _setJoinedTutorialRewardList() {
     List<String> _selectedRewardIDs =
-        _editContentController.newRewardReferences;
+        _editContentController.cachedRewardReferences;
     List<Reward> _selectedRewards =
         _contentController.getTutorialRewardListByID(_selectedRewardIDs);
     List<Reward> _exampleRewards = ContentController.exampleRewards;
@@ -245,7 +245,7 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
                                     ? (ContentController.exampleRewards.length *
                                         90.0)
                                     : (_editContentController
-                                            .newRewardReferences.length *
+                                            .cachedRewardReferences.length *
                                         90.0),
                                 duration: Duration(milliseconds: 800),
                                 curve: Curves.easeOutQuint,
@@ -350,9 +350,9 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
                   builder: (BuildContext context, Widget child) {
                     return CustomNeumorphButton(
                       onPressed: () {
-                        if (_editContentController.newCompletionGoal <= 1)
+                        if (_editContentController.cachedCompletionGoal <= 1)
                           return;
-                        _editContentController.newCompletionGoal.value--;
+                        _editContentController.cachedCompletionGoal.value--;
                       },
                       style: kInactiveNeumorphStyle.copyWith(
                           depth: _positiveDepthAnimation.value),
@@ -367,7 +367,7 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
           child: Column(
             children: [
               Obx(() => Text(
-                    "${_editContentController.newCompletionGoal}",
+                    "${_editContentController.cachedCompletionGoal}",
                     style: Theme.of(context).textTheme.headline3.copyWith(),
                     textAlign: TextAlign.center,
                   )),
@@ -387,9 +387,9 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
                   builder: (BuildContext context, Widget child) {
                     return CustomNeumorphButton(
                       onPressed: () {
-                        if (_editContentController.newCompletionGoal >=
+                        if (_editContentController.cachedCompletionGoal >=
                             ContentController.maxDailyCompletions) return;
-                        _editContentController.newCompletionGoal.value++;
+                        _editContentController.cachedCompletionGoal.value++;
                       },
                       style: kInactiveNeumorphStyle.copyWith(
                           depth: _positiveDepthAnimation.value),
@@ -437,7 +437,7 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
         key: _tutorialController.scheduleRowKey,
         spacing: ((MediaQuery.of(context).size.width - 40) - (280)) / 7,
         children: List.generate(
-          _editContentController.newCompletionGoal.value,
+          _editContentController.cachedCompletionGoal.value,
           (index) => AnimatedBuilder(
             animation: _testController,
             builder: (BuildContext context, Widget child) {
@@ -483,8 +483,8 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
               animation: _positiveDepthAnimation,
               builder: (BuildContext context, Widget child) {
                 int _weekDayIndex = index + 1;
-                bool _isActiveWeekDay =
-                    _editContentController.newSchedule.contains(_weekDayIndex);
+                bool _isActiveWeekDay = _editContentController.cachedSchedule
+                    .contains(_weekDayIndex);
                 return ScaleTransition(
                   scale: _isActiveWeekDay
                       ? _negativeScaleAnimation
@@ -493,12 +493,13 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
                     onPressed: () {
                       if (!_isInEditMode) return;
                       if (_isActiveWeekDay) {
-                        _editContentController.newSchedule
+                        _editContentController.cachedSchedule
                             .remove(_weekDayIndex);
                       } else {
-                        _editContentController.newSchedule.add(_weekDayIndex);
+                        _editContentController.cachedSchedule
+                            .add(_weekDayIndex);
                       }
-                      _editContentController.newSchedule.sort();
+                      _editContentController.cachedSchedule.sort();
                     },
                     height: 60,
                     width: 40,
@@ -544,7 +545,7 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
           child: AnimatedBuilder(
             animation: _testController,
             builder: (BuildContext context, Widget child) {
-              bool isSelected = (_editContentController.newRewardReferences
+              bool isSelected = (_editContentController.cachedRewardReferences
                   .any((element) => element == reward.id));
               return ScaleTransition(
                 scale: isSelected
@@ -557,11 +558,11 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
                     isSelectedReward: isSelected,
                     onTap: () {
                       if (!_isInEditMode) return;
-                      _editContentController.newRewardReferences
+                      _editContentController.cachedRewardReferences
                               .contains(reward.id)
-                          ? _editContentController.newRewardReferences
+                          ? _editContentController.cachedRewardReferences
                               .remove(reward.id)
-                          : _editContentController.newRewardReferences
+                          : _editContentController.cachedRewardReferences
                               .add(reward.id);
                       _setJoinedTutorialRewardList();
                     },

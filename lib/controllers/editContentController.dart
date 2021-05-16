@@ -13,12 +13,13 @@ class EditContentController extends GetxController {
   TextEditingController descriptionController;
   bool hasChangedNotificationTimes = false;
   Rx<bool> isSelfRemoving = false.obs;
-  Rx<int> newCompletionGoal = 0.obs;
-  RxList<int> newSchedule = List<int>.empty().obs;
-  RxList<String> newRewardReferences = List<String>.empty().obs;
-  Rx<DateTime> newCompletionDate = DateTime.now().obs;
-  RxList<NotificationObject> newNotificationObjects =
+  Rx<int> cachedCompletionGoal = 0.obs;
+  RxList<int> cachedSchedule = List<int>.empty().obs;
+  RxList<String> cachedRewardReferences = List<String>.empty().obs;
+  Rx<DateTime> cachedCompletionDate = DateTime.now().obs;
+  RxList<NotificationObject> cachedNotificationObjects =
       List<NotificationObject>.empty().obs;
+  RxList<int> activeNotifications = List<int>.empty().obs;
 
   @override
   void onInit() {
@@ -37,21 +38,23 @@ class EditContentController extends GetxController {
   void loadHabitValues(Habit habit) {
     titleController.text = habit.title;
     descriptionController.text = habit.description;
-    newCompletionGoal.value = habit.completionGoal;
+    cachedCompletionGoal.value = habit.completionGoal;
 
     for (var i = 0; i < habit.scheduledWeekDays.length; i++) {
-      newSchedule.add(habit.scheduledWeekDays[i]);
+      cachedSchedule.add(habit.scheduledWeekDays[i]);
     }
 
     for (var i = 0; i < habit.rewardIDReferences.length; i++) {
-      newRewardReferences.add(habit.rewardIDReferences[i]);
+      cachedRewardReferences.add(habit.rewardIDReferences[i]);
     }
 
     for (var i = 0; i < habit.notificationObjects.length; i++) {
-      newNotificationObjects.add(habit.notificationObjects[i]);
+      cachedNotificationObjects.add(habit.notificationObjects[i]);
     }
 
     _notificationTimesController.setNotificationTimes(newNotificationObjects);
+    _notificationTimesController
+        .setNotificationTimes(cachedNotificationObjects);
   }
 
   void loadRewardValues(Reward reward) {
@@ -98,7 +101,7 @@ class EditContentController extends GetxController {
     assert(_updateIndex != null);
     assert(_updateIndex >= 0, "updateindex must not be negative");
 
-    newSchedule?.sort();
+    cachedSchedule?.sort();
 
     Habit _habitToUpdate = _contentController.allHabitList[_updateIndex];
 
@@ -109,16 +112,16 @@ class EditContentController extends GetxController {
     if (descriptionController.text != null &&
         descriptionController.text.isNotEmpty)
       _habitToUpdate.description = descriptionController.text;
-    if (newSchedule != null && newSchedule.isNotEmpty)
-      _habitToUpdate.scheduledWeekDays = newSchedule;
-    if (newRewardReferences != null && newRewardReferences.isNotEmpty)
-      _habitToUpdate.rewardIDReferences = newRewardReferences;
-    if (newCompletionGoal != null && newCompletionGoal.value != 0)
-      _habitToUpdate.completionGoal = newCompletionGoal.value;
+    if (cachedSchedule != null && cachedSchedule.isNotEmpty)
+      _habitToUpdate.scheduledWeekDays = cachedSchedule;
+    if (cachedRewardReferences != null && cachedRewardReferences.isNotEmpty)
+      _habitToUpdate.rewardIDReferences = cachedRewardReferences;
+    if (cachedCompletionGoal != null && cachedCompletionGoal.value != 0)
+      _habitToUpdate.completionGoal = cachedCompletionGoal.value;
 
     _habitToUpdate.updateToNextCompletionDate();
-    if (newCompletionDate != null)
-      _habitToUpdate.nextCompletionDate = newCompletionDate.value;
+    if (cachedCompletionDate != null)
+      _habitToUpdate.nextCompletionDate = cachedCompletionDate.value;
 
     LocalStorageService.saveAllHabits(_contentController.allHabitList);
 
@@ -129,14 +132,14 @@ class EditContentController extends GetxController {
   Future<void> _updateNotifications(Habit habitToUpdate) async {
     if (titleController == null) return;
     if (titleController.text == null) return;
-    if (newSchedule.isEmpty) return;
-    if (newCompletionGoal.value == 0) return;
+    if (cachedSchedule.isEmpty) return;
+    if (cachedCompletionGoal.value == 0) return;
 
     final bool _hasChangedTitle = habitToUpdate.title != titleController.text;
     final bool _hasChangedSchedule =
-        !listEquals(habitToUpdate.scheduledWeekDays, newSchedule);
+        !listEquals(habitToUpdate.scheduledWeekDays, cachedSchedule);
     final bool _hasChangedCompletionGoal =
-        habitToUpdate.completionGoal != newCompletionGoal.value;
+        habitToUpdate.completionGoal != cachedCompletionGoal.value;
 
     final bool _needsPartialNotificationUpdate = (_hasChangedCompletionGoal ||
         _hasChangedSchedule ||
@@ -149,8 +152,8 @@ class EditContentController extends GetxController {
     final List<NotificationObject> _newObjects =
         NotificationObject.createNotificationObjects(
             prefix: habitToUpdate.notificationIDprefix,
-            scheduledDays: newSchedule,
-            completionGoal: newCompletionGoal.value,
+            scheduledDays: cachedSchedule,
+            completionGoal: cachedCompletionGoal.value,
             hours: _notificationTimesController.selectedHours,
             minutes: _notificationTimesController.selectedMinutes,
             title: titleController.text,
