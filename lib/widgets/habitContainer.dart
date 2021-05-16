@@ -1,6 +1,5 @@
 import 'package:Marbit/controllers/controllers.dart';
 import 'package:Marbit/screens/screens.dart';
-import 'package:Marbit/screens/tutorialHabitDetailScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:Marbit/models/habitModel.dart';
 import 'package:Marbit/util/constants.dart';
@@ -110,14 +109,11 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
               onTap: () async {
                 await _buttonAnimController.forward();
                 await 200.milliseconds.delay();
-                widget.isTutorialContainer
-                    ? await Get.to(() => TutorialHabitDetailScreen(
-                          habit: ContentController.tutorialHabit,
-                        ))
-                    : await Get.to(() => HabitDetailScreen(
-                          habit: widget.habit,
-                          alterHeroTag: false,
-                        ));
+                await Get.to(() => HabitDetailScreen(
+                      isTutorialScreen: widget.isTutorialContainer,
+                      habit: widget.habit,
+                      alterHeroTag: false,
+                    ));
                 await 200.milliseconds.delay();
                 await _buttonAnimController.reverse();
                 widget.onDetailScreenPopped();
