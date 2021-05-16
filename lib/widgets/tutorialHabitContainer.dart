@@ -6,12 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:get/get.dart';
 
-class TutorialHabitContainer extends StatelessWidget {
+class TutorialHabitContainer extends StatefulWidget {
   final Function onChildPopped;
 
   const TutorialHabitContainer({Key key, @required this.onChildPopped})
       : super(key: key);
 
+  @override
+  _TutorialHabitContainerState createState() => _TutorialHabitContainerState();
+}
+
+class _TutorialHabitContainerState extends State<TutorialHabitContainer> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -24,7 +29,7 @@ class TutorialHabitContainer extends StatelessWidget {
           child: CompletableHabitContainer(
             isTutorialContainer: true,
             habit: ContentController.tutorialHabit,
-            onDetailScreenPopped: onChildPopped,
+            onDetailScreenPopped: widget.onChildPopped,
             onPressed: () {
               ContentController.tutorialHabit.addCompletionForToday(
                 onCompletionGoalReached: () {
@@ -34,7 +39,7 @@ class TutorialHabitContainer extends StatelessWidget {
                         () => RewardPopupScreen(
                             habit: ContentController.tutorialHabit,
                             isTutorial: true),
-                      ).then((value) => onChildPopped());
+                      ).then((value) => widget.onChildPopped());
                     },
                   );
                 },
