@@ -52,7 +52,12 @@ class EditContentController extends GetxController {
       cachedNotificationObjects.add(habit.notificationObjects[i]);
     }
 
-    _notificationTimesController.setNotificationTimes(newNotificationObjects);
+    for (var i = 0; i < habit.notificationObjects.length; i++) {
+      final NotificationObject _object = habit.notificationObjects[i];
+      if (activeNotifications.contains(_object.relatedCompletionStep)) continue;
+      activeNotifications.add(_object.relatedCompletionStep);
+    }
+
     _notificationTimesController
         .setNotificationTimes(cachedNotificationObjects);
   }

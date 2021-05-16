@@ -422,18 +422,32 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
       () => Wrap(
         spacing: ((MediaQuery.of(context).size.width - 40) - (280)) / 7,
         children: List.generate(
-          _editContentController.newCompletionGoal.value,
+          _editContentController.cachedCompletionGoal.value,
           (index) => AnimatedBuilder(
             animation: _testController,
             builder: (BuildContext context, Widget child) {
+              bool _isActiveNotification = _editContentController
+                  .activeNotifications
+                  .contains(index + 1);
               return ScaleTransition(
                 scale: _positiveScaleAnimation,
-                child: CustomNeumorphButton(
+                child: NeumorphPressSwitch(
                   width: 40,
                   height: 60,
-                  style: kInactiveNeumorphStyle.copyWith(
-                      depth: _positiveDepthAnimation.value),
-                  onPressed: () async {
+                  style: _isActiveNotification
+                      ? kActiveNeumorphStyle.copyWith(
+                          depth: _negativeDepthAnmation.value)
+                      : kInactiveNeumorphStyle.copyWith(
+                          depth: _positiveDepthAnimation.value),
+                  onPressed: () {
+                    if (!_isInEditMode) return;
+                    _isActiveNotification
+                        ? _editContentController.activeNotifications
+                            .remove(index + 1)
+                        : _editContentController.activeNotifications
+                            .add(index + 1);
+                  },
+                  onLongPressed: () {
                     if (!_isInEditMode) return;
                     _notificationTimesController.setControllerValues(index);
                     Get.defaultDialog(
@@ -443,12 +457,12 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                   },
                   child: Obx(
                     () => Text(
-                        "${_notificationTimesController.selectedHours[index]} \n${_notificationTimesController.selectedMinutes[index].toString().padLeft(2, "0")}",
+                        "${_notificationTimesController.selectedHours[index]}\n${_notificationTimesController.selectedMinutes[index].toString().padLeft(2, "0")}",
                         textAlign: TextAlign.center,
-                        style: Theme.of(context)
-                            .textTheme
-                            .button
-                            .copyWith(color: kDeepOrange)),
+                        style: Theme.of(context).textTheme.button.copyWith(
+                            color: _isActiveNotification
+                                ? kBackGroundWhite
+                                : kDeepOrange)),
                   ),
                 ),
               );
