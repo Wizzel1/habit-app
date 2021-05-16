@@ -7,6 +7,7 @@ import '../util/constants.dart';
 
 class NeumorphPressSwitch extends StatefulWidget {
   final VoidCallback onPressed;
+  final VoidCallback onLongPressed;
   final Widget child;
   final double height;
   final double width;
@@ -21,6 +22,7 @@ class NeumorphPressSwitch extends StatefulWidget {
     this.width = 100,
     this.style,
     this.borderRadius = 8,
+    this.onLongPressed,
   }) : super(key: key);
 
   @override
@@ -30,13 +32,10 @@ class NeumorphPressSwitch extends StatefulWidget {
 class _NeumorphPressSwitchState extends State<NeumorphPressSwitch> {
   @override
   Widget build(BuildContext context) {
-    return Listener(
+    return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onPointerDown: (PointerDownEvent event) {
-        if (widget.onPressed == null) return;
-        widget.onPressed();
-      },
-      onPointerUp: (PointerUpEvent event) async {},
+      onTap: widget.onPressed,
+      onLongPress: widget.onLongPressed,
       child: Neumorphic(
         style: widget.style,
         child: Container(
