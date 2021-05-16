@@ -217,7 +217,6 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                       _buildScheduleRow(),
                       //_buildNextCompletiondateText(),
                       const SizedBox(height: 50),
-                      //_buildChangeActiveNotificationButtons(),
                       _buildCompletionGoalStepper(),
                       const SizedBox(height: 30),
                       _buildScheduledTimesRow(),
@@ -332,16 +331,8 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
         AnimatedSwitcher(
           duration: const Duration(milliseconds: 200),
           child: _isInEditMode
-              ? AnimatedBuilder(
-                  animation: _positiveDepthAnimation,
-                  builder: (BuildContext context, Widget child) {
-                    return ScaleAnimation(
-                        scale: _positiveDepthAnimation.value,
-                        child: Neumorphic(
-                            style: kInactiveNeumorphStyle.copyWith(
-                                depth: _positiveDepthAnimation.value),
-                            child: child));
-                  },
+              ? Neumorphic(
+                  style: kInactiveNeumorphStyle,
                   child: GestureDetector(
                     onTap: () {
                       if (!_isInEditMode) return;
@@ -360,7 +351,8 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                       child: Icon(Icons.remove,
                           color: Theme.of(context).accentColor),
                     ),
-                  ))
+                  ),
+                )
               : const SizedBox.shrink(),
         ),
         Expanded(
@@ -383,15 +375,8 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
         AnimatedSwitcher(
           duration: const Duration(milliseconds: 200),
           child: _isInEditMode
-              ? AnimatedBuilder(
-                  animation: _positiveDepthAnimation,
-                  builder: (BuildContext context, Widget child) {
-                    return ScaleAnimation(
-                        child: Neumorphic(
-                            style: kInactiveNeumorphStyle.copyWith(
-                                depth: _positiveDepthAnimation.value),
-                            child: child));
-                  },
+              ? Neumorphic(
+                  style: kInactiveNeumorphStyle,
                   child: GestureDetector(
                     onTap: () {
                       if (!_isInEditMode) return;
@@ -407,10 +392,11 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                       width: 100,
                       height: 40,
                       color: kBackGroundWhite,
-                      child: Icon(Icons.remove,
-                          color: Theme.of(context).accentColor),
+                      child:
+                          Icon(Icons.add, color: Theme.of(context).accentColor),
                     ),
-                  ))
+                  ),
+                )
               : const SizedBox.shrink(),
         ),
         const Spacer(),
@@ -591,35 +577,45 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
           sizeFraction: 0.7,
           curve: Curves.easeInOut,
           animation: animation,
-          child: AnimatedBuilder(
-            animation: _positiveDepthAnimation,
-            builder: (BuildContext context, Widget child) {
-              bool isSelected = (_editContentController.cachedRewardReferences
-                  .any((element) => element == reward.id));
-              return ScaleTransition(
-                scale: isSelected
-                    ? _negativeScaleAnimation
-                    : _positiveScaleAnimation,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: SelectableRewardContainer(
-                    reward: reward,
-                    isSelectedReward: isSelected,
-                    onTap: () {
-                      if (!_isInEditMode) return;
-                      _editContentController.cachedRewardReferences
-                              .contains(reward.id)
-                          ? _editContentController.cachedRewardReferences
-                              .remove(reward.id)
-                          : _editContentController.cachedRewardReferences
-                              .add(reward.id);
-                      _setJoinedRewardList();
-                    },
+          child: Obx(() {
+            bool isSelected = (_editContentController.cachedRewardReferences
+                .any((element) => element == reward.id));
+            return AnimatedBuilder(
+              animation: _positiveDepthAnimation,
+              builder: (BuildContext context, Widget child) {
+                return ScaleTransition(
+                  scale: isSelected
+                      ? _negativeScaleAnimation
+                      : _positiveScaleAnimation,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: Neumorphic(
+                      style: isSelected
+                          ? kActiveNeumorphStyle.copyWith(
+                              depth: _negativeDepthAnmation.value)
+                          : kInactiveNeumorphStyle.copyWith(
+                              depth: _positiveDepthAnimation.value),
+                      child: child,
+                    ),
                   ),
-                ),
-              );
-            },
-          ),
+                );
+              },
+              child: SelectableRewardContainer(
+                reward: reward,
+                isSelectedReward: isSelected,
+                onTap: () {
+                  if (!_isInEditMode) return;
+                  _editContentController.cachedRewardReferences
+                          .contains(reward.id)
+                      ? _editContentController.cachedRewardReferences
+                          .remove(reward.id)
+                      : _editContentController.cachedRewardReferences
+                          .add(reward.id);
+                  _setJoinedRewardList();
+                },
+              ),
+            );
+          }),
         );
       },
     );
