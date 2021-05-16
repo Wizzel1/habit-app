@@ -637,7 +637,15 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                               .setControllerValues(index);
                           Get.defaultDialog(
                             barrierDismissible: false,
-                            content: DialogContent(index: index),
+                            content: DialogContent(
+                              onPressedSave: () {
+                                final bool _saveSuccess =
+                                    _notificationTimesController
+                                        .saveSelectedTimeTo(index);
+                                if (!_saveSuccess) return;
+                                Get.back();
+                              },
+                            ),
                           );
                         },
                         child: Obx(

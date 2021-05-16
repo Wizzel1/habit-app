@@ -10,8 +10,8 @@ class DialogContent extends StatelessWidget {
   final NotificationTimesController _notificationTimesController =
       Get.find<NotificationTimesController>();
 
-  DialogContent({Key key, @required this.index}) : super(key: key);
-  final int index;
+  DialogContent({Key key, @required this.onPressedSave}) : super(key: key);
+  final VoidCallback onPressedSave;
 
   @override
   Widget build(BuildContext context) {
@@ -74,11 +74,7 @@ class DialogContent extends StatelessWidget {
             ),
           ),
           CustomNeumorphButton(
-              onPressed: () {
-                _notificationTimesController.saveSelectedTimeTo(index)
-                    ? Get.back()
-                    : null;
-              },
+              onPressed: onPressedSave,
               width: 56,
               height: 56,
               color: kSuccessGreen,

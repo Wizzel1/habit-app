@@ -453,7 +453,14 @@ class _TutorialHabitDetailScreenState extends State<TutorialHabitDetailScreen>
                     _notificationTimesController.setControllerValues(index);
                     Get.defaultDialog(
                       barrierDismissible: false,
-                      content: DialogContent(index: index),
+                      content: DialogContent(
+                        onPressedSave: () {
+                          final bool _saveSuccess = _notificationTimesController
+                              .saveSelectedTimeTo(index);
+                          if (!_saveSuccess) return;
+                          Get.back();
+                        },
+                      ),
                     );
                   },
                   child: Obx(
