@@ -336,22 +336,31 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                   animation: _positiveDepthAnimation,
                   builder: (BuildContext context, Widget child) {
                     return ScaleAnimation(
+                        scale: _positiveDepthAnimation.value,
                         child: Neumorphic(
                             style: kInactiveNeumorphStyle.copyWith(
                                 depth: _positiveDepthAnimation.value),
                             child: child));
                   },
-                  child: CustomNeumorphButton(
-                    onPressed: () {
+                  child: GestureDetector(
+                    onTap: () {
+                      if (!_isInEditMode) return;
                       if (_editContentController.cachedCompletionGoal <= 1)
                         return;
                       _editContentController.cachedCompletionGoal.value--;
                     },
-                    style: kInactiveNeumorphStyle.copyWith(depth: 0),
-                    child: Icon(Icons.remove,
-                        color: Theme.of(context).accentColor),
-                  ),
-                )
+                    onLongPress: () {
+                      if (!_isInEditMode) return;
+                      _editContentController.cachedCompletionGoal.value = 1;
+                    },
+                    child: Container(
+                      width: 100,
+                      height: 40,
+                      color: kBackGroundWhite,
+                      child: Icon(Icons.remove,
+                          color: Theme.of(context).accentColor),
+                    ),
+                  ))
               : const SizedBox.shrink(),
         ),
         Expanded(
@@ -383,17 +392,25 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                                 depth: _positiveDepthAnimation.value),
                             child: child));
                   },
-                  child: CustomNeumorphButton(
-                    onPressed: () {
+                  child: GestureDetector(
+                    onTap: () {
+                      if (!_isInEditMode) return;
                       if (_editContentController.cachedCompletionGoal >=
                           ContentController.maxDailyCompletions) return;
                       _editContentController.cachedCompletionGoal.value++;
                     },
-                    style: kInactiveNeumorphStyle.copyWith(depth: 0),
-                    child: Icon(Icons.remove,
-                        color: Theme.of(context).accentColor),
-                  ),
-                )
+                    onLongPress: () {
+                      if (!_isInEditMode) return;
+                      _editContentController.cachedCompletionGoal.value = 7;
+                    },
+                    child: Container(
+                      width: 100,
+                      height: 40,
+                      color: kBackGroundWhite,
+                      child: Icon(Icons.remove,
+                          color: Theme.of(context).accentColor),
+                    ),
+                  ))
               : const SizedBox.shrink(),
         ),
         const Spacer(),
@@ -438,57 +455,60 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
             final bool _isActiveNotification =
                 _editContentController.activeNotifications.contains(index + 1);
             return AnimatedBuilder(
-              animation: _testController,
-              builder: (BuildContext context, Widget child) {
-                return ScaleTransition(
-                    scale: _isActiveNotification
-                        ? _negativeScaleAnimation
-                        : _positiveScaleAnimation,
-                    child: Neumorphic(
-                      child: child,
-                      style: _isActiveNotification
-                          ? kActiveNeumorphStyle.copyWith(
-                              depth: _negativeDepthAnmation.value)
-                          : kInactiveNeumorphStyle.copyWith(
-                              depth: _positiveDepthAnimation.value),
-                    ));
-              },
-              child: NeumorphPressSwitch(
-                width: 40,
-                height: 60,
-                onPressed: () {
-                  if (!_isInEditMode) return;
-                  _editContentController.toggleActiveNotification(index);
+                animation: _positiveDepthAnimation,
+                builder: (BuildContext context, Widget child) {
+                  return ScaleTransition(
+                      scale: _isActiveNotification
+                          ? _negativeScaleAnimation
+                          : _positiveScaleAnimation,
+                      child: Neumorphic(
+                        child: child,
+                        style: _isActiveNotification
+                            ? kActiveNeumorphStyle.copyWith(
+                                depth: _negativeDepthAnmation.value)
+                            : kInactiveNeumorphStyle.copyWith(
+                                depth: _positiveDepthAnimation.value),
+                      ));
                 },
-                style: _isActiveNotification
-                    ? kActiveNeumorphStyle.copyWith(depth: 0)
-                    : kInactiveNeumorphStyle.copyWith(depth: 0),
-                onLongPressed: () {
-                  if (!_isInEditMode) return;
-                  _notificationTimesController.setControllerValues(index);
-                  Get.defaultDialog(
-                    barrierDismissible: false,
-                    content: DialogContent(
-                      onPressedSave: () {
-                        final bool _saveSuccess = _notificationTimesController
-                            .saveSelectedTimeTo(index);
-                        if (!_saveSuccess) return;
-                        Get.back();
-                      },
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () {
+                    if (!_isInEditMode) return;
+                    _editContentController.toggleActiveNotification(index);
+                  },
+                  onLongPress: () {
+                    if (!_isInEditMode) return;
+                    _notificationTimesController.setControllerValues(index);
+                    Get.defaultDialog(
+                      barrierDismissible: false,
+                      content: DialogContent(
+                        onPressedSave: () {
+                          final bool _saveSuccess = _notificationTimesController
+                              .saveSelectedTimeTo(index);
+                          if (!_saveSuccess) return;
+                          Get.back();
+                        },
+                      ),
+                    );
+                  },
+                  child: Container(
+                    width: 40,
+                    height: 60,
+                    color:
+                        _isActiveNotification ? kDeepOrange : kBackGroundWhite,
+                    child: Center(
+                      child: Obx(
+                        () => Text(
+                            "${_notificationTimesController.selectedHours[index]}\n${_notificationTimesController.selectedMinutes[index].toString().padLeft(2, "0")}",
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.button.copyWith(
+                                color: _isActiveNotification
+                                    ? kBackGroundWhite
+                                    : kDeepOrange)),
+                      ),
                     ),
-                  );
-                },
-                child: Obx(
-                  () => Text(
-                      "${_notificationTimesController.selectedHours[index]}\n${_notificationTimesController.selectedMinutes[index].toString().padLeft(2, "0")}",
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.button.copyWith(
-                          color: _isActiveNotification
-                              ? kBackGroundWhite
-                              : kDeepOrange)),
-                ),
-              ),
-            );
+                  ),
+                ));
           },
         ),
       ),
@@ -521,31 +541,33 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                       ),
                     );
                   },
-                  child: NeumorphPressSwitch(
-                    onPressed: () {
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () {
                       if (!_isInEditMode) return;
-                      if (_isActiveWeekDay) {
-                        _editContentController.cachedSchedule
-                            .remove(_weekDayIndex);
-                      } else {
-                        _editContentController.cachedSchedule
-                            .add(_weekDayIndex);
-                      }
-                      _editContentController.cachedSchedule.sort();
+                      _editContentController.toggleWeekDay(index);
                     },
-                    height: 60,
-                    width: 40,
-                    style: _isActiveWeekDay
-                        ? kActiveNeumorphStyle.copyWith(depth: 0)
-                        : kInactiveNeumorphStyle.copyWith(depth: 0),
-                    child: Text(
-                      dayNames[index],
-                      style: Theme.of(context).textTheme.button.copyWith(
-                            fontSize: 12,
-                            color: _isActiveWeekDay
-                                ? kBackGroundWhite
-                                : Color(widget.habit.habitColors["deep"]),
-                          ),
+                    onLongPress: () {
+                      if (!_isInEditMode) return;
+                      _isActiveWeekDay
+                          ? _editContentController.clearSchedule()
+                          : _editContentController.fillSchedule();
+                    },
+                    child: Container(
+                      width: 40,
+                      height: 60,
+                      color: _isActiveWeekDay ? kDeepOrange : kBackGroundWhite,
+                      child: Center(
+                        child: Text(
+                          dayNames[index],
+                          style: Theme.of(context).textTheme.button.copyWith(
+                                fontSize: 12,
+                                color: _isActiveWeekDay
+                                    ? kBackGroundWhite
+                                    : Color(widget.habit.habitColors["deep"]),
+                              ),
+                        ),
+                      ),
                     ),
                   ));
             },
@@ -570,7 +592,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
           curve: Curves.easeInOut,
           animation: animation,
           child: AnimatedBuilder(
-            animation: _testController,
+            animation: _positiveDepthAnimation,
             builder: (BuildContext context, Widget child) {
               bool isSelected = (_editContentController.cachedRewardReferences
                   .any((element) => element == reward.id));
