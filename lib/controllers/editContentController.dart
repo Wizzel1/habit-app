@@ -62,6 +62,21 @@ class EditContentController extends GetxController {
         .setNotificationTimes(cachedNotificationObjects);
   }
 
+  void fillSchedule() {
+    cachedSchedule.value = [1, 2, 3, 4, 5, 6, 7];
+  }
+
+  void clearSchedule() {
+    cachedSchedule.value = [];
+  }
+
+  void toggleWeekDay(int index) {
+    cachedSchedule.contains(index + 1)
+        ? cachedSchedule.remove(index + 1)
+        : cachedSchedule.add(index + 1);
+    cachedSchedule.sort();
+  }
+
   void toggleActiveNotification(int index) {
     activeNotifications.contains(index + 1)
         ? activeNotifications.remove(index + 1)
