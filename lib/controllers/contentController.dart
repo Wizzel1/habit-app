@@ -3,7 +3,6 @@ import 'package:Marbit/util/util.dart';
 import 'package:get/get.dart';
 import 'package:Marbit/models/models.dart';
 import 'package:Marbit/services/localStorage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 class ContentController extends GetxController {
@@ -107,8 +106,6 @@ class ContentController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    //SharedPreferences prefs = await SharedPreferences.getInstance();
-    // await prefs.clear();
     await initializeContent();
     super.onInit();
   }
@@ -195,5 +192,14 @@ class ContentController extends GetxController {
         ],
       ),
       completionGoal: 3,
-      streak: 1);
+      streak: 1,
+      notificationObjects: NotificationObject.createNotificationObjects(
+          prefix: 1,
+          scheduledDays: [1, 3, 6],
+          completionGoal: 3,
+          hours: [12, 13, 14],
+          minutes: [15, 30, 45],
+          title: "Test",
+          body: ""),
+      notificationIDprefix: 1);
 }
