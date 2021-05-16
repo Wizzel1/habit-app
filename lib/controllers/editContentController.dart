@@ -11,7 +11,7 @@ class EditContentController extends GetxController {
       Get.find<NotificationTimesController>();
   TextEditingController titleController;
   TextEditingController descriptionController;
-  bool hasChangedNotificationTimes = false;
+  bool hasChangedNotificationInformation = false;
   Rx<bool> isSelfRemoving = false.obs;
   Rx<int> cachedCompletionGoal = 0.obs;
   RxList<int> cachedSchedule = List<int>.empty().obs;
@@ -60,6 +60,13 @@ class EditContentController extends GetxController {
 
     _notificationTimesController
         .setNotificationTimes(cachedNotificationObjects);
+  }
+
+  void toggleActiveNotification(int index) {
+    activeNotifications.contains(index + 1)
+        ? activeNotifications.remove(index + 1)
+        : activeNotifications.add(index + 1);
+    hasChangedNotificationInformation = true;
   }
 
   void loadRewardValues(Reward reward) {
@@ -148,7 +155,7 @@ class EditContentController extends GetxController {
 
     final bool _needsPartialNotificationUpdate = (_hasChangedCompletionGoal ||
         _hasChangedSchedule ||
-        hasChangedNotificationTimes);
+        hasChangedNotificationInformation);
     final bool _needsCompleteNotificationUpdate = _hasChangedTitle;
 
     if (!_needsCompleteNotificationUpdate && !_needsPartialNotificationUpdate)
@@ -156,6 +163,7 @@ class EditContentController extends GetxController {
 
     final List<NotificationObject> _newObjects =
         NotificationObject.createNotificationObjects(
+            activeNotifications: activeNotifications,
             prefix: habitToUpdate.notificationIDprefix,
             scheduledDays: cachedSchedule,
             completionGoal: cachedCompletionGoal.value,

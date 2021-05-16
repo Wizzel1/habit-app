@@ -87,6 +87,7 @@ class NotificationObject {
       };
 
   static List<NotificationObject> createNotificationObjects({
+    List<int> activeNotifications,
     int prefix,
     List<int> scheduledDays,
     int completionGoal,
@@ -101,6 +102,7 @@ class NotificationObject {
       final int _currentWeekday = scheduledDays[i];
       for (var j = 0; j < completionGoal; j++) {
         final int _completionStep = j + 1;
+        if (!activeNotifications.contains(_completionStep)) continue;
         final NotificationObject _newObject = NotificationObject(
             notificationId: int.parse(
                 "$prefix$_currentWeekday$_completionStep${hours[j]}${minutes[j]}"),

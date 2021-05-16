@@ -441,11 +441,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                           depth: _positiveDepthAnimation.value),
                   onPressed: () {
                     if (!_isInEditMode) return;
-                    _isActiveNotification
-                        ? _editContentController.activeNotifications
-                            .remove(index + 1)
-                        : _editContentController.activeNotifications
-                            .add(index + 1);
+                    _editContentController.toggleActiveNotification(index);
                   },
                   onLongPressed: () {
                     if (!_isInEditMode) return;

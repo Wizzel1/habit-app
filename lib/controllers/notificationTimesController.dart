@@ -53,7 +53,7 @@ class NotificationTimesController extends GetxController {
     selectedHours[index] = int.parse(hourController.text);
     selectedMinutes[index] = int.parse(minuteController.text);
 
-    Get.find<EditContentController>().hasChangedNotificationTimes = true;
+    Get.find<EditContentController>().hasChangedNotificationInformation = true;
     return true;
   }
 
