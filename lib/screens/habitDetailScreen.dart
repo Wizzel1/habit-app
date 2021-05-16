@@ -335,18 +335,23 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
               ? AnimatedBuilder(
                   animation: _positiveDepthAnimation,
                   builder: (BuildContext context, Widget child) {
-                    return CustomNeumorphButton(
-                      onPressed: () {
-                        if (_editContentController.cachedCompletionGoal <= 1)
-                          return;
-                        _editContentController.cachedCompletionGoal.value--;
-                      },
-                      style: kInactiveNeumorphStyle.copyWith(
-                          depth: _positiveDepthAnimation.value),
-                      child: Icon(Icons.remove,
-                          color: Theme.of(context).accentColor),
-                    );
-                  })
+                    return ScaleAnimation(
+                        child: Neumorphic(
+                            style: kInactiveNeumorphStyle.copyWith(
+                                depth: _positiveDepthAnimation.value),
+                            child: child));
+                  },
+                  child: CustomNeumorphButton(
+                    onPressed: () {
+                      if (_editContentController.cachedCompletionGoal <= 1)
+                        return;
+                      _editContentController.cachedCompletionGoal.value--;
+                    },
+                    style: kInactiveNeumorphStyle.copyWith(depth: 0),
+                    child: Icon(Icons.remove,
+                        color: Theme.of(context).accentColor),
+                  ),
+                )
               : const SizedBox.shrink(),
         ),
         Expanded(
@@ -372,18 +377,23 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
               ? AnimatedBuilder(
                   animation: _positiveDepthAnimation,
                   builder: (BuildContext context, Widget child) {
-                    return CustomNeumorphButton(
-                      onPressed: () {
-                        if (_editContentController.cachedCompletionGoal >=
-                            ContentController.maxDailyCompletions) return;
-                        _editContentController.cachedCompletionGoal.value++;
-                      },
-                      style: kInactiveNeumorphStyle.copyWith(
-                          depth: _positiveDepthAnimation.value),
-                      child:
-                          Icon(Icons.add, color: Theme.of(context).accentColor),
-                    );
-                  })
+                    return ScaleAnimation(
+                        child: Neumorphic(
+                            style: kInactiveNeumorphStyle.copyWith(
+                                depth: _positiveDepthAnimation.value),
+                            child: child));
+                  },
+                  child: CustomNeumorphButton(
+                    onPressed: () {
+                      if (_editContentController.cachedCompletionGoal >=
+                          ContentController.maxDailyCompletions) return;
+                      _editContentController.cachedCompletionGoal.value++;
+                    },
+                    style: kInactiveNeumorphStyle.copyWith(depth: 0),
+                    child: Icon(Icons.remove,
+                        color: Theme.of(context).accentColor),
+                  ),
+                )
               : const SizedBox.shrink(),
         ),
         const Spacer(),
@@ -392,19 +402,20 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   }
 
   Widget _buildEditButton({Function onPressed}) {
-    return CustomNeumorphButton(
+    return NeumorphPressSwitch(
       onPressed: () {
         onPressed();
         setState(() {
           _isInEditMode = !_isInEditMode;
         });
       },
+      style: _isInEditMode ? kActiveNeumorphStyle : kInactiveNeumorphStyle,
       child: _isInEditMode
           ? Text(
               'save_habit'.tr,
               style: Theme.of(context).textTheme.button.copyWith(
                     fontSize: 12,
-                    color: kDeepOrange,
+                    color: kBackGroundWhite,
                   ),
             )
           : Text(
@@ -423,54 +434,62 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
         spacing: ((MediaQuery.of(context).size.width - 40) - (280)) / 7,
         children: List.generate(
           _editContentController.cachedCompletionGoal.value,
-          (index) => AnimatedBuilder(
-            animation: _testController,
-            builder: (BuildContext context, Widget child) {
-              bool _isActiveNotification = _editContentController
-                  .activeNotifications
-                  .contains(index + 1);
-              return ScaleTransition(
-                scale: _positiveScaleAnimation,
-                child: NeumorphPressSwitch(
-                  width: 40,
-                  height: 60,
-                  style: _isActiveNotification
-                      ? kActiveNeumorphStyle.copyWith(
-                          depth: _negativeDepthAnmation.value)
-                      : kInactiveNeumorphStyle.copyWith(
-                          depth: _positiveDepthAnimation.value),
-                  onPressed: () {
-                    if (!_isInEditMode) return;
-                    _editContentController.toggleActiveNotification(index);
-                  },
-                  onLongPressed: () {
-                    if (!_isInEditMode) return;
-                    _notificationTimesController.setControllerValues(index);
-                    Get.defaultDialog(
-                      barrierDismissible: false,
-                      content: DialogContent(
-                        onPressedSave: () {
-                          final bool _saveSuccess = _notificationTimesController
-                              .saveSelectedTimeTo(index);
-                          if (!_saveSuccess) return;
-                          Get.back();
-                        },
-                      ),
-                    );
-                  },
-                  child: Obx(
-                    () => Text(
-                        "${_notificationTimesController.selectedHours[index]}\n${_notificationTimesController.selectedMinutes[index].toString().padLeft(2, "0")}",
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.button.copyWith(
-                            color: _isActiveNotification
-                                ? kBackGroundWhite
-                                : kDeepOrange)),
-                  ),
+          (index) {
+            final bool _isActiveNotification =
+                _editContentController.activeNotifications.contains(index + 1);
+            return AnimatedBuilder(
+              animation: _testController,
+              builder: (BuildContext context, Widget child) {
+                return ScaleTransition(
+                    scale: _isActiveNotification
+                        ? _negativeScaleAnimation
+                        : _positiveScaleAnimation,
+                    child: Neumorphic(
+                      child: child,
+                      style: _isActiveNotification
+                          ? kActiveNeumorphStyle.copyWith(
+                              depth: _negativeDepthAnmation.value)
+                          : kInactiveNeumorphStyle.copyWith(
+                              depth: _positiveDepthAnimation.value),
+                    ));
+              },
+              child: NeumorphPressSwitch(
+                width: 40,
+                height: 60,
+                onPressed: () {
+                  if (!_isInEditMode) return;
+                  _editContentController.toggleActiveNotification(index);
+                },
+                style: _isActiveNotification
+                    ? kActiveNeumorphStyle.copyWith(depth: 0)
+                    : kInactiveNeumorphStyle.copyWith(depth: 0),
+                onLongPressed: () {
+                  if (!_isInEditMode) return;
+                  _notificationTimesController.setControllerValues(index);
+                  Get.defaultDialog(
+                    barrierDismissible: false,
+                    content: DialogContent(
+                      onPressedSave: () {
+                        final bool _saveSuccess = _notificationTimesController
+                            .saveSelectedTimeTo(index);
+                        if (!_saveSuccess) return;
+                        Get.back();
+                      },
+                    ),
+                  );
+                },
+                child: Obx(
+                  () => Text(
+                      "${_notificationTimesController.selectedHours[index]}\n${_notificationTimesController.selectedMinutes[index].toString().padLeft(2, "0")}",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.button.copyWith(
+                          color: _isActiveNotification
+                              ? kBackGroundWhite
+                              : kDeepOrange)),
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
     );
@@ -481,16 +500,27 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: List.generate(
             7,
-            (index) => AnimatedBuilder(
-              animation: _positiveDepthAnimation,
-              builder: (BuildContext context, Widget child) {
-                int _weekDayIndex = index + 1;
-                bool _isActiveWeekDay = _editContentController.cachedSchedule
-                    .contains(_weekDayIndex);
-                return ScaleTransition(
-                  scale: _isActiveWeekDay
-                      ? _negativeScaleAnimation
-                      : _positiveScaleAnimation,
+            (index) {
+              final int _weekDayIndex = index + 1;
+              final bool _isActiveWeekDay =
+                  _editContentController.cachedSchedule.contains(_weekDayIndex);
+              return AnimatedBuilder(
+                  animation: _positiveDepthAnimation,
+                  builder: (BuildContext context, Widget child) {
+                    return ScaleTransition(
+                      scale: _isActiveWeekDay
+                          ? _negativeScaleAnimation
+                          : _positiveScaleAnimation,
+                      child: Neumorphic(
+                        child: child,
+                        style: _isActiveWeekDay
+                            ? kActiveNeumorphStyle.copyWith(
+                                depth: _negativeDepthAnmation.value)
+                            : kInactiveNeumorphStyle.copyWith(
+                                depth: _positiveDepthAnimation.value),
+                      ),
+                    );
+                  },
                   child: NeumorphPressSwitch(
                     onPressed: () {
                       if (!_isInEditMode) return;
@@ -506,10 +536,8 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                     height: 60,
                     width: 40,
                     style: _isActiveWeekDay
-                        ? kActiveNeumorphStyle.copyWith(
-                            depth: _negativeDepthAnmation.value)
-                        : kInactiveNeumorphStyle.copyWith(
-                            depth: _positiveDepthAnimation.value),
+                        ? kActiveNeumorphStyle.copyWith(depth: 0)
+                        : kInactiveNeumorphStyle.copyWith(depth: 0),
                     child: Text(
                       dayNames[index],
                       style: Theme.of(context).textTheme.button.copyWith(
@@ -519,10 +547,8 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                                 : Color(widget.habit.habitColors["deep"]),
                           ),
                     ),
-                  ),
-                );
-              },
-            ),
+                  ));
+            },
           ),
         ));
   }
