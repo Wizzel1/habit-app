@@ -50,9 +50,6 @@ class NotificationObject {
   /// The weekDay (1-7) to schedule.
   int weekDay;
 
-  /// Wether or not the Notification should be shown.
-  bool shouldShow;
-
   /// The title of the scheduled Notification.
   String title;
 
@@ -64,7 +61,6 @@ class NotificationObject {
     @required this.hour,
     @required this.minutes,
     @required this.weekDay,
-    @required this.shouldShow,
     @required this.title,
     @required this.body,
     @required this.relatedCompletionStep,
@@ -76,7 +72,6 @@ class NotificationObject {
           hour: json["hour"],
           minutes: json["minutes"],
           weekDay: json["weekDay"],
-          shouldShow: json["shouldShow"],
           title: json["title"],
           body: json["body"],
           relatedCompletionStep: json["relatedCompletionStep"]);
@@ -86,7 +81,6 @@ class NotificationObject {
         "hour": hour,
         "minutes": minutes,
         "weekDay": weekDay,
-        "shouldShow": shouldShow,
         "title": title,
         "body": body,
         "relatedCompletionStep": relatedCompletionStep,
@@ -113,7 +107,6 @@ class NotificationObject {
             hour: hours[j],
             minutes: minutes[j],
             weekDay: _currentWeekday,
-            shouldShow: true,
             title: title,
             body: body,
             relatedCompletionStep: _completionStep);
