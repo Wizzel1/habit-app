@@ -5,6 +5,7 @@ import 'package:Marbit/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:Marbit/models/models.dart';
 import 'package:Marbit/util/util.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -178,13 +179,13 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
 
   void _animateRewardList() {
     Timer(
-      Duration(seconds: 1),
+      const Duration(seconds: 1),
       () async {
         await Future.forEach(_shuffeledRewardList, (reward) async {
           double _offset = (_shuffeledRewardList.indexOf(reward) + 1) * 100.0;
 
           await _scrollController.animateTo(_offset,
-              duration: Duration(milliseconds: 200), curve: Curves.ease);
+              duration: const Duration(milliseconds: 200), curve: Curves.ease);
         });
 
         await _finalRewardAnimController.forward();
@@ -213,6 +214,12 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
             child: Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black.withOpacity(0.15),
+                        offset: const Offset(3, 3),
+                        blurRadius: 3)
+                  ],
                   color: kBackGroundWhite),
               child: Padding(
                 padding: const EdgeInsets.all(12),
@@ -311,7 +318,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                       position: _slideUpAnimations[1],
                       child: FadeTransition(
                         opacity: _fadeInAnimations[1],
-                        child: NeumorphPressSwitch(
+                        child: CustomNeumorphButton(
                           onPressed: () async {
                             _checkIfRewardIsRemoving();
                             await Future.delayed(
@@ -320,8 +327,8 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                           },
                           height: 56,
                           width: 56,
-                          style: kInactiveNeumorphStyle.copyWith(
-                              color: Colors.green[400]),
+                          color: Colors.green[400],
+                          style: kInactiveNeumorphStyle,
                           child: Icon(
                             FontAwesomeIcons.check,
                             color: Colors.white,

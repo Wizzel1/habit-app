@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 
 class SnackBars {
   static const SnackPosition _snackPosition = SnackPosition.TOP;
-  static const Duration _snackDuration = Duration(seconds: 4);
+  static const Duration _snackDuration = const Duration(seconds: 4);
   static const String _fontFamily = 'Lexend';
 
   static void showSuccessSnackBar(String title, String message) {

@@ -294,7 +294,7 @@ class Habit {
           orElse: () => scheduledWeekDays.first);
       if (newCompletionWeekDay == DateUtilities.today.weekday) {
         Get.find<EditContentController>().cachedCompletionDate.value =
-            DateUtilities.today.add(Duration(days: 7));
+            DateUtilities.today.add(const Duration(days: 7));
       } else {
         Get.find<EditContentController>().cachedCompletionDate.value =
             DateUtilities.getDateTimeOfNextWeekDayOccurrence(

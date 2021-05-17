@@ -96,7 +96,7 @@ class DateUtilities {
         _currentWeek = CalendarWeek(weekNumber: weekIndex, trackedDays: []);
       }
       dayIndex++;
-      _firstDayOf2021 = _firstDayOf2021.add(Duration(days: 1));
+      _firstDayOf2021 = _firstDayOf2021.add(const Duration(days: 1));
     }
 
     TrackedDay lastDay =

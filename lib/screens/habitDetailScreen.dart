@@ -309,7 +309,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                                         : (_editContentController
                                                 .cachedRewardReferences.length *
                                             90.0),
-                                duration: Duration(milliseconds: 800),
+                                duration: const Duration(milliseconds: 800),
                                 curve: Curves.easeOutQuint,
                                 child: _buildImplicitList(),
                               ),
