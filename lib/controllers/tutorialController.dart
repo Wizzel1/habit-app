@@ -113,7 +113,7 @@ class TutorialController extends GetxController {
 
     hasSeenWelcomeScreen = true;
 
-    LocalStorageService.saveTutorialProgress(
+    await LocalStorageService.saveTutorialProgress(
         "hasSeenWelcomeScreen", hasSeenWelcomeScreen);
 
     if (!wantToWatchTutorial) {
@@ -121,13 +121,13 @@ class TutorialController extends GetxController {
       hasFinishedHomeScreenStep = true;
       hasFinishedCompletionStep = true;
       hasFinishedDrawerExtensionStep = true;
-      LocalStorageService.saveTutorialProgress(
+      await LocalStorageService.saveTutorialProgress(
           "hasFinishedHomeScreenStep", hasFinishedHomeScreenStep);
-      LocalStorageService.saveTutorialProgress(
+      await LocalStorageService.saveTutorialProgress(
           "hasFinishedDetailScreenStep", hasFinishedDetailScreenStep);
-      LocalStorageService.saveTutorialProgress(
+      await LocalStorageService.saveTutorialProgress(
           "hasFinishedCompletionStep", hasFinishedCompletionStep);
-      LocalStorageService.saveTutorialProgress(
+      await LocalStorageService.saveTutorialProgress(
           "hasFinishedDrawerExtensionStep", hasFinishedDrawerExtensionStep);
       update([innerDrawerBuilderID, todaysHabitsBuilderID, true]);
       return;
@@ -144,19 +144,19 @@ class TutorialController extends GetxController {
       focusAnimationDuration: _focusAnimationDuration,
       colorShadow: kLightOrange,
       opacityShadow: 1.0,
-      onFinish: () {
+      onFinish: () async {
         print("finish");
         hasFinishedHomeScreenStep = true;
-        LocalStorageService.saveTutorialProgress(
+        await LocalStorageService.saveTutorialProgress(
             "hasFinishedHomeScreenStep", hasFinishedHomeScreenStep);
       },
       onClickTarget: (target) {
         print(target);
       },
-      onSkip: () {
+      onSkip: () async {
         print("skip");
         hasFinishedHomeScreenStep = true;
-        LocalStorageService.saveTutorialProgress(
+        await LocalStorageService.saveTutorialProgress(
             "hasFinishedHomeScreenStep", hasFinishedHomeScreenStep);
       },
     )..show();
@@ -170,20 +170,20 @@ class TutorialController extends GetxController {
       focusAnimationDuration: _focusAnimationDuration,
       colorShadow: kLightOrange,
       opacityShadow: 1.0,
-      onFinish: () {
+      onFinish: () async {
         print("finish");
         hasFinishedDetailScreenStep = true;
-        LocalStorageService.saveTutorialProgress(
+        await LocalStorageService.saveTutorialProgress(
             "hasFinishedDetailScreenStep", hasFinishedDetailScreenStep);
         update([habitDetailBuilderID, todaysHabitsBuilderID, true]);
       },
       onClickTarget: (target) {
         print(target);
       },
-      onSkip: () {
+      onSkip: () async {
         print("skip");
         hasFinishedDetailScreenStep = true;
-        LocalStorageService.saveTutorialProgress(
+        await LocalStorageService.saveTutorialProgress(
             "hasFinishedDetailScreenStep", hasFinishedDetailScreenStep);
         update([habitDetailBuilderID, todaysHabitsBuilderID, true]);
       },
@@ -198,19 +198,19 @@ class TutorialController extends GetxController {
       focusAnimationDuration: _focusAnimationDuration,
       colorShadow: kLightOrange,
       opacityShadow: 1.0,
-      onFinish: () {
+      onFinish: () async {
         print("finish");
         hasFinishedCompletionStep = true;
-        LocalStorageService.saveTutorialProgress(
+        await LocalStorageService.saveTutorialProgress(
             "hasFinishedCompletionStep", hasFinishedCompletionStep);
       },
       onClickTarget: (target) {
         print(target);
       },
-      onSkip: () {
+      onSkip: () async {
         print("skip");
         hasFinishedCompletionStep = true;
-        LocalStorageService.saveTutorialProgress(
+        await LocalStorageService.saveTutorialProgress(
             "hasFinishedCompletionStep", hasFinishedCompletionStep);
       },
     )..show();
@@ -225,20 +225,20 @@ class TutorialController extends GetxController {
       focusAnimationDuration: _focusAnimationDuration,
       colorShadow: kLightOrange,
       opacityShadow: 1.0,
-      onFinish: () {
+      onFinish: () async {
         print("finish");
         hasFinishedDrawerExtensionStep = true;
-        LocalStorageService.saveTutorialProgress(
+        await LocalStorageService.saveTutorialProgress(
             "hasFinishedDrawerExtensionStep", hasFinishedDrawerExtensionStep);
         update([innerDrawerBuilderID, todaysHabitsBuilderID, true]);
       },
       onClickTarget: (target) {
         print(target);
       },
-      onSkip: () {
+      onSkip: () async {
         print("skip");
         hasFinishedDrawerExtensionStep = true;
-        LocalStorageService.saveTutorialProgress(
+        await LocalStorageService.saveTutorialProgress(
             "hasFinishedDrawerExtensionStep", hasFinishedDrawerExtensionStep);
         update([innerDrawerBuilderID, todaysHabitsBuilderID, true]);
       },
