@@ -458,17 +458,22 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                       bool isSelected = (_createItemController
                           .selectedRewardReferences
                           .any((element) => element == rewardReference));
-                      return SelectableRewardContainer(
-                        reward: _contentController.allRewardList[index],
-                        isSelectedReward: isSelected,
-                        onTap: () {
-                          _createItemController.selectedRewardReferences
-                                  .contains(rewardReference)
-                              ? _createItemController.selectedRewardReferences
-                                  .remove(rewardReference)
-                              : _createItemController.selectedRewardReferences
-                                  .add(rewardReference);
-                        },
+                      return Neumorphic(
+                        style: isSelected
+                            ? kActiveNeumorphStyle
+                            : kInactiveNeumorphStyle,
+                        child: SelectableRewardContainer(
+                          reward: _contentController.allRewardList[index],
+                          isSelectedReward: isSelected,
+                          onTap: () {
+                            _createItemController.selectedRewardReferences
+                                    .contains(rewardReference)
+                                ? _createItemController.selectedRewardReferences
+                                    .remove(rewardReference)
+                                : _createItemController.selectedRewardReferences
+                                    .add(rewardReference);
+                          },
+                        ),
                       );
                     },
                   ),
@@ -566,59 +571,6 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
           flex: _contentFlex,
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                      flex: 4,
-                      child: Obx(
-                        () => NeumorphPressSwitch(
-                          onPressed: () {
-                            _createItemController.activeNotifications.value =
-                                true;
-                          },
-                          height: 50,
-                          style: _createItemController.activeNotifications.value
-                              ? kActiveNeumorphStyle
-                              : kInactiveNeumorphStyle,
-                          child: Text(
-                            'notifications_active'.tr,
-                            style: Theme.of(context).textTheme.button.copyWith(
-                                color: _createItemController
-                                        .activeNotifications.value
-                                    ? kBackGroundWhite
-                                    : Theme.of(context).accentColor),
-                          ),
-                        ),
-                      )),
-                  const Spacer(),
-                  Expanded(
-                    flex: 4,
-                    child: Obx(
-                      () => NeumorphPressSwitch(
-                        onPressed: () {
-                          _createItemController.activeNotifications.value =
-                              false;
-                        },
-                        height: 50,
-                        style: _createItemController.activeNotifications.value
-                            ? kInactiveNeumorphStyle
-                            : kActiveNeumorphStyle,
-                        child: Text(
-                          'notifications_inactive'.tr,
-                          style: Theme.of(context).textTheme.button.copyWith(
-                                color: _createItemController
-                                        .activeNotifications.value
-                                    ? Theme.of(context).accentColor
-                                    : kBackGroundWhite,
-                              ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 30),
               Expanded(
                 child: Wrap(
                   alignment: WrapAlignment.center,
