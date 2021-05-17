@@ -235,6 +235,8 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                   if (snapshot.connectionState == ConnectionState.waiting)
                     return const SizedBox.shrink();
                   return SingleChildScrollView(
+                    controller:
+                        _tutorialController.tutorialHabitDetailScrollController,
                     physics: const BouncingScrollPhysics(),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
