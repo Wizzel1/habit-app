@@ -303,6 +303,7 @@ class AllHabitContainer extends StatelessWidget {
             Get.to(() => HabitDetailScreen(
                   habit: habit,
                   alterHeroTag: true,
+                  isTutorialScreen: false,
                 ));
           },
           child: Neumorphic(
