@@ -246,7 +246,7 @@ class CompletionContainer extends StatelessWidget {
       width: completionGoal * 20.0,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: completionGoal,
         itemBuilder: (BuildContext context, int index) {

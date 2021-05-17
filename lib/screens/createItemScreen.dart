@@ -65,21 +65,19 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Obx(
                   () => PageView(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     scrollDirection: Axis.vertical,
                     controller: _pageController,
                     children: [
                       buildSelectionButtonRow(),
                       if (_createItemController.createHabit.value) ...[
                         buildTitleInputPage(),
-                        buildDescriptionInputPage(),
                         buildCompletionGoalStepper(),
                         _buildNotificationTimeSelectionPage(),
                         buildRewardSelectionPage(),
                         buildSchedulerPage()
                       ] else ...[
                         buildTitleInputPage(),
-                        buildDescriptionInputPage(),
                         buildRewardIntervalPage()
                       ]
                     ],
@@ -110,7 +108,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                         onPressed: () {
                           _createItemController.createHabit.value = true;
                           _pageController.nextPage(
-                              duration: Duration(milliseconds: 200),
+                              duration: const Duration(milliseconds: 200),
                               curve: Curves.ease);
                         },
                         height: 60,
@@ -129,7 +127,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                           onPressed: () {
                             _createItemController.createHabit.value = false;
                             _pageController.nextPage(
-                                duration: Duration(milliseconds: 200),
+                                duration: const Duration(milliseconds: 200),
                                 curve: Curves.ease);
                           },
                           height: 60,

@@ -229,7 +229,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                     Container(
                       height: 100,
                       child: ListWheelScrollView.useDelegate(
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         controller: _scrollController,
                         itemExtent: 100,
                         childDelegate: ListWheelChildBuilderDelegate(
