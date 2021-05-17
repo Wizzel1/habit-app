@@ -62,6 +62,19 @@ class TutorialController extends GetxController {
     super.onInit();
   }
 
+  TargetFocus _createTargetFocus(
+      {String identifier, Key keyTarget, TargetContent content}) {
+    return TargetFocus(
+      identify: identifier,
+      shape: ShapeLightFocus.RRect,
+      enableOverlayTab: false,
+      enableTargetTab: false,
+      radius: targetFocusRadius,
+      keyTarget: keyTarget,
+      contents: [content],
+    );
+  }
+
   Future<void> loadTutorialInfo() async {
     hasFinishedHomeScreenStep = await LocalStorageService.loadTutorialProgress(
         "hasFinishedHomeScreenStep");
@@ -257,75 +270,35 @@ class TutorialController extends GetxController {
   void _addHomeScreenTargets() {
     targets.clear();
     targets.add(
-      TargetFocus(
-        identify: "Target 1",
-        shape: ShapeLightFocus.RRect,
-        enableOverlayTab: false,
-        enableTargetTab: false,
-        radius: targetFocusRadius,
+      _createTargetFocus(
+        identifier: "Target 1",
         keyTarget: homeTutorialHabitContainerKey,
-        contents: [
-          TargetContent(
-              align: ContentAlign.bottom,
-              child: Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'homeScreenTutorial_container_heading'.tr,
-                      style: _themeData.textTheme.headline4,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Text(
-                        'homeScreenTutorial_container_message'.tr,
-                        style: _themeData.textTheme.caption,
-                      ),
-                    ),
-                    ButtonRow(
-                      onNextTapped: _nextTutorialStep,
-                    )
-                  ],
-                ),
-              ))
-        ],
+        content: TargetContent(
+          align: ContentAlign.bottom,
+          child: ContentContainer(
+            heading: 'homeScreenTutorial_container_heading'.tr,
+            message: 'homeScreenTutorial_container_message'.tr,
+            buttonRow: ButtonRow(
+              onNextTapped: _nextTutorialStep,
+            ),
+          ),
+        ),
       ),
     );
     targets.add(
-      TargetFocus(
-        identify: "Target 1",
-        shape: ShapeLightFocus.RRect,
-        enableOverlayTab: false,
-        enableTargetTab: false,
-        radius: targetFocusRadius,
+      _createTargetFocus(
+        identifier: "Target 1",
         keyTarget: homeTutorialHabitContainerKey,
-        contents: [
-          TargetContent(
-              align: ContentAlign.bottom,
-              child: Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'homeScreenTutorial_details_heading'.tr,
-                      style: _themeData.textTheme.headline4,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Text(
-                        'homeScreenTutorial_details_message'.tr,
-                        style: _themeData.textTheme.caption,
-                      ),
-                    ),
-                    ButtonRow(
-                      onNextTapped: _nextTutorialStep,
-                    )
-                  ],
-                ),
-              ))
-        ],
+        content: TargetContent(
+          align: ContentAlign.bottom,
+          child: ContentContainer(
+            heading: 'homeScreenTutorial_details_heading'.tr,
+            message: 'homeScreenTutorial_details_message'.tr,
+            buttonRow: ButtonRow(
+              onNextTapped: _nextTutorialStep,
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -333,249 +306,113 @@ class TutorialController extends GetxController {
   void _addHabitDetailScreenTargets() {
     targets.clear();
     targets.add(
-      TargetFocus(
-        identify: "detail_scheduleRowKey",
-        shape: ShapeLightFocus.RRect,
-        enableTargetTab: false,
-        enableOverlayTab: false,
-        radius: targetFocusRadius,
+      _createTargetFocus(
+        identifier: 'detail_scheduleRowKey',
         keyTarget: scheduleRowKey,
-        contents: [
-          TargetContent(
-            align: ContentAlign.bottom,
-            child: Container(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    'detailScreenTutorial_scheduleRowKey_heading'.tr,
-                    style: _themeData.textTheme.headline4,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: Text(
-                      'detailScreenTutorial_scheduleRowKey_message'.tr,
-                      style: _themeData.textTheme.caption,
-                    ),
-                  ),
-                  ButtonRow(
-                    onNextTapped: () {
-                      tutorialHabitDetailScrollController.scrollToIndex(1,
-                          duration: scrollDuration,
-                          preferPosition: AutoScrollPosition.end);
-                      _nextTutorialStep();
-                    },
-                  )
-                ],
-              ),
+        content: TargetContent(
+          align: ContentAlign.bottom,
+          child: ContentContainer(
+            heading: 'detailScreenTutorial_scheduleRowKey_heading'.tr,
+            message: 'detailScreenTutorial_scheduleRowKey_message'.tr,
+            buttonRow: ButtonRow(
+              onNextTapped: () {
+                tutorialHabitDetailScrollController.scrollToIndex(1,
+                    duration: scrollDuration,
+                    preferPosition: AutoScrollPosition.end);
+                _nextTutorialStep();
+              },
             ),
           ),
-        ],
+        ),
       ),
     );
     targets.add(
-      TargetFocus(
-        identify: "detail_notificationTimesKey",
-        shape: ShapeLightFocus.RRect,
-        enableTargetTab: false,
-        enableOverlayTab: false,
-        radius: targetFocusRadius,
+      _createTargetFocus(
+        identifier: 'detail_notificationTimesKey',
         keyTarget: notificationTimesKey,
-        contents: [
-          TargetContent(
-            align: ContentAlign.bottom,
-            child: Container(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    'detailScreenTutorial_notificationTimesKey_heading'.tr,
-                    style: _themeData.textTheme.headline4,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: Text(
-                      'detailScreenTutorial_notificationTimesKey_message'.tr,
-                      style: _themeData.textTheme.caption,
-                    ),
-                  ),
-                  ButtonRow(
-                    onNextTapped: () {
-                      tutorialHabitDetailScrollController.scrollToIndex(1,
-                          duration: scrollDuration,
-                          preferPosition: AutoScrollPosition.end);
-                      _nextTutorialStep();
-                    },
-                  )
-                ],
-              ),
+        content: TargetContent(
+          align: ContentAlign.bottom,
+          child: ContentContainer(
+            heading: 'detailScreenTutorial_notificationTimesKey_heading'.tr,
+            message: 'detailScreenTutorial_notificationTimesKey_message'.tr,
+            buttonRow: ButtonRow(
+              onNextTapped: () {
+                tutorialHabitDetailScrollController.scrollToIndex(1,
+                    duration: scrollDuration,
+                    preferPosition: AutoScrollPosition.end);
+                _nextTutorialStep();
+              },
             ),
           ),
-        ],
+        ),
       ),
     );
 
     targets.add(
-      TargetFocus(
-        identify: "detail_rewardListKey",
-        shape: ShapeLightFocus.RRect,
-        enableTargetTab: false,
-        enableOverlayTab: false,
-        radius: targetFocusRadius,
+      _createTargetFocus(
+        identifier: "detail_rewardListKey",
         keyTarget: rewardListKey,
-        contents: [
-          TargetContent(
-              align: ContentAlign.top,
-              child: Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'detailScreenTutorial_rewardList_heading'.tr,
-                      style: _themeData.textTheme.headline4,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Column(
-                        children: [
-                          Text(
-                            'detailScreenTutorial_rewardList_message',
-                            style: _themeData.textTheme.caption,
-                          ),
-                          Row(
-                            //TODO translate
-                            children: [
-                              Icon(FontAwesomeIcons.redoAlt,
-                                  color: kBackGroundWhite),
-                              Text(
-                                '= Wiederkehrende Belohnungen',
-                                style: _themeData.textTheme.caption,
-                              ),
-                            ],
-                          ),
-                          Row(
-                            //TODO translate
-                            children: [
-                              Icon(FontAwesomeIcons.ban,
-                                  color: kBackGroundWhite),
-                              Text(
-                                '= Einmalige Belohnungen',
-                                style: _themeData.textTheme.caption,
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                    ButtonRow(
-                      onPreviousTapped: () {
-                        _previousTutorialStep();
-                      },
-                      onNextTapped: () {
-                        tutorialHabitDetailScrollController.scrollToIndex(2,
-                            duration: scrollDuration,
-                            preferPosition: AutoScrollPosition.end);
-                        _nextTutorialStep();
-                      },
-                    )
-                  ],
-                ),
-              ))
-        ],
+        content: TargetContent(
+          align: ContentAlign.top,
+          child: ContentContainer(
+            heading: 'detailScreenTutorial_rewardList_heading'.tr,
+            message: 'detailScreenTutorial_rewardList_message'.tr,
+            buttonRow: ButtonRow(
+              onPreviousTapped: () {
+                _previousTutorialStep();
+              },
+              onNextTapped: () {
+                tutorialHabitDetailScrollController.scrollToIndex(2,
+                    duration: scrollDuration,
+                    preferPosition: AutoScrollPosition.end);
+                _nextTutorialStep();
+              },
+            ),
+          ),
+        ),
       ),
     );
     targets.add(
-      TargetFocus(
-        identify: "detail_statisticsElementKey",
-        shape: ShapeLightFocus.RRect,
-        enableTargetTab: false,
-        enableOverlayTab: false,
-        radius: targetFocusRadius,
+      _createTargetFocus(
+        identifier: "detail_statisticsElementKey",
         keyTarget: statisticsElementKey,
-        contents: [
-          TargetContent(
+        content: TargetContent(
             align: ContentAlign.top,
-            child: Container(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    'detailScreenTutorial_statistics_heading'.tr,
-                    style: _themeData.textTheme.headline4,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: Text(
-                      'detailScreenTutorial_statistics_message'.tr,
-                      style: _themeData.textTheme.caption,
-                    ),
-                  ),
-                  ButtonRow(
-                    onPreviousTapped: () {
-                      tutorialHabitDetailScrollController.scrollToIndex(1,
-                          duration: scrollDuration,
-                          preferPosition: AutoScrollPosition.end);
-                      _previousTutorialStep();
-                    },
-                    onNextTapped: () {
-                      tutorialHabitDetailScrollController.scrollToIndex(3,
-                          duration: scrollDuration,
-                          preferPosition: AutoScrollPosition.end);
-                      _nextTutorialStep();
-                    },
-                  )
-                ],
+            child: ContentContainer(
+              heading: 'detailScreenTutorial_statistics_heading'.tr,
+              message: 'detailScreenTutorial_statistics_message'.tr,
+              buttonRow: ButtonRow(
+                onPreviousTapped: () {
+                  tutorialHabitDetailScrollController.scrollToIndex(1,
+                      duration: scrollDuration,
+                      preferPosition: AutoScrollPosition.end);
+                  _previousTutorialStep();
+                },
+                onNextTapped: () {
+                  tutorialHabitDetailScrollController.scrollToIndex(3,
+                      duration: scrollDuration,
+                      preferPosition: AutoScrollPosition.end);
+                  _nextTutorialStep();
+                },
               ),
-            ),
-          )
-        ],
+            )),
       ),
     );
     targets.add(
-      TargetFocus(
-        identify: "detail_editButtonKey",
-        shape: ShapeLightFocus.RRect,
-        enableTargetTab: false,
-        enableOverlayTab: false,
-        radius: targetFocusRadius,
+      _createTargetFocus(
+        identifier: "detail_editButtonKey",
         keyTarget: editButtonKey,
-        contents: [
-          TargetContent(
-            align: ContentAlign.top,
-            child: Container(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    'detailScreenTutorial_editButton_heading'.tr,
-                    style: _themeData.textTheme.headline4,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: Text(
-                      'detailScreenTutorial_editButton_message'.tr,
-                      style: _themeData.textTheme.caption,
-                    ),
-                  ),
-                  ButtonRow(
-                    onNextTapped: _nextTutorialStep,
-                    onPreviousTapped: () {
-                      tutorialHabitDetailScrollController.scrollToIndex(2,
-                          duration: scrollDuration,
-                          preferPosition: AutoScrollPosition.end);
-                      _previousTutorialStep();
-                    },
-                  )
-                ],
-              ),
+        content: TargetContent(
+          align: ContentAlign.top,
+          child: ContentContainer(
+            heading: 'detailScreenTutorial_editButton_heading'.tr,
+            message: 'detailScreenTutorial_editButton_message'.tr,
+            buttonRow: ButtonRow(
+              onNextTapped: _nextTutorialStep,
+              onPreviousTapped: _previousTutorialStep,
             ),
-          )
-        ],
+          ),
+        ),
       ),
     );
   }
@@ -583,78 +420,34 @@ class TutorialController extends GetxController {
   void _addCompletionTutorialTargets() {
     targets.clear();
     targets.add(
-      TargetFocus(
-        identify: "Target 2",
-        shape: ShapeLightFocus.RRect,
-        enableOverlayTab: false,
-        enableTargetTab: false,
-        radius: targetFocusRadius,
+      _createTargetFocus(
+        identifier: "Target 2",
         keyTarget: completionRowKey,
-        contents: [
-          TargetContent(
-              align: ContentAlign.bottom,
-              child: Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'completionScreenTutorial_completionrow_heading'.tr,
-                      style: _themeData.textTheme.headline4,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Text(
-                        'completionScreenTutorial_completionrow_message'.tr,
-                        style: _themeData.textTheme.caption,
-                      ),
-                    ),
-                    ButtonRow(
-                      onNextTapped: _nextTutorialStep,
-                      onPreviousTapped: _previousTutorialStep,
-                    ),
-                  ],
-                ),
-              ))
-        ],
+        content: TargetContent(
+          align: ContentAlign.bottom,
+          child: ContentContainer(
+            heading: 'completionScreenTutorial_completionrow_heading'.tr,
+            message: 'completionScreenTutorial_completionrow_message'.tr,
+            buttonRow: ButtonRow(
+              onNextTapped: _nextTutorialStep,
+              onPreviousTapped: _previousTutorialStep,
+            ),
+          ),
+        ),
       ),
     );
     targets.add(
-      TargetFocus(
-        identify: "completion_completeButton",
-        shape: ShapeLightFocus.RRect,
-        enableOverlayTab: false,
-        enableTargetTab: false,
-        radius: targetFocusRadius,
+      _createTargetFocus(
+        identifier: "completion_completeButton 3",
         keyTarget: completeButtonKey,
-        contents: [
-          TargetContent(
-            align: ContentAlign.bottom,
-            child: Container(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    'completionStepTutorial_complete_heading'.tr,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: 20.0),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: Text(
-                      'completionStepTutorial_complete_message'.tr,
-                      style: _themeData.textTheme.caption,
-                    ),
-                  ),
-                  ButtonRow(onNextTapped: _nextTutorialStep)
-                ],
-              ),
-            ),
+        content: TargetContent(
+          align: ContentAlign.bottom,
+          child: ContentContainer(
+            heading: 'completionStepTutorial_complete_heading'.tr,
+            message: 'completionStepTutorial_complete_message'.tr,
+            buttonRow: ButtonRow(onNextTapped: _nextTutorialStep),
           ),
-        ],
+        ),
       ),
     );
   }
@@ -662,36 +455,50 @@ class TutorialController extends GetxController {
   void _addRewardPopupTutorialTargets() {
     targets.clear();
     targets.add(
-      TargetFocus(
-        identify: "Target 3",
-        shape: ShapeLightFocus.RRect,
-        enableOverlayTab: false,
-        enableTargetTab: false,
-        radius: targetFocusRadius,
+      _createTargetFocus(
+        identifier: "Target 3",
         keyTarget: drawerExtensionKey,
-        contents: [
-          TargetContent(
-              align: ContentAlign.bottom,
-              child: Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'completionTutorial_drawerExtension_heading'.tr,
-                      style: _themeData.textTheme.headline4,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Text(
-                        'completionTutorial_drawerExtension_message'.tr,
-                        style: _themeData.textTheme.caption,
-                      ),
-                    ),
-                    ButtonRow(onNextTapped: _nextTutorialStep)
-                  ],
-                ),
-              ))
+        content: TargetContent(
+          align: ContentAlign.bottom,
+          child: ContentContainer(
+            heading: 'completionTutorial_drawerExtension_heading'.tr,
+            message: 'completionTutorial_drawerExtension_message'.tr,
+            buttonRow: ButtonRow(onNextTapped: _nextTutorialStep),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ContentContainer extends StatelessWidget {
+  final String heading;
+  final String message;
+  final ButtonRow buttonRow;
+
+  const ContentContainer({Key key, this.heading, this.message, this.buttonRow})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    ThemeData _themeData = Theme.of(context);
+    return Container(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            heading,
+            style: _themeData.textTheme.headline4,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Text(
+              message,
+              style: _themeData.textTheme.caption,
+            ),
+          ),
+          buttonRow,
         ],
       ),
     );
