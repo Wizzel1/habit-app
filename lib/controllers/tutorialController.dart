@@ -30,12 +30,13 @@ class TutorialController extends GetxController {
 
   TutorialCoachMark tutorial;
   final double targetFocusRadius = 15;
-  final Duration _focusAnimationDuration = Duration(milliseconds: 400);
+  final Duration _focusAnimationDuration = const Duration(milliseconds: 400);
 
   // -- HabitDetailScreen Keys --
   final GlobalKey scheduleRowKey = GlobalKey();
   final GlobalKey rewardListKey = GlobalKey();
   final GlobalKey editButtonKey = GlobalKey();
+  final GlobalKey notificationTimesKey = GlobalKey();
   final GlobalKey statisticsElementKey = GlobalKey();
 
   // -- HomeScreen Step Keys --
@@ -373,6 +374,49 @@ class TutorialController extends GetxController {
         ],
       ),
     );
+    targets.add(
+      TargetFocus(
+        identify: "detail_notificationTimesKey",
+        shape: ShapeLightFocus.RRect,
+        enableTargetTab: false,
+        enableOverlayTab: false,
+        radius: targetFocusRadius,
+        keyTarget: notificationTimesKey,
+        contents: [
+          TargetContent(
+            align: ContentAlign.bottom,
+            child: Container(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'detailScreenTutorial_notificationTimesKey_heading'.tr,
+                    style: _themeData.textTheme.headline4,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Text(
+                      'detailScreenTutorial_notificationTimesKey_message'.tr,
+                      style: _themeData.textTheme.caption,
+                    ),
+                  ),
+                  ButtonRow(
+                    onNextTapped: () {
+                      tutorialHabitDetailScrollController.scrollToIndex(1,
+                          duration: scrollDuration,
+                          preferPosition: AutoScrollPosition.end);
+                      _nextTutorialStep();
+                    },
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+
     targets.add(
       TargetFocus(
         identify: "detail_rewardListKey",
