@@ -140,7 +140,7 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
                       blurRadius: 3)
                 ],
                 color: elementColor,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(16),
@@ -187,7 +187,7 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
       barRods: [
         BarChartRodData(
           y: isTouched ? value : value,
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: const BorderRadius.all(Radius.circular(5)),
           colors: isTouched ? [kBackGroundWhite] : [barColor],
           width: width,
           backDrawRodData: BackgroundBarChartRodData(

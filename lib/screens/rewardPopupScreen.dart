@@ -213,7 +213,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
             scale: _popupScaleAnimation,
             child: Container(
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
                   boxShadow: [
                     BoxShadow(
                         color: Colors.black.withOpacity(0.15),
@@ -246,7 +246,8 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                                       width: double.infinity,
                                       decoration: BoxDecoration(
                                         color: kLightOrange,
-                                        borderRadius: BorderRadius.circular(10),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(10)),
                                       ),
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
@@ -275,7 +276,8 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                                     width: double.infinity,
                                     decoration: BoxDecoration(
                                       color: kLightOrange,
-                                      borderRadius: BorderRadius.circular(10),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(10)),
                                     ),
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(

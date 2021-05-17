@@ -114,9 +114,9 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
                       habit: widget.habit,
                       alterHeroTag: false,
                     ));
+                widget.onDetailScreenPopped();
                 await 200.milliseconds.delay();
                 await _buttonAnimController.reverse();
-                widget.onDetailScreenPopped();
               },
               child: Neumorphic(
                 style: kInactiveNeumorphStyle.copyWith(color: kLightOrange),
@@ -258,7 +258,7 @@ class CompletionContainer extends StatelessWidget {
                       intensity: 0.9,
                       depth: 2,
                       boxShape: NeumorphicBoxShape.roundRect(
-                          BorderRadius.circular(3)),
+                          const BorderRadius.all(Radius.circular(3))),
                     ),
                     child: Container(
                       width: 15,
@@ -270,7 +270,7 @@ class CompletionContainer extends StatelessWidget {
                       intensity: 0.9,
                       depth: -2,
                       boxShape: NeumorphicBoxShape.roundRect(
-                          BorderRadius.circular(3)),
+                          const BorderRadius.all(Radius.circular(3))),
                     ),
                     child: Container(
                       width: 15,
@@ -343,7 +343,8 @@ class AllHabitContainer extends StatelessWidget {
                                           depth: -2,
                                           boxShape:
                                               NeumorphicBoxShape.roundRect(
-                                                  BorderRadius.circular(3))),
+                                                  const BorderRadius.all(
+                                                      Radius.circular(3)))),
                                       child: Container(
                                         height: 25,
                                         width: 25,
@@ -367,7 +368,8 @@ class AllHabitContainer extends StatelessWidget {
                                           depth: 2,
                                           boxShape:
                                               NeumorphicBoxShape.roundRect(
-                                                  BorderRadius.circular(3))),
+                                                  const BorderRadius.all(
+                                                      Radius.circular(3)))),
                                       child: Container(
                                         height: 25,
                                         width: 25,
