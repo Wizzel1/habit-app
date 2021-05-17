@@ -294,12 +294,21 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
                                   .tutorialHabitDetailScrollController,
                               key: ValueKey(1),
                               child: AnimatedContainer(
-                                height: _isInEditMode
-                                    ? (_contentController.allRewardList.length *
-                                        90.0)
-                                    : (_editContentController
-                                            .cachedRewardReferences.length *
-                                        90.0),
+                                height: widget.isTutorialScreen
+                                    ? _isInEditMode
+                                        ? (ContentController
+                                                .exampleRewards.length *
+                                            90.0)
+                                        : (_editContentController
+                                                .cachedRewardReferences.length *
+                                            90.0)
+                                    : _isInEditMode
+                                        ? (_contentController
+                                                .allRewardList.length *
+                                            90.0)
+                                        : (_editContentController
+                                                .cachedRewardReferences.length *
+                                            90.0),
                                 duration: Duration(milliseconds: 800),
                                 curve: Curves.easeOutQuint,
                                 child: _buildImplicitList(),
