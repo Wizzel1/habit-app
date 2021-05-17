@@ -1,3 +1,4 @@
+import 'package:Marbit/util/private.dart';
 import 'package:flutter/material.dart';
 import 'package:native_admob_flutter/native_admob_flutter.dart';
 import 'package:get/get.dart';
@@ -10,7 +11,8 @@ class AdController extends GetxController {
   final int _interstitialInterval = 4;
 
   Future<void> initializeInterstitialAd() async {
-    interstitialAd = InterstitialAd(unitId: MobileAds.interstitialAdTestUnitId);
+    interstitialAd =
+        InterstitialAd(unitId: PrivateConstants.releaseInterstitialAdID);
     await interstitialAd.load();
   }
 
@@ -34,7 +36,7 @@ class AdController extends GetxController {
         height: 60,
         child: Center(child: Text('error'.tr)),
       ),
-      unitId: MobileAds.bannerAdTestUnitId,
+      unitId: PrivateConstants.releaseListViewBannerID,
       size: BannerSize.ADAPTIVE,
     );
   }
@@ -52,7 +54,7 @@ class AdController extends GetxController {
           width: 320, height: 100, child: Center(child: Text("loading".tr))),
       error: Container(
           width: 320, height: 100, child: Center(child: Text('error'.tr))),
-      unitId: MobileAds.bannerAdTestUnitId,
+      unitId: PrivateConstants.releaseDetailScreenBannerID,
       size: BannerSize.LARGE_BANNER,
     );
   }
