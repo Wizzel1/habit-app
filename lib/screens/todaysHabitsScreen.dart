@@ -91,15 +91,13 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
                                       habit: tappedHabit,
                                       onPressed: () async {
                                         await tappedHabit.addCompletionForToday(
-                                          onCompletionGoalReached: () {
-                                            400.milliseconds.delay().then(
-                                              (value) {
-                                                Get.to(() => RewardPopupScreen(
+                                          onCompletionGoalReached: () async {
+                                            await 400.milliseconds.delay();
+                                            await Get.to(
+                                                () => RewardPopupScreen(
                                                       isTutorial: false,
                                                       habit: tappedHabit,
                                                     ));
-                                              },
-                                            );
                                           },
                                         );
                                       },

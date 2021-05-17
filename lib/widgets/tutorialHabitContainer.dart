@@ -23,30 +23,27 @@ class _TutorialHabitContainerState extends State<TutorialHabitContainer> {
       children: [
         const SizedBox(height: 30),
         Container(
-          color: kBackGroundWhite,
-          height: 120,
-          width: double.infinity,
-          child: CompletableHabitContainer(
-            isTutorialContainer: true,
-            habit: ContentController.tutorialHabit,
-            onDetailScreenPopped: widget.onChildPopped,
-            onPressed: () {
-              ContentController.tutorialHabit.addCompletionForToday(
-                onCompletionGoalReached: () {
-                  400.milliseconds.delay().then(
-                    (value) {
-                      Get.to(
-                        () => RewardPopupScreen(
-                            habit: ContentController.tutorialHabit,
-                            isTutorial: true),
-                      ).then((value) => widget.onChildPopped());
-                    },
-                  );
-                },
-              );
-            },
-          ),
-        ),
+            color: kBackGroundWhite,
+            height: 120,
+            width: double.infinity,
+            child: CompletableHabitContainer(
+              isTutorialContainer: true,
+              habit: ContentController.tutorialHabit,
+              onDetailScreenPopped: widget.onChildPopped,
+              onPressed: () {
+                ContentController.tutorialHabit.addCompletionForToday(
+                  onCompletionGoalReached: () async {
+                    await 400.milliseconds.delay();
+                    await Get.to(
+                      () => RewardPopupScreen(
+                          habit: ContentController.tutorialHabit,
+                          isTutorial: true),
+                    );
+                    await widget.onChildPopped();
+                  },
+                );
+              },
+            )),
       ],
     );
   }
