@@ -166,9 +166,9 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
   }
 
   void _addPercentageBasedEmptyRewards() {
-    double totalRewards = _shuffeledRewardList.length /
+    final double totalRewards = _shuffeledRewardList.length /
         (widget.isTutorial ? 1.0 : _rewardPercentage);
-    double badRewards = totalRewards - _shuffeledRewardList.length;
+    final double badRewards = totalRewards - _shuffeledRewardList.length;
 
     for (var i = 0; i < badRewards; i++) {
       //TODO translate
@@ -182,7 +182,8 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
       const Duration(seconds: 1),
       () async {
         await Future.forEach(_shuffeledRewardList, (reward) async {
-          double _offset = (_shuffeledRewardList.indexOf(reward) + 1) * 100.0;
+          final double _offset =
+              (_shuffeledRewardList.indexOf(reward) + 1) * 100.0;
 
           await _scrollController.animateTo(_offset,
               duration: const Duration(milliseconds: 200), curve: Curves.ease);
@@ -205,7 +206,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kBackGroundWhite.withOpacity(0.5),
+      backgroundColor: kBackGroundWhite.withOpacity(0.8),
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: Center(
@@ -241,6 +242,43 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                                   child: Padding(
                                     padding: const EdgeInsets.fromLTRB(
                                         20.0, 10.0, 20.0, 10.0),
+                                    child: Neumorphic(
+                                      style: kActiveNeumorphStyle.copyWith(
+                                          color: kDeepOrange),
+                                      child: Container(
+                                        height: 70,
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          color: kLightOrange,
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(10)),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20.0, vertical: 10),
+                                          child: Center(
+                                            child: Text(
+                                              _shuffeledRewardList[index].name,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .button
+                                                  .copyWith(
+                                                      color: kBackGroundWhite,
+                                                      fontSize: 20),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 10),
+                                  child: Neumorphic(
+                                    style: kActiveNeumorphStyle.copyWith(
+                                        depth: -3, color: kDeepOrange),
                                     child: Container(
                                       height: 70,
                                       width: double.infinity,
@@ -267,35 +305,6 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                                       ),
                                     ),
                                   ),
-                                )
-                              : Padding(
-                                  padding: const EdgeInsets.fromLTRB(
-                                      20.0, 10.0, 20.0, 10.0),
-                                  child: Container(
-                                    height: 70,
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      color: kLightOrange,
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(10)),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20.0, vertical: 10),
-                                      child: Center(
-                                        child: Text(
-                                          _shuffeledRewardList[index].name,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .button
-                                              .copyWith(
-                                                  color: kBackGroundWhite,
-                                                  fontSize: 20),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
                                 ),
                         ),
                       ),
@@ -305,13 +314,17 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                       position: _slideUpAnimations[0],
                       child: FadeTransition(
                         opacity: _fadeInAnimations[0],
-                        child: Text(
-                          'streak_message'
-                              .trParams({'streak': '${widget.habit.streak}'}),
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6
-                              .copyWith(color: kDeepOrange),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Text(
+                            'streak_message'
+                                .trParams({'streak': '${widget.habit.streak}'}),
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6
+                                .copyWith(color: kDeepOrange),
+                          ),
                         ),
                       ),
                     ),
