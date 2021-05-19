@@ -33,42 +33,48 @@ class Messages extends Translations {
           //tutorial
           'welcomeScreen_welcome_heading': 'Welcome to Marbit',
           'welcomeScreen_welcome_message':
-              'Do you want to watch an interactive introduction?',
-          'welcomeScreen_startButton_title': '',
-          'welcomeScreen_skipButton_title': '',
+              'Do you want to watch an interactive tutorial?',
+          'welcomeScreen_startButton_title': "Let's go!",
+          'welcomeScreen_skipButton_title': "I'll figure it out myself.",
           'homeScreenTutorial_container_heading': 'Habits',
           'homeScreenTutorial_container_message':
-              'Your Habits get Displayed by these Containers.',
+              'Your Habits get Displayed as Containers.',
           'completionScreenTutorial_completionrow_heading': 'Completions',
           'completionScreenTutorial_completionrow_message':
-              'This row shows you, how many times this Habit need to be completed today.',
+              'This row shows your daily completiongoal.',
           'homeScreenTutorial_completeButton_heading': 'Complete Habit',
           'homeScreenTutorial_completeButton_message':
               'Tap this button, to add a completion to this habit.',
           'completionTutorial_drawerExtension_heading': 'Menu',
           'completionTutorial_drawerExtension_message':
-              'Auf Bildschirmen mit diesem Element kannst du zur Seite wischen, um das Menü aufzurufen.',
-          'detailScreenTutorial_scheduleRowKey_heading': '',
-          'detailScreenTutorial_scheduleRowKey_message': '',
-          'detailScreenTutorial_editButton_heading': '',
-          'detailScreenTutorial_editButton_message': '',
-          'detailScreenTutorial_rewardList_heading': '',
-          'detailScreenTutorial_rewardList_message': '',
+              'This Element shows you, on which Screens you can swipe to open the Menu.',
+          'detailScreenTutorial_scheduleRowKey_heading': 'Schedule',
+          'detailScreenTutorial_scheduleRowKey_message':
+              'Short Tap : Select/Deselect \n Long press : Bulk editing',
+          'detailScreenTutorial_editButton_heading': 'Edit/Save',
+          'detailScreenTutorial_editButton_message':
+              'Pressing this Button once will activate Editmode. Pressing it again saves the changes.',
+          'detailScreenTutorial_notificationTimesKey_heading': 'Reminders',
+          'detailScreenTutorial_notificationTimesKey_message':
+              'Short Tap : Activate/Deactivate Reminder \n Long press : Edit time',
+          'detailScreenTutorial_rewardList_heading': 'Rewards',
+          'detailScreenTutorial_rewardList_message':
+              'These are the selected rewards for this habit.',
           'homeScreenTutorial_details_heading': 'Details',
           'homeScreenTutorial_details_message':
-              'Tippe jetzt auf die Gewohnheit, um Details anzuzeigen.',
-          'detailScreenTutorial_statistics_heading': 'Statistiken',
+              'Tap the Habit, to show details.',
+          'detailScreenTutorial_statistics_heading': 'Statistics',
           'detailScreenTutorial_statistics_message':
-              'Hier siehst du auf einen Blick, wie oft du diese Gewohnheit in letzter Zeit abgeschlossen hast.',
-          'completionStepTutorial_complete_heading': 'Abschließen',
+              'These are your latest statistics for this Habit. Long press: Show detailed information.',
+          'completionStepTutorial_complete_heading': 'Complete',
           'completionStepTutorial_complete_message':
-              'Schließ jetzt das Tagesziel ab, um eine Belohnung zu erhalten!',
+              'Complete this habit to get your first reward!',
           //screens
           //createItemScreen
           'createItemScreen_create_title': 'Create a ...',
           'habit': 'Habit',
           'reward': 'Reward',
-          'frequenzy': 'Frequenzy',
+          'frequenzy': 'Frequency',
           'one_time': 'Once',
           'regular': 'Regular',
           'frequenzy_explanation':
@@ -153,20 +159,20 @@ class Messages extends Translations {
           'example_title': 'Beispiel',
           'example_description': 'Beispiel',
           //example rewards
-          'example_reward_title_1': 'Eat some sweets',
+          'example_reward_title_1': 'Gönn dir was süßes',
           'example_reward_description_1': '...',
-          'example_reward_title_2': 'Watch your favourite show"',
+          'example_reward_title_2': 'Schau deine Lieblingsserie',
           'example_reward_description_2': '20 minute Adventure',
-          'example_reward_title_3': 'Sleep late',
+          'example_reward_title_3': 'Schlaf dich aus',
           'example_reward_description_3': 'A very powerful nap',
-          'example_reward_title_4': 'Take a Day off',
+          'example_reward_title_4': 'Nimm dir einen Tag frei',
           'example_reward_description_4': 'Be the lazy Bird',
           //tutorial
-          'welcomeScreen_welcome_heading': 'Welcome to Marbit',
+          'welcomeScreen_welcome_heading': 'Willkommen bei Marbit',
           'welcomeScreen_welcome_message':
-              'Do you want to watch an interactive introduction?',
-          'welcomeScreen_startButton_title': '',
-          'welcomeScreen_skipButton_title': '',
+              'Möchtest du das interaktive Tutorial sehen?',
+          'welcomeScreen_startButton_title': "Los geht's!",
+          'welcomeScreen_skipButton_title': 'Ich finde mich selbst zurecht',
           'homeScreenTutorial_container_heading': 'Gewohnheiten',
           'homeScreenTutorial_container_message':
               'Deine täglichen Gewohnheiten werden als Container angezeigt.',
@@ -180,10 +186,14 @@ class Messages extends Translations {
           'completionTutorial_drawerExtension_message':
               'Auf Bildschirmen mit diesem Element kannst du zur Seite wischen, um das Menü aufzurufen.',
           'detailScreenTutorial_scheduleRowKey_heading': 'Zeitplan',
-          'detailScreenTutorial_scheduleRowKey_message': '',
+          'detailScreenTutorial_scheduleRowKey_message':
+              'Dies ist dein Zeitplan. Tippen: An- oder Abwählen. Halten: Alle An- oder Abwählen.',
           'detailScreenTutorial_editButton_heading': 'Bearbeiten/Speichern',
           'detailScreenTutorial_editButton_message':
               'Mit diesem Button kannst du in den Bearbeitungsmodus wechseln und deine Änderungen speichern. Probier es aus!',
+          'detailScreenTutorial_notificationTimesKey_heading': 'Erinnerungen',
+          'detailScreenTutorial_notificationTimesKey_message':
+              'Hier siehst du deine Erinnerungen. Tippen: Aktivieren/Deaktivieren. Halten: Zeit ändern.',
           'detailScreenTutorial_rewardList_heading': 'Belohnungen',
           'detailScreenTutorial_rewardList_message':
               'Hier siehst du alle aktiven Belohnungen für deine Gewohnheit.',
@@ -192,10 +202,10 @@ class Messages extends Translations {
               'Tippe jetzt auf die Gewohnheit, um Details anzuzeigen.',
           'detailScreenTutorial_statistics_heading': 'Statistiken',
           'detailScreenTutorial_statistics_message':
-              'Hier siehst du auf einen Blick, wie oft du diese Gewohnheit in letzter Zeit abgeschlossen hast.',
+              'Hier siehst du auf einen Blick, wie oft du diese Gewohnheit in letzter Zeit abgeschlossen hast. Halte einen Balken gedrückt, um dir mehr Details anzeigen zu lassen.',
           'completionStepTutorial_complete_heading': 'Abschließen',
           'completionStepTutorial_complete_message':
-              'Schließ jetzt das Tagesziel ab, um eine Belohnung zu erhalten!',
+              'Schließe jetzt das Tagesziel ab, um eine Belohnung zu erhalten!',
           //screens
           //createItemScreen
           'createItemScreen_create_title': 'Erstelle eine neue ...',
@@ -211,23 +221,23 @@ class Messages extends Translations {
           'title_textfield_hint': 'Dein Titel',
           'title_missing_warning': 'Bitte gib einen Titel ein',
           'number_range_hint':
-              'Hinweis: Du kannst eine Zahlenspanne z.B. 2-5 eingeben, um eine noch spannendere Belohnung zu erstellen!',
+              'Hinweis: Du kannst eine Zahlenspanne z.B. 2-5 eingeben, um deine Belohnung spannender zu machen!',
           'invalid_range_title': 'Ungültige Zahlenspanne',
           'invalid_range_message':
               'Please make sure "min" is not greater than "max"',
           'warning': 'Achtung',
           'times_per_day': 'Wie oft pro Tag?',
-          'notifications_active': '',
-          'notifications_inactive': '',
+          'notifications_active': 'Aktiv',
+          'notifications_inactive': 'Inaktiv',
           'description': 'Beschreibung',
           'description_textfield_hint': 'Deine Beschreibung (Optional)',
-          'notification_times': 'Notification Times',
+          'notification_times': 'Erinnerungen',
           'rewards': 'Belohnungen',
           'reward_missing_warning': 'Bitte wähle mindestens eine Belohnung',
           'schedule': 'Zeitplan',
           'missing_schedule_warning': 'Bitte wähle mindestens einen Tag',
           //Rewardpopup Screen
-          'streak_message': 'You are on a @streak day streak!',
+          'streak_message': 'Das ist dein @streak Abschluss in Folge!',
           //Habit detail screen
           'save_habit': 'Speichern',
           'edit_habit': 'Bearbeiten',
