@@ -489,6 +489,9 @@ class _HabitDetailScreenState extends State<HabitDetailScreen>
   Widget _buildScheduledTimesRow() {
     return Obx(
       () => Wrap(
+        key: widget.isTutorialScreen
+            ? _tutorialController.notificationTimesKey
+            : null,
         spacing: ((MediaQuery.of(context).size.width - 40) - (280)) / 7,
         children: List.generate(
           _editContentController.cachedCompletionGoal.value,
