@@ -194,6 +194,7 @@ class ContentController extends GetxController {
       completionGoal: 3,
       streak: 1,
       notificationObjects: NotificationObject.createNotificationObjects(
+          activeNotifications: [1, 2, 3],
           prefix: 1,
           scheduledDays: [1, 3, 6],
           completionGoal: 3,
