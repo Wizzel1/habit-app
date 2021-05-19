@@ -613,6 +613,7 @@ class WelcomeScreen extends StatelessWidget {
                       onPressed: () {
                         Get.back(result: true);
                       },
+                      style: kInactiveNeumorphStyle,
                       child: Text(
                         'welcomeScreen_startButton_title'.tr,
                         style: Theme.of(context)
@@ -629,6 +630,7 @@ class WelcomeScreen extends StatelessWidget {
                       onPressed: () {
                         Get.back(result: false);
                       },
+                      style: kInactiveNeumorphStyle,
                       child: Text(
                         'welcomeScreen_skipButton_title'.tr,
                         style: Theme.of(context)
