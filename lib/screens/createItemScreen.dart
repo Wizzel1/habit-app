@@ -268,15 +268,15 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                     controller: _createItemController.createTitleTextController,
                     title: 'title_textfield_hint'.tr),
                 const SizedBox(height: 10),
-                _createItemController.createHabit.value
-                    ? const SizedBox.shrink()
-                    : Center(
-                        child: Text(
-                          'number_range_hint'.tr,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.caption,
-                        ),
-                      ),
+                // _createItemController.createHabit.value
+                //     ? const SizedBox.shrink()
+                //     : Center(
+                //         child: Text(
+                //           'number_range_hint'.tr,
+                //           textAlign: TextAlign.center,
+                //           style: Theme.of(context).textTheme.caption,
+                //         ),
+                //       ),
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,

@@ -41,7 +41,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
     _cloneRewardsIntoShuffeledRewardList();
     _addPercentageBasedEmptyRewards();
     _shuffeledRewardList.shuffle();
-    _evaluateRewardVariable(_shuffeledRewardList.last);
+    //_evaluateRewardVariable(_shuffeledRewardList.last);
     _popupAnimController.forward();
 
     super.initState();

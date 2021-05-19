@@ -9,11 +9,8 @@ import 'package:uuid/uuid.dart';
 import 'contentController.dart';
 
 class CreateItemController extends GetxController {
-  RichTextController createTitleTextController;
+  TextEditingController createTitleTextController;
   TextEditingController createDescriptionController;
-  //TODO remove these controllers
-  TextEditingController minTextController = TextEditingController();
-  TextEditingController maxTextController = TextEditingController();
 
   RxList<String> selectedRewardReferences = List<String>.empty().obs;
   RxList<int> scheduledDays = List<int>.empty().obs;
@@ -27,13 +24,15 @@ class CreateItemController extends GetxController {
 
   @override
   void onInit() {
-    createTitleTextController = RichTextController(
-      patternMap: {
-        RegExp(r"\s\b[0-9 0-9]+[-]+[0-9 0-9]\b"): TextStyle(
-            backgroundColor: kLightOrange.withOpacity(0.5),
-            fontWeight: FontWeight.bold)
-      },
-    );
+    createTitleTextController = TextEditingController();
+
+    // RichTextController(
+    //   patternMap: {
+    //     RegExp(r"\s\b[0-9 0-9]+[-]+[0-9 0-9]\b"): TextStyle(
+    //         backgroundColor: kLightOrange.withOpacity(0.5),
+    //         fontWeight: FontWeight.bold)
+    //   },
+    // );
     createDescriptionController = TextEditingController();
     super.onInit();
   }
