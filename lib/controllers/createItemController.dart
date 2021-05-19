@@ -55,7 +55,6 @@ class CreateItemController extends GetxController {
       title: createTitleTextController.text,
       id: Uuid().v4(),
       completionGoal: completionGoalCount.value,
-      description: createDescriptionController.text,
       scheduledWeekDays: scheduledDays,
       rewardIDReferences: selectedRewardReferences,
       trackedCompletions: _createInitialTrackedCompletions(),
@@ -64,6 +63,7 @@ class CreateItemController extends GetxController {
           nextScheduledWeekday),
       notificationIDprefix: prefix,
       notificationObjects: NotificationObject.createNotificationObjects(
+          activeNotifications: [1, 2],
           prefix: prefix,
           scheduledDays: scheduledDays,
           completionGoal: completionGoalCount.value,
@@ -115,8 +115,7 @@ class CreateItemController extends GetxController {
     final Reward newReward = Reward(
         name: createTitleTextController.text,
         id: Uuid().v4(),
-        isSelfRemoving: isSelfRemovingReward.value,
-        description: createDescriptionController.text);
+        isSelfRemoving: isSelfRemovingReward.value);
     Get.find<ContentController>().saveNewReward(newReward);
   }
 }

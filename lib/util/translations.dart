@@ -20,16 +20,11 @@ class Messages extends Translations {
           'invalid_time_message': '',
           //example habit
           'example_title': 'Example',
-          'example_description': 'This is an Example.',
           //example rewards
           'example_reward_title_1': 'Eat some sweets',
-          'example_reward_description_1': '...',
           'example_reward_title_2': 'Watch your favourite show"',
-          'example_reward_description_2': '20 minute Adventure',
           'example_reward_title_3': 'Sleep late',
-          'example_reward_description_3': 'A very powerful nap',
           'example_reward_title_4': 'Take a Day off',
-          'example_reward_description_4': 'Be the lazy Bird',
           //tutorial
           'welcomeScreen_welcome_heading': 'Welcome to Marbit',
           'welcomeScreen_welcome_message':
@@ -92,8 +87,6 @@ class Messages extends Translations {
           'times_per_day': 'Times per Day',
           'notifications_active': '',
           'notifications_inactive': '',
-          'description': 'Description',
-          'description_textfield_hint': 'Your Description',
           'notification_times': 'Notification Times',
           'rewards': 'Rewards',
           'reward_missing_warning': 'Please select at least one Reward',
@@ -157,16 +150,11 @@ class Messages extends Translations {
           'invalid_time_message': '',
           //example habit
           'example_title': 'Beispiel',
-          'example_description': 'Beispiel',
           //example rewards
           'example_reward_title_1': 'Gönn dir was süßes',
-          'example_reward_description_1': '...',
           'example_reward_title_2': 'Schau deine Lieblingsserie',
-          'example_reward_description_2': '20 minute Adventure',
           'example_reward_title_3': 'Schlaf dich aus',
-          'example_reward_description_3': 'A very powerful nap',
           'example_reward_title_4': 'Nimm dir einen Tag frei',
-          'example_reward_description_4': 'Be the lazy Bird',
           //tutorial
           'welcomeScreen_welcome_heading': 'Willkommen bei Marbit',
           'welcomeScreen_welcome_message':
@@ -229,8 +217,7 @@ class Messages extends Translations {
           'times_per_day': 'Wie oft pro Tag?',
           'notifications_active': 'Aktiv',
           'notifications_inactive': 'Inaktiv',
-          'description': 'Beschreibung',
-          'description_textfield_hint': 'Deine Beschreibung (Optional)',
+
           'notification_times': 'Erinnerungen',
           'rewards': 'Belohnungen',
           'reward_missing_warning': 'Bitte wähle mindestens eine Belohnung',

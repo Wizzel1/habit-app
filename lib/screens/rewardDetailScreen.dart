@@ -151,7 +151,6 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
                     children: [
                       const SizedBox(height: 30),
                       _buildTitleTextField(),
-                      _buildDescriptionTextField(),
                       const SizedBox(height: 30),
                       Center(
                         child: _buildEditButton(
@@ -253,38 +252,6 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
                 .textTheme
                 .headline3
                 .copyWith(color: kBackGroundWhite),
-            decoration: InputDecoration(
-              focusedBorder: InputBorder.none,
-              enabledBorder: _isInEditMode
-                  ? const UnderlineInputBorder(
-                      borderSide: BorderSide(color: kBackGroundWhite))
-                  : InputBorder.none,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDescriptionTextField() {
-    return AnimatedBuilder(
-      animation: _descriptionOffset,
-      builder: (context, child) {
-        return SlideTransition(
-          position: _descriptionOffset,
-          child: child,
-        );
-      },
-      child: Material(
-        type: MaterialType.transparency,
-        child: IgnorePointer(
-          ignoring: !_isInEditMode,
-          child: TextField(
-            controller: _editContentController.descriptionController,
-            style: Theme.of(context)
-                .textTheme
-                .subtitle1
-                .copyWith(color: kBackGroundWhite, fontSize: 22),
             decoration: InputDecoration(
               focusedBorder: InputBorder.none,
               enabledBorder: _isInEditMode

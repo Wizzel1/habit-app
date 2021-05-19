@@ -144,29 +144,24 @@ class ContentController extends GetxController {
     Reward(
         name: 'example_reward_title_1'.tr,
         id: Uuid().v1(),
-        description: 'example_reward_description_1'.tr,
         isSelfRemoving: true),
     Reward(
         name: 'example_reward_title_2'.tr,
         id: Uuid().v1(),
-        description: 'example_reward_description_2'.tr,
         isSelfRemoving: true),
     Reward(
         name: 'example_reward_title_4'.tr,
         id: Uuid().v1(),
-        description: 'example_reward_description_4'.tr,
         isSelfRemoving: false),
     Reward(
         name: 'example_reward_title_3'.tr,
         id: Uuid().v1(),
-        description: 'example_reward_description_3'.tr,
         isSelfRemoving: false),
   ];
 
   static final Habit tutorialHabit = Habit(
       title: 'example_title'.tr,
       id: "tutorialHabit",
-      description: 'example_description'.tr,
       scheduledWeekDays: [1, 3, 6],
       rewardIDReferences: List<String>.from(exampleRewards.map((e) => e.id)),
       trackedCompletions: TrackedCompletions(

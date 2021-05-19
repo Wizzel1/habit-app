@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class Reward {
   Reward({
     @required this.name,
-    this.description,
     @required this.id,
     @required this.isSelfRemoving,
   });
@@ -15,13 +14,11 @@ class Reward {
 
   factory Reward.fromJson(Map<String, dynamic> json) => Reward(
       name: json["name"],
-      description: json["description"],
       id: json["id"],
       isSelfRemoving: json["isSelfRemoving"]);
 
   Map<String, dynamic> toJson() => {
         "name": name,
-        "description": description,
         "id": id,
         "isSelfRemoving": isSelfRemoving,
       };

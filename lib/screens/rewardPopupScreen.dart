@@ -136,7 +136,6 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
     for (Reward reward in _rewardList) {
       Reward _rewardCopy = Reward(
           name: reward.name,
-          description: reward.description,
           id: reward.id,
           isSelfRemoving: reward.isSelfRemoving);
       _shuffeledRewardList.add(_rewardCopy);

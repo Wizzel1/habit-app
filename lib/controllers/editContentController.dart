@@ -10,7 +10,6 @@ class EditContentController extends GetxController {
   final NotificationTimesController _notificationTimesController =
       Get.find<NotificationTimesController>();
   TextEditingController titleController;
-  TextEditingController descriptionController;
   bool hasChangedNotificationInformation = false;
   Rx<bool> isSelfRemoving = false.obs;
   Rx<int> cachedCompletionGoal = 0.obs;
@@ -24,20 +23,17 @@ class EditContentController extends GetxController {
   @override
   void onInit() {
     titleController = TextEditingController();
-    descriptionController = TextEditingController();
     super.onInit();
   }
 
   @override
   void onClose() {
     titleController.dispose();
-    descriptionController.dispose();
     super.onClose();
   }
 
   void loadHabitValues(Habit habit) {
     titleController.text = habit.title;
-    descriptionController.text = habit.description;
     cachedCompletionGoal.value = habit.completionGoal;
 
     for (var i = 0; i < habit.scheduledWeekDays.length; i++) {
@@ -86,7 +82,6 @@ class EditContentController extends GetxController {
 
   void loadRewardValues(Reward reward) {
     titleController.text = reward.name;
-    descriptionController.text = reward.description;
     isSelfRemoving.value = reward.isSelfRemoving;
   }
 
@@ -104,9 +99,6 @@ class EditContentController extends GetxController {
     if (titleController.text != null)
       _contentController.allRewardList[_updateIndex].name =
           titleController.text;
-    if (descriptionController.text != null)
-      _contentController.allRewardList[_updateIndex].description =
-          descriptionController.text;
     if (isSelfRemoving != null)
       _contentController.allRewardList[_updateIndex].isSelfRemoving =
           isSelfRemoving.value;
@@ -136,9 +128,6 @@ class EditContentController extends GetxController {
 
     if (titleController.text != null && titleController.text.isNotEmpty)
       _habitToUpdate.title = titleController.text;
-    if (descriptionController.text != null &&
-        descriptionController.text.isNotEmpty)
-      _habitToUpdate.description = descriptionController.text;
     if (cachedSchedule != null && cachedSchedule.isNotEmpty)
       _habitToUpdate.scheduledWeekDays = cachedSchedule;
     if (cachedRewardReferences != null && cachedRewardReferences.isNotEmpty)

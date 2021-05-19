@@ -15,9 +15,6 @@ class Habit {
   /// A counting number that is used as prefix for the Habit's [NotificationObject]s.
   int notificationIDprefix;
 
-  /// The optional Description.
-  String description;
-
   /// The scheduled Weekdays (1-7).
   List<int> scheduledWeekDays;
 
@@ -47,7 +44,6 @@ class Habit {
 
   Habit(
       {@required this.title,
-      @required this.description,
       @required this.id,
       @required this.notificationIDprefix,
       @required this.scheduledWeekDays,
@@ -60,7 +56,6 @@ class Habit {
 
   Map<String, dynamic> toJson() => {
         "title": title,
-        "description": description,
         "id": id,
         "notificationIDprefix": notificationIDprefix,
         "completionGoal": completionGoal,
@@ -78,7 +73,6 @@ class Habit {
 
   factory Habit.fromJson(Map<String, dynamic> json) => Habit(
         title: json["title"],
-        description: json["description"],
         id: json["id"],
         notificationIDprefix: json["notificationIDprefix"],
         streak: json["streak"],
