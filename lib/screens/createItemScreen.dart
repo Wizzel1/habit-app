@@ -65,7 +65,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Obx(
                   () => PageView(
-                    physics: const NeverScrollableScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.vertical,
                     controller: _pageController,
                     children: [
@@ -153,6 +153,12 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          PageScrollIconButton(
+              scrollToNextPage: false,
+              onPressedButton: (scrollFunction) {
+                scrollFunction();
+              },
+              pageController: _pageController),
           TitleSection(title: 'frequenzy'.tr),
           Expanded(
             flex: _contentFlex,
@@ -226,24 +232,20 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                 const SizedBox(height: 30),
                 CustomNeumorphButton(
                   onPressed: () async {
-                    _createItemController.createAndSaveReward();
-                    await Get.find<NavigationController>().navigateToIndex(0);
-                    _pageController.jumpToPage(0);
+                    if (_createItemController.performInputCheck(
+                        isHabit: false)) {
+                      _createItemController.createAndSaveReward();
+                      await Get.find<NavigationController>().navigateToIndex(0);
+                    }
                   },
                   child: Text(
                     'create_Button_title'.tr,
-                    style: Theme.of(context).textTheme.button,
+                    style: Theme.of(context)
+                        .textTheme
+                        .button
+                        .copyWith(color: kDeepOrange),
                   ),
                 ),
-                Center(
-                  child: PageScrollIconButton(
-                    scrollToNextPage: false,
-                    pageController: _pageController,
-                    onPressedButton: (scrollAction) {
-                      scrollAction();
-                    },
-                  ),
-                )
               ],
             ),
           ),
@@ -261,8 +263,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
           Expanded(
             flex: _contentFlex,
             child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
               children: [
                 CustomTextField(
                     controller: _createItemController.createTitleTextController,
@@ -277,31 +278,19 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                 //           style: Theme.of(context).textTheme.caption,
                 //         ),
                 //       ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    PageScrollIconButton(
-                      scrollToNextPage: false,
-                      pageController: _pageController,
-                      onPressedButton: (scrollFunction) {
-                        scrollFunction();
-                      },
-                    ),
-                    PageScrollIconButton(
-                      scrollToNextPage: true,
-                      pageController: _pageController,
-                      onPressedButton: (scrollFunction) {
-                        if (_createItemController
-                            .createTitleTextController.text.isEmpty) {
-                          SnackBars.showWarningSnackBar(
-                              'warning'.tr, 'title_missing_warning'.tr);
-                        } else {
-                          scrollFunction();
-                        }
-                      },
-                    )
-                  ],
+                const Spacer(),
+                PageScrollIconButton(
+                  scrollToNextPage: true,
+                  pageController: _pageController,
+                  onPressedButton: (scrollFunction) {
+                    if (_createItemController
+                        .createTitleTextController.text.isEmpty) {
+                      SnackBars.showWarningSnackBar(
+                          'warning'.tr, 'title_missing_warning'.tr);
+                    } else {
+                      scrollFunction();
+                    }
+                  },
                 )
               ],
             ),
@@ -316,6 +305,12 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          PageScrollIconButton(
+              pageController: _pageController,
+              onPressedButton: (scrollAction) {
+                scrollAction();
+              },
+              scrollToNextPage: false),
           TitleSection(title: 'times_per_day'.tr),
           Expanded(
             flex: _contentFlex,
@@ -365,69 +360,13 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                     const Spacer(),
                   ],
                 ),
-                Spacer(),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    PageScrollIconButton(
-                      scrollToNextPage: false,
-                      pageController: _pageController,
-                      onPressedButton: (scrollFunction) {
-                        scrollFunction();
-                      },
-                    ),
-                    PageScrollIconButton(
-                      scrollToNextPage: true,
-                      pageController: _pageController,
-                      onPressedButton: (scrollFunction) {
-                        scrollFunction();
-                      },
-                    )
-                  ],
-                )
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildDescriptionInputPage() {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TitleSection(title: 'description'.tr),
-          Expanded(
-            flex: _contentFlex,
-            child: Column(
-              children: [
-                CustomTextField(
-                  controller: _createItemController.createDescriptionController,
-                  title: 'description_textfield_hint'.tr,
-                ),
-                Spacer(),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    PageScrollIconButton(
-                      scrollToNextPage: false,
-                      pageController: _pageController,
-                      onPressedButton: (scrollFunction) {
-                        scrollFunction();
-                      },
-                    ),
-                    PageScrollIconButton(
-                      scrollToNextPage: true,
-                      pageController: _pageController,
-                      onPressedButton: (scrollFunction) {
-                        scrollFunction();
-                      },
-                    )
-                  ],
+                const Spacer(),
+                PageScrollIconButton(
+                  scrollToNextPage: true,
+                  pageController: _pageController,
+                  onPressedButton: (scrollFunction) {
+                    scrollFunction();
+                  },
                 )
               ],
             ),
@@ -442,10 +381,17 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          PageScrollIconButton(
+              pageController: _pageController,
+              onPressedButton: (scrollAction) {
+                scrollAction();
+              },
+              scrollToNextPage: false),
           TitleSection(title: 'rewards'.tr),
           Expanded(
             flex: _contentFlex,
             child: ListView.builder(
+              primary: false,
               shrinkWrap: true,
               itemCount: _contentController.allRewardList.length,
               itemBuilder: (context, index) {
@@ -481,30 +427,17 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
               },
             ),
           ),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              PageScrollIconButton(
-                scrollToNextPage: false,
-                pageController: _pageController,
-                onPressedButton: (scrollFunction) {
-                  scrollFunction();
-                },
-              ),
-              PageScrollIconButton(
-                scrollToNextPage: true,
-                pageController: _pageController,
-                onPressedButton: (scrollFunction) {
-                  if (_createItemController.selectedRewardReferences.isEmpty) {
-                    SnackBars.showWarningSnackBar(
-                        'warning'.tr, 'reward_missing_warning'.tr);
-                  } else {
-                    scrollFunction();
-                  }
-                },
-              )
-            ],
+          PageScrollIconButton(
+            scrollToNextPage: true,
+            pageController: _pageController,
+            onPressedButton: (scrollFunction) {
+              if (_createItemController.selectedRewardReferences.isEmpty) {
+                SnackBars.showWarningSnackBar(
+                    'warning'.tr, 'reward_missing_warning'.tr);
+              } else {
+                scrollFunction();
+              }
+            },
           )
         ],
       ),
@@ -514,6 +447,12 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
   Widget buildSchedulerPage() {
     return Column(
       children: [
+        PageScrollIconButton(
+            pageController: _pageController,
+            onPressedButton: (scrollAction) {
+              scrollAction();
+            },
+            scrollToNextPage: false),
         TitleSection(title: 'schedule'.tr),
         Expanded(
           flex: _contentFlex,
@@ -540,10 +479,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
               const SizedBox(height: 80),
               CustomNeumorphButton(
                 onPressed: () async {
-                  if (_createItemController.scheduledDays.isEmpty) {
-                    SnackBars.showWarningSnackBar(
-                        'warning'.tr, 'missing_schedule_warning'.tr);
-                  } else {
+                  if (_createItemController.performInputCheck(isHabit: true)) {
                     _createItemController.createAndSaveHabit();
                     await Get.find<NavigationController>().navigateToIndex(0);
                   }
@@ -566,6 +502,12 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
   Widget _buildNotificationTimeSelectionPage() {
     return Column(
       children: [
+        PageScrollIconButton(
+            pageController: _pageController,
+            onPressedButton: (scrollAction) {
+              scrollAction();
+            },
+            scrollToNextPage: false),
         TitleSection(title: 'notification_times'.tr),
         Expanded(
           flex: _contentFlex,
@@ -613,25 +555,12 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                 ),
               ),
               const SizedBox(height: 30),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  PageScrollIconButton(
-                    scrollToNextPage: false,
-                    pageController: _pageController,
-                    onPressedButton: (scrollFunction) {
-                      scrollFunction();
-                    },
-                  ),
-                  PageScrollIconButton(
-                    scrollToNextPage: true,
-                    pageController: _pageController,
-                    onPressedButton: (scrollFunction) {
-                      scrollFunction();
-                    },
-                  )
-                ],
+              PageScrollIconButton(
+                scrollToNextPage: true,
+                pageController: _pageController,
+                onPressedButton: (scrollFunction) {
+                  scrollFunction();
+                },
               )
             ],
           ),
@@ -658,20 +587,22 @@ class PageScrollIconButton extends StatelessWidget {
     return IconButton(
       icon: Icon(
         scrollToNextPage
-            ? FontAwesomeIcons.arrowDown
-            : FontAwesomeIcons.arrowUp,
+            ? FontAwesomeIcons.angleDown
+            : FontAwesomeIcons.angleUp,
         color: kBackGroundWhite,
-        size: 40,
+        size: 30,
       ),
       onPressed: () {
         Function scrollToNext = () {
           pageController.nextPage(
-              duration: const Duration(milliseconds: 200), curve: Curves.ease);
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut);
         };
 
         Function scrollToPrevious = () {
           pageController.previousPage(
-              duration: const Duration(milliseconds: 200), curve: Curves.ease);
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut);
         };
 
         onPressedButton(scrollToNextPage ? scrollToNext : scrollToPrevious);

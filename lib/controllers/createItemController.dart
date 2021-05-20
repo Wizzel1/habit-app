@@ -79,6 +79,34 @@ class CreateItemController extends GetxController {
     return _prefix;
   }
 
+  bool performInputCheck({bool isHabit}) {
+    if (isHabit)
+      return (_performTitleCheck() &&
+          _performRewardCheck() &&
+          _performScheduleCheck());
+
+    return (_performTitleCheck());
+  }
+
+  bool _performTitleCheck() {
+    if (createTitleTextController.text == null) return false;
+    if (!createTitleTextController.text.isBlank) return true;
+    SnackBars.showWarningSnackBar('warning'.tr, 'title_missing_warning'.tr);
+    return false;
+  }
+
+  bool _performRewardCheck() {
+    if (selectedRewardReferences.isNotEmpty) return true;
+    SnackBars.showWarningSnackBar('warning'.tr, 'reward_missing_warning'.tr);
+    return false;
+  }
+
+  bool _performScheduleCheck() {
+    if (scheduledDays.isNotEmpty) return true;
+    SnackBars.showWarningSnackBar('warning'.tr, 'missing_schedule_warning'.tr);
+    return false;
+  }
+
   TrackedCompletions _createInitialTrackedCompletions() {
     final List<int> thisWeeksDates = DateUtilities.getCurrentWeeksDateList();
     final DateTime _today = DateUtilities.today;
