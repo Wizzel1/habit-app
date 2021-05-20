@@ -4,7 +4,6 @@ import 'package:Marbit/services/localStorage.dart';
 import 'package:Marbit/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rich_text_controller/rich_text_controller.dart';
 import 'package:uuid/uuid.dart';
 import 'contentController.dart';
 
