@@ -531,17 +531,19 @@ class ContentContainer extends StatelessWidget {
     return Container(
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Text(
             heading,
             style: _themeData.textTheme.headline4,
+            textAlign: TextAlign.center,
           ),
           Padding(
             padding: const EdgeInsets.only(top: 10.0),
             child: Text(
               message,
               style: _themeData.textTheme.caption,
+              textAlign: TextAlign.center,
             ),
           ),
           buttonRow,
@@ -561,7 +563,7 @@ class ButtonRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 50.0),
+      padding: const EdgeInsets.only(top: 30.0),
       child: Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -593,8 +595,9 @@ class PreviousButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return NeumorphPressSwitch(
       onPressed: onPressed,
-      width: 50,
-      height: 50,
+      width: 56,
+      height: 56,
+      style: kInactiveNeumorphStyle,
       child: Icon(
         FontAwesomeIcons.arrowLeft,
         color: kDeepOrange,
@@ -616,8 +619,8 @@ class NextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return NeumorphPressSwitch(
       onPressed: onPressed,
-      width: 50,
-      height: 50,
+      width: 56,
+      height: 56,
       style: kInactiveNeumorphStyle.copyWith(color: kDeepOrange),
       child: Icon(
         FontAwesomeIcons.arrowRight,
