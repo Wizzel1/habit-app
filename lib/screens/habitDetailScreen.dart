@@ -325,6 +325,9 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
 
   Widget _buildCompletionGoalStepper() {
     return Row(
+      key: widget.isTutorialScreen
+          ? _tutorialController.completionGoalKey
+          : null,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         const Spacer(),
