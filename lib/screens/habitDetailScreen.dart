@@ -541,21 +541,24 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
           child: Obx(() {
             bool isSelected = (_editContentController.cachedRewardReferences
                 .any((element) => element == reward.id));
-            return SelectableRewardContainer(
-              reward: reward,
-              isSelectedReward: isSelected,
-              onTap: () {
-                if (!_isInEditMode) return;
-                _editContentController.cachedRewardReferences
-                        .contains(reward.id)
-                    ? _editContentController.cachedRewardReferences
-                        .remove(reward.id)
-                    : _editContentController.cachedRewardReferences
-                        .add(reward.id);
-                widget.isTutorialScreen
-                    ? _setJoinedTutorialRewardList()
-                    : _setJoinedRewardList();
-              },
+            return Neumorphic(
+              style: isSelected ? kActiveNeumorphStyle : kInactiveNeumorphStyle,
+              child: SelectableRewardContainer(
+                reward: reward,
+                isSelectedReward: isSelected,
+                onTap: () {
+                  if (!_isInEditMode) return;
+                  _editContentController.cachedRewardReferences
+                          .contains(reward.id)
+                      ? _editContentController.cachedRewardReferences
+                          .remove(reward.id)
+                      : _editContentController.cachedRewardReferences
+                          .add(reward.id);
+                  widget.isTutorialScreen
+                      ? _setJoinedTutorialRewardList()
+                      : _setJoinedRewardList();
+                },
+              ),
             );
           }),
         );
