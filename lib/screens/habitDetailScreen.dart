@@ -567,10 +567,11 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
           child: Obx(() {
             bool isSelected = (_editContentController.cachedRewardReferences
                 .any((element) => element == reward.id));
-            return Neumorphic(
-              style: isSelected ? kActiveNeumorphStyle : kInactiveNeumorphStyle,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0),
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: Neumorphic(
+                style:
+                    isSelected ? kActiveNeumorphStyle : kInactiveNeumorphStyle,
                 child: SelectableRewardContainer(
                   reward: reward,
                   isSelectedReward: isSelected,
