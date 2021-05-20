@@ -566,23 +566,26 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                 .any((element) => element == reward.id));
             return Neumorphic(
               style: isSelected ? kActiveNeumorphStyle : kInactiveNeumorphStyle,
-              child: SelectableRewardContainer(
-                reward: reward,
-                isSelectedReward: isSelected,
-                onTap: () {
-                  if (!_isInEditMode) return;
-                  _editContentController.toggleReward(reward);
-                  widget.isTutorialScreen
-                      ? _setJoinedTutorialRewardList()
-                      : _setJoinedRewardList();
-                },
-                onLongPress: () {
-                  if (!_isInEditMode) return;
-                  _editContentController.toggleAllReward();
-                  widget.isTutorialScreen
-                      ? _setJoinedTutorialRewardList()
-                      : _setJoinedRewardList();
-                },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: SelectableRewardContainer(
+                  reward: reward,
+                  isSelectedReward: isSelected,
+                  onTap: () {
+                    if (!_isInEditMode) return;
+                    _editContentController.toggleReward(reward);
+                    widget.isTutorialScreen
+                        ? _setJoinedTutorialRewardList()
+                        : _setJoinedRewardList();
+                  },
+                  onLongPress: () {
+                    if (!_isInEditMode) return;
+                    _editContentController.toggleAllReward();
+                    widget.isTutorialScreen
+                        ? _setJoinedTutorialRewardList()
+                        : _setJoinedRewardList();
+                  },
+                ),
               ),
             );
           }),
