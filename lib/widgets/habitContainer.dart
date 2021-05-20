@@ -1,4 +1,5 @@
 import 'package:Marbit/controllers/controllers.dart';
+import 'package:Marbit/screens/habitDetailScreen.dart';
 import 'package:Marbit/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:Marbit/models/habitModel.dart';
@@ -147,6 +148,7 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
                                     ),
                               ),
                             ),
+                            const SizedBox(height: 10.0),
                             widget._tutorialController
                                     .hasFinishedDetailScreenStep
                                 ? CompletionContainer(
