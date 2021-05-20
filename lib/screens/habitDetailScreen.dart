@@ -172,8 +172,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                         children: AnimationConfiguration.toStaggeredList(
                           duration: Duration(
                               milliseconds: _mainScreenAnimationDuration),
-                          childAnimationBuilder: (widget) => SlideAnimation(
-                            verticalOffset: 50.0,
+                          childAnimationBuilder: (widget) => FadeInAnimation(
                             child: FadeInAnimation(
                               child: widget,
                             ),
@@ -181,19 +180,40 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                           children: [
                             _buildTitleTextField(),
                             const SizedBox(height: 50),
-                            _buildScheduleRow(),
+                            AutoScrollTag(
+                                index: TutorialController.scheduleScrollIndex,
+                                controller: _tutorialController
+                                    .tutorialHabitDetailScrollController,
+                                key: ValueKey(
+                                    TutorialController.scheduleScrollIndex),
+                                child: _buildScheduleRow()),
                             //_buildNextCompletiondateText(),
                             const SizedBox(height: 50),
-                            _buildCompletionGoalStepper(),
+                            AutoScrollTag(
+                                index: TutorialController
+                                    .completionGoalScrollIndex,
+                                controller: _tutorialController
+                                    .tutorialHabitDetailScrollController,
+                                key: ValueKey(TutorialController
+                                    .completionGoalScrollIndex),
+                                child: _buildCompletionGoalStepper()),
                             const SizedBox(height: 30),
-                            _buildScheduledTimesRow(),
+                            AutoScrollTag(
+                                index: TutorialController
+                                    .notificationTimesScrollIndex,
+                                controller: _tutorialController
+                                    .tutorialHabitDetailScrollController,
+                                key: ValueKey(TutorialController
+                                    .notificationTimesScrollIndex),
+                                child: _buildScheduledTimesRow()),
                             const SizedBox(height: 50),
                             Center(
                               child: AutoScrollTag(
-                                index: 3,
+                                index: TutorialController.editButtonScrollIndex,
                                 controller: _tutorialController
                                     .tutorialHabitDetailScrollController,
-                                key: ValueKey(3),
+                                key: ValueKey(
+                                    TutorialController.editButtonScrollIndex),
                                 child: _buildEditButton(
                                   onPressed: () {
                                     if (_isInEditMode) {
@@ -211,41 +231,44 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                               ),
                             ),
                             const SizedBox(height: 50),
-                            AutoScrollTag(
-                              index: 1,
-                              controller: _tutorialController
-                                  .tutorialHabitDetailScrollController,
-                              key: ValueKey(1),
-                              child: AnimatedContainer(
-                                height: widget.isTutorialScreen
-                                    ? _isInEditMode
-                                        ? (ContentController
-                                                .exampleRewards.length *
-                                            90.0)
-                                        : (_editContentController
-                                                .cachedRewardReferences.length *
-                                            90.0)
-                                    : _isInEditMode
-                                        ? (_contentController
-                                                .allRewardList.length *
-                                            90.0)
-                                        : (_editContentController
-                                                .cachedRewardReferences.length *
-                                            90.0),
-                                duration: const Duration(milliseconds: 800),
-                                curve: Curves.easeOutQuint,
-                                child: _buildImplicitList(),
-                              ),
+                            AnimatedContainer(
+                              height: widget.isTutorialScreen
+                                  ? _isInEditMode
+                                      ? (ContentController
+                                              .exampleRewards.length *
+                                          90.0)
+                                      : (_editContentController
+                                              .cachedRewardReferences.length *
+                                          90.0)
+                                  : _isInEditMode
+                                      ? (_contentController
+                                              .allRewardList.length *
+                                          90.0)
+                                      : (_editContentController
+                                              .cachedRewardReferences.length *
+                                          90.0),
+                              duration: const Duration(milliseconds: 800),
+                              curve: Curves.easeOutQuint,
+                              child: AutoScrollTag(
+                                  index:
+                                      TutorialController.rewardListScrollIndex,
+                                  controller: _tutorialController
+                                      .tutorialHabitDetailScrollController,
+                                  key: ValueKey(
+                                      TutorialController.rewardListScrollIndex),
+                                  child: _buildImplicitList()),
                             ),
                             widget.isTutorialScreen
                                 ? const SizedBox.shrink()
                                 : AdController.getLargeBannerAd(context),
                             const SizedBox(height: 50),
                             AutoScrollTag(
-                              index: 2,
+                              index: TutorialController
+                                  .statisticsElementScrollIndex,
                               controller: _tutorialController
                                   .tutorialHabitDetailScrollController,
-                              key: ValueKey(2),
+                              key: ValueKey(TutorialController
+                                  .statisticsElementScrollIndex),
                               child: Container(
                                 height: 300,
                                 child: HabitCompletionChart(

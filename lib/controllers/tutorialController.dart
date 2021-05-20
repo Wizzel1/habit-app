@@ -9,7 +9,6 @@ import 'package:Marbit/widgets/widgets.dart';
 
 class TutorialController extends GetxController {
   List<TargetFocus> targets = [];
-  ThemeData _themeData;
   AutoScrollController tutorialHabitDetailScrollController;
   final Duration scrollDuration = const Duration(milliseconds: 500);
 
@@ -28,15 +27,23 @@ class TutorialController extends GetxController {
   static const int todaysHabitsBuilderID = 2;
   static const int habitDetailBuilderID = 3;
 
+  static const int scheduleScrollIndex = 1;
+  static const int completionGoalScrollIndex = 2;
+  static const int notificationTimesScrollIndex = 3;
+  static const int editButtonScrollIndex = 4;
+  static const int rewardListScrollIndex = 5;
+  static const int statisticsElementScrollIndex = 6;
+
   TutorialCoachMark tutorial;
   final double targetFocusRadius = 15;
   final Duration _focusAnimationDuration = const Duration(milliseconds: 400);
 
   // -- HabitDetailScreen Keys --
   final GlobalKey scheduleRowKey = GlobalKey();
-  final GlobalKey rewardListKey = GlobalKey();
-  final GlobalKey editButtonKey = GlobalKey();
+  final GlobalKey completionGoalKey = GlobalKey();
   final GlobalKey notificationTimesKey = GlobalKey();
+  final GlobalKey editButtonKey = GlobalKey();
+  final GlobalKey rewardListKey = GlobalKey();
   final GlobalKey statisticsElementKey = GlobalKey();
 
   // -- HomeScreen Step Keys --
@@ -49,14 +56,10 @@ class TutorialController extends GetxController {
   // -- Finished tutorial Step --
   final GlobalKey drawerExtensionKey = GlobalKey();
 
-  void _getThemeData(BuildContext context) {
-    _themeData = Theme.of(context);
-  }
-
   @override
   void onInit() {
     tutorialHabitDetailScrollController = AutoScrollController(
-        viewportBoundaryGetter: () => Rect.fromLTRB(0, 0, 0, 12),
+        viewportBoundaryGetter: () => Rect.fromLTRB(0, 0, 0, 0),
         axis: Axis.vertical,
         suggestedRowHeight: 400);
     super.onInit();
@@ -91,8 +94,6 @@ class TutorialController extends GetxController {
   }
 
   void resumeToLatestTutorialStep(BuildContext context) {
-    _getThemeData(context);
-
     if (!hasSeenWelcomeScreen) {
       _showWelcomeScreen(context);
       return;
@@ -316,9 +317,39 @@ class TutorialController extends GetxController {
             message: 'detailScreenTutorial_scheduleRowKey_message'.tr,
             buttonRow: ButtonRow(
               onNextTapped: () {
-                tutorialHabitDetailScrollController.scrollToIndex(1,
+                tutorialHabitDetailScrollController.scrollToIndex(
+                    completionGoalScrollIndex,
                     duration: scrollDuration,
-                    preferPosition: AutoScrollPosition.end);
+                    preferPosition: AutoScrollPosition.begin);
+                _nextTutorialStep();
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+    targets.add(
+      _createTargetFocus(
+        identifier: 'detail_completionGoal',
+        keyTarget: completionGoalKey,
+        content: TargetContent(
+          align: ContentAlign.bottom,
+          child: ContentContainer(
+            heading: 'detailScreenTutorial_completionGoalKey_heading'.tr,
+            message: 'detailScreenTutorial_completionGoalKey_message'.tr,
+            buttonRow: ButtonRow(
+              onPreviousTapped: () {
+                tutorialHabitDetailScrollController.scrollToIndex(
+                    scheduleScrollIndex,
+                    duration: scrollDuration,
+                    preferPosition: AutoScrollPosition.begin);
+                _previousTutorialStep();
+              },
+              onNextTapped: () {
+                tutorialHabitDetailScrollController.scrollToIndex(
+                    notificationTimesScrollIndex,
+                    duration: scrollDuration,
+                    preferPosition: AutoScrollPosition.begin);
                 _nextTutorialStep();
               },
             ),
@@ -336,8 +367,16 @@ class TutorialController extends GetxController {
             heading: 'detailScreenTutorial_notificationTimesKey_heading'.tr,
             message: 'detailScreenTutorial_notificationTimesKey_message'.tr,
             buttonRow: ButtonRow(
+              onPreviousTapped: () {
+                tutorialHabitDetailScrollController.scrollToIndex(
+                    completionGoalScrollIndex,
+                    duration: scrollDuration,
+                    preferPosition: AutoScrollPosition.begin);
+                _previousTutorialStep();
+              },
               onNextTapped: () {
-                tutorialHabitDetailScrollController.scrollToIndex(1,
+                tutorialHabitDetailScrollController.scrollToIndex(
+                    rewardListScrollIndex,
                     duration: scrollDuration,
                     preferPosition: AutoScrollPosition.end);
                 _nextTutorialStep();
@@ -359,10 +398,15 @@ class TutorialController extends GetxController {
             message: 'detailScreenTutorial_rewardList_message'.tr,
             buttonRow: ButtonRow(
               onPreviousTapped: () {
+                tutorialHabitDetailScrollController.scrollToIndex(
+                    notificationTimesScrollIndex,
+                    duration: scrollDuration,
+                    preferPosition: AutoScrollPosition.begin);
                 _previousTutorialStep();
               },
               onNextTapped: () {
-                tutorialHabitDetailScrollController.scrollToIndex(2,
+                tutorialHabitDetailScrollController.scrollToIndex(
+                    statisticsElementScrollIndex,
                     duration: scrollDuration,
                     preferPosition: AutoScrollPosition.end);
                 _nextTutorialStep();
@@ -383,15 +427,17 @@ class TutorialController extends GetxController {
               message: 'detailScreenTutorial_statistics_message'.tr,
               buttonRow: ButtonRow(
                 onPreviousTapped: () {
-                  tutorialHabitDetailScrollController.scrollToIndex(1,
+                  tutorialHabitDetailScrollController.scrollToIndex(
+                      rewardListScrollIndex,
                       duration: scrollDuration,
                       preferPosition: AutoScrollPosition.end);
                   _previousTutorialStep();
                 },
                 onNextTapped: () {
-                  tutorialHabitDetailScrollController.scrollToIndex(3,
+                  tutorialHabitDetailScrollController.scrollToIndex(
+                      editButtonScrollIndex,
                       duration: scrollDuration,
-                      preferPosition: AutoScrollPosition.end);
+                      preferPosition: AutoScrollPosition.middle);
                   _nextTutorialStep();
                 },
               ),
