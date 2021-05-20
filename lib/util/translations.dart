@@ -46,6 +46,9 @@ class Messages extends Translations {
           'detailScreenTutorial_scheduleRowKey_heading': 'Schedule',
           'detailScreenTutorial_scheduleRowKey_message':
               'Short Tap : Select/Deselect \n Long press : Bulk editing',
+          'detailScreenTutorial_completionGoalKey_heading': 'Daily Goal',
+          'detailScreenTutorial_completionGoalKey_message':
+              'This is your set daily Goal. You can change it in Edit mode.',
           'detailScreenTutorial_editButton_heading': 'Edit/Save',
           'detailScreenTutorial_editButton_message':
               'Pressing this Button once will activate Editmode. Pressing it again saves the changes.',
@@ -176,6 +179,9 @@ class Messages extends Translations {
           'detailScreenTutorial_scheduleRowKey_heading': 'Zeitplan',
           'detailScreenTutorial_scheduleRowKey_message':
               'Dies ist dein Zeitplan. Tippen: An- oder Abwählen. Halten: Alle An- oder Abwählen.',
+          'detailScreenTutorial_completionGoalKey_heading': 'Tagesziel',
+          'detailScreenTutorial_completionGoalKey_message':
+              'Dein Tagesziel. Du kannst es im Bearbeitungsmodus ändern.',
           'detailScreenTutorial_editButton_heading': 'Bearbeiten/Speichern',
           'detailScreenTutorial_editButton_message':
               'Mit diesem Button kannst du in den Bearbeitungsmodus wechseln und deine Änderungen speichern. Probier es aus!',
