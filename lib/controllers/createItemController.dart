@@ -9,7 +9,6 @@ import 'contentController.dart';
 
 class CreateItemController extends GetxController {
   TextEditingController createTitleTextController;
-  TextEditingController createDescriptionController;
 
   RxList<String> selectedRewardReferences = List<String>.empty().obs;
   RxList<int> scheduledDays = List<int>.empty().obs;
@@ -32,14 +31,12 @@ class CreateItemController extends GetxController {
     //         fontWeight: FontWeight.bold)
     //   },
     // );
-    createDescriptionController = TextEditingController();
     super.onInit();
   }
 
   @override
   void onClose() {
     createTitleTextController.dispose();
-    createDescriptionController.dispose();
     super.onClose();
   }
 
