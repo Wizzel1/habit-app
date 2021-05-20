@@ -80,6 +80,20 @@ class EditContentController extends GetxController {
     hasChangedNotificationInformation = true;
   }
 
+  void toggleReward(Reward reward) {
+    cachedRewardReferences.contains(reward.id)
+        ? cachedRewardReferences.remove(reward.id)
+        : cachedRewardReferences.add(reward.id);
+  }
+
+  void toggleAllReward() {
+    for (Reward _reward in _contentController.allRewardList) {
+      cachedRewardReferences.contains(_reward.id)
+          ? cachedRewardReferences.remove(_reward.id)
+          : cachedRewardReferences.add(_reward.id);
+    }
+  }
+
   void loadRewardValues(Reward reward) {
     titleController.text = reward.name;
     isSelfRemoving.value = reward.isSelfRemoving;

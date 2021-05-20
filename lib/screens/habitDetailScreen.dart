@@ -548,12 +548,14 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                 isSelectedReward: isSelected,
                 onTap: () {
                   if (!_isInEditMode) return;
-                  _editContentController.cachedRewardReferences
-                          .contains(reward.id)
-                      ? _editContentController.cachedRewardReferences
-                          .remove(reward.id)
-                      : _editContentController.cachedRewardReferences
-                          .add(reward.id);
+                  _editContentController.toggleReward(reward);
+                  widget.isTutorialScreen
+                      ? _setJoinedTutorialRewardList()
+                      : _setJoinedRewardList();
+                },
+                onLongPress: () {
+                  if (!_isInEditMode) return;
+                  _editContentController.toggleAllReward();
                   widget.isTutorialScreen
                       ? _setJoinedTutorialRewardList()
                       : _setJoinedRewardList();

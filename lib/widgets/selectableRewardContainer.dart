@@ -1,11 +1,11 @@
 import 'package:Marbit/models/models.dart';
 import 'package:Marbit/util/util.dart';
-import 'package:Marbit/widgets/bouncingButton.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SelectableRewardContainer extends StatefulWidget {
   final Function onTap;
+  final VoidCallback onLongPress;
   final bool isSelectedReward;
   final Reward reward;
 
@@ -14,6 +14,7 @@ class SelectableRewardContainer extends StatefulWidget {
     this.onTap,
     this.isSelectedReward,
     this.reward,
+    this.onLongPress,
   }) : super(key: key);
 
   @override
@@ -26,6 +27,7 @@ class _SelectableRewardContainerState extends State<SelectableRewardContainer> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: widget.onTap,
+      onLongPress: widget.onLongPress,
       child: Container(
         height: 70,
         decoration: BoxDecoration(
