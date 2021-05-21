@@ -315,6 +315,8 @@ class TutorialController extends GetxController {
           child: ContentContainer(
             heading: 'detailScreenTutorial_scheduleRowKey_heading'.tr,
             message: 'detailScreenTutorial_scheduleRowKey_message'.tr,
+            tapMessage: 'detailScreenTutorial_scheduleRowKey_tap'.tr,
+            holdMessage: 'detailScreenTutorial_scheduleRowKey_hold'.tr,
             buttonRow: ButtonRow(
               onNextTapped: () {
                 tutorialHabitDetailScrollController.scrollToIndex(
@@ -366,6 +368,8 @@ class TutorialController extends GetxController {
           child: ContentContainer(
             heading: 'detailScreenTutorial_notificationTimesKey_heading'.tr,
             message: 'detailScreenTutorial_notificationTimesKey_message'.tr,
+            tapMessage: 'detailScreenTutorial_notificationTimesKey_tap'.tr,
+            holdMessage: 'detailScreenTutorial_notificationTimesKey_hold'.tr,
             buttonRow: ButtonRow(
               onPreviousTapped: () {
                 tutorialHabitDetailScrollController.scrollToIndex(
@@ -425,6 +429,7 @@ class TutorialController extends GetxController {
             child: ContentContainer(
               heading: 'detailScreenTutorial_statistics_heading'.tr,
               message: 'detailScreenTutorial_statistics_message'.tr,
+              holdMessage: 'detailScreenTutorial_statistics_hold'.tr,
               buttonRow: ButtonRow(
                 onPreviousTapped: () {
                   tutorialHabitDetailScrollController.scrollToIndex(
@@ -521,8 +526,16 @@ class ContentContainer extends StatelessWidget {
   final String heading;
   final String message;
   final ButtonRow buttonRow;
+  final String tapMessage;
+  final String holdMessage;
 
-  const ContentContainer({Key key, this.heading, this.message, this.buttonRow})
+  const ContentContainer(
+      {Key key,
+      this.heading,
+      this.message,
+      this.buttonRow,
+      this.tapMessage,
+      this.holdMessage})
       : super(key: key);
 
   @override
@@ -538,14 +551,53 @@ class ContentContainer extends StatelessWidget {
             style: _themeData.textTheme.headline4,
             textAlign: TextAlign.center,
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: Text(
-              message,
-              style: _themeData.textTheme.caption,
-              textAlign: TextAlign.center,
+          if (message != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0),
+              child: Text(
+                message,
+                style: _themeData.textTheme.caption,
+                textAlign: TextAlign.center,
+              ),
             ),
-          ),
+          if (tapMessage != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 5.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'tap'.tr + " ",
+                    style: _themeData.textTheme.button
+                        .copyWith(color: kBackGroundWhite),
+                  ),
+                  Text(
+                    tapMessage,
+                    style: _themeData.textTheme.caption,
+                    textAlign: TextAlign.center,
+                  )
+                ],
+              ),
+            ),
+          if (holdMessage != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 5.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'hold'.tr + " ",
+                    style: _themeData.textTheme.button
+                        .copyWith(color: kBackGroundWhite),
+                  ),
+                  Text(
+                    holdMessage,
+                    style: _themeData.textTheme.caption,
+                    textAlign: TextAlign.center,
+                  )
+                ],
+              ),
+            ),
           buttonRow,
         ],
       ),
@@ -595,8 +647,8 @@ class PreviousButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return NeumorphPressSwitch(
       onPressed: onPressed,
-      width: 56,
-      height: 56,
+      width: 50,
+      height: 50,
       style: kInactiveNeumorphStyle,
       child: Icon(
         FontAwesomeIcons.arrowLeft,
@@ -619,8 +671,8 @@ class NextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return NeumorphPressSwitch(
       onPressed: onPressed,
-      width: 56,
-      height: 56,
+      width: 50,
+      height: 50,
       style: kInactiveNeumorphStyle.copyWith(color: kDeepOrange),
       child: Icon(
         FontAwesomeIcons.arrowRight,

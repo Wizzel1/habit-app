@@ -26,6 +26,8 @@ class Messages extends Translations {
           'example_reward_title_3': 'Sleep late',
           'example_reward_title_4': 'Take a Day off',
           //tutorial
+          'tap': 'Tap Element:',
+          'hold': 'Hold Element:',
           'welcomeScreen_welcome_heading': 'Welcome to Marbit',
           'welcomeScreen_welcome_message':
               'Do you want to watch an interactive tutorial?',
@@ -45,7 +47,9 @@ class Messages extends Translations {
               'This Element shows you, on which Screens you can swipe to open the Menu.',
           'detailScreenTutorial_scheduleRowKey_heading': 'Schedule',
           'detailScreenTutorial_scheduleRowKey_message':
-              'Short Tap : Select/Deselect \n Long press : Bulk editing',
+              'This is your current schedule.',
+          'detailScreenTutorial_scheduleRowKey_tap': 'Select/Deselect',
+          'detailScreenTutorial_scheduleRowKey_hold': 'Select/Deselect all',
           'detailScreenTutorial_completionGoalKey_heading': 'Daily Goal',
           'detailScreenTutorial_completionGoalKey_message':
               'This is your set daily Goal. You can change it in Edit mode.',
@@ -54,7 +58,10 @@ class Messages extends Translations {
               'Pressing this Button once will activate Editmode. Pressing it again saves the changes.',
           'detailScreenTutorial_notificationTimesKey_heading': 'Reminders',
           'detailScreenTutorial_notificationTimesKey_message':
-              'Short Tap : Activate/Deactivate Reminder \n Long press : Edit time',
+              'The number of reminders you can create matches your daily goal.',
+          'detailScreenTutorial_notificationTimesKey_tap':
+              'Activate/Deactivate.',
+          'detailScreenTutorial_notificationTimesKey_hold': 'Edit time',
           'detailScreenTutorial_rewardList_heading': 'Rewards',
           'detailScreenTutorial_rewardList_message':
               'These are the selected rewards for this habit.',
@@ -63,7 +70,8 @@ class Messages extends Translations {
               'Tap the Habit, to show details.',
           'detailScreenTutorial_statistics_heading': 'Statistics',
           'detailScreenTutorial_statistics_message':
-              'These are your latest statistics for this Habit. Long press: Show detailed information.',
+              'These are your latest statistics for this Habit.',
+          'detailScreenTutorial_statistics_hold': 'Further details',
           'completionStepTutorial_complete_heading': 'Complete',
           'completionStepTutorial_complete_message':
               'Complete this habit to get your first reward!',
@@ -159,6 +167,8 @@ class Messages extends Translations {
           'example_reward_title_3': 'Schlaf dich aus',
           'example_reward_title_4': 'Nimm dir einen Tag frei',
           //tutorial
+          'tap': 'Element Tippen:',
+          'hold': 'Element Halten:',
           'welcomeScreen_welcome_heading': 'Willkommen bei Marbit',
           'welcomeScreen_welcome_message':
               'Möchtest du das interaktive Tutorial sehen?',
@@ -178,7 +188,11 @@ class Messages extends Translations {
               'Auf Bildschirmen mit diesem Element kannst du zur Seite wischen, um das Menü aufzurufen.',
           'detailScreenTutorial_scheduleRowKey_heading': 'Zeitplan',
           'detailScreenTutorial_scheduleRowKey_message':
-              'Dies ist dein Zeitplan. Tippen: An- oder Abwählen. Halten: Alle An- oder Abwählen.',
+              'Dies ist dein Zeitplan.',
+          'detailScreenTutorial_scheduleRowKey_tap': 'Aktivieren/Deaktivieren',
+          'detailScreenTutorial_scheduleRowKey_hold':
+              'Alle Aktivieren/Deaktivieren',
+
           'detailScreenTutorial_completionGoalKey_heading': 'Tagesziel',
           'detailScreenTutorial_completionGoalKey_message':
               'Dein Tagesziel. Du kannst es im Bearbeitungsmodus ändern.',
@@ -187,7 +201,10 @@ class Messages extends Translations {
               'Mit diesem Button kannst du in den Bearbeitungsmodus wechseln und deine Änderungen speichern. Probier es aus!',
           'detailScreenTutorial_notificationTimesKey_heading': 'Erinnerungen',
           'detailScreenTutorial_notificationTimesKey_message':
-              'Hier siehst du deine Erinnerungen. Tippen: Aktivieren/Deaktivieren. Halten: Zeit ändern.',
+              'Die Anzahl der konfigurierbaren Erinnerungen passt sich deinem Tagesziel an.',
+          'detailScreenTutorial_notificationTimesKey_tap':
+              'Aktivieren/Deaktivieren.',
+          'detailScreenTutorial_notificationTimesKey_hold': 'Zeit ändern',
           'detailScreenTutorial_rewardList_heading': 'Belohnungen',
           'detailScreenTutorial_rewardList_message':
               'Hier siehst du alle aktiven Belohnungen für deine Gewohnheit.',
@@ -196,7 +213,8 @@ class Messages extends Translations {
               'Tippe jetzt auf die Gewohnheit, um Details anzuzeigen.',
           'detailScreenTutorial_statistics_heading': 'Statistiken',
           'detailScreenTutorial_statistics_message':
-              'Hier siehst du auf einen Blick, wie oft du diese Gewohnheit in letzter Zeit abgeschlossen hast. Halte einen Balken gedrückt, um dir mehr Details anzeigen zu lassen.',
+              'Hier siehst du auf einen Blick, wie oft du diese Gewohnheit in letzter Zeit abgeschlossen hast.',
+          'detailScreenTutorial_statistics_hold': 'Mehr Details',
           'completionStepTutorial_complete_heading': 'Abschließen',
           'completionStepTutorial_complete_message':
               'Schließe jetzt das Tagesziel ab, um eine Belohnung zu erhalten!',
