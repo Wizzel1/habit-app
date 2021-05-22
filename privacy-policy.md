@@ -1,6 +1,6 @@
 **Privacy Policy**
 
-improvo.io built the Marbit app as an Ad Supported app. This SERVICE is provided by improvo.io at no cost and is intended for use as is.
+I built the Marbit app as an Ad Supported app. This SERVICE is provided by improvo.io at no cost and is intended for use as is.
 
 This page is used to inform visitors regarding my policies with the collection, use, and disclosure of Personal Information if anyone decided to use my Service.
 
