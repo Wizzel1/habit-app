@@ -2,8 +2,8 @@ import 'package:Marbit/controllers/controllers.dart';
 import 'package:Marbit/util/util.dart';
 import 'package:Marbit/widgets/bouncingButton.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_funding_choices/flutter_funding_choices.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MenuScreen extends StatelessWidget {
   final NavigationController navigationController =
@@ -57,27 +57,40 @@ class MenuScreen extends StatelessWidget {
                       : kBackGroundWhite,
                   isActive: navigationController.currentPageIndex == 2,
                 ),
-                const SizedBox(height: 30),
-                InkWell(
+                const SizedBox(height: 160),
+                MenuItem(
                   onTap: () async {
-                    ConsentInformation consentInfo =
-                        await FlutterFundingChoices.requestConsentInformation();
-                    //TODO add IOS consent
-                    if (consentInfo.isConsentFormAvailable &&
-                        consentInfo.consentStatus == ConsentStatus.OBTAINED) {
-                      await FlutterFundingChoices.showConsentForm();
-                      // You can check the result by calling `FlutterFundingChoices.requestConsentInformation()` again !
-                    }
+                    String _url =
+                        'https://github.com/Wizzel1/habit-app/blob/master/privacy-policy.md';
+                    await canLaunch(_url)
+                        ? await launch(_url, forceWebView: true)
+                        : throw 'Could not launch $_url';
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0, vertical: 10.0),
-                    child: Text(
-                      'my_content_menutitle'.tr,
-                      style: Theme.of(context).textTheme.button,
-                    ),
-                  ),
+                  title: 'Privacy Policy',
+                  textColor: kDeepOrange,
+                  isActive: false,
                 ),
+                // const SizedBox(height: 30),
+                // InkWell(
+                //   onTap: () async {
+                //     ConsentInformation consentInfo =
+                //         await FlutterFundingChoices.requestConsentInformation();
+                //     //TODO add IOS consent
+                //     if (consentInfo.isConsentFormAvailable &&
+                //         consentInfo.consentStatus == ConsentStatus.OBTAINED) {
+                //       await FlutterFundingChoices.showConsentForm();
+                //       // You can check the result by calling `FlutterFundingChoices.requestConsentInformation()` again !
+                //     }
+                //   },
+                //   child: Padding(
+                //     padding: const EdgeInsets.symmetric(
+                //         horizontal: 8.0, vertical: 10.0),
+                //     child: Text(
+                //       'my_content_menutitle'.tr,
+                //       style: Theme.of(context).textTheme.button,
+                //     ),
+                //   ),
+                // ),
                 InkWell(
                   onTap: () async {
                     await Get.find<NotifyController>()
