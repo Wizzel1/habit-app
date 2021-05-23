@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:Marbit/controllers/controllers.dart';
 import 'package:Marbit/util/util.dart';
 import 'package:get/get.dart';
@@ -90,7 +92,6 @@ class ContentController extends GetxController {
   }
 
   List<String> filterForDeletedRewards(List<String> rewardReferenceIDs) {
-    print("passed in :${rewardReferenceIDs.length} referenceIds");
     List<String> _filteredIDs = [];
 
     for (String reference in rewardReferenceIDs) {
@@ -100,7 +101,6 @@ class ContentController extends GetxController {
       _filteredIDs.add(reward.id);
     }
 
-    print("returning in :${_filteredIDs.length} referenceIds");
     return _filteredIDs;
   }
 
@@ -153,10 +153,6 @@ class ContentController extends GetxController {
         name: 'example_reward_title_4'.tr,
         id: Uuid().v1(),
         isSelfRemoving: false),
-    Reward(
-        name: 'example_reward_title_3'.tr,
-        id: Uuid().v1(),
-        isSelfRemoving: false),
   ];
 
   static final Habit tutorialHabit = Habit(
@@ -174,11 +170,13 @@ class ContentController extends GetxController {
                 trackedDays: List.generate(
                   7,
                   (index) {
+                    bool _isTodaysEnty =
+                        (index + 1) == DateUtilities.today.weekday;
                     return TrackedDay(
                         dayCount:
                             DateUtilities.getCurrentWeeksDateList()[index],
-                        doneAmount: 0,
-                        goalAmount: 1);
+                        doneAmount: _isTodaysEnty ? 0 : Random().nextInt(4),
+                        goalAmount: 3);
                   },
                 ),
               )
