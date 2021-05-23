@@ -11,11 +11,13 @@ import 'package:Marbit/controllers/navigationController.dart';
 import 'package:Marbit/util/util.dart';
 import 'package:native_admob_flutter/native_admob_flutter.dart';
 import 'package:rive_splash_screen/rive_splash_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'controllers/controllers.dart';
 import 'package:workmanager/workmanager.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(MyApp());
 }
 
@@ -23,6 +25,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       builder: (context, child) {
         return ScrollConfiguration(
           behavior: MyScrollBehavior(),
@@ -40,19 +43,20 @@ class MyApp extends StatelessWidget {
         startAnimation: 'Start',
         loopAnimation: 'Loop',
         endAnimation: 'End',
-        until: () => Future.wait([
-          MobileAds.initialize().then(
-            (value) => Get.find<AdController>().initializeInterstitialAd(),
-          ),
-          Firebase.initializeApp(),
-          SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]),
-          Get.find<NotifyController>().initializeNotificationPlugin(),
-          Get.find<TutorialController>().loadTutorialInfo(),
-          Workmanager().initialize(callbackDispatcher, isInDebugMode: true),
-          Workmanager().registerPeriodicTask("1", "rescheduleNotifications",
+        until: () async {
+          await Get.find<TutorialController>().loadTutorialInfo();
+          await MobileAds.initialize();
+          await Get.find<AdController>().initializeInterstitialAd();
+          //await SharedPreferences.getInstance().then((value) => value.clear());
+          //await Firebase.initializeApp();
+          await Get.find<NotifyController>().initializeNotificationPlugin();
+          await Workmanager()
+              .initialize(callbackDispatcher, isInDebugMode: true);
+          await Workmanager().registerPeriodicTask(
+              "1", "rescheduleNotifications",
               frequency: const Duration(minutes: 375),
-              existingWorkPolicy: ExistingWorkPolicy.replace),
-        ]),
+              existingWorkPolicy: ExistingWorkPolicy.replace);
+        },
         backgroundColor: kBackGroundWhite,
         next: (context) => InnerDrawerScreen(),
       ),
@@ -138,8 +142,3 @@ class _InnerDrawerScreenState extends State<InnerDrawerScreen> {
         });
   }
 }
-
-//TODO before release: complete localnotification steps for code shrink
-//TODO before release: replace test adunitids
-//TODO before release: remove prefs.clear() from contentcontroller
-//TODO before release: add app icons
