@@ -11,7 +11,6 @@ import 'package:Marbit/controllers/navigationController.dart';
 import 'package:Marbit/util/util.dart';
 import 'package:native_admob_flutter/native_admob_flutter.dart';
 import 'package:rive_splash_screen/rive_splash_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'controllers/controllers.dart';
 import 'package:workmanager/workmanager.dart';
 
@@ -44,14 +43,14 @@ class MyApp extends StatelessWidget {
         loopAnimation: 'Loop',
         endAnimation: 'End',
         until: () async {
-          await Get.find<TutorialController>().loadTutorialInfo();
           await MobileAds.initialize();
           await Get.find<AdController>().initializeInterstitialAd();
           //await SharedPreferences.getInstance().then((value) => value.clear());
           //await Firebase.initializeApp();
           await Get.find<NotifyController>().initializeNotificationPlugin();
+          await Get.find<TutorialController>().loadTutorialInfo();
           await Workmanager()
-              .initialize(callbackDispatcher, isInDebugMode: true);
+              .initialize(callbackDispatcher, isInDebugMode: false);
           await Workmanager().registerPeriodicTask(
               "1", "rescheduleNotifications",
               frequency: const Duration(minutes: 375),
