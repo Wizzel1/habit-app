@@ -31,6 +31,7 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
   double _maxBarValue = 0;
   TimeSpan _timeSpan = TimeSpan.WEEK;
   List _data = [];
+  double _sideTileInterval;
 
   List<TrackedDay> _weekData;
   List<CalendarWeek> _monthData;
@@ -243,7 +244,6 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
           _dataList.add(
               makeGroupData(i, _completions, isTouched: i == _touchedIndex));
         }
-
         return _dataList;
         break;
       case TimeSpan.YEAR:
@@ -338,7 +338,7 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
           },
         ),
         leftTitles: SideTitles(
-          interval: _calculateSideTileInterval(),
+          interval: _calculateInterval(),
           getTextStyles: (value) =>
               Theme.of(context).textTheme.caption.copyWith(color: kDeepOrange),
           margin: 16,
@@ -352,12 +352,16 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
     );
   }
 
-  double _calculateSideTileInterval() {
-    setState(() {
-      if (_maxBarValue % 5 == 0) return 5.0;
-      if (_maxBarValue % 3 == 0) return 3.0;
-      return 1.0;
-    });
+  double _calculateInterval() {
+    int _scheduledDays = widget.habit.scheduledWeekDays.length;
+    int _completionGoal = widget.habit.completionGoal;
+
+    int _max = _scheduledDays * _completionGoal;
+    for (var i = 7.0; i >= 0.0; i--) {
+      if (_max % i == 0) {
+        return i;
+      }
+    }
   }
 
   BarTooltipItem _createTooltipItemForWeek(
@@ -365,9 +369,8 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
     int _weeklyCompletionGoal =
         widget.habit.completionGoal * widget.habit.scheduledWeekDays.length;
     double _weeklyCompletionPercentage = (rod.y / _weeklyCompletionGoal) * 100;
-    //TODO add translation
     return BarTooltipItem(
-        'Week ' +
+        'Week'.tr +
             weekNumber +
             '\n' +
             _weeklyCompletionPercentage.toInt().toString() +
