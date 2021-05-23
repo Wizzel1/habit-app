@@ -462,18 +462,47 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: List.generate(
                   7,
-                  (index) => ScheduleButton(
-                      index: index,
-                      onTap: (tappedIndex) {
-                        int weekDayIndex = tappedIndex += 1;
-
-                        _createItemController.scheduledDays
-                                .contains(weekDayIndex)
-                            ? _createItemController.scheduledDays
-                                .remove(weekDayIndex)
-                            : _createItemController.scheduledDays
-                                .add(weekDayIndex);
-                      }),
+                  (index) {
+                    final int _weekDayIndex = index + 1;
+                    final bool _isActiveWeekDay = _createItemController
+                        .scheduledDays
+                        .contains(_weekDayIndex);
+                    return Neumorphic(
+                      style: _isActiveWeekDay
+                          ? kActiveNeumorphStyle
+                          : kInactiveNeumorphStyle,
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () {
+                          _createItemController.toggleWeekDay(index);
+                        },
+                        onLongPress: () {
+                          _isActiveWeekDay
+                              ? _createItemController.clearSchedule()
+                              : _createItemController.fillSchedule();
+                        },
+                        child: Container(
+                          width: 40,
+                          height: 60,
+                          color:
+                              _isActiveWeekDay ? kDeepOrange : kBackGroundWhite,
+                          child: Center(
+                            child: Text(
+                              dayNames[index],
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .button
+                                  .copyWith(
+                                      fontSize: 12,
+                                      color: _isActiveWeekDay
+                                          ? kBackGroundWhite
+                                          : kDeepOrange),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
               const SizedBox(height: 80),
@@ -520,37 +549,63 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                       ((MediaQuery.of(context).size.width - 40) - (7 * 40)) / 8,
                   children: [
                     ...List.generate(
-                      _createItemController.completionGoalCount.value,
-                      (index) => CustomNeumorphButton(
-                        width: 40,
-                        height: 60,
-                        onPressed: () async {
-                          _notificationTimesController
-                              .setControllerValues(index);
-                          Get.defaultDialog(
-                            barrierDismissible: false,
-                            content: DialogContent(
-                              onPressedSave: () {
-                                final bool _saveSuccess =
-                                    _notificationTimesController
-                                        .saveSelectedTimeTo(index);
-                                if (!_saveSuccess) return;
-                                Get.back();
-                              },
+                        _createItemController.completionGoalCount.value,
+                        (index) {
+                      final bool _isActiveNotification = _createItemController
+                          .activeNotifications
+                          .contains(index + 1);
+                      return Neumorphic(
+                        style: _isActiveNotification
+                            ? kActiveNeumorphStyle
+                            : kInactiveNeumorphStyle,
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () {
+                            _createItemController
+                                .toggleActiveNotification(index);
+                          },
+                          onLongPress: () {
+                            _notificationTimesController
+                                .setControllerValues(index);
+                            Get.defaultDialog(
+                              barrierDismissible: false,
+                              content: DialogContent(
+                                onPressedSave: () {
+                                  final bool _saveSuccess =
+                                      _notificationTimesController
+                                          .saveSelectedTimeTo(index);
+                                  if (!_saveSuccess) return;
+                                  _createItemController
+                                      .toggleActiveNotification(index);
+                                  Get.back();
+                                },
+                              ),
+                            );
+                          },
+                          child: Container(
+                            width: 40,
+                            height: 60,
+                            color: _isActiveNotification
+                                ? kDeepOrange
+                                : kBackGroundWhite,
+                            child: Center(
+                              child: Obx(
+                                () => Text(
+                                    "${_notificationTimesController.selectedHours[index]}\n${_notificationTimesController.selectedMinutes[index].toString().padLeft(2, "0")}",
+                                    textAlign: TextAlign.center,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .button
+                                        .copyWith(
+                                            color: _isActiveNotification
+                                                ? kBackGroundWhite
+                                                : kDeepOrange)),
+                              ),
                             ),
-                          );
-                        },
-                        child: Obx(
-                          () => Text(
-                              "${_notificationTimesController.selectedHours[index]} \n${_notificationTimesController.selectedMinutes[index].toString().padLeft(2, "0")}",
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .button
-                                  .copyWith(color: kDeepOrange)),
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    }),
                   ],
                 ),
               ),

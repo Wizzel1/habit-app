@@ -15,7 +15,7 @@ class CreateItemController extends GetxController {
   Rx<int> completionGoalCount = 1.obs;
   Rx<bool> isSelfRemovingReward = false.obs;
   Rx<bool> createHabit = false.obs;
-  Rx<bool> activeNotifications = true.obs;
+  RxList<int> activeNotifications = List<int>.empty().obs;
 
   final NotificationTimesController _notificationTimesController =
       Get.find<NotificationTimesController>();
@@ -40,6 +40,33 @@ class CreateItemController extends GetxController {
     super.onClose();
   }
 
+  void fillSchedule() {
+    scheduledDays.value = [1, 2, 3, 4, 5, 6, 7];
+  }
+
+  void clearSchedule() {
+    scheduledDays.value = [];
+  }
+
+  void toggleWeekDay(int index) {
+    scheduledDays.contains(index + 1)
+        ? scheduledDays.remove(index + 1)
+        : scheduledDays.add(index + 1);
+    scheduledDays.sort();
+  }
+
+  void toggleActiveNotification(int index) {
+    activeNotifications.contains(index + 1)
+        ? activeNotifications.remove(index + 1)
+        : activeNotifications.add(index + 1);
+  }
+
+  void toggleReward(Reward reward) {
+    selectedRewardReferences.contains(reward.id)
+        ? selectedRewardReferences.remove(reward.id)
+        : selectedRewardReferences.add(reward.id);
+  }
+
   Future<void> createAndSaveHabit() async {
     scheduledDays.sort();
     final int nextScheduledWeekday = scheduledDays.firstWhere(
@@ -58,7 +85,7 @@ class CreateItemController extends GetxController {
           nextScheduledWeekday),
       notificationIDprefix: prefix,
       notificationObjects: NotificationObject.createNotificationObjects(
-          activeNotifications: [1, 2],
+          activeNotifications: activeNotifications,
           prefix: prefix,
           scheduledDays: scheduledDays,
           completionGoal: completionGoalCount.value,
