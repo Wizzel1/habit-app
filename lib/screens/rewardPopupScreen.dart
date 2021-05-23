@@ -31,7 +31,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
   List<Reward> _shuffeledRewardList = [];
   List<Reward> _rewardList = [];
 
-  final double _rewardPercentage = 0.5;
+  final double _rewardPercentage = 1.0;
   final ContentController _contentController = Get.find<ContentController>();
 
   @override
@@ -39,7 +39,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
     _scrollController = ScrollController();
     _initializeAnimations();
     _cloneRewardsIntoShuffeledRewardList();
-    _addPercentageBasedEmptyRewards();
+    //_addPercentageBasedEmptyRewards();
     _shuffeledRewardList.shuffle();
     //_evaluateRewardVariable(_shuffeledRewardList.last);
     _popupAnimController.forward();
@@ -133,6 +133,13 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
             .getTutorialRewardListByID(widget.habit.rewardIDReferences)
         : _contentController.getRewardListByID(widget.habit.rewardIDReferences);
 
+    if (_rewardList.length == 0) {
+      Reward _empty =
+          Reward(name: 'motivational_message'.tr, isSelfRemoving: false);
+      _shuffeledRewardList.add(_empty);
+      return;
+    }
+
     for (Reward reward in _rewardList) {
       Reward _rewardCopy = Reward(
           name: reward.name,
@@ -170,8 +177,8 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
     final double badRewards = totalRewards - _shuffeledRewardList.length;
 
     for (var i = 0; i < badRewards; i++) {
-      //TODO translate
-      Reward _empty = Reward(name: "Keep going!", isSelfRemoving: false);
+      Reward _empty =
+          Reward(name: 'motivational_message'.tr, isSelfRemoving: false);
       _shuffeledRewardList.add(_empty);
     }
   }
@@ -316,8 +323,10 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Text(
-                            'streak_message'
-                                .trParams({'streak': '${widget.habit.streak}'}),
+                            'streak_message'.trParams({
+                              'streak':
+                                  '${widget.isTutorial ? 1 : widget.habit.streak}'
+                            }),
                             textAlign: TextAlign.center,
                             style: Theme.of(context)
                                 .textTheme
