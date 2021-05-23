@@ -76,7 +76,6 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
 
   @override
   void dispose() {
-    Get.delete<NotificationTimesController>();
     Get.delete<EditContentController>();
     super.dispose();
   }
@@ -130,10 +129,6 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
     setState(() {
       _joinedRewardList = _joinedRewards;
     });
-  }
-
-  Widget _buildNextCompletiondateText() {
-    return Text("${widget.habit.nextCompletionDate}");
   }
 
   @override
@@ -601,6 +596,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
   Widget _buildHabitDeleteButton() {
     return CustomNeumorphButton(
       onPressed: () {
+        if (widget.isTutorialScreen) return;
         Get.back();
         Get.find<ContentController>().deleteHabit(widget.habit);
       },
