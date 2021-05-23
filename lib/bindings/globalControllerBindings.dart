@@ -6,7 +6,7 @@ class GlobalControllerBindings extends Bindings {
   void dependencies() {
     Get.put(NotifyController());
     Get.lazyPut<TutorialController>(() => TutorialController());
-    Get.lazyPut<DateController>(() => DateController());
+    Get.put<DateController>(DateController());
     Get.lazyPut<NotificationTimesController>(
         () => NotificationTimesController(),
         fenix: true);
