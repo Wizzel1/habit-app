@@ -553,35 +553,33 @@ class ContentContainer extends StatelessWidget {
           ),
           if (message != null)
             Padding(
-              padding: const EdgeInsets.only(top: 10.0),
+              padding: const EdgeInsets.only(top: 20.0),
               child: Text(
                 message,
                 style: _themeData.textTheme.caption,
                 textAlign: TextAlign.center,
               ),
             ),
+          const SizedBox(height: 20),
           if (tapMessage != null)
-            Padding(
-              padding: const EdgeInsets.only(top: 5.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'tap'.tr + " ",
-                    style: _themeData.textTheme.button
-                        .copyWith(color: kBackGroundWhite),
-                  ),
-                  Text(
-                    tapMessage,
-                    style: _themeData.textTheme.caption,
-                    textAlign: TextAlign.center,
-                  )
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'tap'.tr + " ",
+                  style: _themeData.textTheme.button
+                      .copyWith(color: kBackGroundWhite),
+                ),
+                Text(
+                  tapMessage,
+                  style: _themeData.textTheme.caption,
+                  textAlign: TextAlign.center,
+                )
+              ],
             ),
           if (holdMessage != null)
             Padding(
-              padding: const EdgeInsets.only(top: 5.0),
+              padding: const EdgeInsets.only(top: 10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
