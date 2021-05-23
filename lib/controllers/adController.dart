@@ -31,11 +31,7 @@ class AdController extends GetxController {
         height: 60,
         child: Center(child: Text("loading".tr)),
       ),
-      error: Container(
-        width: double.infinity,
-        height: 60,
-        child: Center(child: Text('error'.tr)),
-      ),
+      error: const SizedBox.shrink(),
       unitId: PrivateConstants.releaseListViewBannerID,
       size: BannerSize.ADAPTIVE,
     );
@@ -52,8 +48,7 @@ class AdController extends GetxController {
       },
       loading: Container(
           width: 320, height: 100, child: Center(child: Text("loading".tr))),
-      error: Container(
-          width: 320, height: 100, child: Center(child: Text('error'.tr))),
+      error: const SizedBox.shrink(),
       unitId: PrivateConstants.releaseDetailScreenBannerID,
       size: BannerSize.LARGE_BANNER,
     );
