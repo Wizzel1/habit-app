@@ -116,8 +116,9 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
                       alterHeroTag: false,
                     ));
                 widget.onDetailScreenPopped();
+                if (_buttonAnimController == null) return;
                 await 200.milliseconds.delay();
-                await _buttonAnimController.reverse();
+                await _buttonAnimController?.reverse();
               },
               child: Neumorphic(
                 style: kInactiveNeumorphStyle.copyWith(color: kLightOrange),
