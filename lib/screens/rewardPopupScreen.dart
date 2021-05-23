@@ -242,7 +242,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                                     padding: const EdgeInsets.fromLTRB(
                                         20.0, 10.0, 20.0, 10.0),
                                     child: Neumorphic(
-                                      style: kActiveNeumorphStyle.copyWith(
+                                      style: kInactiveNeumorphStyle.copyWith(
                                           color: kDeepOrange),
                                       child: Container(
                                         height: 70,
@@ -276,8 +276,8 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 20, vertical: 10),
                                   child: Neumorphic(
-                                    style: kActiveNeumorphStyle.copyWith(
-                                        depth: -3, color: kDeepOrange),
+                                    style: kInactiveNeumorphStyle.copyWith(
+                                        color: kDeepOrange),
                                     child: Container(
                                       height: 70,
                                       width: double.infinity,
