@@ -22,7 +22,7 @@ class Messages extends Translations {
           'example_title': 'Example',
           //example rewards
           'example_reward_title_1': 'Eat some sweets',
-          'example_reward_title_2': 'Watch your favourite show"',
+          'example_reward_title_2': 'Watch your favourite show',
           'example_reward_title_3': 'Sleep late',
           'example_reward_title_4': 'Take a Day off',
           //tutorial
@@ -110,6 +110,7 @@ class Messages extends Translations {
           'edit_habit': 'Edit Habit',
           'per_day': 'per Day',
           'delete_habit': 'Delete Habit',
+          'Week': 'Week ',
           //Reward detail screen
           'save_reward': 'Save Reward',
           'edit_reward': 'Edit Reward',
@@ -254,6 +255,7 @@ class Messages extends Translations {
           'edit_habit': 'Bearbeiten',
           'per_day': 'pro Tag',
           'delete_habit': 'Löschen',
+          'Week': 'Woche ',
           //Reward detail screen
           'save_reward': 'Speichern',
           'edit_reward': 'Bearbeiten',
