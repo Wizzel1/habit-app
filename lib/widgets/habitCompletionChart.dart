@@ -338,7 +338,7 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
           },
         ),
         leftTitles: SideTitles(
-          interval: 5.0,
+          interval: _calculateSideTileInterval(),
           getTextStyles: (value) =>
               Theme.of(context).textTheme.caption.copyWith(color: kDeepOrange),
           margin: 16,
@@ -350,6 +350,14 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
       ),
       barGroups: getGroupData(),
     );
+  }
+
+  double _calculateSideTileInterval() {
+    setState(() {
+      if (_maxBarValue % 5 == 0) return 5.0;
+      if (_maxBarValue % 3 == 0) return 3.0;
+      return 1.0;
+    });
   }
 
   BarTooltipItem _createTooltipItemForWeek(
