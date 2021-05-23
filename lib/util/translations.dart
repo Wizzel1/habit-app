@@ -105,6 +105,7 @@ class Messages extends Translations {
           'missing_schedule_warning': 'Please schedule at least one Day',
           //Rewardpopup Screen
           'streak_message': 'You are on a @streak day streak!',
+          'motivational_message': 'Keep going!',
           //Habit detail screen
           'save_habit': 'Save Habit',
           'edit_habit': 'Edit Habit',
@@ -250,6 +251,7 @@ class Messages extends Translations {
           'missing_schedule_warning': 'Bitte wähle mindestens einen Tag',
           //Rewardpopup Screen
           'streak_message': 'Das ist dein @streak Abschluss in Folge!',
+          'motivational_message': 'Weiter so!',
           //Habit detail screen
           'save_habit': 'Speichern',
           'edit_habit': 'Bearbeiten',

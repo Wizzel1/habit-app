@@ -91,34 +91,34 @@ class MenuScreen extends StatelessWidget {
                 //     ),
                 //   ),
                 // ),
-                InkWell(
-                  onTap: () async {
-                    await Get.find<NotifyController>()
-                        .listScheduledNotifications(context);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0, vertical: 10.0),
-                    child: Text(
-                      'list all notifications',
-                      style: Theme.of(context).textTheme.button,
-                    ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () async {
-                    await Get.find<NotifyController>()
-                        .utilCancelAllNotifications();
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0, vertical: 10.0),
-                    child: Text(
-                      'cancel all notifications',
-                      style: Theme.of(context).textTheme.button,
-                    ),
-                  ),
-                ),
+                // InkWell(
+                //   onTap: () async {
+                //     await Get.find<NotifyController>()
+                //         .listScheduledNotifications(context);
+                //   },
+                //   child: Padding(
+                //     padding: const EdgeInsets.symmetric(
+                //         horizontal: 8.0, vertical: 10.0),
+                //     child: Text(
+                //       'list all notifications',
+                //       style: Theme.of(context).textTheme.button,
+                //     ),
+                //   ),
+                // ),
+                // InkWell(
+                //   onTap: () async {
+                //     await Get.find<NotifyController>()
+                //         .utilCancelAllNotifications();
+                //   },
+                //   child: Padding(
+                //     padding: const EdgeInsets.symmetric(
+                //         horizontal: 8.0, vertical: 10.0),
+                //     child: Text(
+                //       'cancel all notifications',
+                //       style: Theme.of(context).textTheme.button,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
