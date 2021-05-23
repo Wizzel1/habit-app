@@ -107,24 +107,14 @@ class CreateItemController extends GetxController {
   }
 
   bool performInputCheck({bool isHabit}) {
-    if (isHabit)
-      return (_performTitleCheck() &&
-          _performRewardCheck() &&
-          _performScheduleCheck());
-
-    return (_performTitleCheck());
+    if (isHabit) return (_performTitleCheck() && _performScheduleCheck());
+    if (!isHabit) return (_performTitleCheck());
   }
 
   bool _performTitleCheck() {
     if (createTitleTextController.text == null) return false;
     if (!createTitleTextController.text.isBlank) return true;
     SnackBars.showWarningSnackBar('warning'.tr, 'title_missing_warning'.tr);
-    return false;
-  }
-
-  bool _performRewardCheck() {
-    if (selectedRewardReferences.isNotEmpty) return true;
-    SnackBars.showWarningSnackBar('warning'.tr, 'reward_missing_warning'.tr);
     return false;
   }
 

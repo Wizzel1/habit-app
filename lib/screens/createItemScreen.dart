@@ -42,7 +42,6 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
   @override
   void dispose() {
     _pageController.dispose();
-    Get.delete<NotificationTimesController>();
     Get.delete<CreateItemController>();
     super.dispose();
   }
@@ -431,12 +430,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
             scrollToNextPage: true,
             pageController: _pageController,
             onPressedButton: (scrollFunction) {
-              if (_createItemController.selectedRewardReferences.isEmpty) {
-                SnackBars.showWarningSnackBar(
-                    'warning'.tr, 'reward_missing_warning'.tr);
-              } else {
-                scrollFunction();
-              }
+              scrollFunction();
             },
           )
         ],
