@@ -31,17 +31,19 @@ class _TutorialHabitContainerState extends State<TutorialHabitContainer> {
               habit: ContentController.tutorialHabit,
               onDetailScreenPopped: widget.onChildPopped,
               onPressed: () {
-                ContentController.tutorialHabit.addCompletionForToday(
-                  onCompletionGoalReached: () async {
-                    await 400.milliseconds.delay();
-                    await Get.to(
-                      () => RewardPopupScreen(
-                          habit: ContentController.tutorialHabit,
-                          isTutorial: true),
-                    );
-                    await widget.onChildPopped();
-                  },
-                );
+                setState(() {
+                  ContentController.tutorialHabit.addCompletionForToday(
+                    onCompletionGoalReached: () async {
+                      await 400.milliseconds.delay();
+                      await Get.to(
+                        () => RewardPopupScreen(
+                            habit: ContentController.tutorialHabit,
+                            isTutorial: true),
+                      );
+                      widget.onChildPopped();
+                    },
+                  );
+                });
               },
             )),
       ],
