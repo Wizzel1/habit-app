@@ -6,7 +6,7 @@ const kBackGroundBlack = const Color(0xFF363636);
 
 //-- Orange Theme --
 const kDeepOrange = const Color(0xFFFF9936);
-const kLightOrange = const Color(0xFFFFAB4A);
+const kLightOrange = const Color(0xFFFFB454);
 
 //-- Red Theme --
 const kDeepRed = const Color(0xFFC80032);
