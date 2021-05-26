@@ -20,10 +20,6 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
     with TickerProviderStateMixin {
   bool _isInEditMode = false;
 
-  AnimationController _editAnimController;
-  Animation<Offset> _titleOffset;
-  Animation<Offset> _descriptionOffset;
-
   final Completer _screenBuiltCompleter = Completer();
   final int _mainScreenAnimationDuration = 200;
   final EditContentController _editContentController =
@@ -31,7 +27,6 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
 
   @override
   void initState() {
-    _editAnimController = AnimationController(vsync: this);
     _editContentController.loadRewardValues(widget.reward);
 
     super.initState();
@@ -41,7 +36,6 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
         300.milliseconds.delay().then(
           (value) {
             _screenBuiltCompleter.complete();
-            _initializeAnimations();
 
             (_mainScreenAnimationDuration + 100).milliseconds.delay().then(
               (value) {
@@ -52,68 +46,6 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
         );
       },
     );
-  }
-
-  @override
-  void dispose() {
-    _editAnimController.dispose();
-    super.dispose();
-  }
-
-  void _initializeAnimations() {
-    _titleOffset = TweenSequence<Offset>([
-      TweenSequenceItem(
-          tween: Tween<Offset>(
-              begin: const Offset(0, 0), end: const Offset(0.0, offset)),
-          weight: 10.0),
-      TweenSequenceItem(
-          tween: Tween<Offset>(
-              begin: const Offset(0.0, offset), end: const Offset(0, 0)),
-          weight: 20.0),
-      TweenSequenceItem(
-          tween: Tween<Offset>(
-              begin: const Offset(0.0, 0.0), end: const Offset(0, 0)),
-          weight: 70.0)
-    ]).animate(
-      CurvedAnimation(
-        parent: _editAnimController,
-        curve: const Interval(
-          0.0,
-          0.4,
-          curve: Curves.ease,
-        ),
-      ),
-    );
-
-    _descriptionOffset = TweenSequence<Offset>([
-      TweenSequenceItem(
-          tween: Tween<Offset>(
-              begin: const Offset(0, 0), end: const Offset(0.0, offset)),
-          weight: 10.0),
-      TweenSequenceItem(
-          tween: Tween<Offset>(
-              begin: const Offset(0.0, offset), end: const Offset(0, 0)),
-          weight: 20.0),
-      TweenSequenceItem(
-          tween: Tween<Offset>(
-              begin: const Offset(0.0, 0.0), end: const Offset(0, 0)),
-          weight: 70.0)
-    ]).animate(
-      CurvedAnimation(
-        parent: _editAnimController,
-        curve: const Interval(
-          0.05,
-          0.45,
-          curve: Curves.ease,
-        ),
-      ),
-    );
-  }
-
-  Future<void> _toggleEditingAnimation() async {
-    _editAnimController.isAnimating
-        ? _editAnimController.reset()
-        : _editAnimController.repeat(period: const Duration(seconds: 3));
   }
 
   @override
@@ -160,7 +92,6 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
                               Get.find<EditContentController>()
                                   .updateReward(widget.reward.id);
                             }
-                            _toggleEditingAnimation();
                           },
                         ),
                       ),
@@ -234,31 +165,22 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
   }
 
   Widget _buildTitleTextField() {
-    return AnimatedBuilder(
-      animation: _titleOffset,
-      builder: (context, child) {
-        return SlideTransition(
-          position: _titleOffset,
-          child: child,
-        );
-      },
-      child: Material(
-        type: MaterialType.transparency,
-        child: IgnorePointer(
-          ignoring: !_isInEditMode,
-          child: TextField(
-            controller: _editContentController.titleController,
-            style: Theme.of(context)
-                .textTheme
-                .headline3
-                .copyWith(color: kBackGroundWhite),
-            decoration: InputDecoration(
-              focusedBorder: InputBorder.none,
-              enabledBorder: _isInEditMode
-                  ? const UnderlineInputBorder(
-                      borderSide: BorderSide(color: kBackGroundWhite))
-                  : InputBorder.none,
-            ),
+    return Material(
+      type: MaterialType.transparency,
+      child: IgnorePointer(
+        ignoring: !_isInEditMode,
+        child: TextField(
+          controller: _editContentController.titleController,
+          style: Theme.of(context)
+              .textTheme
+              .headline3
+              .copyWith(color: kBackGroundWhite),
+          decoration: InputDecoration(
+            focusedBorder: InputBorder.none,
+            enabledBorder: _isInEditMode
+                ? const UnderlineInputBorder(
+                    borderSide: BorderSide(color: kBackGroundWhite))
+                : InputBorder.none,
           ),
         ),
       ),
