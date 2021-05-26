@@ -35,7 +35,7 @@ class Messages extends Translations {
           'welcomeScreen_skipButton_title': "I'll figure it out myself.",
           'homeScreenTutorial_container_heading': 'Habits',
           'homeScreenTutorial_container_message':
-              'Your Habits get Displayed as Containers.',
+              'Your Habits get displayed as Containers.',
           'completionScreenTutorial_completionrow_heading': 'Completions',
           'completionScreenTutorial_completionrow_message':
               'This row shows your daily completiongoal.',
@@ -96,8 +96,7 @@ class Messages extends Translations {
               'Please make sure "min" is not greater than "max"',
           'warning': 'Warning',
           'times_per_day': 'Times per Day',
-          'notifications_active': '',
-          'notifications_inactive': '',
+
           'notification_times': 'Notification Times',
           'rewards': 'Rewards',
           'reward_missing_warning': 'Please select at least one Reward',
@@ -170,7 +169,7 @@ class Messages extends Translations {
           'example_reward_title_4': 'Nimm dir einen Tag frei',
           //tutorial
           'tap': 'Element Tippen:',
-          'hold': 'Element Halten:',
+          'hold': 'Element Gedrückt halten:',
           'welcomeScreen_welcome_heading': 'Willkommen bei Marbit',
           'welcomeScreen_welcome_message':
               'Möchtest du das interaktive Tutorial sehen?',
@@ -190,14 +189,14 @@ class Messages extends Translations {
               'Auf Bildschirmen mit diesem Element kannst du zur Seite wischen, um das Menü aufzurufen.',
           'detailScreenTutorial_scheduleRowKey_heading': 'Zeitplan',
           'detailScreenTutorial_scheduleRowKey_message':
-              'Dies ist dein Zeitplan.',
+              'Dies ist dein aktueller Zeitplan.',
           'detailScreenTutorial_scheduleRowKey_tap': 'Aktivieren/Deaktivieren',
           'detailScreenTutorial_scheduleRowKey_hold':
               'Alle Aktivieren/Deaktivieren',
 
           'detailScreenTutorial_completionGoalKey_heading': 'Tagesziel',
           'detailScreenTutorial_completionGoalKey_message':
-              'Dein Tagesziel. Du kannst es im Bearbeitungsmodus ändern.',
+              'Du kannst dein Tagesziel im Bearbeitungsmodus ändern.',
           'detailScreenTutorial_editButton_heading': 'Bearbeiten/Speichern',
           'detailScreenTutorial_editButton_message':
               'Mit diesem Button kannst du in den Bearbeitungsmodus wechseln und deine Änderungen speichern. Probier es aus!',
@@ -241,14 +240,12 @@ class Messages extends Translations {
               'Please make sure "min" is not greater than "max"',
           'warning': 'Achtung',
           'times_per_day': 'Wie oft pro Tag?',
-          'notifications_active': 'Aktiv',
-          'notifications_inactive': 'Inaktiv',
 
           'notification_times': 'Erinnerungen',
           'rewards': 'Belohnungen',
-          'reward_missing_warning': 'Bitte wähle mindestens eine Belohnung',
+          'reward_missing_warning': 'Bitte wähle mindestens eine Belohnung.',
           'schedule': 'Zeitplan',
-          'missing_schedule_warning': 'Bitte wähle mindestens einen Tag',
+          'missing_schedule_warning': 'Bitte wähle mindestens einen Tag.',
           //Rewardpopup Screen
           'streak_message': 'Das ist dein @streak Abschluss in Folge!',
           'motivational_message': 'Weiter so!',
