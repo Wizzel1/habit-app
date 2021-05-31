@@ -152,7 +152,7 @@ class NotifyController extends GetxController {
   tz.TZDateTime _nextInstanceOfTime({int hour, int minutes}) {
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
     tz.TZDateTime _scheduledDate =
-        tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minutes, 0);
+        tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minutes);
     if (_scheduledDate.isBefore(now)) {
       _scheduledDate = _scheduledDate.add(const Duration(days: 1));
     }
