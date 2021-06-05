@@ -70,14 +70,14 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                     children: [
                       buildSelectionButtonRow(),
                       if (_createItemController.createHabit.value) ...[
-                        buildTitleInputPage(),
-                        buildCompletionGoalStepper(),
+                        _buildTitleInputPage(),
+                        _buildCompletionGoalStepper(),
                         _buildNotificationTimeSelectionPage(),
-                        buildRewardSelectionPage(),
-                        buildSchedulerPage()
+                        _buildRewardSelectionPage(),
+                        _buildSchedulerPage()
                       ] else ...[
-                        buildTitleInputPage(),
-                        buildRewardIntervalPage()
+                        _buildTitleInputPage(),
+                        _buildRewardIntervalPage()
                       ]
                     ],
                   ),
@@ -147,7 +147,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
     );
   }
 
-  Widget buildRewardIntervalPage() {
+  Widget _buildRewardIntervalPage() {
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -253,7 +253,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
     );
   }
 
-  Widget buildTitleInputPage() {
+  Widget _buildTitleInputPage() {
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -299,7 +299,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
     );
   }
 
-  Widget buildCompletionGoalStepper() {
+  Widget _buildCompletionGoalStepper() {
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -375,7 +375,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
     );
   }
 
-  Widget buildRewardSelectionPage() {
+  Widget _buildRewardSelectionPage() {
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -389,42 +389,9 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
           TitleSection(title: 'rewards'.tr),
           Expanded(
             flex: _contentFlex,
-            child: ListView.builder(
-              primary: false,
-              shrinkWrap: true,
-              itemCount: _contentController.allRewardList.length,
-              itemBuilder: (context, index) {
-                String rewardReference =
-                    _contentController.allRewardList[index].id;
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: Obx(
-                    () {
-                      bool isSelected = (_createItemController
-                          .selectedRewardReferences
-                          .any((element) => element == rewardReference));
-                      return Neumorphic(
-                        style: isSelected
-                            ? kActiveNeumorphStyle
-                            : kInactiveNeumorphStyle,
-                        child: SelectableRewardContainer(
-                          reward: _contentController.allRewardList[index],
-                          isSelectedReward: isSelected,
-                          onTap: () {
-                            _createItemController.selectedRewardReferences
-                                    .contains(rewardReference)
-                                ? _createItemController.selectedRewardReferences
-                                    .remove(rewardReference)
-                                : _createItemController.selectedRewardReferences
-                                    .add(rewardReference);
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                );
-              },
-            ),
+            child: _contentController.allRewardList.isNotEmpty
+                ? _buildRewardsList()
+                : _buildNoRewardsSection(),
           ),
           PageScrollIconButton(
             scrollToNextPage: true,
@@ -438,7 +405,77 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
     );
   }
 
-  Widget buildSchedulerPage() {
+  ListView _buildRewardsList() {
+    return ListView.builder(
+      primary: false,
+      shrinkWrap: true,
+      itemCount: _contentController.allRewardList.length,
+      itemBuilder: (context, index) {
+        String rewardReference = _contentController.allRewardList[index].id;
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: Obx(
+            () {
+              bool isSelected = (_createItemController.selectedRewardReferences
+                  .any((element) => element == rewardReference));
+              return Neumorphic(
+                style:
+                    isSelected ? kActiveNeumorphStyle : kInactiveNeumorphStyle,
+                child: SelectableRewardContainer(
+                  reward: _contentController.allRewardList[index],
+                  isSelectedReward: isSelected,
+                  onTap: () {
+                    _createItemController.selectedRewardReferences
+                            .contains(rewardReference)
+                        ? _createItemController.selectedRewardReferences
+                            .remove(rewardReference)
+                        : _createItemController.selectedRewardReferences
+                            .add(rewardReference);
+                  },
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  Center _buildNoRewardsSection() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            "no_rewards_caption".tr,
+            style: Theme.of(context).textTheme.caption,
+          ),
+          const SizedBox(height: 30),
+          CustomNeumorphButton(
+            onPressed: () {
+              _pageController.animateToPage(0,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.ease);
+              _createItemController.createHabit.value = false;
+              _pageController.animateToPage(1,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.ease);
+            },
+            child: Text(
+              'create_reward_button'.tr,
+              style: Theme.of(context)
+                  .textTheme
+                  .button
+                  .copyWith(color: kDeepOrange),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSchedulerPage() {
     return Column(
       children: [
         PageScrollIconButton(
