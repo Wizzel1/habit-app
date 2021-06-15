@@ -299,7 +299,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
           child: IgnorePointer(
             ignoring: !_isInEditMode,
             child: TextField(
-              controller: controller.titleController,
+              controller: controller.habitTitleController,
               style: Theme.of(context)
                   .textTheme
                   .headline3

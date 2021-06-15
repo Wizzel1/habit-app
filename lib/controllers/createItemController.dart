@@ -4,11 +4,12 @@ import 'package:Marbit/services/localStorage.dart';
 import 'package:Marbit/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rich_text_controller/rich_text_controller.dart';
 import 'package:uuid/uuid.dart';
 import 'contentController.dart';
 
 class CreateItemController extends GetxController {
-  TextEditingController createTitleTextController;
+  RichTextController createTitleTextController;
 
   RxList<String> selectedRewardReferences = List<String>.empty().obs;
   RxList<int> scheduledDays = List<int>.empty().obs;
@@ -22,15 +23,13 @@ class CreateItemController extends GetxController {
 
   @override
   void onInit() {
-    createTitleTextController = TextEditingController();
-
-    // RichTextController(
-    //   patternMap: {
-    //     RegExp(r"\s\b[0-9 0-9]+[-]+[0-9 0-9]\b"): TextStyle(
-    //         backgroundColor: kLightOrange.withOpacity(0.5),
-    //         fontWeight: FontWeight.bold)
-    //   },
-    // );
+    createTitleTextController = RichTextController(
+      patternMap: {
+        RegExp(regexPattern): TextStyle(
+            backgroundColor: kLightOrange.withOpacity(0.5),
+            fontWeight: FontWeight.bold)
+      },
+    );
     super.onInit();
   }
 

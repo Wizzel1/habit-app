@@ -1,15 +1,18 @@
 import 'package:Marbit/models/models.dart';
 import 'package:Marbit/services/services.dart';
+import 'package:Marbit/util/util.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rich_text_controller/rich_text_controller.dart';
 import 'controllers.dart';
 
 class EditContentController extends GetxController {
   final ContentController _contentController = Get.find<ContentController>();
   final NotificationTimesController _notificationTimesController =
       Get.find<NotificationTimesController>();
-  TextEditingController titleController;
+  TextEditingController habitTitleController;
+  RichTextController rewardTitleController;
   bool hasChangedNotificationInformation = false;
   Rx<bool> isSelfRemoving = false.obs;
   Rx<int> cachedCompletionGoal = 0.obs;
@@ -22,18 +25,23 @@ class EditContentController extends GetxController {
 
   @override
   void onInit() {
-    titleController = TextEditingController();
+    habitTitleController = TextEditingController();
+    rewardTitleController = RichTextController(
+      patternMap: {
+        RegExp(regexPattern): TextStyle(fontWeight: FontWeight.bold)
+      },
+    );
     super.onInit();
   }
 
   @override
   void onClose() {
-    titleController.dispose();
+    habitTitleController.dispose();
     super.onClose();
   }
 
   void loadHabitValues(Habit habit) {
-    titleController.text = habit.title;
+    habitTitleController.text = habit.title;
     cachedCompletionGoal.value = habit.completionGoal;
 
     for (var i = 0; i < habit.scheduledWeekDays.length; i++) {
@@ -95,7 +103,7 @@ class EditContentController extends GetxController {
   }
 
   void loadRewardValues(Reward reward) {
-    titleController.text = reward.name;
+    rewardTitleController.text = reward.name;
     isSelfRemoving.value = reward.isSelfRemoving;
   }
 
@@ -110,13 +118,12 @@ class EditContentController extends GetxController {
     assert(_updateIndex != null);
     assert(_updateIndex >= 0, "updateindex must not be negative");
 
-    if (titleController.text != null)
-      _contentController.allRewardList[_updateIndex].name =
-          titleController.text;
-    if (isSelfRemoving != null)
-      _contentController.allRewardList[_updateIndex].isSelfRemoving =
-          isSelfRemoving.value;
+    Reward _rewardToUpdate = _contentController.allRewardList[_updateIndex];
 
+    if (rewardTitleController.text != null)
+      _rewardToUpdate.name = rewardTitleController.text;
+    if (isSelfRemoving != null)
+      _rewardToUpdate.isSelfRemoving = isSelfRemoving.value;
     LocalStorageService.saveAllRewards(_contentController.allRewardList);
 
     _contentController.updateRewardList();
@@ -140,8 +147,9 @@ class EditContentController extends GetxController {
 
     await _updateNotifications(_habitToUpdate);
 
-    if (titleController.text != null && titleController.text.isNotEmpty)
-      _habitToUpdate.title = titleController.text;
+    if (habitTitleController.text != null &&
+        habitTitleController.text.isNotEmpty)
+      _habitToUpdate.title = habitTitleController.text;
     if (cachedSchedule != null && cachedSchedule.isNotEmpty)
       _habitToUpdate.scheduledWeekDays = cachedSchedule;
     if (cachedRewardReferences != null && cachedRewardReferences.isNotEmpty)
@@ -160,12 +168,13 @@ class EditContentController extends GetxController {
   }
 
   Future<void> _updateNotifications(Habit habitToUpdate) async {
-    if (titleController == null) return;
-    if (titleController.text == null) return;
+    if (habitTitleController == null) return;
+    if (habitTitleController.text == null) return;
     if (cachedSchedule.isEmpty) return;
     if (cachedCompletionGoal.value == 0) return;
 
-    final bool _hasChangedTitle = habitToUpdate.title != titleController.text;
+    final bool _hasChangedTitle =
+        habitToUpdate.title != habitTitleController.text;
     final bool _hasChangedSchedule =
         !listEquals(habitToUpdate.scheduledWeekDays, cachedSchedule);
     final bool _hasChangedCompletionGoal =
@@ -187,7 +196,7 @@ class EditContentController extends GetxController {
             completionGoal: cachedCompletionGoal.value,
             hours: _notificationTimesController.selectedHours,
             minutes: _notificationTimesController.selectedMinutes,
-            title: titleController.text,
+            title: habitTitleController.text,
             body: "");
 
     if (_needsCompleteNotificationUpdate) {

@@ -170,7 +170,7 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
       child: IgnorePointer(
         ignoring: !_isInEditMode,
         child: TextField(
-          controller: _editContentController.titleController,
+          controller: _editContentController.rewardTitleController,
           style: Theme.of(context)
               .textTheme
               .headline3
