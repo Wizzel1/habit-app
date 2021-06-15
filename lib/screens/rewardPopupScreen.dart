@@ -41,7 +41,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
     _cloneRewardsIntoShuffeledRewardList();
     //_addPercentageBasedEmptyRewards();
     _shuffeledRewardList.shuffle();
-    //_evaluateRewardVariable(_shuffeledRewardList.last);
+    _evaluateRewardVariable(_shuffeledRewardList.last);
     _popupAnimController.forward();
 
     super.initState();
@@ -150,25 +150,24 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
   }
 
   void _evaluateRewardVariable(Reward reward) {
-    RegExp regExp = RegExp(r"\b[0-9 0-9]+[-]+[0-9 0-9]\b");
+    RegExp _regExp = RegExp(regexPattern);
+    if (!_regExp.hasMatch(reward.name)) return;
 
-    if (regExp.hasMatch(reward.name)) {
-      RegExpMatch match = regExp.firstMatch(reward.name);
-      String result = match.group(0);
-      result.trim();
-      List<String> stringNumbers = result.split("-");
-      List<int> numbers = stringNumbers.map((e) => int.parse(e)).toList();
+    final RegExpMatch _match = _regExp.firstMatch(reward.name);
+    final String _result = _match.group(0);
+    _result.trim();
+    final List<String> _stringNumbers = _result.split("-");
+    final List<int> _numbers = _stringNumbers.map((e) => int.parse(e)).toList();
+    _numbers.sort();
+    final Random _random = Random();
+    int next(int min, int max) => min + _random.nextInt(max - min);
 
-      Random _random = Random();
-      int next(int min, int max) => min + _random.nextInt(max - min);
+    final int _value = next(_numbers[0], _numbers[1]);
 
-      int value = next(numbers[0], numbers[1]);
+    final String _tempNewTitle = _shuffeledRewardList.last.name
+        .replaceAll(_regExp, " " + _value.toString());
 
-      String newTitle = _shuffeledRewardList.last.name
-          .replaceAll(regExp, " " + value.toString());
-
-      _shuffeledRewardList.last.name = newTitle;
-    }
+    _shuffeledRewardList.last.name = _tempNewTitle;
   }
 
   void _addPercentageBasedEmptyRewards() {
