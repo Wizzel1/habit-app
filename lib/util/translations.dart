@@ -100,8 +100,8 @@ class Messages extends Translations {
           'notification_times': 'Notification Times',
           'rewards': 'Rewards',
           'reward_missing_warning': 'Please select at least one Reward',
-          "no_rewards_caption" : "You don't have any rewards yet.",
-          'create_reward_button' : 'Create',
+          "no_rewards_caption": "You don't have any rewards yet.",
+          'create_reward_button': 'Create',
           'schedule': 'Schedule',
           'missing_schedule_warning': 'Please schedule at least one Day',
           //Rewardpopup Screen
@@ -236,7 +236,7 @@ class Messages extends Translations {
           'title_textfield_hint': 'Dein Titel',
           'title_missing_warning': 'Bitte gib einen Titel ein',
           'number_range_hint':
-              'Hinweis: Du kannst eine Zahlenspanne z.B. 2-5 eingeben, um deine Belohnung spannender zu machen!',
+              'Tipp: Du kannst eine Zahlenspanne z.B. 2-5 eingeben, um deine Belohnung spannender zu machen!',
           'invalid_range_title': 'Ungültige Zahlenspanne',
           'invalid_range_message':
               'Please make sure "min" is not greater than "max"',
@@ -246,8 +246,8 @@ class Messages extends Translations {
           'notification_times': 'Erinnerungen',
           'rewards': 'Belohnungen',
           'reward_missing_warning': 'Bitte wähle mindestens eine Belohnung.',
-          "no_rewards_caption" : "Du hast noch keine Belohnungen.",
-          'create_reward_button' : 'Erstellen',
+          "no_rewards_caption": "Du hast noch keine Belohnungen.",
+          'create_reward_button': 'Erstellen',
           'schedule': 'Zeitplan',
           'missing_schedule_warning': 'Bitte wähle mindestens einen Tag.',
           //Rewardpopup Screen
