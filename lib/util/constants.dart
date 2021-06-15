@@ -31,6 +31,8 @@ const kWarningYellow = const Color(0xFFFEC02C);
 
 const kLightSource = LightSource.topLeft;
 
+const regexPattern = (r"[\d]+-[\d]+");
+
 const NeumorphicStyle kInactiveNeumorphStyle = NeumorphicStyle(
   lightSource: kLightSource,
   depth: 2.0,
