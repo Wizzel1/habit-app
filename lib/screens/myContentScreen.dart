@@ -39,25 +39,27 @@ class _MyContentScreenState extends State<MyContentScreen>
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: PageView(
-              controller: _pageController,
-              scrollDirection: Axis.vertical,
-              children: [
-                _buildRewardList(context),
-                _buildHabitList(context),
-              ],
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: PageView(
+                controller: _pageController,
+                scrollDirection: Axis.vertical,
+                children: [
+                  _buildRewardList(context),
+                  _buildHabitList(context),
+                ],
+              ),
             ),
-          ),
-          Positioned(
-              bottom: (screenSize.height / 2) - 45,
-              right: 0,
-              child: DrawerExtension(
-                color: kLightOrange,
-              )),
-        ],
+            Positioned(
+                bottom: (screenSize.height / 2) - 45,
+                right: 0,
+                child: DrawerExtension(
+                  color: kLightOrange,
+                )),
+          ],
+        ),
       ),
     );
   }
@@ -66,7 +68,6 @@ class _MyContentScreenState extends State<MyContentScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Spacer(),
         Expanded(
             flex: 2,
             child: Center(
@@ -198,21 +199,22 @@ class _MyContentScreenState extends State<MyContentScreen>
           ),
         ),
         Expanded(
-            flex: 2,
-            child: Center(
-              child: Column(
-                children: [
-                  Text(
-                    'scroll_to_show_habits'.tr,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        .copyWith(color: kDeepOrange),
-                  ),
-                  Icon(FontAwesomeIcons.angleDown, color: kDeepOrange),
-                ],
-              ),
-            )),
+          flex: 2,
+          child: Center(
+            child: Column(
+              children: [
+                Text(
+                  'scroll_to_show_habits'.tr,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      .copyWith(color: kDeepOrange),
+                ),
+                Icon(FontAwesomeIcons.angleDown, color: kDeepOrange),
+              ],
+            ),
+          ),
+        ),
       ],
     );
   }

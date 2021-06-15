@@ -51,40 +51,42 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
-        body: Stack(
-          children: [
-            Positioned(
-                bottom: (screenSize.height / 2) - 45,
-                right: 0,
-                child: DrawerExtension(
-                  color: kBackGroundWhite,
-                )),
-            Positioned.fill(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Obx(
-                  () => PageView(
-                    physics: const BouncingScrollPhysics(),
-                    scrollDirection: Axis.vertical,
-                    controller: _pageController,
-                    children: [
-                      buildSelectionButtonRow(),
-                      if (_createItemController.createHabit.value) ...[
-                        _buildTitleInputPage(),
-                        _buildCompletionGoalStepper(),
-                        _buildNotificationTimeSelectionPage(),
-                        _buildRewardSelectionPage(),
-                        _buildSchedulerPage()
-                      ] else ...[
-                        _buildTitleInputPage(),
-                        _buildRewardIntervalPage()
-                      ]
-                    ],
+        body: SafeArea(
+          child: Stack(
+            children: [
+              Positioned(
+                  bottom: (screenSize.height / 2) - 45,
+                  right: 0,
+                  child: DrawerExtension(
+                    color: kBackGroundWhite,
+                  )),
+              Positioned.fill(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Obx(
+                    () => PageView(
+                      physics: const BouncingScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      controller: _pageController,
+                      children: [
+                        buildSelectionButtonRow(),
+                        if (_createItemController.createHabit.value) ...[
+                          _buildTitleInputPage(),
+                          _buildCompletionGoalStepper(),
+                          _buildNotificationTimeSelectionPage(),
+                          _buildRewardSelectionPage(),
+                          _buildSchedulerPage()
+                        ] else ...[
+                          _buildTitleInputPage(),
+                          _buildRewardIntervalPage()
+                        ]
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ));
   }
 
