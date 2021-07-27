@@ -5,5 +5,5 @@ export 'package:Marbit/widgets/selectable_reward_container.dart';
 export 'package:Marbit/widgets/reward_container.dart';
 export 'package:Marbit/widgets/drawer_extension.dart';
 export 'package:Marbit/widgets/bouncing_button.dart';
-export 'package:Marbit/widgets/scheduleTimeDialogContent.dart';
+export 'package:Marbit/widgets/scheduletime_dialog_content.dart';
 export 'package:Marbit/widgets/my_scrollbehavior.dart';

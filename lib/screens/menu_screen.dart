@@ -1,6 +1,6 @@
 import 'package:Marbit/controllers/controllers.dart';
 import 'package:Marbit/util/util.dart';
-import 'package:Marbit/widgets/bouncingButton.dart';
+import 'package:Marbit/widgets/bouncing_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
