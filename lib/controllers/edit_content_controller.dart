@@ -28,7 +28,7 @@ class EditContentController extends GetxController {
     habitTitleController = TextEditingController();
     rewardTitleController = RichTextController(
       patternMap: {
-        RegExp(regexPattern): TextStyle(fontWeight: FontWeight.bold)
+        RegExp(regexPattern): const TextStyle(fontWeight: FontWeight.bold)
       },
     );
     super.onInit();
@@ -95,7 +95,7 @@ class EditContentController extends GetxController {
   }
 
   void toggleAllReward() {
-    for (Reward _reward in _contentController.allRewardList) {
+    for (final Reward _reward in _contentController.allRewardList) {
       cachedRewardReferences.contains(_reward.id)
           ? cachedRewardReferences.remove(_reward.id)
           : cachedRewardReferences.add(_reward.id);
@@ -118,18 +118,21 @@ class EditContentController extends GetxController {
     assert(_updateIndex != null);
     assert(_updateIndex >= 0, "updateindex must not be negative");
 
-    Reward _rewardToUpdate = _contentController.allRewardList[_updateIndex];
+    final Reward _rewardToUpdate =
+        _contentController.allRewardList[_updateIndex];
 
-    if (rewardTitleController.text != null)
+    if (rewardTitleController.text != null) {
       _rewardToUpdate.name = rewardTitleController.text;
-    if (isSelfRemoving != null)
+    }
+    if (isSelfRemoving != null) {
       _rewardToUpdate.isSelfRemoving = isSelfRemoving.value;
+    }
     LocalStorageService.saveAllRewards(_contentController.allRewardList);
 
     _contentController.updateRewardList();
   }
 
-  void updateHabit(String habitID) async {
+  Future<void> updateHabit(String habitID) async {
     assert(habitID != null, "update habit was called on a null ID");
 
     if (habitID == "tutorialHabit" || habitID == null) return;
@@ -143,23 +146,28 @@ class EditContentController extends GetxController {
 
     cachedSchedule?.sort();
 
-    Habit _habitToUpdate = _contentController.allHabitList[_updateIndex];
+    final Habit _habitToUpdate = _contentController.allHabitList[_updateIndex];
 
     await _updateNotifications(_habitToUpdate);
 
     if (habitTitleController.text != null &&
-        habitTitleController.text.isNotEmpty)
+        habitTitleController.text.isNotEmpty) {
       _habitToUpdate.title = habitTitleController.text;
-    if (cachedSchedule != null && cachedSchedule.isNotEmpty)
+    }
+    if (cachedSchedule != null && cachedSchedule.isNotEmpty) {
       _habitToUpdate.scheduledWeekDays = cachedSchedule;
-    if (cachedRewardReferences != null && cachedRewardReferences.isNotEmpty)
+    }
+    if (cachedRewardReferences != null && cachedRewardReferences.isNotEmpty) {
       _habitToUpdate.rewardIDReferences = cachedRewardReferences;
-    if (cachedCompletionGoal != null && cachedCompletionGoal.value != 0)
+    }
+    if (cachedCompletionGoal != null && cachedCompletionGoal.value != 0) {
       _habitToUpdate.completionGoal = cachedCompletionGoal.value;
+    }
 
     _habitToUpdate.updateToNextCompletionDate();
-    if (cachedCompletionDate != null)
+    if (cachedCompletionDate != null) {
       _habitToUpdate.nextCompletionDate = cachedCompletionDate.value;
+    }
 
     LocalStorageService.saveAllHabits(_contentController.allHabitList);
 
@@ -180,13 +188,14 @@ class EditContentController extends GetxController {
     final bool _hasChangedCompletionGoal =
         habitToUpdate.completionGoal != cachedCompletionGoal.value;
 
-    final bool _needsPartialNotificationUpdate = (_hasChangedCompletionGoal ||
+    final bool _needsPartialNotificationUpdate = _hasChangedCompletionGoal ||
         _hasChangedSchedule ||
-        hasChangedNotificationInformation);
+        hasChangedNotificationInformation;
     final bool _needsCompleteNotificationUpdate = _hasChangedTitle;
 
-    if (!_needsCompleteNotificationUpdate && !_needsPartialNotificationUpdate)
+    if (!_needsCompleteNotificationUpdate && !_needsPartialNotificationUpdate) {
       return;
+    }
 
     final List<NotificationObject> _newObjects =
         NotificationObject.createNotificationObjects(

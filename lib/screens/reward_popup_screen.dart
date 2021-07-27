@@ -28,7 +28,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
   Animation<double> _popupSequence;
   List<Animation<Offset>> _slideUpAnimations = [];
   List<Animation<double>> _fadeInAnimations = [];
-  List<Reward> _shuffeledRewardList = [];
+  final List<Reward> _shuffeledRewardList = [];
   List<Reward> _rewardList = [];
 
   final double _rewardPercentage = 1.0;
@@ -77,7 +77,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
     ]).animate(
       CurvedAnimation(
           parent: _finalRewardAnimController,
-          curve: Interval(
+          curve: const Interval(
             0.15,
             0.55,
             curve: Curves.ease,
@@ -88,7 +88,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
       Tween<Offset>(begin: const Offset(0, 1), end: const Offset(0, 0)).animate(
         CurvedAnimation(
             parent: _finalRewardAnimController,
-            curve: Interval(
+            curve: const Interval(
               0.5,
               0.75,
               curve: Curves.ease,
@@ -97,7 +97,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
       Tween<Offset>(begin: const Offset(0, 1), end: const Offset(0, 0)).animate(
         CurvedAnimation(
             parent: _finalRewardAnimController,
-            curve: Interval(
+            curve: const Interval(
               0.75,
               1,
               curve: Curves.ease,
@@ -109,7 +109,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
       Tween<double>(begin: 0, end: 1).animate(
         CurvedAnimation(
             parent: _finalRewardAnimController,
-            curve: Interval(
+            curve: const Interval(
               0.5,
               0.75,
               curve: Curves.ease,
@@ -118,7 +118,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
       Tween<double>(begin: 0, end: 1).animate(
         CurvedAnimation(
             parent: _finalRewardAnimController,
-            curve: Interval(
+            curve: const Interval(
               0.75,
               1,
               curve: Curves.ease,
@@ -133,15 +133,15 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
             .getTutorialRewardListByID(widget.habit.rewardIDReferences)
         : _contentController.getRewardListByID(widget.habit.rewardIDReferences);
 
-    if (_rewardList.length == 0) {
-      Reward _empty =
+    if (_rewardList.isEmpty) {
+      final Reward _empty =
           Reward(name: 'motivational_message'.tr, isSelfRemoving: false);
       _shuffeledRewardList.add(_empty);
       return;
     }
 
-    for (Reward reward in _rewardList) {
-      Reward _rewardCopy = Reward(
+    for (final Reward reward in _rewardList) {
+      final Reward _rewardCopy = Reward(
           name: reward.name,
           id: reward.id,
           isSelfRemoving: reward.isSelfRemoving);
@@ -150,7 +150,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
   }
 
   void _evaluateRewardVariable(Reward reward) {
-    RegExp _regExp = RegExp(regexPattern);
+    final RegExp _regExp = RegExp(regexPattern);
     if (!_regExp.hasMatch(reward.name)) return;
 
     final RegExpMatch _match = _regExp.firstMatch(reward.name);
@@ -164,8 +164,8 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
 
     final int _value = next(_numbers[0], _numbers[1]);
 
-    final String _tempNewTitle = _shuffeledRewardList.last.name
-        .replaceAll(_regExp, " " + _value.toString());
+    final String _tempNewTitle =
+        _shuffeledRewardList.last.name.replaceAll(_regExp, " $_value");
 
     _shuffeledRewardList.last.name = _tempNewTitle;
   }
@@ -176,7 +176,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
     final double badRewards = totalRewards - _shuffeledRewardList.length;
 
     for (var i = 0; i < badRewards; i++) {
-      Reward _empty =
+      final Reward _empty =
           Reward(name: 'motivational_message'.tr, isSelfRemoving: false);
       _shuffeledRewardList.add(_empty);
     }
@@ -186,7 +186,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
     Timer(
       const Duration(seconds: 1),
       () async {
-        await Future.forEach(_shuffeledRewardList, (reward) async {
+        await Future.forEach(_shuffeledRewardList, (Reward reward) async {
           final double _offset =
               (_shuffeledRewardList.indexOf(reward) + 1) * 100.0;
 
@@ -203,7 +203,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
     if (_shuffeledRewardList.isEmpty) return;
     if (!_shuffeledRewardList.last.isSelfRemoving) return;
 
-    Reward selfRemovingReward = _rewardList
+    final Reward selfRemovingReward = _rewardList
         .singleWhere((element) => element.id == _shuffeledRewardList.last.id);
     widget.habit.rewardIDReferences.remove(selfRemovingReward.id);
   }
@@ -232,7 +232,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Container(
+                    SizedBox(
                       height: 100,
                       child: ListWheelScrollView.useDelegate(
                         physics: const NeverScrollableScrollPhysics(),
@@ -253,9 +253,9 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                                       child: Container(
                                         height: 70,
                                         width: double.infinity,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                           color: kLightOrange,
-                                          borderRadius: const BorderRadius.all(
+                                          borderRadius: BorderRadius.all(
                                               Radius.circular(10)),
                                         ),
                                         child: Padding(
@@ -287,9 +287,9 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                                     child: Container(
                                       height: 70,
                                       width: double.infinity,
-                                      decoration: BoxDecoration(
+                                      decoration: const BoxDecoration(
                                         color: kLightOrange,
-                                        borderRadius: const BorderRadius.all(
+                                        borderRadius: BorderRadius.all(
                                             Radius.circular(10)),
                                       ),
                                       child: Padding(
@@ -350,8 +350,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                           height: 56,
                           width: 56,
                           color: Colors.green[400],
-                          style: kInactiveNeumorphStyle,
-                          child: Icon(
+                          child: const Icon(
                             FontAwesomeIcons.check,
                             color: Colors.white,
                             size: 25,

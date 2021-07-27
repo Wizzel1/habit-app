@@ -4,7 +4,7 @@ import 'package:Marbit/controllers/controllers.dart';
 import 'package:Marbit/util/util.dart';
 import 'package:get/get.dart';
 import 'package:Marbit/models/models.dart';
-import 'package:Marbit/services/localStorage.dart';
+import 'package:Marbit/services/local_storage.dart';
 import 'package:uuid/uuid.dart';
 
 class ContentController extends GetxController {
@@ -65,9 +65,9 @@ class ContentController extends GetxController {
     assert(rewardIds != null);
 
     if (rewardIds == null) return [];
-    List<Reward> _rewardList = [];
+    final List<Reward> _rewardList = [];
 
-    for (String rewardID in rewardIds) {
+    for (final String rewardID in rewardIds) {
       final Reward _reward = allRewardList
           .firstWhere((element) => element.id == rewardID, orElse: () => null);
       if (_reward == null) continue;
@@ -80,9 +80,9 @@ class ContentController extends GetxController {
     assert(rewardIds != null);
 
     if (rewardIds == null) return [];
-    List<Reward> _tutorialRewardList = [];
+    final List<Reward> _tutorialRewardList = [];
 
-    for (String rewardID in rewardIds) {
+    for (final String rewardID in rewardIds) {
       final Reward _reward = exampleRewards
           .firstWhere((element) => element.id == rewardID, orElse: () => null);
       if (_reward == null) continue;
@@ -92,9 +92,9 @@ class ContentController extends GetxController {
   }
 
   List<String> filterForDeletedRewards(List<String> rewardReferenceIDs) {
-    List<String> _filteredIDs = [];
+    final List<String> _filteredIDs = [];
 
-    for (String reference in rewardReferenceIDs) {
+    for (final String reference in rewardReferenceIDs) {
       final Reward reward = allRewardList
           .firstWhere((element) => element.id == reference, orElse: () => null);
       if (reward == null) continue;
@@ -143,15 +143,15 @@ class ContentController extends GetxController {
   static final List<Reward> exampleRewards = [
     Reward(
         name: 'example_reward_title_1'.tr,
-        id: Uuid().v1(),
+        id: const Uuid().v1(),
         isSelfRemoving: true),
     Reward(
         name: 'example_reward_title_2'.tr,
-        id: Uuid().v1(),
+        id: const Uuid().v1(),
         isSelfRemoving: true),
     Reward(
         name: 'example_reward_title_4'.tr,
-        id: Uuid().v1(),
+        id: const Uuid().v1(),
         isSelfRemoving: false),
   ];
 
@@ -170,7 +170,7 @@ class ContentController extends GetxController {
                 trackedDays: List.generate(
                   7,
                   (index) {
-                    bool _isTodaysEnty =
+                    final bool _isTodaysEnty =
                         (index + 1) == DateUtilities.today.weekday;
                     return TrackedDay(
                         dayCount:

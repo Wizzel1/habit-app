@@ -1,18 +1,19 @@
-import 'package:Marbit/bindings/globalControllerBindings.dart';
+import 'package:Marbit/bindings/global_controller_bindings.dart';
+import 'package:Marbit/controllers/navigation_controller.dart';
 import 'package:Marbit/screens/screens.dart';
 import 'package:Marbit/themes/themes.dart';
-import 'package:Marbit/widgets/myScrollBehavior.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:Marbit/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inner_drawer/inner_drawer.dart';
 import 'package:get/get.dart';
-import 'package:Marbit/controllers/navigationController.dart';
-import 'package:Marbit/util/util.dart';
 import 'package:native_admob_flutter/native_admob_flutter.dart';
 import 'package:rive_splash_screen/rive_splash_screen.dart';
-import 'controllers/controllers.dart';
 import 'package:workmanager/workmanager.dart';
+
+import 'controllers/controllers.dart';
+import 'util/util.dart';
+import 'widgets/widgets.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
       },
       initialBinding: GlobalControllerBindings(),
       translations: Messages(),
-      fallbackLocale: Locale('en', 'US'),
+      fallbackLocale: const Locale('en', 'US'),
       locale: Get.deviceLocale,
       title: 'Marbit',
       theme: orangeTheme(),
@@ -88,15 +89,12 @@ class _InnerDrawerScreenState extends State<InnerDrawerScreen> {
                   colorTransitionScaffold:
                       Colors.transparent, // default Color.black54
                   //When setting the vertical offset, be sure to use only top or bottom
-                  offset: IDOffset.only(bottom: 0.0, right: 0.0, left: 0.0),
-                  scale: IDOffset.horizontal(
-                      1), // set the offset in both directions
-                  proportionalChildArea: true, // default true
+                  offset: const IDOffset.only(), // default true
                   borderRadius: 10, // default 0
                   leftAnimationType:
                       InnerDrawerAnimation.quadratic, // default static
                   rightAnimationType: InnerDrawerAnimation.quadratic,
-                  backgroundDecoration: BoxDecoration(
+                  backgroundDecoration: const BoxDecoration(
                       color:
                           kLightOrange), // default  Theme.of(context).backgroundColor
                   //when a pointer that is in contact with the screen and moves to the right or left
@@ -105,7 +103,7 @@ class _InnerDrawerScreenState extends State<InnerDrawerScreen> {
                     // check if the swipe is to the right or to the left
                     // print(direction == InnerDrawerDirection.start);
                   },
-                  boxShadow: [],
+                  boxShadow: const [],
                   innerDrawerCallback: (isDrawerOpen) => {
                         navigationController.isDrawerOpen = isDrawerOpen,
                       }, // return  true (open) or false (close)

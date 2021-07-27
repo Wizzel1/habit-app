@@ -18,7 +18,7 @@ final List<String> dayNames = [
 ];
 
 class CreateItemScreen extends StatefulWidget {
-  CreateItemScreen({Key key}) : super(key: key);
+  const CreateItemScreen({Key key}) : super(key: key);
 
   @override
   _CreateItemScreenState createState() => _CreateItemScreenState();
@@ -48,7 +48,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
+    final Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
         body: SafeArea(
@@ -57,7 +57,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
               Positioned(
                   bottom: (screenSize.height / 2) - 45,
                   right: 0,
-                  child: DrawerExtension(
+                  child: const DrawerExtension(
                     color: kBackGroundWhite,
                   )),
               Positioned.fill(
@@ -264,21 +264,21 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
           Expanded(
             flex: _contentFlex,
             child: Column(
-              mainAxisSize: MainAxisSize.max,
               children: [
                 CustomTextField(
                     controller: _createItemController.createTitleTextController,
                     title: 'title_textfield_hint'.tr),
                 const SizedBox(height: 10),
-                _createItemController.createHabit.value
-                    ? const SizedBox.shrink()
-                    : Center(
-                        child: Text(
-                          'number_range_hint'.tr,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.caption,
-                        ),
-                      ),
+                if (_createItemController.createHabit.value)
+                  const SizedBox.shrink()
+                else
+                  Center(
+                    child: Text(
+                      'number_range_hint'.tr,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.caption,
+                    ),
+                  ),
                 const Spacer(),
                 PageScrollIconButton(
                   scrollToNextPage: true,
@@ -316,7 +316,6 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
           Expanded(
             flex: _contentFlex,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -326,8 +325,9 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                       flex: 2,
                       child: CustomNeumorphButton(
                         onPressed: () {
-                          if (_createItemController.completionGoalCount <= 1)
+                          if (_createItemController.completionGoalCount <= 1) {
                             return;
+                          }
                           _createItemController.completionGoalCount.value--;
                         },
                         child: Icon(
@@ -413,13 +413,15 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
       shrinkWrap: true,
       itemCount: _contentController.allRewardList.length,
       itemBuilder: (context, index) {
-        String rewardReference = _contentController.allRewardList[index].id;
+        final String rewardReference =
+            _contentController.allRewardList[index].id;
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 10.0),
           child: Obx(
             () {
-              bool isSelected = (_createItemController.selectedRewardReferences
-                  .any((element) => element == rewardReference));
+              final bool isSelected = _createItemController
+                  .selectedRewardReferences
+                  .any((element) => element == rewardReference);
               return Neumorphic(
                 style:
                     isSelected ? kActiveNeumorphStyle : kInactiveNeumorphStyle,
@@ -681,17 +683,17 @@ class PageScrollIconButton extends StatelessWidget {
         size: 30,
       ),
       onPressed: () {
-        Function scrollToNext = () {
+        void scrollToNext() {
           pageController.nextPage(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut);
-        };
+        }
 
-        Function scrollToPrevious = () {
+        void scrollToPrevious() {
           pageController.previousPage(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut);
-        };
+        }
 
         onPressedButton(scrollToNextPage ? scrollToNext : scrollToPrevious);
       },
@@ -716,7 +718,7 @@ class TitleSection extends StatelessWidget {
             style: Theme.of(context).textTheme.headline3,
             textAlign: TextAlign.center,
           ),
-          const Spacer(flex: 1)
+          const Spacer()
         ],
       ),
     );
@@ -741,7 +743,7 @@ class MinMaxTextField extends StatelessWidget {
           .subtitle2
           .copyWith(fontSize: 20, color: Theme.of(context).accentColor),
       decoration: InputDecoration(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+        contentPadding: const EdgeInsets.symmetric(),
         filled: true,
         fillColor: kBackGroundWhite,
         hintText: title,
@@ -749,9 +751,9 @@ class MinMaxTextField extends StatelessWidget {
             .textTheme
             .subtitle2
             .copyWith(fontSize: 20, color: Theme.of(context).accentColor),
-        border: OutlineInputBorder(
-          borderRadius: const BorderRadius.all(
-            const Radius.circular(8.0),
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(8.0),
           ),
           borderSide: BorderSide.none,
         ),
@@ -789,9 +791,9 @@ class CustomTextField extends StatelessWidget {
               .textTheme
               .headline6
               .copyWith(color: Theme.of(context).accentColor),
-          border: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(
-              const Radius.circular(10.0),
+          border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(10.0),
             ),
             borderSide: BorderSide.none,
           ),

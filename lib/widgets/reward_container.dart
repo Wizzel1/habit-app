@@ -23,14 +23,13 @@ class RewardContainer extends StatelessWidget {
           },
           child: Neumorphic(
             style: kInactiveNeumorphStyle.copyWith(color: kLightOrange),
-            child: Container(
+            child: SizedBox(
               height: 90,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 20.0, vertical: 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Material(
                       type: MaterialType.transparency,

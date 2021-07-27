@@ -7,8 +7,8 @@ class TrackedCompletions {
 
   factory TrackedCompletions.fromJson(Map<String, dynamic> json) =>
       TrackedCompletions(
-        trackedYears:
-            List<Year>.from(json["trackedYears"].map((x) => Year.fromJson(x))),
+        trackedYears: List<Year>.from(json["trackedYears"]
+            .map((Map<String, dynamic> x) => Year.fromJson(x)) as List),
       );
 
   Map<String, dynamic> toJson() => {
@@ -26,9 +26,9 @@ class Year {
   List<CalendarWeek> calendarWeeks = [];
 
   factory Year.fromJson(Map<String, dynamic> json) => Year(
-        yearCount: json["yearCount"],
-        calendarWeeks: List<CalendarWeek>.from(
-            json["calendarWeeks"].map((x) => CalendarWeek.fromJson(x))),
+        yearCount: json["yearCount"] as int,
+        calendarWeeks: List<CalendarWeek>.from(json["calendarWeeks"]
+            .map((Map<String, dynamic> x) => CalendarWeek.fromJson(x)) as List),
       );
 
   Map<String, dynamic> toJson() => {
@@ -48,9 +48,9 @@ class CalendarWeek {
   List<TrackedDay> trackedDays = [];
 
   factory CalendarWeek.fromJson(Map<String, dynamic> json) => CalendarWeek(
-        weekNumber: json["weekNumber"],
-        trackedDays: List<TrackedDay>.from(
-            json["trackedDays"].map((x) => TrackedDay.fromJson(x))),
+        weekNumber: json["weekNumber"] as int,
+        trackedDays: List<TrackedDay>.from(json["trackedDays"]
+            .map((Map<String, dynamic> x) => TrackedDay.fromJson(x)) as List),
       );
 
   Map<String, dynamic> toJson() => {
@@ -71,9 +71,9 @@ class TrackedDay {
   int doneAmount;
 
   factory TrackedDay.fromJson(Map<String, dynamic> json) => TrackedDay(
-        dayCount: json["dayCount"],
-        goalAmount: json["goalAmount"],
-        doneAmount: json["doneAmount"],
+        dayCount: json["dayCount"] as int,
+        goalAmount: json["goalAmount"] as int,
+        doneAmount: json["doneAmount"] as int,
       );
 
   Map<String, dynamic> toJson() => {

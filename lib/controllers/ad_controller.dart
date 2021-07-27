@@ -4,7 +4,7 @@ import 'package:native_admob_flutter/native_admob_flutter.dart';
 import 'package:get/get.dart';
 
 class AdController extends GetxController {
-  static final bool hasPurchasedAdFree = false;
+  static const bool hasPurchasedAdFree = false;
 
   InterstitialAd interstitialAd;
   int _interstitialCounter = 0;
@@ -26,14 +26,13 @@ class AdController extends GetxController {
           child: child,
         );
       },
-      loading: Container(
+      loading: SizedBox(
         width: double.infinity,
         height: 60,
         child: Center(child: Text("loading".tr)),
       ),
       error: const SizedBox.shrink(),
       unitId: PrivateConstants.releaseListViewBannerID,
-      size: BannerSize.ADAPTIVE,
     );
   }
 
@@ -46,7 +45,7 @@ class AdController extends GetxController {
           child: child,
         );
       },
-      loading: Container(
+      loading: SizedBox(
           width: 320, height: 100, child: Center(child: Text("loading".tr))),
       error: const SizedBox.shrink(),
       unitId: PrivateConstants.releaseDetailScreenBannerID,

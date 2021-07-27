@@ -75,7 +75,7 @@ class NotificationTimesController extends GetxController {
             selectedHours[i] = _changedHour;
           } else {
             selectedMinutes[i] = 30;
-            selectedHours[i] = (_changedHour - 1).clamp(0, 23);
+            selectedHours[i] = (_changedHour - 1).clamp(0, 23) as int;
           }
         }
       }
@@ -83,7 +83,7 @@ class NotificationTimesController extends GetxController {
         if (selectedHours[i] <= _changedHour) {
           if (_changedMinute == 30) {
             selectedMinutes[i] = 00;
-            selectedHours[i] = (_changedHour + 1).clamp(0, 23);
+            selectedHours[i] = (_changedHour + 1).clamp(0, 23) as int;
           } else {
             selectedMinutes[i] = 30;
             selectedHours[i] = _changedHour;
@@ -94,7 +94,7 @@ class NotificationTimesController extends GetxController {
   }
 
   void setNotificationTimes(List<NotificationObject> objectList) {
-    List<String> _times = [];
+    final List<String> _times = [];
     for (var i = 0; i < objectList.length; i++) {
       final NotificationObject _object = objectList[i];
       final String stringTime = _object.hour.toString().padLeft(2, "0") +

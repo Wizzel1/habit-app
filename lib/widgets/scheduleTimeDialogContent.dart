@@ -15,7 +15,7 @@ class DialogContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 200,
       width: 200,
       child: Column(
@@ -32,7 +32,7 @@ class DialogContent extends StatelessWidget {
                       child: TextField(
                         controller: _notificationTimesController.hourController,
                         keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             counterText: "", border: InputBorder.none),
                         maxLength: 2,
                         style: Theme.of(context)
@@ -58,7 +58,7 @@ class DialogContent extends StatelessWidget {
                         controller:
                             _notificationTimesController.minuteController,
                         keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             counterText: "", border: InputBorder.none),
                         maxLength: 2,
                         style: Theme.of(context)
@@ -78,7 +78,7 @@ class DialogContent extends StatelessWidget {
               width: 56,
               height: 56,
               color: kSuccessGreen,
-              child: Icon(
+              child: const Icon(
                 FontAwesomeIcons.check,
                 color: kBackGroundWhite,
               )),

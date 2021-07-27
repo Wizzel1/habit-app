@@ -13,14 +13,14 @@ class NavigationController extends GetxController {
   int currentPageIndex;
 
   final List<Page> appPages = [
-    MaterialPage(child: TodaysHabitScreen()),
-    MaterialPage(child: CreateItemScreen()),
-    MaterialPage(child: MyContentScreen()),
+    const MaterialPage(child: TodaysHabitScreen()),
+    const MaterialPage(child: CreateItemScreen()),
+    const MaterialPage(child: MyContentScreen()),
   ];
 
   @override
   void onInit() {
-    navigatorPage = MaterialPage(child: TodaysHabitScreen());
+    navigatorPage = const MaterialPage(child: TodaysHabitScreen());
     heroController = HeroController();
     navigatorKey = GlobalKey<NavigatorState>();
     innerDrawerKey = GlobalKey<InnerDrawerState>();

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 
 class SnackBars {
   static const SnackPosition _snackPosition = SnackPosition.TOP;
-  static const Duration _snackDuration = const Duration(seconds: 4);
+  static const Duration _snackDuration = Duration(seconds: 4);
   static const String _fontFamily = 'Lexend';
 
   static void showSuccessSnackBar(String title, String message) {
@@ -16,11 +16,11 @@ class SnackBars {
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       snackStyle: SnackStyle.FLOATING,
       borderRadius: 8.0,
-      icon: Icon(FontAwesomeIcons.check, color: kBackGroundWhite),
+      icon: const Icon(FontAwesomeIcons.check, color: kBackGroundWhite),
       shouldIconPulse: true,
       titleText: Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
           color: kBackGroundWhite,
           fontWeight: FontWeight.bold,
           fontSize: 18,
@@ -29,7 +29,7 @@ class SnackBars {
       ),
       messageText: Text(
         message,
-        style: TextStyle(
+        style: const TextStyle(
           color: kBackGroundWhite,
           fontSize: 16,
           fontFamily: _fontFamily,
@@ -48,11 +48,11 @@ class SnackBars {
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       snackStyle: SnackStyle.FLOATING,
       borderRadius: 8.0,
-      icon: Icon(FontAwesomeIcons.exclamation, color: kBackGroundWhite),
+      icon: const Icon(FontAwesomeIcons.exclamation, color: kBackGroundWhite),
       shouldIconPulse: true,
       titleText: Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
           color: kBackGroundWhite,
           fontWeight: FontWeight.bold,
           fontSize: 18,
@@ -61,7 +61,7 @@ class SnackBars {
       ),
       messageText: Text(
         message,
-        style: TextStyle(
+        style: const TextStyle(
           color: kBackGroundWhite,
           fontSize: 16,
           fontFamily: _fontFamily,
@@ -80,11 +80,11 @@ class SnackBars {
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       snackStyle: SnackStyle.FLOATING,
       borderRadius: 8.0,
-      icon: Icon(FontAwesomeIcons.ban, color: kBackGroundWhite),
+      icon: const Icon(FontAwesomeIcons.ban, color: kBackGroundWhite),
       shouldIconPulse: true,
       titleText: Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
           color: kBackGroundWhite,
           fontSize: 18,
           fontWeight: FontWeight.bold,
@@ -93,7 +93,7 @@ class SnackBars {
       ),
       messageText: Text(
         message,
-        style: TextStyle(
+        style: const TextStyle(
           color: kBackGroundWhite,
           fontSize: 16,
           fontFamily: _fontFamily,

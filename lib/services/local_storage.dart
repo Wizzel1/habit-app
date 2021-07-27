@@ -4,17 +4,17 @@ import 'package:Marbit/models/models.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorageService {
-  static final String reschedulingNotificationsKey =
+  static const String reschedulingNotificationsKey =
       "reschedulingNotifications";
-  static final String habitsKey = "habits";
-  static final String rewardsKey = "rewards";
-  static final String latestPrefixKey = "latestPrefix";
+  static const String habitsKey = "habits";
+  static const String rewardsKey = "rewards";
+  static const String latestPrefixKey = "latestPrefix";
 
   static Future<void> saveAllHabits(List<Habit> allHabits) async {
     assert(allHabits != null);
     if (allHabits == null) return;
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final List<Map<String, dynamic>> _decodedJsonList =
         allHabits.map((e) => e.toJson()).toList();
@@ -26,7 +26,7 @@ class LocalStorageService {
   }
 
   static Future<List<Habit>> loadHabits() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final List<String> _encodedJsonList = prefs.getStringList(habitsKey);
 
@@ -46,7 +46,7 @@ class LocalStorageService {
     assert(allRewards != null);
     if (allRewards == null) return;
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final List<Map<String, dynamic>> _decodedJsonList =
         allRewards.map((e) => e.toJson()).toList();
@@ -58,7 +58,7 @@ class LocalStorageService {
   }
 
   static Future<List<Reward>> loadRewards() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final List<String> _encodedJsonList = prefs.getStringList(rewardsKey);
 
@@ -74,12 +74,13 @@ class LocalStorageService {
     return _rewardList;
   }
 
+  // ignore: avoid_positional_boolean_parameters
   static Future<void> saveTutorialProgress(String name, bool value) async {
     assert(value != null, "Value must not be null");
     assert(name != null, "Name must not be null");
     if (name == null || value == null) return;
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool(name, value);
   }
 
@@ -87,7 +88,7 @@ class LocalStorageService {
     assert(name != null, "Name must not be null");
     if (name == null) return false;
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     final bool _value = prefs.getBool(name);
 
     if (_value == null) return false;
@@ -95,7 +96,7 @@ class LocalStorageService {
   }
 
   static Future<int> loadLatestNotificationIDprefix() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final int _value = prefs.getInt(latestPrefixKey);
 
@@ -109,7 +110,7 @@ class LocalStorageService {
     assert(value > 0, "Value must be greater than zero");
     if (value == null || value == 0) return;
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     await prefs.setInt(latestPrefixKey, value);
   }

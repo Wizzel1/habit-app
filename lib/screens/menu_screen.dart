@@ -3,7 +3,6 @@ import 'package:Marbit/util/util.dart';
 import 'package:Marbit/widgets/bouncingButton.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class MenuScreen extends StatelessWidget {
   final NavigationController navigationController =
@@ -15,12 +14,11 @@ class MenuScreen extends StatelessWidget {
       backgroundColor: Theme.of(context).primaryColor,
       body: Row(
         children: [
-          Spacer(),
+          const Spacer(),
           Expanded(
             flex: 5,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 MenuItem(
                   onTap: () => navigationController.navigateToIndex(0),
@@ -57,19 +55,19 @@ class MenuScreen extends StatelessWidget {
                       : kBackGroundWhite,
                   isActive: navigationController.currentPageIndex == 2,
                 ),
-                const SizedBox(height: 160),
-                MenuItem(
-                  onTap: () async {
-                    String _url =
-                        'https://github.com/Wizzel1/habit-app/blob/master/privacy-policy.md';
-                    await canLaunch(_url)
-                        ? await launch(_url, forceWebView: true)
-                        : throw 'Could not launch $_url';
-                  },
-                  title: 'Privacy Policy',
-                  textColor: kDeepOrange,
-                  isActive: false,
-                ),
+                //const SizedBox(height: 160),
+                // MenuItem(
+                //   onTap: () async {
+                //     String _url =
+                //         'https://github.com/Wizzel1/habit-app/blob/master/privacy-policy.md';
+                //     await canLaunch(_url)
+                //         ? await launch(_url, forceWebView: true)
+                //         : throw 'Could not launch $_url';
+                //   },
+                //   title: 'Privacy Policy',
+                //   textColor: kDeepOrange,
+                //   isActive: false,
+                // ),
                 // const SizedBox(height: 30),
                 // InkWell(
                 //   onTap: () async {
@@ -122,7 +120,7 @@ class MenuScreen extends StatelessWidget {
               ],
             ),
           ),
-          Spacer(),
+          const Spacer(),
         ],
       ),
     );
@@ -130,7 +128,7 @@ class MenuScreen extends StatelessWidget {
 }
 
 class MenuItem extends StatelessWidget {
-  final Function onTap;
+  final VoidCallback onTap;
   final String title;
   final Color backGroundColor;
   final Color textColor;
@@ -148,7 +146,6 @@ class MenuItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NeumorphPressSwitch(
-        width: 100,
         style: isActive ? kActiveNeumorphStyle : kInactiveNeumorphStyle,
         onPressed: onTap,
         child: Text(

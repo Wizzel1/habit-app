@@ -88,16 +88,16 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
 
   //TODO move this method to contentcontroller
   void _setJoinedRewardList() {
-    List<String> _selectedRewardIDs =
+    final List<String> _selectedRewardIDs =
         _editContentController.cachedRewardReferences;
-    List<Reward> _selectedRewards =
+    final List<Reward> _selectedRewards =
         _contentController.getRewardListByID(_selectedRewardIDs);
-    List<Reward> _allRewards = _contentController.allRewardList;
-    List<Reward> _joinedRewards = [];
+    final List<Reward> _allRewards = _contentController.allRewardList;
+    final List<Reward> _joinedRewards = [];
     _joinedRewards.addAll(_selectedRewards);
 
     for (var i = 0; i < _allRewards.length; i++) {
-      Reward _reward = _allRewards[i];
+      final Reward _reward = _allRewards[i];
       if (_joinedRewards.any((element) => element.id == _reward.id)) {
         continue;
       }
@@ -110,16 +110,16 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
   }
 
   void _setJoinedTutorialRewardList() {
-    List<String> _selectedRewardIDs =
+    final List<String> _selectedRewardIDs =
         _editContentController.cachedRewardReferences;
-    List<Reward> _selectedRewards =
+    final List<Reward> _selectedRewards =
         _contentController.getTutorialRewardListByID(_selectedRewardIDs);
-    List<Reward> _exampleRewards = ContentController.exampleRewards;
-    List<Reward> _joinedRewards = [];
+    final List<Reward> _exampleRewards = ContentController.exampleRewards;
+    final List<Reward> _joinedRewards = [];
     _joinedRewards.addAll(_selectedRewards);
 
     for (var i = 0; i < _exampleRewards.length; i++) {
-      Reward _reward = _exampleRewards[i];
+      final Reward _reward = _exampleRewards[i];
       if (_joinedRewards.any((element) => element.id == _reward.id)) {
         continue;
       }
@@ -152,8 +152,9 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                 future: _screenBuiltCompleter.future,
                 builder:
                     (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting)
+                  if (snapshot.connectionState == ConnectionState.waiting) {
                     return const SizedBox.shrink();
+                  }
                   return SingleChildScrollView(
                     controller:
                         _tutorialController.tutorialHabitDetailScrollController,
@@ -162,7 +163,6 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
                         children: AnimationConfiguration.toStaggeredList(
                           duration: Duration(
@@ -179,7 +179,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                                 index: TutorialController.scheduleScrollIndex,
                                 controller: _tutorialController
                                     .tutorialHabitDetailScrollController,
-                                key: ValueKey(
+                                key: const ValueKey(
                                     TutorialController.scheduleScrollIndex),
                                 child: _buildScheduleRow()),
                             //_buildNextCompletiondateText(),
@@ -189,7 +189,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                                     .completionGoalScrollIndex,
                                 controller: _tutorialController
                                     .tutorialHabitDetailScrollController,
-                                key: ValueKey(TutorialController
+                                key: const ValueKey(TutorialController
                                     .completionGoalScrollIndex),
                                 child: _buildCompletionGoalStepper()),
                             const SizedBox(height: 30),
@@ -198,7 +198,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                                     .notificationTimesScrollIndex,
                                 controller: _tutorialController
                                     .tutorialHabitDetailScrollController,
-                                key: ValueKey(TutorialController
+                                key: const ValueKey(TutorialController
                                     .notificationTimesScrollIndex),
                                 child: _buildScheduledTimesRow()),
                             const SizedBox(height: 50),
@@ -207,7 +207,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                                 index: TutorialController.editButtonScrollIndex,
                                 controller: _tutorialController
                                     .tutorialHabitDetailScrollController,
-                                key: ValueKey(
+                                key: const ValueKey(
                                     TutorialController.editButtonScrollIndex),
                                 child: _buildEditButton(
                                   onPressed: () {
@@ -249,22 +249,23 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                                       TutorialController.rewardListScrollIndex,
                                   controller: _tutorialController
                                       .tutorialHabitDetailScrollController,
-                                  key: ValueKey(
+                                  key: const ValueKey(
                                       TutorialController.rewardListScrollIndex),
                                   child: _buildImplicitList()),
                             ),
-                            widget.isTutorialScreen
-                                ? const SizedBox.shrink()
-                                : AdController.getLargeBannerAd(context),
+                            if (widget.isTutorialScreen)
+                              const SizedBox.shrink()
+                            else
+                              AdController.getLargeBannerAd(context),
                             const SizedBox(height: 50),
                             AutoScrollTag(
                               index: TutorialController
                                   .statisticsElementScrollIndex,
                               controller: _tutorialController
                                   .tutorialHabitDetailScrollController,
-                              key: ValueKey(TutorialController
+                              key: const ValueKey(TutorialController
                                   .statisticsElementScrollIndex),
-                              child: Container(
+                              child: SizedBox(
                                 height: 300,
                                 child: HabitCompletionChart(
                                   key: widget.isTutorialScreen
@@ -334,8 +335,9 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                   child: GestureDetector(
                     onTap: () {
                       if (!_isInEditMode) return;
-                      if (_editContentController.cachedCompletionGoal <= 1)
+                      if (_editContentController.cachedCompletionGoal <= 1) {
                         return;
+                      }
                       _editContentController.cachedCompletionGoal.value--;
                     },
                     onLongPress: () {
@@ -548,7 +550,6 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
       shrinkWrap: true,
       key: widget.isTutorialScreen ? _tutorialController.rewardListKey : null,
       removeDuration: const Duration(milliseconds: 200),
-      insertDuration: const Duration(milliseconds: 500),
       updateDuration: const Duration(milliseconds: 200),
       items: _joinedRewardList,
       areItemsTheSame: (a, b) => a.id == b.id,
@@ -560,8 +561,9 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
           curve: Curves.easeInOut,
           animation: animation,
           child: Obx(() {
-            bool isSelected = (_editContentController.cachedRewardReferences
-                .any((element) => element == reward.id));
+            final bool isSelected = _editContentController
+                .cachedRewardReferences
+                .any((element) => element == reward.id);
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: Neumorphic(

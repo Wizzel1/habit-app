@@ -15,9 +15,9 @@ class DrawerExtension extends StatelessWidget {
     return Neumorphic(
       style: kActiveNeumorphStyle.copyWith(
           color: color,
-          boxShape: NeumorphicBoxShape.roundRect(BorderRadius.only(
+          boxShape: NeumorphicBoxShape.roundRect(const BorderRadius.only(
               topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)))),
-      child: Container(
+      child: const SizedBox(
         height: 90,
         width: 10,
       ),

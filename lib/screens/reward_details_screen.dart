@@ -61,8 +61,9 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
         body: FutureBuilder(
           future: _screenBuiltCompleter.future,
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting)
+            if (snapshot.connectionState == ConnectionState.waiting) {
               return const SizedBox.shrink();
+            }
             return SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Padding(

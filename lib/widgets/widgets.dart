@@ -1,8 +1,9 @@
-export 'package:Marbit/widgets/habitCompletionChart.dart';
-export 'package:Marbit/widgets/habitContainer.dart';
-export 'package:Marbit/widgets/tutorialHabitContainer.dart';
-export 'package:Marbit/widgets/selectableRewardContainer.dart';
-export 'package:Marbit/widgets/rewardContainer.dart';
-export 'package:Marbit/widgets/drawerExtension.dart';
-export 'package:Marbit/widgets/bouncingButton.dart';
+export 'package:Marbit/widgets/habit_completion_chart.dart';
+export 'package:Marbit/widgets/habit_container.dart';
+export 'package:Marbit/widgets/tutorial_habit_container.dart';
+export 'package:Marbit/widgets/selectable_reward_container.dart';
+export 'package:Marbit/widgets/reward_container.dart';
+export 'package:Marbit/widgets/drawer_extension.dart';
+export 'package:Marbit/widgets/bouncing_button.dart';
 export 'package:Marbit/widgets/scheduleTimeDialogContent.dart';
+export 'package:Marbit/widgets/my_scrollbehavior.dart';

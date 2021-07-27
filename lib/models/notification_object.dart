@@ -7,7 +7,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 NotificationObject notificationObjectFromJson(String str) =>
-    NotificationObject.fromJson(json.decode(str));
+    NotificationObject.fromJson(json.decode(str) as Map<String, dynamic>);
 
 String notificationObjectToJson(NotificationObject data) =>
     json.encode(data.toJson());
@@ -68,13 +68,13 @@ class NotificationObject {
 
   factory NotificationObject.fromJson(Map<String, dynamic> json) =>
       NotificationObject(
-          notificationId: json["notificationID"],
-          hour: json["hour"],
-          minutes: json["minutes"],
-          weekDay: json["weekDay"],
-          title: json["title"],
-          body: json["body"],
-          relatedCompletionStep: json["relatedCompletionStep"]);
+          notificationId: json["notificationID"] as int,
+          hour: json["hour"] as int,
+          minutes: json["minutes"] as int,
+          weekDay: json["weekDay"] as int,
+          title: json["title"] as String,
+          body: json["body"] as String,
+          relatedCompletionStep: json["relatedCompletionStep"] as int);
 
   Map<String, dynamic> toJson() => {
         "notificationID": notificationId,
@@ -96,7 +96,7 @@ class NotificationObject {
     String title,
     String body,
   }) {
-    List<NotificationObject> _objectList = [];
+    final List<NotificationObject> _objectList = [];
 
     for (var i = 0; i < scheduledDays.length; i++) {
       final int _currentWeekday = scheduledDays[i];

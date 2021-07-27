@@ -1,8 +1,8 @@
 import 'package:Marbit/controllers/controllers.dart';
-import 'package:Marbit/screens/habitDetailScreen.dart';
+import 'package:Marbit/screens/habit_detail_screen.dart';
 import 'package:Marbit/screens/screens.dart';
 import 'package:flutter/material.dart';
-import 'package:Marbit/models/habitModel.dart';
+import 'package:Marbit/models/habit.dart';
 import 'package:Marbit/util/constants.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 
 class CompletableHabitContainer extends StatefulWidget {
   final Habit habit;
-  final Function onPressed;
+  final VoidCallback onPressed;
   final bool isTutorialContainer;
   final TutorialController _tutorialController = Get.find<TutorialController>();
   final Function onDetailScreenPopped;
@@ -48,10 +48,10 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
           curve: const Interval(0, 0.6, curve: Curves.easeInOut)),
     );
     _colorTween =
-        ColorTween(begin: Color(0xFFFEFDFB), end: Color(0xFFFFAB4A)).animate(
+        ColorTween(begin: const Color(0xFFFEFDFB), end: const Color(0xFFFFAB4A))
+            .animate(
       CurvedAnimation(
-          parent: _buttonAnimController,
-          curve: const Interval(0.6, 0.61, curve: Curves.linear)),
+          parent: _buttonAnimController, curve: const Interval(0.6, 0.61)),
     );
 
     _buttonAnimController.addListener(() {
@@ -75,7 +75,7 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
                 parent: _buttonAnimController,
                 curve: const Interval(0, 0.6, curve: Curves.easeInOut)),
           );
-          ;
+
           _switchedAnimations = true;
         });
       }
@@ -122,7 +122,7 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
               },
               child: Neumorphic(
                 style: kInactiveNeumorphStyle.copyWith(color: kLightOrange),
-                child: Container(
+                child: SizedBox(
                   key: widget.isTutorialContainer
                       ? widget._tutorialController.homeTutorialHabitContainerKey
                       : null,
@@ -150,17 +150,18 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
                               ),
                             ),
                             const SizedBox(height: 10.0),
-                            widget._tutorialController
-                                    .hasFinishedDetailScreenStep
-                                ? CompletionContainer(
-                                    completionGoal: widget.habit.completionGoal,
-                                    todaysCompletions: _todaysHabitCompletions,
-                                    key: widget.isTutorialContainer
-                                        ? widget._tutorialController
-                                            .completionRowKey
-                                        : null,
-                                  )
-                                : const SizedBox(height: 20)
+                            if (widget._tutorialController
+                                .hasFinishedDetailScreenStep)
+                              CompletionContainer(
+                                completionGoal: widget.habit.completionGoal,
+                                todaysCompletions: _todaysHabitCompletions,
+                                key: widget.isTutorialContainer
+                                    ? widget
+                                        ._tutorialController.completionRowKey
+                                    : null,
+                              )
+                            else
+                              const SizedBox(height: 20)
                           ],
                         ),
                       ],
@@ -192,7 +193,7 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
 
 class AnimatedCompleteButton extends StatelessWidget {
   final AnimationController buttonAnimController;
-  final Function onPressed;
+  final VoidCallback onPressed;
   final Animation<double> pressAnimation;
   final Animation<Color> colorTween;
   final Key tutorialKey;
@@ -214,11 +215,10 @@ class AnimatedCompleteButton extends StatelessWidget {
         return NeumorphicButton(
           onPressed: onPressed,
           key: tutorialKey,
-          minDistance: 0.0,
           style: kInactiveNeumorphStyle.copyWith(
               depth: pressAnimation.value, color: colorTween.value),
           padding: EdgeInsets.zero,
-          child: Container(
+          child: const SizedBox(
             height: 56,
             width: 56,
             child: Icon(
@@ -244,7 +244,7 @@ class CompletionContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 20.0,
       width: completionGoal * 20.0,
       child: ListView.builder(
@@ -263,7 +263,7 @@ class CompletionContainer extends StatelessWidget {
                       boxShape: NeumorphicBoxShape.roundRect(
                           const BorderRadius.all(Radius.circular(3))),
                     ),
-                    child: Container(
+                    child: const SizedBox(
                       width: 15,
                       height: 15,
                     ),
@@ -275,7 +275,7 @@ class CompletionContainer extends StatelessWidget {
                       boxShape: NeumorphicBoxShape.roundRect(
                           const BorderRadius.all(Radius.circular(3))),
                     ),
-                    child: Container(
+                    child: const SizedBox(
                       width: 15,
                       height: 15,
                     ),
@@ -311,7 +311,7 @@ class AllHabitContainer extends StatelessWidget {
           },
           child: Neumorphic(
             style: kInactiveNeumorphStyle.copyWith(color: kLightOrange),
-            child: Container(
+            child: SizedBox(
               height: 90,
               child: Padding(
                 padding:
@@ -330,7 +330,7 @@ class AllHabitContainer extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10.0),
-                    Container(
+                    SizedBox(
                       height: 30,
                       child: ListView.builder(
                           itemCount: 7,
@@ -349,7 +349,7 @@ class AllHabitContainer extends StatelessWidget {
                                               NeumorphicBoxShape.roundRect(
                                                   const BorderRadius.all(
                                                       Radius.circular(3)))),
-                                      child: Container(
+                                      child: SizedBox(
                                         height: 25,
                                         width: 25,
                                         child: Center(
@@ -374,7 +374,7 @@ class AllHabitContainer extends StatelessWidget {
                                               NeumorphicBoxShape.roundRect(
                                                   const BorderRadius.all(
                                                       Radius.circular(3)))),
-                                      child: Container(
+                                      child: SizedBox(
                                         height: 25,
                                         width: 25,
                                         child: Center(

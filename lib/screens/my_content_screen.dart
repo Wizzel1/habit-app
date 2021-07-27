@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:Marbit/controllers/controllers.dart';
 
 class MyContentScreen extends StatefulWidget {
-  MyContentScreen({Key key}) : super(key: key);
+  const MyContentScreen({Key key}) : super(key: key);
 
   @override
   _MyContentScreenState createState() => _MyContentScreenState();
@@ -36,7 +36,7 @@ class _MyContentScreenState extends State<MyContentScreen>
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
+    final Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: SafeArea(
@@ -55,7 +55,7 @@ class _MyContentScreenState extends State<MyContentScreen>
             Positioned(
                 bottom: (screenSize.height / 2) - 45,
                 right: 0,
-                child: DrawerExtension(
+                child: const DrawerExtension(
                   color: kLightOrange,
                 )),
           ],
@@ -73,7 +73,7 @@ class _MyContentScreenState extends State<MyContentScreen>
             child: Center(
               child: Column(
                 children: [
-                  Icon(FontAwesomeIcons.angleUp, color: kDeepOrange),
+                  const Icon(FontAwesomeIcons.angleUp, color: kDeepOrange),
                   Text(
                     'scroll_to_show_rewards'.tr,
                     style: Theme.of(context)
@@ -96,9 +96,10 @@ class _MyContentScreenState extends State<MyContentScreen>
                       final offset = notification.metrics.pixels;
                       final delta = notification.dragDetails?.delta?.dy;
                       if (delta == null) return true;
-                      bool reachedOffsetThreshold =
+                      final bool reachedOffsetThreshold =
                           offset < -_pageTransitionOffset;
-                      bool reachedDeltaThreshold = delta > _pageTransitionDelta;
+                      final bool reachedDeltaThreshold =
+                          delta > _pageTransitionDelta;
 
                       if (reachedOffsetThreshold && reachedDeltaThreshold) {
                         _pageController.animateToPage(0,
@@ -112,7 +113,8 @@ class _MyContentScreenState extends State<MyContentScreen>
                     physics: const BouncingScrollPhysics(),
                     itemCount: contentController.allHabitList.length,
                     itemBuilder: (BuildContext context, int index) {
-                      Habit tappedHabit = contentController.allHabitList[index];
+                      final Habit tappedHabit =
+                          contentController.allHabitList[index];
                       return AnimationConfiguration.staggeredList(
                         position: index,
                         duration: const Duration(milliseconds: 375),
@@ -125,8 +127,9 @@ class _MyContentScreenState extends State<MyContentScreen>
                       );
                     },
                     separatorBuilder: (BuildContext context, int index) {
-                      if (index % 4 == 0)
+                      if (index % 4 == 0) {
                         return AdController.getAdaptiveBannerAd(context);
+                      }
                       return const SizedBox.shrink();
                     },
                   ),
@@ -155,9 +158,9 @@ class _MyContentScreenState extends State<MyContentScreen>
                       final offset = notification.metrics.pixels;
                       final delta = notification.dragDetails?.delta?.dy;
                       if (delta == null) return true;
-                      bool reachedOffsetTreshhold =
+                      final bool reachedOffsetTreshhold =
                           offset < -_pageTransitionOffset;
-                      bool reachedDeltaTreshhold =
+                      final bool reachedDeltaTreshhold =
                           delta < -_pageTransitionDelta;
 
                       if (reachedOffsetTreshhold && reachedDeltaTreshhold) {
@@ -173,7 +176,8 @@ class _MyContentScreenState extends State<MyContentScreen>
                     physics: const BouncingScrollPhysics(),
                     itemCount: controller.allRewardList.length,
                     itemBuilder: (BuildContext context, int index) {
-                      Reward tappedReward = controller.allRewardList[index];
+                      final Reward tappedReward =
+                          controller.allRewardList[index];
                       return AnimationConfiguration.staggeredList(
                         position: index,
                         duration: const Duration(milliseconds: 375),
@@ -188,8 +192,9 @@ class _MyContentScreenState extends State<MyContentScreen>
                       );
                     },
                     separatorBuilder: (BuildContext context, int index) {
-                      if (index % 4 == 0)
+                      if (index % 4 == 0) {
                         return AdController.getAdaptiveBannerAd(context);
+                      }
                       return const SizedBox.shrink();
                     },
                   ),
@@ -210,7 +215,7 @@ class _MyContentScreenState extends State<MyContentScreen>
                       .bodyText1
                       .copyWith(color: kDeepOrange),
                 ),
-                Icon(FontAwesomeIcons.angleDown, color: kDeepOrange),
+                const Icon(FontAwesomeIcons.angleDown, color: kDeepOrange),
               ],
             ),
           ),

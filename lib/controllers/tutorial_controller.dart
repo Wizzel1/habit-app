@@ -1,4 +1,4 @@
-import 'package:Marbit/services/localStorage.dart';
+import 'package:Marbit/services/local_storage.dart';
 import 'package:Marbit/util/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -59,18 +59,17 @@ class TutorialController extends GetxController {
   @override
   void onInit() {
     tutorialHabitDetailScrollController = AutoScrollController(
-        viewportBoundaryGetter: () => Rect.fromLTRB(0, 0, 0, 0),
+        viewportBoundaryGetter: () => const Rect.fromLTRB(0, 0, 0, 0),
         axis: Axis.vertical,
         suggestedRowHeight: 400);
     super.onInit();
   }
 
   TargetFocus _createTargetFocus(
-      {String identifier, Key keyTarget, TargetContent content}) {
+      {String identifier, GlobalKey keyTarget, TargetContent content}) {
     return TargetFocus(
       identify: identifier,
       shape: ShapeLightFocus.RRect,
-      enableOverlayTab: false,
       enableTargetTab: false,
       radius: targetFocusRadius,
       keyTarget: keyTarget,
@@ -121,10 +120,10 @@ class TutorialController extends GetxController {
     }
   }
 
-  void _showWelcomeScreen(BuildContext context) async {
+  Future<void> _showWelcomeScreen(BuildContext context) async {
     if (hasSeenWelcomeScreen) return;
 
-    final bool wantToWatchTutorial = await Get.to(() => WelcomeScreen());
+    final bool wantToWatchTutorial = await Get.to(() => const WelcomeScreen());
 
     hasSeenWelcomeScreen = true;
 
@@ -160,16 +159,12 @@ class TutorialController extends GetxController {
       colorShadow: kLightOrange,
       opacityShadow: 1.0,
       onFinish: () async {
-        print("finish");
         hasFinishedHomeScreenStep = true;
         await LocalStorageService.saveTutorialProgress(
             "hasFinishedHomeScreenStep", hasFinishedHomeScreenStep);
       },
-      onClickTarget: (target) {
-        print(target);
-      },
+      onClickTarget: (target) {},
       onSkip: () async {
-        print("skip");
         hasFinishedHomeScreenStep = true;
         await LocalStorageService.saveTutorialProgress(
             "hasFinishedHomeScreenStep", hasFinishedHomeScreenStep);
@@ -186,17 +181,13 @@ class TutorialController extends GetxController {
       colorShadow: kLightOrange,
       opacityShadow: 1.0,
       onFinish: () async {
-        print("finish");
         hasFinishedDetailScreenStep = true;
         await LocalStorageService.saveTutorialProgress(
             "hasFinishedDetailScreenStep", hasFinishedDetailScreenStep);
         update([habitDetailBuilderID, todaysHabitsBuilderID, true]);
       },
-      onClickTarget: (target) {
-        print(target);
-      },
+      onClickTarget: (target) {},
       onSkip: () async {
-        print("skip");
         hasFinishedDetailScreenStep = true;
         await LocalStorageService.saveTutorialProgress(
             "hasFinishedDetailScreenStep", hasFinishedDetailScreenStep);
@@ -214,16 +205,12 @@ class TutorialController extends GetxController {
       colorShadow: kLightOrange,
       opacityShadow: 1.0,
       onFinish: () async {
-        print("finish");
         hasFinishedCompletionStep = true;
         await LocalStorageService.saveTutorialProgress(
             "hasFinishedCompletionStep", hasFinishedCompletionStep);
       },
-      onClickTarget: (target) {
-        print(target);
-      },
+      onClickTarget: (target) {},
       onSkip: () async {
-        print("skip");
         hasFinishedCompletionStep = true;
         await LocalStorageService.saveTutorialProgress(
             "hasFinishedCompletionStep", hasFinishedCompletionStep);
@@ -241,17 +228,13 @@ class TutorialController extends GetxController {
       colorShadow: kLightOrange,
       opacityShadow: 1.0,
       onFinish: () async {
-        print("finish");
         hasFinishedDrawerExtensionStep = true;
         await LocalStorageService.saveTutorialProgress(
             "hasFinishedDrawerExtensionStep", hasFinishedDrawerExtensionStep);
         update([innerDrawerBuilderID, todaysHabitsBuilderID, true]);
       },
-      onClickTarget: (target) {
-        print(target);
-      },
+      onClickTarget: (target) {},
       onSkip: () async {
-        print("skip");
         hasFinishedDrawerExtensionStep = true;
         await LocalStorageService.saveTutorialProgress(
             "hasFinishedDrawerExtensionStep", hasFinishedDrawerExtensionStep);
@@ -275,7 +258,6 @@ class TutorialController extends GetxController {
         identifier: "Target 1",
         keyTarget: homeTutorialHabitContainerKey,
         content: TargetContent(
-          align: ContentAlign.bottom,
           child: ContentContainer(
             heading: 'homeScreenTutorial_container_heading'.tr,
             message: 'homeScreenTutorial_container_message'.tr,
@@ -291,7 +273,6 @@ class TutorialController extends GetxController {
         identifier: "Target 1",
         keyTarget: homeTutorialHabitContainerKey,
         content: TargetContent(
-          align: ContentAlign.bottom,
           child: ContentContainer(
             heading: 'homeScreenTutorial_details_heading'.tr,
             message: 'homeScreenTutorial_details_message'.tr,
@@ -311,7 +292,6 @@ class TutorialController extends GetxController {
         identifier: 'detail_scheduleRowKey',
         keyTarget: scheduleRowKey,
         content: TargetContent(
-          align: ContentAlign.bottom,
           child: ContentContainer(
             heading: 'detailScreenTutorial_scheduleRowKey_heading'.tr,
             message: 'detailScreenTutorial_scheduleRowKey_message'.tr,
@@ -335,7 +315,6 @@ class TutorialController extends GetxController {
         identifier: 'detail_completionGoal',
         keyTarget: completionGoalKey,
         content: TargetContent(
-          align: ContentAlign.bottom,
           child: ContentContainer(
             heading: 'detailScreenTutorial_completionGoalKey_heading'.tr,
             message: 'detailScreenTutorial_completionGoalKey_message'.tr,
@@ -364,7 +343,6 @@ class TutorialController extends GetxController {
         identifier: 'detail_notificationTimesKey',
         keyTarget: notificationTimesKey,
         content: TargetContent(
-          align: ContentAlign.bottom,
           child: ContentContainer(
             heading: 'detailScreenTutorial_notificationTimesKey_heading'.tr,
             message: 'detailScreenTutorial_notificationTimesKey_message'.tr,
@@ -475,7 +453,6 @@ class TutorialController extends GetxController {
         identifier: "Target 2",
         keyTarget: completionRowKey,
         content: TargetContent(
-          align: ContentAlign.bottom,
           child: ContentContainer(
             heading: 'completionScreenTutorial_completionrow_heading'.tr,
             message: 'completionScreenTutorial_completionrow_message'.tr,
@@ -492,7 +469,6 @@ class TutorialController extends GetxController {
         identifier: "completion_completeButton 3",
         keyTarget: completeButtonKey,
         content: TargetContent(
-          align: ContentAlign.bottom,
           child: ContentContainer(
             heading: 'completionStepTutorial_complete_heading'.tr,
             message: 'completionStepTutorial_complete_message'.tr,
@@ -510,7 +486,6 @@ class TutorialController extends GetxController {
         identifier: "Target 3",
         keyTarget: drawerExtensionKey,
         content: TargetContent(
-          align: ContentAlign.bottom,
           child: ContentContainer(
             heading: 'completionTutorial_drawerExtension_heading'.tr,
             message: 'completionTutorial_drawerExtension_message'.tr,
@@ -540,72 +515,69 @@ class ContentContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData _themeData = Theme.of(context);
-    return Container(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            heading,
-            style: _themeData.textTheme.headline4,
-            textAlign: TextAlign.center,
+    final ThemeData _themeData = Theme.of(context);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Text(
+          heading,
+          style: _themeData.textTheme.headline4,
+          textAlign: TextAlign.center,
+        ),
+        if (message != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: Text(
+              message,
+              style: _themeData.textTheme.caption,
+              textAlign: TextAlign.center,
+            ),
           ),
-          if (message != null)
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0),
-              child: Text(
-                message,
+        const SizedBox(height: 20),
+        if (tapMessage != null)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "${'tap'.tr} ",
+                style: _themeData.textTheme.button
+                    .copyWith(color: kBackGroundWhite),
+              ),
+              Text(
+                tapMessage,
                 style: _themeData.textTheme.caption,
                 textAlign: TextAlign.center,
-              ),
-            ),
-          const SizedBox(height: 20),
-          if (tapMessage != null)
-            Row(
+              )
+            ],
+          ),
+        if (holdMessage != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'tap'.tr + " ",
+                  "${'hold'.tr} ",
                   style: _themeData.textTheme.button
                       .copyWith(color: kBackGroundWhite),
                 ),
                 Text(
-                  tapMessage,
+                  holdMessage,
                   style: _themeData.textTheme.caption,
                   textAlign: TextAlign.center,
                 )
               ],
             ),
-          if (holdMessage != null)
-            Padding(
-              padding: const EdgeInsets.only(top: 10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'hold'.tr + " ",
-                    style: _themeData.textTheme.button
-                        .copyWith(color: kBackGroundWhite),
-                  ),
-                  Text(
-                    holdMessage,
-                    style: _themeData.textTheme.caption,
-                    textAlign: TextAlign.center,
-                  )
-                ],
-              ),
-            ),
-          buttonRow,
-        ],
-      ),
+          ),
+        buttonRow,
+      ],
     );
   }
 }
 
 class ButtonRow extends StatelessWidget {
-  final Function onPreviousTapped;
-  final Function onNextTapped;
+  final VoidCallback onPreviousTapped;
+  final VoidCallback onNextTapped;
 
   const ButtonRow({Key key, this.onPreviousTapped, this.onNextTapped})
       : super(key: key);
@@ -618,17 +590,19 @@ class ButtonRow extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            onPreviousTapped != null
-                ? PreviousButton(
-                    onPressed: onPreviousTapped,
-                  )
-                : const SizedBox.shrink(),
+            if (onPreviousTapped != null)
+              PreviousButton(
+                onPressed: onPreviousTapped,
+              )
+            else
+              const SizedBox.shrink(),
             const SizedBox(width: 50),
-            onNextTapped != null
-                ? NextButton(
-                    onPressed: onNextTapped,
-                  )
-                : const SizedBox.shrink(),
+            if (onNextTapped != null)
+              NextButton(
+                onPressed: onNextTapped,
+              )
+            else
+              const SizedBox.shrink(),
           ],
         ),
       ),
@@ -637,7 +611,7 @@ class ButtonRow extends StatelessWidget {
 }
 
 class PreviousButton extends StatelessWidget {
-  final Function onPressed;
+  final VoidCallback onPressed;
 
   const PreviousButton({Key key, this.onPressed}) : super(key: key);
 
@@ -648,7 +622,7 @@ class PreviousButton extends StatelessWidget {
       width: 50,
       height: 50,
       style: kInactiveNeumorphStyle,
-      child: Icon(
+      child: const Icon(
         FontAwesomeIcons.arrowLeft,
         color: kDeepOrange,
         size: 20,
@@ -658,7 +632,7 @@ class PreviousButton extends StatelessWidget {
 }
 
 class NextButton extends StatelessWidget {
-  final Function onPressed;
+  final VoidCallback onPressed;
 
   const NextButton({
     Key key,
@@ -672,7 +646,7 @@ class NextButton extends StatelessWidget {
       width: 50,
       height: 50,
       style: kInactiveNeumorphStyle.copyWith(color: kDeepOrange),
-      child: Icon(
+      child: const Icon(
         FontAwesomeIcons.arrowRight,
         color: kBackGroundWhite,
         size: 20,
@@ -690,7 +664,7 @@ class WelcomeScreen extends StatelessWidget {
       backgroundColor: kLightOrange,
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,

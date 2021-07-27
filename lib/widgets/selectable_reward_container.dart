@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SelectableRewardContainer extends StatefulWidget {
-  final Function onTap;
+  final VoidCallback onTap;
   final VoidCallback onLongPress;
   final bool isSelectedReward;
   final Reward reward;

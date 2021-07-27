@@ -1,4 +1,4 @@
-import 'package:Marbit/services/localStorage.dart';
+import 'package:Marbit/services/local_storage.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 
@@ -33,7 +33,7 @@ class NotifyController extends GetxController {
     final IOSInitializationSettings initializationSettingsIOS =
         IOSInitializationSettings(
             onDidReceiveLocalNotification: onDidReceiveLocalNotification);
-    final MacOSInitializationSettings initializationSettingsMacOS =
+    const MacOSInitializationSettings initializationSettingsMacOS =
         MacOSInitializationSettings();
     final InitializationSettings initializationSettings =
         InitializationSettings(
@@ -89,20 +89,22 @@ class NotifyController extends GetxController {
     final List<NotificationObject> _objectsToCreate =
         _getListDifferences(newObjects, oldObjects);
 
-    _objectsToDelete.forEach((element) async {
-      await flutterLocalNotificationsPlugin.cancel(element.notificationId);
-    });
+    for (final notificationObject in _objectsToDelete) {
+      await flutterLocalNotificationsPlugin
+          .cancel(notificationObject.notificationId);
+    }
 
-    _objectsToCreate.forEach((element) async {
-      await _createNotificationFromObject(element);
-    });
+    for (final notificationObject in _objectsToCreate) {
+      await _createNotificationFromObject(notificationObject);
+    }
   }
 
-  List<NotificationObject> _getListDifferences(List listA, List listB) {
-    List<NotificationObject> _differences = [];
-    for (NotificationObject objA in listA) {
+  List<NotificationObject> _getListDifferences(
+      List<NotificationObject> listA, List<NotificationObject> listB) {
+    final List<NotificationObject> _differences = [];
+    for (final NotificationObject objA in listA) {
       bool found = false;
-      for (NotificationObject objB in listB) {
+      for (final NotificationObject objB in listB) {
         if (objA.notificationId == objB.notificationId) {
           found = true;
           break;
@@ -178,7 +180,7 @@ class NotifyController extends GetxController {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          content: Container(
+          content: SizedBox(
             height: 300,
             width: 300,
             child: ListView.builder(
@@ -188,11 +190,11 @@ class NotifyController extends GetxController {
                 return ListTile(
                   leading: Text(
                     pendingNotificationRequests[index].id.toString(),
-                    style: TextStyle(color: kDeepOrange),
+                    style: const TextStyle(color: kDeepOrange),
                   ),
                   title: Text(
                     pendingNotificationRequests[index].title,
-                    style: TextStyle(color: kDeepOrange),
+                    style: const TextStyle(color: kDeepOrange),
                   ),
                   trailing: Text(pendingNotificationRequests[index].payload),
                 );
@@ -201,10 +203,10 @@ class NotifyController extends GetxController {
           ),
           actions: [
             TextButton(
-              child: Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
+              child: const Text('OK'),
             ),
           ],
         );

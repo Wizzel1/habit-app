@@ -72,25 +72,27 @@ class Habit {
       };
 
   factory Habit.fromJson(Map<String, dynamic> json) => Habit(
-        title: json["title"],
-        id: json["id"],
-        notificationIDprefix: json["notificationIDprefix"],
-        streak: json["streak"],
-        completionGoal: json["completionGoal"],
-        nextCompletionDate: DateTime.parse(json["nextCompletionDate"]),
+        title: json["title"] as String,
+        id: json["id"] as String,
+        notificationIDprefix: json["notificationIDprefix"] as int,
+        streak: json["streak"] as int,
+        completionGoal: json["completionGoal"] as int,
+        nextCompletionDate:
+            DateTime.parse(json["nextCompletionDate"] as String),
         scheduledWeekDays:
-            List<int>.from(json["scheduledWeekDays"].map((x) => x)),
+            List<int>.from(json["scheduledWeekDays"].map((x) => x) as List),
         rewardIDReferences:
-            List<String>.from(json["rewardIDReferences"].map((x) => x)),
-        trackedCompletions:
-            TrackedCompletions.fromJson(json["trackedCompletions"]),
+            List<String>.from(json["rewardIDReferences"].map((x) => x) as List),
+        trackedCompletions: TrackedCompletions.fromJson(
+            json["trackedCompletions"] as Map<String, dynamic>),
         notificationObjects: List<NotificationObject>.from(
-            json["notificationObjects"]
-                .map((x) => NotificationObject.fromJson(x))),
+            json["notificationObjects"].map(
+                    (Map<String, dynamic> x) => NotificationObject.fromJson(x))
+                as List),
       );
 
   bool isScheduledForToday() {
-    bool isScheduledForToday =
+    final bool isScheduledForToday =
         scheduledWeekDays.contains(DateUtilities.today.weekday);
     return isScheduledForToday;
   }
@@ -184,7 +186,6 @@ class Habit {
 
   int getTodaysCompletions() {
     final List<int> _yearWeekDayIndexList = _getYearWeekDayIndexList();
-    print("todaysCompletionsList : $_yearWeekDayIndexList");
 
     if (_yearWeekDayIndexList == null) return null;
 
@@ -200,7 +201,6 @@ class Habit {
 
   bool wasFinishedToday() {
     final List<int> _yearWeekDayIndexList = _getYearWeekDayIndexList();
-    print("wasFinishedToday : $_yearWeekDayIndexList");
 
     if (_yearWeekDayIndexList == null) return false;
 
@@ -217,7 +217,6 @@ class Habit {
 
   Future<void> addCompletionForToday({Function onCompletionGoalReached}) async {
     final List<int> _yearWeekDayIndexList = _getYearWeekDayIndexList();
-    print("addCompletionForToday : $_yearWeekDayIndexList");
 
     if (_yearWeekDayIndexList == null) return;
 
@@ -314,19 +313,19 @@ class Habit {
     if (lastYearIndex < 0) lastYearIndex = null;
 
     switch (timeSpan) {
-      case TimeSpan.WEEK:
+      case TimeSpan.week:
         final int _currentCalendarWeek = DateUtilities.currentCalendarWeek;
         final CalendarWeek _currentWeekObject =
             _getCalendarWeekObject(currentYearIndex, _currentCalendarWeek);
         final List<TrackedDay> _dayList = _currentWeekObject.trackedDays;
 
         if (_dayList.length < 7) {
-          List<TrackedDay> _filledUpList = [];
+          final List<TrackedDay> _filledUpList = [];
           final List<int> thisWeeksDates =
               DateUtilities.getCurrentWeeksDateList();
 
           for (var i = 0; i < thisWeeksDates.length; i++) {
-            TrackedDay _day = _dayList.firstWhere(
+            final TrackedDay _day = _dayList.firstWhere(
                 (element) => element.dayCount == thisWeeksDates[i],
                 orElse: () => TrackedDay(
                     dayCount: thisWeeksDates[i],
@@ -340,8 +339,8 @@ class Habit {
         return _dayList;
         break;
 
-      case TimeSpan.MONTH:
-        List<CalendarWeek> lastFourCalendarWeekObjects = [];
+      case TimeSpan.month:
+        final List<CalendarWeek> lastFourCalendarWeekObjects = [];
         final List<int> lastFourCalendarWeekNumbers =
             DateUtilities.getLastFourCalendarWeeks();
         final int _lastWeek = DateUtilities.currentCalendarWeek - 1;
@@ -365,7 +364,7 @@ class Habit {
             "Returned ${lastFourCalendarWeekNumbers.length} WeekObjects");
         return lastFourCalendarWeekObjects.reversed.toList();
         break;
-      case TimeSpan.YEAR:
+      case TimeSpan.year:
         break;
       default:
     }

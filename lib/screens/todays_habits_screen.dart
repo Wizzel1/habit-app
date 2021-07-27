@@ -23,7 +23,7 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
   void initState() {
     _scrollContoller = ScrollController();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      ConsentInformation consentInfo =
+      final ConsentInformation consentInfo =
           await FlutterFundingChoices.requestConsentInformation();
 
       if (consentInfo.isConsentFormAvailable &&
@@ -48,7 +48,7 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
+    final Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: GetBuilder<TutorialController>(
@@ -77,7 +77,7 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
                             itemCount:
                                 _contentController.todaysHabitList.length,
                             itemBuilder: (BuildContext context, int index) {
-                              Habit tappedHabit =
+                              final Habit tappedHabit =
                                   _contentController.todaysHabitList[index];
                               return AnimationConfiguration.staggeredList(
                                 position: index,
@@ -108,9 +108,10 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
                             },
                             separatorBuilder:
                                 (BuildContext context, int index) {
-                              if (index % 3 == 0)
+                              if (index % 3 == 0) {
                                 return AdController.getAdaptiveBannerAd(
                                     context);
+                              }
                               return const SizedBox.shrink();
                             },
                           ),

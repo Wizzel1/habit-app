@@ -15,7 +15,7 @@ class DateUtilities {
   static List<int> getCurrentWeeksDateList() {
     final int _weekDay = today.weekday;
     final DateTime _thisMonday = today.subtract(Duration(days: _weekDay - 1));
-    List<int> _thisWeeksDates = [];
+    final List<int> _thisWeeksDates = [];
 
     for (var i = 0; i < 7; i++) {
       final int _dayCount = _thisMonday.add(Duration(days: i)).day;
@@ -29,7 +29,7 @@ class DateUtilities {
   static List<int> getLastFourCalendarWeeks() {
     final int _lastWeek = currentCalendarWeek - 1;
     final bool _needsWeeksFromLastYear = _lastWeek < 4;
-    List<int> _lastFourCalendarWeeks = [];
+    final List<int> _lastFourCalendarWeeks = [];
     int _lastCalendarWeekLastYear;
     //TODO debug
 
@@ -47,7 +47,7 @@ class DateUtilities {
 
     for (var i = 0; i < 4; i++) {
       int _newWeekNumber;
-      int _weekToAdd = _lastWeek - i;
+      final int _weekToAdd = _lastWeek - i;
       if (_weekToAdd >= 1) _newWeekNumber = _weekToAdd;
       if (_weekToAdd < 1) {
         _newWeekNumber = _lastCalendarWeekLastYear - _weekToAdd.abs();
@@ -64,7 +64,7 @@ class DateUtilities {
     DateTime _loopingDate = DateUtilities.today;
 
     for (var i = 0; i < 8; i++) {
-      bool loopingDayIsScheduledDay =
+      final bool loopingDayIsScheduledDay =
           _loopingDate.weekday == nextScheduledWeekDay;
 
       if (loopingDayIsScheduledDay) return _loopingDate;
@@ -75,18 +75,18 @@ class DateUtilities {
 
   static TrackedCompletions get2021ExampleCompletions() {
     DateTime _firstDayOf2021 = DateTime.parse("2021-01-04");
-    DateTime _lastDayOf2021 = DateTime.parse("2021-12-31");
+    final DateTime _lastDayOf2021 = DateTime.parse("2021-12-31");
 
-    TrackedCompletions exampleCompletions =
+    final TrackedCompletions exampleCompletions =
         TrackedCompletions(trackedYears: []);
-    Year exampleYear = Year(yearCount: 2021, calendarWeeks: []);
+    final Year exampleYear = Year(yearCount: 2021, calendarWeeks: []);
     int dayIndex = 1;
     int weekIndex = 1;
 
     CalendarWeek _currentWeek = CalendarWeek(weekNumber: 1, trackedDays: []);
 
     while (_firstDayOf2021.isBefore(_lastDayOf2021)) {
-      TrackedDay _newDay = TrackedDay(
+      final TrackedDay _newDay = TrackedDay(
           dayCount: _firstDayOf2021.day, doneAmount: 0, goalAmount: 7);
       _currentWeek.trackedDays.add(_newDay);
 
@@ -99,7 +99,7 @@ class DateUtilities {
       _firstDayOf2021 = _firstDayOf2021.add(const Duration(days: 1));
     }
 
-    TrackedDay lastDay =
+    final TrackedDay lastDay =
         TrackedDay(dayCount: _lastDayOf2021.day, doneAmount: 2, goalAmount: 3);
     exampleYear.calendarWeeks.last.trackedDays.add(lastDay);
 

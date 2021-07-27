@@ -1,12 +1,11 @@
 import 'package:Marbit/controllers/controllers.dart';
 import 'package:Marbit/models/models.dart';
-import 'package:Marbit/services/localStorage.dart';
+import 'package:Marbit/services/local_storage.dart';
 import 'package:Marbit/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rich_text_controller/rich_text_controller.dart';
 import 'package:uuid/uuid.dart';
-import 'contentController.dart';
 
 class CreateItemController extends GetxController {
   RichTextController createTitleTextController;
@@ -74,7 +73,7 @@ class CreateItemController extends GetxController {
     final int prefix = await _getNotificationIDprefix();
     final Habit newHabit = Habit(
       title: createTitleTextController.text,
-      id: Uuid().v4(),
+      id: const Uuid().v4(),
       completionGoal: completionGoalCount.value,
       scheduledWeekDays: scheduledDays,
       rewardIDReferences: selectedRewardReferences,
@@ -106,8 +105,8 @@ class CreateItemController extends GetxController {
   }
 
   bool performInputCheck({bool isHabit}) {
-    if (isHabit) return (_performTitleCheck() && _performScheduleCheck());
-    if (!isHabit) return (_performTitleCheck());
+    if (isHabit) return _performTitleCheck() && _performScheduleCheck();
+    if (!isHabit) return _performTitleCheck();
   }
 
   bool _performTitleCheck() {
@@ -153,7 +152,7 @@ class CreateItemController extends GetxController {
   void createAndSaveReward() {
     final Reward newReward = Reward(
         name: createTitleTextController.text,
-        id: Uuid().v4(),
+        id: const Uuid().v4(),
         isSelfRemoving: isSelfRemovingReward.value);
     Get.find<ContentController>().saveNewReward(newReward);
   }

@@ -1,4 +1,4 @@
-export 'package:Marbit/models/habitModel.dart';
-export 'package:Marbit/models/rewardModel.dart';
-export 'package:Marbit/models/trackedCompletionsModel.dart';
-export 'package:Marbit/models/notificationObject.dart';
+export 'package:Marbit/models/habit.dart';
+export 'package:Marbit/models/reward.dart';
+export 'package:Marbit/models/tracked_completions.dart';
+export 'package:Marbit/models/notification_object.dart';
