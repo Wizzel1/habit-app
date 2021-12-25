@@ -1,6 +1,5 @@
 import 'package:Marbit/models/models.dart';
 import 'package:Marbit/screens/screens.dart';
-import 'package:Marbit/util/constants.dart';
 import 'package:Marbit/util/util.dart';
 import 'package:Marbit/widgets/widgets.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -115,7 +114,7 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       // aspectRatio: 1.8,
       child: Column(
@@ -247,6 +246,7 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
         return _dataList;
         break;
     }
+    return [];
   }
 
   BarChartData mainBarData() {
@@ -299,11 +299,11 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
                   break;
               }
             }),
-        touchCallback: (barTouchResponse) {
+        touchCallback: (touchEvent, barTouchResponse) {
           setState(() {
             if (barTouchResponse.spot != null &&
-                barTouchResponse.touchInput is! PointerUpEvent &&
-                barTouchResponse.touchInput is! PointerExitEvent) {
+                touchEvent is! PointerUpEvent &&
+                touchEvent is! PointerExitEvent) {
               _touchedIndex = barTouchResponse.spot.touchedBarGroupIndex;
             } else {
               _touchedIndex = -1;
@@ -315,7 +315,7 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
         show: true,
         bottomTitles: SideTitles(
           showTitles: true,
-          getTextStyles: (value) =>
+          getTextStyles: (value, _) =>
               Theme.of(context).textTheme.caption.copyWith(color: kDeepOrange),
           margin: 16,
           getTitles: (double value) {
@@ -332,11 +332,12 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
               case TimeSpan.year:
                 break;
             }
+            return '';
           },
         ),
         leftTitles: SideTitles(
           interval: _calculateInterval(),
-          getTextStyles: (value) =>
+          getTextStyles: (value, _) =>
               Theme.of(context).textTheme.caption.copyWith(color: kDeepOrange),
           margin: 16,
           showTitles: true,
@@ -359,6 +360,7 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
         return i;
       }
     }
+    return 0;
   }
 
   BarTooltipItem _createTooltipItemForWeek(

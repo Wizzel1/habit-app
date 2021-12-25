@@ -22,14 +22,14 @@ class CreateItemController extends GetxController {
 
   @override
   void onInit() {
+    super.onInit();
     createTitleTextController = RichTextController(
-      patternMap: {
+      patternMatchMap: {
         RegExp(regexPattern): TextStyle(
             backgroundColor: kLightOrange.withOpacity(0.5),
             fontWeight: FontWeight.bold)
-      },
+      }, onMatch: (List<String> match) {  },
     );
-    super.onInit();
   }
 
   @override
@@ -107,6 +107,7 @@ class CreateItemController extends GetxController {
   bool performInputCheck({bool isHabit}) {
     if (isHabit) return _performTitleCheck() && _performScheduleCheck();
     if (!isHabit) return _performTitleCheck();
+    return false;
   }
 
   bool _performTitleCheck() {

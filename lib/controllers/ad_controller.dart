@@ -1,7 +1,7 @@
 import 'package:Marbit/util/private.dart';
 import 'package:flutter/material.dart';
-import 'package:native_admob_flutter/native_admob_flutter.dart';
 import 'package:get/get.dart';
+import 'package:native_admob_flutter/native_admob_flutter.dart';
 
 class AdController extends GetxController {
   static const bool hasPurchasedAdFree = false;

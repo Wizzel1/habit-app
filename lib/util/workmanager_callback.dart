@@ -1,11 +1,12 @@
 import 'dart:convert';
+
 import 'package:Marbit/models/models.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
-import 'package:workmanager/workmanager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:workmanager/workmanager.dart';
 
 import '../models/models.dart';
 
@@ -110,7 +111,7 @@ Future<void> _createNotificationFromObject(NotificationObject object) async {
         android: AndroidNotificationDetails(
           'weekly notification channel id',
           'weekly notification channel name',
-          'weekly notificationdescription',
+          channelDescription: 'weekly notificationdescription',
           importance: Importance.max,
           priority: Priority.high,
         ),

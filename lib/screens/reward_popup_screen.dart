@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:math';
+
 import 'package:Marbit/controllers/controllers.dart';
-import 'package:Marbit/widgets/widgets.dart';
-import 'package:flutter/material.dart';
 import 'package:Marbit/models/models.dart';
 import 'package:Marbit/util/util.dart';
+import 'package:Marbit/widgets/widgets.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -170,17 +170,6 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
     _shuffeledRewardList.last.name = _tempNewTitle;
   }
 
-  void _addPercentageBasedEmptyRewards() {
-    final double totalRewards = _shuffeledRewardList.length /
-        (widget.isTutorial ? 1.0 : _rewardPercentage);
-    final double badRewards = totalRewards - _shuffeledRewardList.length;
-
-    for (var i = 0; i < badRewards; i++) {
-      final Reward _empty =
-          Reward(name: 'motivational_message'.tr, isSelfRemoving: false);
-      _shuffeledRewardList.add(_empty);
-    }
-  }
 
   void _animateRewardList() {
     Timer(

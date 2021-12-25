@@ -25,13 +25,14 @@ class EditContentController extends GetxController {
 
   @override
   void onInit() {
+    super.onInit();
     habitTitleController = TextEditingController();
     rewardTitleController = RichTextController(
-      patternMap: {
+      patternMatchMap: {
         RegExp(regexPattern): const TextStyle(fontWeight: FontWeight.bold)
       },
+      onMatch: (List<String> match) {},
     );
-    super.onInit();
   }
 
   @override

@@ -1,11 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:Marbit/controllers/controllers.dart';
+import 'package:Marbit/util/util.dart';
+import 'package:Marbit/widgets/widgets.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:Marbit/widgets/widgets.dart';
-import 'package:Marbit/controllers/controllers.dart';
-
-import 'package:Marbit/util/util.dart';
 
 final List<String> dayNames = [
   'Mo'.tr,
@@ -117,7 +115,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                           'habit'.tr,
                           style: Theme.of(context).textTheme.button.copyWith(
                               fontSize: 18,
-                              color: Theme.of(context).accentColor),
+                              color: Theme.of(context).colorScheme.secondary),
                         ),
                       ),
                     ),
@@ -136,7 +134,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                             'reward'.tr,
                             style: Theme.of(context).textTheme.button.copyWith(
                                 fontSize: 18,
-                                color: Theme.of(context).accentColor),
+                                color: Theme.of(context).colorScheme.secondary),
                           ),
                         ))
                   ],
@@ -190,7 +188,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                                       color: _createItemController
                                               .isSelfRemovingReward.value
                                           ? kBackGroundWhite
-                                          : Theme.of(context).accentColor),
+                                          : Theme.of(context).colorScheme.secondary),
                             ),
                           ),
                         )),
@@ -213,7 +211,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                             style: Theme.of(context).textTheme.button.copyWith(
                                   color: _createItemController
                                           .isSelfRemovingReward.value
-                                      ? Theme.of(context).accentColor
+                                      ? Theme.of(context).colorScheme.secondary
                                       : kBackGroundWhite,
                                 ),
                           ),
@@ -332,7 +330,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                         },
                         child: Icon(
                           Icons.remove,
-                          color: Theme.of(context).accentColor,
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                       ),
                     ),
@@ -355,7 +353,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                           _createItemController.completionGoalCount.value++;
                         },
                         child: Icon(Icons.add,
-                            color: Theme.of(context).accentColor),
+                            color: Theme.of(context).colorScheme.secondary),
                       ),
                     ),
                     const Spacer(),
@@ -741,7 +739,7 @@ class MinMaxTextField extends StatelessWidget {
       style: Theme.of(context)
           .textTheme
           .subtitle2
-          .copyWith(fontSize: 20, color: Theme.of(context).accentColor),
+          .copyWith(fontSize: 20, color: Theme.of(context).colorScheme.secondary),
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(),
         filled: true,
@@ -750,7 +748,7 @@ class MinMaxTextField extends StatelessWidget {
         hintStyle: Theme.of(context)
             .textTheme
             .subtitle2
-            .copyWith(fontSize: 20, color: Theme.of(context).accentColor),
+            .copyWith(fontSize: 20, color: Theme.of(context).colorScheme.secondary),
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(8.0),
@@ -783,14 +781,14 @@ class CustomTextField extends StatelessWidget {
         style: Theme.of(context)
             .textTheme
             .headline6
-            .copyWith(color: Theme.of(context).accentColor),
+            .copyWith(color: Theme.of(context).colorScheme.secondary),
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.fromLTRB(6, 24, 6, 16),
           hintText: title,
           hintStyle: Theme.of(context)
               .textTheme
               .headline6
-              .copyWith(color: Theme.of(context).accentColor),
+              .copyWith(color: Theme.of(context).colorScheme.secondary),
           border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(10.0),

@@ -1,14 +1,12 @@
-import 'package:Marbit/services/local_storage.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:get/get.dart';
-
 import 'package:Marbit/models/models.dart';
+import 'package:Marbit/services/local_storage.dart';
 import 'package:Marbit/util/constants.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:get/get.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -46,7 +44,7 @@ class NotifyController extends GetxController {
 
   Future<void> scheduleWeeklyHabitNotifications(
       List<NotificationObject> notificationObjects) async {
-    for (NotificationObject _object in notificationObjects) {
+    for (final NotificationObject _object in notificationObjects) {
       await _createNotificationFromObject(_object);
     }
   }
@@ -130,7 +128,7 @@ class NotifyController extends GetxController {
           android: AndroidNotificationDetails(
             'weekly notification channel id',
             'weekly notification channel name',
-            'weekly notificationdescription',
+            channelDescription: 'weekly notificationdescription',
             importance: Importance.max,
             priority: Priority.high,
           ),

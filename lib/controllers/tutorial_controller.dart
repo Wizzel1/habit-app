@@ -1,11 +1,11 @@
 import 'package:Marbit/services/local_storage.dart';
 import 'package:Marbit/util/constants.dart';
+import 'package:Marbit/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
-import 'package:Marbit/widgets/widgets.dart';
 
 class TutorialController extends GetxController {
   List<TargetFocus> targets = [];

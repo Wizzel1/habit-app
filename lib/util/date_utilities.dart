@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_classes_with_only_static_members
+
 import 'package:Marbit/models/models.dart';
 import 'package:intl/intl.dart';
 import 'package:week_of_year/week_of_year.dart';

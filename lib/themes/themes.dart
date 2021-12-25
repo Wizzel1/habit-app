@@ -72,8 +72,8 @@ ThemeData orangeTheme() {
   return standard.copyWith(
     textTheme: _textTheme(standard.textTheme),
     primaryColor: kLightOrange,
-    accentColor: kDeepOrange,
     backgroundColor: kBackGroundWhite,
+    colorScheme: ColorScheme.fromSwatch().copyWith(secondary: kDeepOrange),
   );
 }
 
@@ -83,8 +83,7 @@ ThemeData redTheme() {
   return standard.copyWith(
     textTheme: _textTheme(standard.textTheme),
     primaryColor: kLightRed,
-    accentColor: kDeepRed,
-    backgroundColor: kBackGroundWhite,
+    backgroundColor: kBackGroundWhite, colorScheme: ColorScheme.fromSwatch().copyWith(secondary: kDeepRed),
   );
 }
 
@@ -94,8 +93,7 @@ ThemeData blueTheme() {
   return standard.copyWith(
     textTheme: _textTheme(standard.textTheme),
     primaryColor: kLightBlue,
-    accentColor: kDeepBlue,
-    backgroundColor: kBackGroundWhite,
+    backgroundColor: kBackGroundWhite, colorScheme: ColorScheme.fromSwatch().copyWith(secondary: kDeepBlue),
   );
 }
 
@@ -105,8 +103,7 @@ ThemeData greenTheme() {
   return standard.copyWith(
     textTheme: _textTheme(standard.textTheme),
     primaryColor: kLightGreen,
-    accentColor: kDeepGreen,
-    backgroundColor: kBackGroundWhite,
+    backgroundColor: kBackGroundWhite, colorScheme: ColorScheme.fromSwatch().copyWith(secondary: kDeepGreen),
   );
 }
 

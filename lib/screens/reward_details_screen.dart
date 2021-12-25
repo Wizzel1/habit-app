@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:Marbit/controllers/controllers.dart';
 import 'package:Marbit/models/models.dart';
 import 'package:Marbit/util/constants.dart';
@@ -6,7 +7,6 @@ import 'package:Marbit/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
-import 'package:Marbit/screens/screens.dart';
 
 class RewardDetailScreen extends StatefulWidget {
   final Reward reward;
@@ -134,7 +134,7 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
                 style: Theme.of(context).textTheme.button.copyWith(
                     color: _editContentController.isSelfRemoving.value
                         ? kBackGroundWhite
-                        : Theme.of(context).accentColor),
+                        : Theme.of(context).colorScheme.secondary),
               ),
             ),
           ),
@@ -154,7 +154,7 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
                 'regular'.tr,
                 style: Theme.of(context).textTheme.button.copyWith(
                       color: _editContentController.isSelfRemoving.value
-                          ? Theme.of(context).accentColor
+                          ? Theme.of(context).colorScheme.secondary
                           : kBackGroundWhite,
                     ),
               ),

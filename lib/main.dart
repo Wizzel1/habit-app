@@ -1,5 +1,4 @@
 import 'package:Marbit/bindings/global_controller_bindings.dart';
-import 'package:Marbit/controllers/navigation_controller.dart';
 import 'package:Marbit/screens/screens.dart';
 import 'package:Marbit/themes/themes.dart';
 import 'package:Marbit/util/util.dart';

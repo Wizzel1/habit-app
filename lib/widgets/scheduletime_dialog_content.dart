@@ -1,7 +1,6 @@
 import 'package:Marbit/controllers/controllers.dart';
 import 'package:Marbit/util/util.dart';
 import 'package:Marbit/widgets/widgets.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -25,22 +24,20 @@ class DialogContent extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: Container(
-                    child: Neumorphic(
-                      style: kActiveNeumorphStyle.copyWith(
-                          color: kBackGroundWhite),
-                      child: TextField(
-                        controller: _notificationTimesController.hourController,
-                        keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                            counterText: "", border: InputBorder.none),
-                        maxLength: 2,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6
-                            .copyWith(color: Theme.of(context).accentColor),
-                        textAlign: TextAlign.center,
-                      ),
+                  child: Neumorphic(
+                    style: kActiveNeumorphStyle.copyWith(
+                        color: kBackGroundWhite),
+                    child: TextField(
+                      controller: _notificationTimesController.hourController,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                          counterText: "", border: InputBorder.none),
+                      maxLength: 2,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6
+                          .copyWith(color: Theme.of(context).colorScheme.secondary),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ),
@@ -50,23 +47,21 @@ class DialogContent extends StatelessWidget {
                         .headline4
                         .copyWith(color: kDeepOrange)),
                 Expanded(
-                  child: Container(
-                    child: Neumorphic(
-                      style: kActiveNeumorphStyle.copyWith(
-                          color: kBackGroundWhite),
-                      child: TextField(
-                        controller:
-                            _notificationTimesController.minuteController,
-                        keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                            counterText: "", border: InputBorder.none),
-                        maxLength: 2,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6
-                            .copyWith(color: Theme.of(context).accentColor),
-                        textAlign: TextAlign.center,
-                      ),
+                  child: Neumorphic(
+                    style: kActiveNeumorphStyle.copyWith(
+                        color: kBackGroundWhite),
+                    child: TextField(
+                      controller:
+                          _notificationTimesController.minuteController,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                          counterText: "", border: InputBorder.none),
+                      maxLength: 2,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6
+                          .copyWith(color: Theme.of(context).colorScheme.secondary),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ),

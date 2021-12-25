@@ -1,15 +1,13 @@
 import 'dart:async';
-import 'dart:ui';
+
 import 'package:Marbit/controllers/controllers.dart';
 import 'package:Marbit/models/models.dart';
+import 'package:Marbit/screens/screens.dart';
+import 'package:Marbit/util/util.dart';
 import 'package:Marbit/widgets/widgets.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
-import 'package:Marbit/screens/screens.dart';
-import 'package:Marbit/util/util.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:implicitly_animated_reorderable_list/transitions.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
@@ -349,7 +347,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                       height: 40,
                       color: kBackGroundWhite,
                       child: Icon(Icons.remove,
-                          color: Theme.of(context).accentColor),
+                          color: Theme.of(context).colorScheme.secondary),
                     ),
                   ),
                 )
@@ -393,7 +391,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                       height: 40,
                       color: kBackGroundWhite,
                       child:
-                          Icon(Icons.add, color: Theme.of(context).accentColor),
+                          Icon(Icons.add, color: Theme.of(context).colorScheme.secondary),
                     ),
                   ),
                 )
