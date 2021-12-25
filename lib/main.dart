@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inner_drawer/inner_drawer.dart';
 import 'package:get/get.dart';
-import 'package:native_admob_flutter/native_admob_flutter.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:rive_splash_screen/rive_splash_screen.dart';
 import 'package:workmanager/workmanager.dart';
 
@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         loopAnimation: 'Loop',
         endAnimation: 'End',
         until: () async {
-          await MobileAds.initialize();
+          await MobileAds.instance.initialize();
           await Get.find<AdController>().initializeInterstitialAd();
           //await SharedPreferences.getInstance().then((value) => value.clear());
           //await Firebase.initializeApp();
