@@ -33,48 +33,48 @@ class NotificationObject {
   /// Hours = 23, Minutes = 30
   ///
   /// notificationId = 23742330
-  int notificationId;
+  int? notificationId;
 
   /// The completion step that this Object was created for.
   /// It is used to reschedule Notifications for AheadOfScheduledTime-Completed completionSteps.
   ///
   /// So if the parent Habits completionGoal is 4, this number can be 1-4.
-  int relatedCompletionStep;
+  int? relatedCompletionStep;
 
   /// The hour (0-23) to schedule.
-  int hour;
+  int? hour;
 
   /// The minute (0-59) to schedule.
-  int minutes;
+  int? minutes;
 
   /// The weekDay (1-7) to schedule.
-  int weekDay;
+  int? weekDay;
 
   /// The title of the scheduled Notification.
-  String title;
+  String? title;
 
   /// The body of the scheduled Notification.
-  String body;
+  String? body;
 
   NotificationObject({
-    @required this.notificationId,
-    @required this.hour,
-    @required this.minutes,
-    @required this.weekDay,
-    @required this.title,
-    @required this.body,
-    @required this.relatedCompletionStep,
+    required this.notificationId,
+    required this.hour,
+    required this.minutes,
+    required this.weekDay,
+    required this.title,
+    required this.body,
+    required this.relatedCompletionStep,
   });
 
   factory NotificationObject.fromJson(Map<String, dynamic> json) =>
       NotificationObject(
-          notificationId: json["notificationID"] as int,
-          hour: json["hour"] as int,
-          minutes: json["minutes"] as int,
-          weekDay: json["weekDay"] as int,
-          title: json["title"] as String,
-          body: json["body"] as String,
-          relatedCompletionStep: json["relatedCompletionStep"] as int);
+          notificationId: json["notificationID"] as int?,
+          hour: json["hour"] as int?,
+          minutes: json["minutes"] as int?,
+          weekDay: json["weekDay"] as int?,
+          title: json["title"] as String?,
+          body: json["body"] as String?,
+          relatedCompletionStep: json["relatedCompletionStep"] as int?);
 
   Map<String, dynamic> toJson() => {
         "notificationID": notificationId,
@@ -87,25 +87,25 @@ class NotificationObject {
       };
 
   static List<NotificationObject> createNotificationObjects({
-    List<int> activeNotifications,
-    int prefix,
-    List<int> scheduledDays,
-    int completionGoal,
-    List<int> hours,
-    List<int> minutes,
-    String title,
-    String body,
+    List<int?>? activeNotifications,
+    int? prefix,
+    required List<int> scheduledDays,
+    int? completionGoal,
+    List<int>? hours,
+    List<int>? minutes,
+    String? title,
+    String? body,
   }) {
     final List<NotificationObject> _objectList = [];
 
     for (var i = 0; i < scheduledDays.length; i++) {
       final int _currentWeekday = scheduledDays[i];
-      for (var j = 0; j < completionGoal; j++) {
+      for (var j = 0; j < completionGoal!; j++) {
         final int _completionStep = j + 1;
-        if (!activeNotifications.contains(_completionStep)) continue;
+        if (!activeNotifications!.contains(_completionStep)) continue;
         final NotificationObject _newObject = NotificationObject(
             notificationId: int.parse(
-                "$prefix$_currentWeekday$_completionStep${hours[j]}${minutes[j]}"),
+                "$prefix$_currentWeekday$_completionStep${hours![j]}${minutes![j]}"),
             hour: hours[j],
             minutes: minutes[j],
             weekDay: _currentWeekday,
@@ -116,7 +116,7 @@ class NotificationObject {
         _objectList.add(_newObject);
       }
     }
-    _objectList.sort((a, b) => a.notificationId.compareTo(b.notificationId));
+    _objectList.sort((a, b) => a.notificationId!.compareTo(b.notificationId!));
     return _objectList;
   }
 }

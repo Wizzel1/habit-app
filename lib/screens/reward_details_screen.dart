@@ -9,9 +9,9 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 
 class RewardDetailScreen extends StatefulWidget {
-  final Reward reward;
+  final Reward? reward;
 
-  const RewardDetailScreen({Key key, this.reward}) : super(key: key);
+  const RewardDetailScreen({Key? key, this.reward}) : super(key: key);
   @override
   _RewardDetailScreenState createState() => _RewardDetailScreenState();
 }
@@ -27,11 +27,11 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
 
   @override
   void initState() {
-    _editContentController.loadRewardValues(widget.reward);
+    _editContentController.loadRewardValues(widget.reward!);
 
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback(
+    WidgetsBinding.instance!.addPostFrameCallback(
       (timeStamp) {
         300.milliseconds.delay().then(
           (value) {
@@ -51,7 +51,7 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: "all${widget.reward.id}",
+      tag: "all${widget.reward!.id}",
       child: Scaffold(
         backgroundColor: kLightOrange,
         appBar: AppBar(
@@ -91,7 +91,7 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
                             if (_isInEditMode) {
                               FocusScope.of(context).unfocus();
                               Get.find<EditContentController>()
-                                  .updateReward(widget.reward.id);
+                                  .updateReward(widget.reward!.id!);
                             }
                           },
                         ),
@@ -126,13 +126,13 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
                 _editContentController.isSelfRemoving.value = true;
               },
               height: 50,
-              style: _editContentController.isSelfRemoving.value
+              style: _editContentController.isSelfRemoving.value!
                   ? kActiveNeumorphStyle
                   : kInactiveNeumorphStyle,
               child: Text(
                 'one_time'.tr,
-                style: Theme.of(context).textTheme.button.copyWith(
-                    color: _editContentController.isSelfRemoving.value
+                style: Theme.of(context).textTheme.button!.copyWith(
+                    color: _editContentController.isSelfRemoving.value!
                         ? kBackGroundWhite
                         : Theme.of(context).colorScheme.secondary),
               ),
@@ -147,13 +147,13 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
                 _editContentController.isSelfRemoving.value = false;
               },
               height: 50,
-              style: _editContentController.isSelfRemoving.value
+              style: _editContentController.isSelfRemoving.value!
                   ? kInactiveNeumorphStyle
                   : kActiveNeumorphStyle,
               child: Text(
                 'regular'.tr,
-                style: Theme.of(context).textTheme.button.copyWith(
-                      color: _editContentController.isSelfRemoving.value
+                style: Theme.of(context).textTheme.button!.copyWith(
+                      color: _editContentController.isSelfRemoving.value!
                           ? Theme.of(context).colorScheme.secondary
                           : kBackGroundWhite,
                     ),
@@ -174,7 +174,7 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
           controller: _editContentController.rewardTitleController,
           style: Theme.of(context)
               .textTheme
-              .headline3
+              .headline3!
               .copyWith(color: kBackGroundWhite),
           decoration: InputDecoration(
             focusedBorder: InputBorder.none,
@@ -188,10 +188,10 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
     );
   }
 
-  Widget _buildEditButton({Function onPressed}) {
+  Widget _buildEditButton({Function? onPressed}) {
     return CustomNeumorphButton(
       onPressed: () {
-        onPressed();
+        onPressed!();
         setState(() {
           _isInEditMode = !_isInEditMode;
         });
@@ -199,14 +199,14 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
       child: _isInEditMode
           ? Text(
               'save_reward'.tr,
-              style: Theme.of(context).textTheme.button.copyWith(
+              style: Theme.of(context).textTheme.button!.copyWith(
                     fontSize: 12,
                     color: kDeepOrange,
                   ),
             )
           : Text(
               'edit_reward'.tr,
-              style: Theme.of(context).textTheme.button.copyWith(
+              style: Theme.of(context).textTheme.button!.copyWith(
                     fontSize: 12,
                     color: kDeepOrange,
                   ),
@@ -218,12 +218,12 @@ class _RewardDetailScreenState extends State<RewardDetailScreen>
     return NeumorphPressSwitch(
       onPressed: () {
         Get.back();
-        Get.find<ContentController>().deleteReward(widget.reward);
+        Get.find<ContentController>().deleteReward(widget.reward!);
       },
       style: kInactiveNeumorphStyle.copyWith(color: kLightRed),
       child: Text(
         'delete_reward'.tr,
-        style: Theme.of(context).textTheme.button.copyWith(
+        style: Theme.of(context).textTheme.button!.copyWith(
               fontSize: 12,
               color: kBackGroundWhite,
             ),

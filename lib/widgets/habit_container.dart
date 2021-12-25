@@ -7,17 +7,17 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class CompletableHabitContainer extends StatefulWidget {
-  final Habit habit;
+  final Habit? habit;
   final VoidCallback onPressed;
   final bool isTutorialContainer;
   final TutorialController _tutorialController = Get.find<TutorialController>();
-  final Function onDetailScreenPopped;
+  final Function? onDetailScreenPopped;
 
   CompletableHabitContainer({
-    Key key,
+    Key? key,
     this.habit,
-    @required this.onPressed,
-    @required this.isTutorialContainer,
+    required this.onPressed,
+    required this.isTutorialContainer,
     this.onDetailScreenPopped,
   }) : super(key: key);
 
@@ -28,10 +28,10 @@ class CompletableHabitContainer extends StatefulWidget {
 
 class _CompletableHabitContainerState extends State<CompletableHabitContainer>
     with SingleTickerProviderStateMixin {
-  AnimationController _buttonAnimController;
-  Animation<Color> _colorTween;
-  Animation<double> _pressAnimation;
-  bool _switchedAnimations;
+  AnimationController? _buttonAnimController;
+  Animation<Color?>? _colorTween;
+  Animation<double>? _pressAnimation;
+  late bool _switchedAnimations;
 
   @override
   void initState() {
@@ -41,35 +41,35 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
     );
     _pressAnimation = Tween<double>(begin: 3.0, end: -3.0).animate(
       CurvedAnimation(
-          parent: _buttonAnimController,
+          parent: _buttonAnimController!,
           curve: const Interval(0, 0.6, curve: Curves.easeInOut)),
     );
     _colorTween =
         ColorTween(begin: const Color(0xFFFEFDFB), end: const Color(0xFFFFAB4A))
             .animate(
       CurvedAnimation(
-          parent: _buttonAnimController, curve: const Interval(0.6, 0.61)),
+          parent: _buttonAnimController!, curve: const Interval(0.6, 0.61)),
     );
 
-    _buttonAnimController.addListener(() {
-      if (_buttonAnimController.status == AnimationStatus.forward) {
-        if (_buttonAnimController.value < 0.7) return;
+    _buttonAnimController!.addListener(() {
+      if (_buttonAnimController!.status == AnimationStatus.forward) {
+        if (_buttonAnimController!.value < 0.7) return;
         if (_switchedAnimations) return;
         setState(() {
           _pressAnimation = Tween<double>(begin: -3.0, end: 0.0).animate(
               CurvedAnimation(
-                  parent: _buttonAnimController,
+                  parent: _buttonAnimController!,
                   curve: const Interval(0.8, 1.0, curve: Curves.easeInOut)));
           _switchedAnimations = true;
         });
       }
-      if (_buttonAnimController.status == AnimationStatus.reverse) {
-        if (_buttonAnimController.value > 0.6) return;
+      if (_buttonAnimController!.status == AnimationStatus.reverse) {
+        if (_buttonAnimController!.value > 0.6) return;
         if (_switchedAnimations) return;
         setState(() {
           _pressAnimation = Tween<double>(begin: 3.0, end: -3.0).animate(
             CurvedAnimation(
-                parent: _buttonAnimController,
+                parent: _buttonAnimController!,
                 curve: const Interval(0, 0.6, curve: Curves.easeInOut)),
           );
 
@@ -78,7 +78,7 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
       }
     });
 
-    _buttonAnimController.addStatusListener((status) {
+    _buttonAnimController!.addStatusListener((status) {
       setState(() {
         _switchedAnimations = false;
       });
@@ -89,30 +89,30 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
 
   @override
   void dispose() {
-    _buttonAnimController.dispose();
+    _buttonAnimController!.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final int _todaysHabitCompletions = widget.habit.getTodaysCompletions();
+    final int? _todaysHabitCompletions = widget.habit!.getTodaysCompletions();
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
       child: Stack(
         children: [
           Hero(
-            tag: widget.habit.id,
+            tag: widget.habit!.id!,
             child: GestureDetector(
               onTap: () async {
-                await _buttonAnimController.forward();
+                await _buttonAnimController!.forward();
                 await 200.milliseconds.delay();
                 await Get.to(() => HabitDetailScreen(
                       isTutorialScreen: widget.isTutorialContainer,
                       habit: widget.habit,
                       alterHeroTag: false,
                     ));
-                widget.onDetailScreenPopped();
+                widget.onDetailScreenPopped!();
                 if (_buttonAnimController == null) return;
                 await 200.milliseconds.delay();
                 await _buttonAnimController?.reverse();
@@ -137,10 +137,10 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
                             Material(
                               type: MaterialType.transparency,
                               child: Text(
-                                widget.habit.title,
+                                widget.habit!.title!,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline5
+                                    .headline5!
                                     .copyWith(
                                       color: kBackGroundWhite,
                                     ),
@@ -150,7 +150,7 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
                             if (widget._tutorialController
                                 .hasFinishedDetailScreenStep)
                               CompletionContainer(
-                                completionGoal: widget.habit.completionGoal,
+                                completionGoal: widget.habit!.completionGoal,
                                 todaysCompletions: _todaysHabitCompletions,
                                 key: widget.isTutorialContainer
                                     ? widget
@@ -189,14 +189,14 @@ class _CompletableHabitContainerState extends State<CompletableHabitContainer>
 }
 
 class AnimatedCompleteButton extends StatelessWidget {
-  final AnimationController buttonAnimController;
-  final VoidCallback onPressed;
-  final Animation<double> pressAnimation;
-  final Animation<Color> colorTween;
-  final Key tutorialKey;
+  final AnimationController? buttonAnimController;
+  final VoidCallback? onPressed;
+  final Animation<double>? pressAnimation;
+  final Animation<Color?>? colorTween;
+  final Key? tutorialKey;
 
   const AnimatedCompleteButton(
-      {Key key,
+      {Key? key,
       this.buttonAnimController,
       this.onPressed,
       this.pressAnimation,
@@ -207,13 +207,13 @@ class AnimatedCompleteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: buttonAnimController,
-      builder: (BuildContext context, Widget child) {
+      animation: buttonAnimController!,
+      builder: (BuildContext context, Widget? child) {
         return NeumorphicButton(
           onPressed: onPressed,
           key: tutorialKey,
           style: kInactiveNeumorphStyle.copyWith(
-              depth: pressAnimation.value, color: colorTween.value),
+              depth: pressAnimation!.value, color: colorTween!.value),
           padding: EdgeInsets.zero,
           child: const SizedBox(
             height: 56,
@@ -232,18 +232,18 @@ class AnimatedCompleteButton extends StatelessWidget {
 }
 
 class CompletionContainer extends StatelessWidget {
-  final int completionGoal;
-  final int todaysCompletions;
+  final int? completionGoal;
+  final int? todaysCompletions;
 
   const CompletionContainer(
-      {Key key, this.completionGoal, this.todaysCompletions})
+      {Key? key, this.completionGoal, this.todaysCompletions})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 20.0,
-      width: completionGoal * 20.0,
+      width: completionGoal! * 20.0,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         physics: const NeverScrollableScrollPhysics(),
@@ -252,7 +252,7 @@ class CompletionContainer extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 2.0),
-            child: index >= todaysCompletions
+            child: index >= todaysCompletions!
                 ? Neumorphic(
                     style: kInactiveNeumorphStyle.copyWith(
                       intensity: 0.9,
@@ -285,10 +285,10 @@ class CompletionContainer extends StatelessWidget {
 }
 
 class AllHabitContainer extends StatelessWidget {
-  final Habit habit;
+  final Habit? habit;
 
   const AllHabitContainer({
-    Key key,
+    Key? key,
     this.habit,
   }) : super(key: key);
 
@@ -297,7 +297,7 @@ class AllHabitContainer extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
       child: Hero(
-        tag: "all${habit.id}",
+        tag: "all${habit!.id}",
         child: GestureDetector(
           onTap: () {
             Get.to(() => HabitDetailScreen(
@@ -320,8 +320,8 @@ class AllHabitContainer extends StatelessWidget {
                     Material(
                       type: MaterialType.transparency,
                       child: Text(
-                        habit.title,
-                        style: Theme.of(context).textTheme.headline5.copyWith(
+                        habit!.title!,
+                        style: Theme.of(context).textTheme.headline5!.copyWith(
                               color: kBackGroundWhite,
                             ),
                       ),
@@ -337,7 +337,7 @@ class AllHabitContainer extends StatelessWidget {
                           itemBuilder: (BuildContext context, int index) {
                             return Padding(
                               padding: const EdgeInsets.all(2.0),
-                              child: habit.scheduledWeekDays.contains(index + 1)
+                              child: habit!.scheduledWeekDays.contains(index + 1)
                                   ? Neumorphic(
                                       style: kActiveNeumorphStyle.copyWith(
                                           intensity: 0.9,
@@ -354,7 +354,7 @@ class AllHabitContainer extends StatelessWidget {
                                             dayNames[index],
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .button
+                                                .button!
                                                 .copyWith(
                                                   fontSize: 10,
                                                   color: kBackGroundWhite,
@@ -379,11 +379,11 @@ class AllHabitContainer extends StatelessWidget {
                                             dayNames[index],
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .button
+                                                .button!
                                                 .copyWith(
                                                   fontSize: 10,
-                                                  color: Color(habit
-                                                      .habitColors["deep"]),
+                                                  color: Color(habit!
+                                                      .habitColors["deep"]!),
                                                 ),
                                           ),
                                         ),

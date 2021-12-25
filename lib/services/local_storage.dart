@@ -30,16 +30,16 @@ class LocalStorageService {
   static Future<List<Habit>> loadHabits() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    final List<String> _encodedJsonList = prefs.getStringList(habitsKey);
+    final List<String>? _encodedJsonList = prefs.getStringList(habitsKey);
 
     if (_encodedJsonList == null) return [];
 
-    final List<Map<String, dynamic>> _decodedJsonList = _encodedJsonList
-        .map((e) => jsonDecode(e) as Map<String, dynamic>)
+    final List<Map<String, dynamic>?> _decodedJsonList = _encodedJsonList
+        .map((e) => jsonDecode(e) as Map<String, dynamic>?)
         .toList();
 
     final List<Habit> _habits =
-        _decodedJsonList.map((e) => Habit.fromJson(e)).toList();
+        _decodedJsonList.map((e) => Habit.fromJson(e!)).toList();
 
     return _habits;
   }
@@ -62,16 +62,16 @@ class LocalStorageService {
   static Future<List<Reward>> loadRewards() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    final List<String> _encodedJsonList = prefs.getStringList(rewardsKey);
+    final List<String>? _encodedJsonList = prefs.getStringList(rewardsKey);
 
     if (_encodedJsonList == null) return [];
 
-    final List<Map<String, dynamic>> _decodedJsonList = _encodedJsonList
-        .map((e) => jsonDecode(e) as Map<String, dynamic>)
+    final List<Map<String, dynamic>?> _decodedJsonList = _encodedJsonList
+        .map((e) => jsonDecode(e) as Map<String, dynamic>?)
         .toList();
 
     final List<Reward> _rewardList =
-        _decodedJsonList.map((e) => Reward.fromJson(e)).toList();
+        _decodedJsonList.map((e) => Reward.fromJson(e!)).toList();
 
     return _rewardList;
   }
@@ -91,7 +91,7 @@ class LocalStorageService {
     if (name == null) return false;
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final bool _value = prefs.getBool(name);
+    final bool? _value = prefs.getBool(name);
 
     if (_value == null) return false;
     return _value;
@@ -100,7 +100,7 @@ class LocalStorageService {
   static Future<int> loadLatestNotificationIDprefix() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    final int _value = prefs.getInt(latestPrefixKey);
+    final int? _value = prefs.getInt(latestPrefixKey);
 
     if (_value == null) return 1;
 
@@ -126,7 +126,7 @@ class LocalStorageService {
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    List<String> _encodedObjects =
+    List<String>? _encodedObjects =
         prefs.getStringList(reschedulingNotificationsKey);
 
     _encodedObjects == null

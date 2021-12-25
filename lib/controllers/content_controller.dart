@@ -4,6 +4,7 @@ import 'package:Marbit/controllers/controllers.dart';
 import 'package:Marbit/models/models.dart';
 import 'package:Marbit/services/local_storage.dart';
 import 'package:Marbit/util/util.dart';
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
 
@@ -15,7 +16,6 @@ class ContentController extends GetxController {
   final RxList<Habit> todaysHabitList = RxList<Habit>();
 
   void saveNewHabit(Habit habit) {
-    assert(habit != null, "Habit must not be null");
     try {
       if (habit.isScheduledForToday()) {
         todaysHabitList.add(habit);
@@ -28,7 +28,6 @@ class ContentController extends GetxController {
   }
 
   Future<void> deleteHabit(Habit habit) async {
-    assert(habit != null);
     try {
       allHabitList.remove(habit);
       await Get.find<NotifyController>().cancelAllHabitNotifications(habit);
@@ -42,15 +41,11 @@ class ContentController extends GetxController {
   }
 
   void saveNewReward(Reward reward) {
-    assert(reward != null);
-    if (reward == null) return;
-
     allRewardList.add(reward);
     LocalStorageService.saveAllRewards(allRewardList);
   }
 
   void deleteReward(Reward reward) {
-    assert(reward != null);
     try {
       allRewardList.remove(reward);
       updateRewardList();
@@ -61,42 +56,42 @@ class ContentController extends GetxController {
     }
   }
 
-  List<Reward> getRewardListByID(List<String> rewardIds) {
+  List<Reward> getRewardListByID(List<String?> rewardIds) {
     assert(rewardIds != null);
 
     if (rewardIds == null) return [];
     final List<Reward> _rewardList = [];
 
-    for (final String rewardID in rewardIds) {
-      final Reward _reward = allRewardList
-          .firstWhere((element) => element.id == rewardID, orElse: () => null);
+    for (final String? rewardID in rewardIds) {
+      final Reward? _reward = allRewardList
+          .firstWhereOrNull((element) => element.id == rewardID);
       if (_reward == null) continue;
       _rewardList.add(_reward);
     }
     return _rewardList;
   }
 
-  List<Reward> getTutorialRewardListByID(List<String> rewardIds) {
+  List<Reward> getTutorialRewardListByID(List<String?> rewardIds) {
     assert(rewardIds != null);
 
     if (rewardIds == null) return [];
     final List<Reward> _tutorialRewardList = [];
 
-    for (final String rewardID in rewardIds) {
-      final Reward _reward = exampleRewards
-          .firstWhere((element) => element.id == rewardID, orElse: () => null);
+    for (final String? rewardID in rewardIds) {
+      final Reward? _reward = exampleRewards
+          .firstWhereOrNull((element) => element.id == rewardID);
       if (_reward == null) continue;
       _tutorialRewardList.add(_reward);
     }
     return _tutorialRewardList;
   }
 
-  List<String> filterForDeletedRewards(List<String> rewardReferenceIDs) {
-    final List<String> _filteredIDs = [];
+  List<String?> filterForDeletedRewards(List<String?> rewardReferenceIDs) {
+    final List<String?> _filteredIDs = [];
 
-    for (final String reference in rewardReferenceIDs) {
-      final Reward reward = allRewardList
-          .firstWhere((element) => element.id == reference, orElse: () => null);
+    for (final String? reference in rewardReferenceIDs) {
+      final Reward? reward = allRewardList
+          .firstWhereOrNull((element) => element.id == reference);
       if (reward == null) continue;
       _filteredIDs.add(reward.id);
     }
@@ -106,8 +101,8 @@ class ContentController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    await initializeContent();
     super.onInit();
+    await initializeContent();
   }
 
   void _filterAllHabitsForTodaysHabits() {

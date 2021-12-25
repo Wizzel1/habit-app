@@ -5,8 +5,8 @@ class DrawerExtension extends StatelessWidget {
   final Color color;
 
   const DrawerExtension({
-    Key key,
-    @required this.color,
+    Key? key,
+    required this.color,
   }) : super(key: key);
 
   @override

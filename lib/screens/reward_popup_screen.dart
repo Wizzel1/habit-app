@@ -11,9 +11,9 @@ import 'package:get/get.dart';
 
 class RewardPopupScreen extends StatefulWidget {
   final Habit habit;
-  final bool isTutorial;
+  final bool? isTutorial;
 
-  const RewardPopupScreen({Key key, @required this.habit, this.isTutorial})
+  const RewardPopupScreen({Key? key, required this.habit, this.isTutorial})
       : super(key: key);
   @override
   _RewardPopupScreenState createState() => _RewardPopupScreenState();
@@ -21,11 +21,11 @@ class RewardPopupScreen extends StatefulWidget {
 
 class _RewardPopupScreenState extends State<RewardPopupScreen>
     with TickerProviderStateMixin {
-  ScrollController _scrollController;
-  AnimationController _popupAnimController;
-  AnimationController _finalRewardAnimController;
-  Animation<double> _popupScaleAnimation;
-  Animation<double> _popupSequence;
+  ScrollController? _scrollController;
+  late AnimationController _popupAnimController;
+  late AnimationController _finalRewardAnimController;
+  late Animation<double> _popupScaleAnimation;
+  late Animation<double> _popupSequence;
   List<Animation<Offset>> _slideUpAnimations = [];
   List<Animation<double>> _fadeInAnimations = [];
   final List<Reward> _shuffeledRewardList = [];
@@ -46,7 +46,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
 
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       _animateRewardList();
     });
   }
@@ -55,7 +55,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
   void dispose() {
     _popupAnimController.dispose();
     _finalRewardAnimController.dispose();
-    _scrollController.dispose();
+    _scrollController!.dispose();
     super.dispose();
   }
 
@@ -128,7 +128,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
   }
 
   void _cloneRewardsIntoShuffeledRewardList() {
-    _rewardList = widget.isTutorial
+    _rewardList = widget.isTutorial!
         ? _contentController
             .getTutorialRewardListByID(widget.habit.rewardIDReferences)
         : _contentController.getRewardListByID(widget.habit.rewardIDReferences);
@@ -151,10 +151,10 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
 
   void _evaluateRewardVariable(Reward reward) {
     final RegExp _regExp = RegExp(regexPattern);
-    if (!_regExp.hasMatch(reward.name)) return;
+    if (!_regExp.hasMatch(reward.name!)) return;
 
-    final RegExpMatch _match = _regExp.firstMatch(reward.name);
-    final String _result = _match.group(0);
+    final RegExpMatch _match = _regExp.firstMatch(reward.name!)!;
+    final String _result = _match.group(0)!;
     _result.trim();
     final List<String> _stringNumbers = _result.split("-");
     final List<int> _numbers = _stringNumbers.map((e) => int.parse(e)).toList();
@@ -165,7 +165,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
     final int _value = next(_numbers[0], _numbers[1]);
 
     final String _tempNewTitle =
-        _shuffeledRewardList.last.name.replaceAll(_regExp, " $_value");
+        _shuffeledRewardList.last.name!.replaceAll(_regExp, " $_value");
 
     _shuffeledRewardList.last.name = _tempNewTitle;
   }
@@ -179,7 +179,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
           final double _offset =
               (_shuffeledRewardList.indexOf(reward) + 1) * 100.0;
 
-          await _scrollController.animateTo(_offset,
+          await _scrollController!.animateTo(_offset,
               duration: const Duration(milliseconds: 200), curve: Curves.ease);
         });
 
@@ -190,7 +190,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
 
   void _checkIfRewardIsRemoving() {
     if (_shuffeledRewardList.isEmpty) return;
-    if (!_shuffeledRewardList.last.isSelfRemoving) return;
+    if (!_shuffeledRewardList.last.isSelfRemoving!) return;
 
     final Reward selfRemovingReward = _rewardList
         .singleWhere((element) => element.id == _shuffeledRewardList.last.id);
@@ -252,10 +252,10 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                                               horizontal: 20.0, vertical: 10),
                                           child: Center(
                                             child: Text(
-                                              _shuffeledRewardList[index].name,
+                                              _shuffeledRewardList[index].name!,
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .button
+                                                  .button!
                                                   .copyWith(
                                                       color: kBackGroundWhite,
                                                       fontSize: 20),
@@ -286,10 +286,10 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                                             horizontal: 20.0, vertical: 10),
                                         child: Center(
                                           child: Text(
-                                            _shuffeledRewardList[index].name,
+                                            _shuffeledRewardList[index].name!,
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .button
+                                                .button!
                                                 .copyWith(
                                                     color: kBackGroundWhite,
                                                     fontSize: 20),
@@ -313,12 +313,12 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
                           child: Text(
                             'streak_message'.trParams({
                               'streak':
-                                  '${widget.isTutorial ? 1 : widget.habit.streak}'
+                                  '${widget.isTutorial! ? 1 : widget.habit.streak}'
                             }),
                             textAlign: TextAlign.center,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline6
+                                .headline6!
                                 .copyWith(color: kDeepOrange),
                           ),
                         ),

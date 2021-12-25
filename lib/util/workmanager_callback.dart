@@ -15,7 +15,7 @@ void callbackDispatcher() {
     if (task == "rescheduleNotifications") {
       await _configureLocalTimeZone();
 
-      final List<NotificationObject> _skippedNotificationObjects =
+      final List<NotificationObject>? _skippedNotificationObjects =
           await _loadSharedSkippedNotifications();
 
       if (_skippedNotificationObjects == null) return Future.value(true);
@@ -44,8 +44,8 @@ void callbackDispatcher() {
 
 bool _isLaterThanObjectsSchedule(tz.TZDateTime now, NotificationObject object) {
   final bool _isLaterWeekday = now.weekday != object.weekDay;
-  final bool _isLaterHour = now.hour > object.hour;
-  final bool _isLaterMinutes = now.minute > object.minutes;
+  final bool _isLaterHour = now.hour > object.hour!;
+  final bool _isLaterMinutes = now.minute > object.minutes!;
   if (_isLaterWeekday) return true;
   if (_isLaterHour) return true;
   if (_isLaterMinutes) return true;
@@ -58,10 +58,10 @@ Future<void> _configureLocalTimeZone() async {
   tz.setLocalLocation(tz.getLocation(timeZoneName));
 }
 
-Future<List<NotificationObject>> _loadSharedSkippedNotifications() async {
+Future<List<NotificationObject>?> _loadSharedSkippedNotifications() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  final List<String> _encodedObjects =
+  final List<String>? _encodedObjects =
       prefs.getStringList("reschedulingNotifications");
 
   if (_encodedObjects == null) {
@@ -100,10 +100,10 @@ Future<void> _createNotificationFromObject(NotificationObject object) async {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
   final tz.TZDateTime _scheduledTime = _nextInstanceOfDayAndTime(
-      weekday: object.weekDay, hour: object.hour, minutes: object.minutes);
+      weekday: object.weekDay, hour: object.hour!, minutes: object.minutes!);
 
   await flutterLocalNotificationsPlugin.zonedSchedule(
-      object.notificationId,
+      object.notificationId!,
       object.title,
       object.body,
       _scheduledTime,
@@ -122,7 +122,7 @@ Future<void> _createNotificationFromObject(NotificationObject object) async {
       matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime);
 }
 
-tz.TZDateTime _nextInstanceOfDayAndTime({int weekday, int hour, int minutes}) {
+tz.TZDateTime _nextInstanceOfDayAndTime({int? weekday, required int hour, required int minutes}) {
   tz.TZDateTime scheduledDate =
       _nextInstanceOfTime(hour: hour, minutes: minutes);
   while (scheduledDate.weekday != weekday) {
@@ -131,7 +131,7 @@ tz.TZDateTime _nextInstanceOfDayAndTime({int weekday, int hour, int minutes}) {
   return scheduledDate;
 }
 
-tz.TZDateTime _nextInstanceOfTime({int hour, int minutes}) {
+tz.TZDateTime _nextInstanceOfTime({required int hour, required int minutes}) {
   final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
   tz.TZDateTime _scheduledDate =
       tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minutes);

@@ -9,7 +9,7 @@ class DialogContent extends StatelessWidget {
   final NotificationTimesController _notificationTimesController =
       Get.find<NotificationTimesController>();
 
-  DialogContent({Key key, @required this.onPressedSave}) : super(key: key);
+  DialogContent({Key? key, required this.onPressedSave}) : super(key: key);
   final VoidCallback onPressedSave;
 
   @override
@@ -35,7 +35,7 @@ class DialogContent extends StatelessWidget {
                       maxLength: 2,
                       style: Theme.of(context)
                           .textTheme
-                          .headline6
+                          .headline6!
                           .copyWith(color: Theme.of(context).colorScheme.secondary),
                       textAlign: TextAlign.center,
                     ),
@@ -44,7 +44,7 @@ class DialogContent extends StatelessWidget {
                 Text(":",
                     style: Theme.of(context)
                         .textTheme
-                        .headline4
+                        .headline4!
                         .copyWith(color: kDeepOrange)),
                 Expanded(
                   child: Neumorphic(
@@ -59,7 +59,7 @@ class DialogContent extends StatelessWidget {
                       maxLength: 2,
                       style: Theme.of(context)
                           .textTheme
-                          .headline6
+                          .headline6!
                           .copyWith(color: Theme.of(context).colorScheme.secondary),
                       textAlign: TextAlign.center,
                     ),

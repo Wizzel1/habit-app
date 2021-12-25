@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return ScrollConfiguration(
           behavior: MyScrollBehavior(),
-          child: child,
+          child: child!,
         );
       },
       initialBinding: GlobalControllerBindings(),
@@ -97,7 +97,7 @@ class _InnerDrawerScreenState extends State<InnerDrawerScreen> {
                       color:
                           kLightOrange), // default  Theme.of(context).backgroundColor
                   //when a pointer that is in contact with the screen and moves to the right or left
-                  onDragUpdate: (double val, InnerDrawerDirection direction) {
+                  onDragUpdate: (double val, InnerDrawerDirection? direction) {
                     // return values between 1 and 0
                     // check if the swipe is to the right or to the left
                     // print(direction == InnerDrawerDirection.start);
@@ -113,7 +113,7 @@ class _InnerDrawerScreenState extends State<InnerDrawerScreen> {
                   scaffold: Scaffold(
                     body: WillPopScope(
                       onWillPop: () async => !await navigationController
-                          .navigatorKey.currentState
+                          .navigatorKey!.currentState!
                           .maybePop(),
                       child: Navigator(
                           key: navigationController.navigatorKey,

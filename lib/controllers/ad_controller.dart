@@ -6,7 +6,7 @@ import 'package:native_admob_flutter/native_admob_flutter.dart';
 class AdController extends GetxController {
   static const bool hasPurchasedAdFree = false;
 
-  InterstitialAd interstitialAd;
+  late InterstitialAd interstitialAd;
   int _interstitialCounter = 0;
   final int _interstitialInterval = 4;
 

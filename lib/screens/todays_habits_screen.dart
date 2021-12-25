@@ -9,20 +9,20 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 
 class TodaysHabitScreen extends StatefulWidget {
-  const TodaysHabitScreen({Key key}) : super(key: key);
+  const TodaysHabitScreen({Key? key}) : super(key: key);
   @override
   _TodaysHabitScreenState createState() => _TodaysHabitScreenState();
 }
 
 class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
-  ScrollController _scrollContoller;
+  late ScrollController _scrollContoller;
   final ContentController _contentController = Get.find<ContentController>();
   final TutorialController _tutorialController = Get.find<TutorialController>();
 
   @override
   void initState() {
     _scrollContoller = ScrollController();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
       final ConsentInformation consentInfo =
           await FlutterFundingChoices.requestConsentInformation();
 

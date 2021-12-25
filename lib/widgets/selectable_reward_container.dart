@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SelectableRewardContainer extends StatefulWidget {
-  final VoidCallback onTap;
-  final VoidCallback onLongPress;
-  final bool isSelectedReward;
-  final Reward reward;
+  final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
+  final bool? isSelectedReward;
+  final Reward? reward;
 
   const SelectableRewardContainer({
-    Key key,
+    Key? key,
     this.onTap,
     this.isSelectedReward,
     this.reward,
@@ -31,7 +31,7 @@ class _SelectableRewardContainerState extends State<SelectableRewardContainer> {
       child: Container(
         height: 70,
         decoration: BoxDecoration(
-          color: widget.isSelectedReward ? kDeepOrange : kBackGroundWhite,
+          color: widget.isSelectedReward! ? kDeepOrange : kBackGroundWhite,
         ),
         width: double.infinity,
         child: Padding(
@@ -46,9 +46,9 @@ class _SelectableRewardContainerState extends State<SelectableRewardContainer> {
                   Material(
                     type: MaterialType.transparency,
                     child: Text(
-                      widget.reward.name,
-                      style: Theme.of(context).textTheme.bodyText1.copyWith(
-                            color: widget.isSelectedReward
+                      widget.reward!.name!,
+                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                            color: widget.isSelectedReward!
                                 ? kBackGroundWhite
                                 : kDeepOrange,
                           ),
@@ -57,10 +57,10 @@ class _SelectableRewardContainerState extends State<SelectableRewardContainer> {
                 ],
               ),
               Icon(
-                widget.reward.isSelfRemoving
+                widget.reward!.isSelfRemoving!
                     ? FontAwesomeIcons.ban
                     : FontAwesomeIcons.redoAlt,
-                color: widget.isSelectedReward ? kBackGroundWhite : kDeepOrange,
+                color: widget.isSelectedReward! ? kBackGroundWhite : kDeepOrange,
               )
             ],
           ),

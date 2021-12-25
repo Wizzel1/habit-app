@@ -16,15 +16,15 @@ final List<String> dayNames = [
 ];
 
 class CreateItemScreen extends StatefulWidget {
-  const CreateItemScreen({Key key}) : super(key: key);
+  const CreateItemScreen({Key? key}) : super(key: key);
 
   @override
   _CreateItemScreenState createState() => _CreateItemScreenState();
 }
 
 class _CreateItemScreenState extends State<CreateItemScreen> {
-  PageController _pageController;
-  CreateItemController _createItemController;
+  PageController? _pageController;
+  late CreateItemController _createItemController;
 
   final int _contentFlex = 1;
   final ContentController _contentController = Get.find<ContentController>();
@@ -39,7 +39,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
 
   @override
   void dispose() {
-    _pageController.dispose();
+    _pageController!.dispose();
     Get.delete<CreateItemController>();
     super.dispose();
   }
@@ -106,14 +106,14 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                       child: CustomNeumorphButton(
                         onPressed: () {
                           _createItemController.createHabit.value = true;
-                          _pageController.nextPage(
+                          _pageController!.nextPage(
                               duration: const Duration(milliseconds: 200),
                               curve: Curves.ease);
                         },
                         height: 60,
                         child: Text(
                           'habit'.tr,
-                          style: Theme.of(context).textTheme.button.copyWith(
+                          style: Theme.of(context).textTheme.button!.copyWith(
                               fontSize: 18,
                               color: Theme.of(context).colorScheme.secondary),
                         ),
@@ -125,14 +125,14 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                         child: CustomNeumorphButton(
                           onPressed: () {
                             _createItemController.createHabit.value = false;
-                            _pageController.nextPage(
+                            _pageController!.nextPage(
                                 duration: const Duration(milliseconds: 200),
                                 curve: Curves.ease);
                           },
                           height: 60,
                           child: Text(
                             'reward'.tr,
-                            style: Theme.of(context).textTheme.button.copyWith(
+                            style: Theme.of(context).textTheme.button!.copyWith(
                                 fontSize: 18,
                                 color: Theme.of(context).colorScheme.secondary),
                           ),
@@ -183,7 +183,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                               'one_time'.tr,
                               style: Theme.of(context)
                                   .textTheme
-                                  .button
+                                  .button!
                                   .copyWith(
                                       color: _createItemController
                                               .isSelfRemovingReward.value
@@ -208,7 +208,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                                   : kActiveNeumorphStyle,
                           child: Text(
                             'regular'.tr,
-                            style: Theme.of(context).textTheme.button.copyWith(
+                            style: Theme.of(context).textTheme.button!.copyWith(
                                   color: _createItemController
                                           .isSelfRemovingReward.value
                                       ? Theme.of(context).colorScheme.secondary
@@ -241,7 +241,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                     'create_Button_title'.tr,
                     style: Theme.of(context)
                         .textTheme
-                        .button
+                        .button!
                         .copyWith(color: kDeepOrange),
                   ),
                 ),
@@ -283,7 +283,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                   pageController: _pageController,
                   onPressedButton: (scrollFunction) {
                     if (_createItemController
-                        .createTitleTextController.text.isEmpty) {
+                        .createTitleTextController!.text.isEmpty) {
                       SnackBars.showWarningSnackBar(
                           'warning'.tr, 'title_missing_warning'.tr);
                     } else {
@@ -411,7 +411,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
       shrinkWrap: true,
       itemCount: _contentController.allRewardList.length,
       itemBuilder: (context, index) {
-        final String rewardReference =
+        final String? rewardReference =
             _contentController.allRewardList[index].id;
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -456,11 +456,11 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
           const SizedBox(height: 30),
           CustomNeumorphButton(
             onPressed: () {
-              _pageController.animateToPage(0,
+              _pageController!.animateToPage(0,
                   duration: const Duration(milliseconds: 500),
                   curve: Curves.ease);
               _createItemController.createHabit.value = false;
-              _pageController.animateToPage(1,
+              _pageController!.animateToPage(1,
                   duration: const Duration(milliseconds: 500),
                   curve: Curves.ease);
             },
@@ -468,7 +468,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
               'create_reward_button'.tr,
               style: Theme.of(context)
                   .textTheme
-                  .button
+                  .button!
                   .copyWith(color: kDeepOrange),
             ),
           )
@@ -524,7 +524,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                               dayNames[index],
                               style: Theme.of(context)
                                   .textTheme
-                                  .button
+                                  .button!
                                   .copyWith(
                                       fontSize: 12,
                                       color: _isActiveWeekDay
@@ -550,7 +550,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                   'create_Button_title'.tr,
                   style: Theme.of(context)
                       .textTheme
-                      .button
+                      .button!
                       .copyWith(color: kDeepOrange),
                 ),
               ),
@@ -624,11 +624,11 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                             child: Center(
                               child: Obx(
                                 () => Text(
-                                    "${_notificationTimesController.selectedHours[index]}\n${_notificationTimesController.selectedMinutes[index].toString().padLeft(2, "0")}",
+                                    "${_notificationTimesController.selectedHours![index]}\n${_notificationTimesController.selectedMinutes![index].toString().padLeft(2, "0")}",
                                     textAlign: TextAlign.center,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .button
+                                        .button!
                                         .copyWith(
                                             color: _isActiveNotification
                                                 ? kBackGroundWhite
@@ -659,15 +659,15 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
 }
 
 class PageScrollIconButton extends StatelessWidget {
-  final PageController pageController;
+  final PageController? pageController;
   final Function(Function) onPressedButton;
   final bool scrollToNextPage;
 
   const PageScrollIconButton(
-      {Key key,
-      @required this.pageController,
-      @required this.onPressedButton,
-      @required this.scrollToNextPage})
+      {Key? key,
+      required this.pageController,
+      required this.onPressedButton,
+      required this.scrollToNextPage})
       : super(key: key);
 
   @override
@@ -682,13 +682,13 @@ class PageScrollIconButton extends StatelessWidget {
       ),
       onPressed: () {
         void scrollToNext() {
-          pageController.nextPage(
+          pageController!.nextPage(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut);
         }
 
         void scrollToPrevious() {
-          pageController.previousPage(
+          pageController!.previousPage(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut);
         }
@@ -700,10 +700,10 @@ class PageScrollIconButton extends StatelessWidget {
 }
 
 class TitleSection extends StatelessWidget {
-  final String title;
+  final String? title;
   final int titleFlex = 1;
 
-  const TitleSection({Key key, this.title}) : super(key: key);
+  const TitleSection({Key? key, this.title}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -712,7 +712,7 @@ class TitleSection extends StatelessWidget {
         children: [
           const Spacer(flex: 2),
           Text(
-            title,
+            title!,
             style: Theme.of(context).textTheme.headline3,
             textAlign: TextAlign.center,
           ),
@@ -724,10 +724,10 @@ class TitleSection extends StatelessWidget {
 }
 
 class MinMaxTextField extends StatelessWidget {
-  final TextEditingController controller;
-  final String title;
+  final TextEditingController? controller;
+  final String? title;
 
-  const MinMaxTextField({Key key, this.controller, this.title})
+  const MinMaxTextField({Key? key, this.controller, this.title})
       : super(key: key);
 
   @override
@@ -738,7 +738,7 @@ class MinMaxTextField extends StatelessWidget {
       textAlign: TextAlign.center,
       style: Theme.of(context)
           .textTheme
-          .subtitle2
+          .subtitle2!
           .copyWith(fontSize: 20, color: Theme.of(context).colorScheme.secondary),
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(),
@@ -747,7 +747,7 @@ class MinMaxTextField extends StatelessWidget {
         hintText: title,
         hintStyle: Theme.of(context)
             .textTheme
-            .subtitle2
+            .subtitle2!
             .copyWith(fontSize: 20, color: Theme.of(context).colorScheme.secondary),
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(
@@ -761,11 +761,11 @@ class MinMaxTextField extends StatelessWidget {
 }
 
 class CustomTextField extends StatelessWidget {
-  final TextEditingController controller;
-  final String title;
+  final TextEditingController? controller;
+  final String? title;
 
   const CustomTextField({
-    Key key,
+    Key? key,
     this.controller,
     this.title,
   }) : super(key: key);
@@ -780,14 +780,14 @@ class CustomTextField extends StatelessWidget {
         textAlign: TextAlign.center,
         style: Theme.of(context)
             .textTheme
-            .headline6
+            .headline6!
             .copyWith(color: Theme.of(context).colorScheme.secondary),
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.fromLTRB(6, 24, 6, 16),
           hintText: title,
           hintStyle: Theme.of(context)
               .textTheme
-              .headline6
+              .headline6!
               .copyWith(color: Theme.of(context).colorScheme.secondary),
           border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(
@@ -802,11 +802,11 @@ class CustomTextField extends StatelessWidget {
 }
 
 class ScheduleButton extends StatefulWidget {
-  final int index;
+  final int? index;
   final Function onTap;
   const ScheduleButton({
-    Key key,
-    @required this.onTap,
+    Key? key,
+    required this.onTap,
     this.index,
   }) : super(key: key);
 
@@ -829,8 +829,8 @@ class _ScheduleButtonState extends State<ScheduleButton> {
       width: 40,
       style: isTapped ? kActiveNeumorphStyle : kInactiveNeumorphStyle,
       child: Text(
-        dayNames[widget.index],
-        style: Theme.of(context).textTheme.button.copyWith(
+        dayNames[widget.index!],
+        style: Theme.of(context).textTheme.button!.copyWith(
               fontSize: 12,
               color: isTapped ? kBackGroundWhite : kDeepOrange,
             ),

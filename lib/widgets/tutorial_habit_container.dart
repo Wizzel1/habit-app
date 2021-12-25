@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 class TutorialHabitContainer extends StatefulWidget {
   final Function onChildPopped;
 
-  const TutorialHabitContainer({Key key, @required this.onChildPopped})
+  const TutorialHabitContainer({Key? key, required this.onChildPopped})
       : super(key: key);
 
   @override

@@ -8,7 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class MyContentScreen extends StatefulWidget {
-  const MyContentScreen({Key key}) : super(key: key);
+  const MyContentScreen({Key? key}) : super(key: key);
 
   @override
   _MyContentScreenState createState() => _MyContentScreenState();
@@ -16,7 +16,7 @@ class MyContentScreen extends StatefulWidget {
 
 class _MyContentScreenState extends State<MyContentScreen>
     with SingleTickerProviderStateMixin {
-  PageController _pageController;
+  PageController? _pageController;
   final Duration _pageTransitionDuration = const Duration(milliseconds: 200);
   final Curve _pageTransitionCurve = Curves.ease;
   final int _pageTransitionDelta = 4;
@@ -30,7 +30,7 @@ class _MyContentScreenState extends State<MyContentScreen>
 
   @override
   void dispose() {
-    _pageController.dispose();
+    _pageController!.dispose();
     super.dispose();
   }
 
@@ -78,7 +78,7 @@ class _MyContentScreenState extends State<MyContentScreen>
                     'scroll_to_show_rewards'.tr,
                     style: Theme.of(context)
                         .textTheme
-                        .bodyText1
+                        .bodyText1!
                         .copyWith(color: kDeepOrange),
                   ),
                 ],
@@ -102,7 +102,7 @@ class _MyContentScreenState extends State<MyContentScreen>
                           delta > _pageTransitionDelta;
 
                       if (reachedOffsetThreshold && reachedDeltaThreshold) {
-                        _pageController.animateToPage(0,
+                        _pageController!.animateToPage(0,
                             duration: _pageTransitionDuration,
                             curve: _pageTransitionCurve);
                       }
@@ -164,7 +164,7 @@ class _MyContentScreenState extends State<MyContentScreen>
                           delta < -_pageTransitionDelta;
 
                       if (reachedOffsetTreshhold && reachedDeltaTreshhold) {
-                        _pageController.animateToPage(1,
+                        _pageController!.animateToPage(1,
                             duration: _pageTransitionDuration,
                             curve: _pageTransitionCurve);
                       }
@@ -212,7 +212,7 @@ class _MyContentScreenState extends State<MyContentScreen>
                   'scroll_to_show_habits'.tr,
                   style: Theme.of(context)
                       .textTheme
-                      .bodyText1
+                      .bodyText1!
                       .copyWith(color: kDeepOrange),
                 ),
                 const Icon(FontAwesomeIcons.angleDown, color: kDeepOrange),

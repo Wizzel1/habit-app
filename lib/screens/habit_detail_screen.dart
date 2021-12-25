@@ -15,11 +15,11 @@ import 'package:scroll_to_index/scroll_to_index.dart';
 const double offset = -0.15;
 
 class HabitDetailScreen extends StatefulWidget {
-  final Habit habit;
-  final bool isTutorialScreen;
-  final bool alterHeroTag;
+  final Habit? habit;
+  final bool? isTutorialScreen;
+  final bool? alterHeroTag;
   const HabitDetailScreen(
-      {Key key, this.habit, this.alterHeroTag, this.isTutorialScreen})
+      {Key? key, this.habit, this.alterHeroTag, this.isTutorialScreen})
       : super(key: key);
 
   @override
@@ -28,7 +28,7 @@ class HabitDetailScreen extends StatefulWidget {
 
 class _HabitDetailScreenState extends State<HabitDetailScreen> {
   bool _isInEditMode = false;
-  List<Reward> _joinedRewardList;
+  late List<Reward> _joinedRewardList;
 
   final Completer _screenBuiltCompleter = Completer();
   final int _mainScreenAnimationDuration = 200;
@@ -41,9 +41,9 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
 
   @override
   void initState() {
-    widget.isTutorialScreen ? _setupTutorialScreen() : _setupRegularScreen();
+    widget.isTutorialScreen! ? _setupTutorialScreen() : _setupRegularScreen();
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(
+    WidgetsBinding.instance!.addPostFrameCallback(
       (timeStamp) {
         300.milliseconds.delay().then(
           (value) {
@@ -61,13 +61,13 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
   }
 
   void _setupTutorialScreen() {
-    _editContentController.loadHabitValues(widget.habit);
+    _editContentController.loadHabitValues(widget.habit!);
     _setJoinedTutorialRewardList();
   }
 
   void _setupRegularScreen() {
     _filterOutDeletedRewardReferences();
-    _editContentController.loadHabitValues(widget.habit);
+    _editContentController.loadHabitValues(widget.habit!);
     _setJoinedRewardList();
     Get.find<AdController>().showInterstitialAd();
   }
@@ -80,13 +80,13 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
 
   //TODO maybe this should take effect when a reward is delted?
   void _filterOutDeletedRewardReferences() {
-    widget.habit.rewardIDReferences = _contentController
-        .filterForDeletedRewards(widget.habit.rewardIDReferences);
+    widget.habit!.rewardIDReferences = _contentController
+        .filterForDeletedRewards(widget.habit!.rewardIDReferences);
   }
 
   //TODO move this method to contentcontroller
   void _setJoinedRewardList() {
-    final List<String> _selectedRewardIDs =
+    final List<String?> _selectedRewardIDs =
         _editContentController.cachedRewardReferences;
     final List<Reward> _selectedRewards =
         _contentController.getRewardListByID(_selectedRewardIDs);
@@ -108,7 +108,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
   }
 
   void _setJoinedTutorialRewardList() {
-    final List<String> _selectedRewardIDs =
+    final List<String?> _selectedRewardIDs =
         _editContentController.cachedRewardReferences;
     final List<Reward> _selectedRewards =
         _contentController.getTutorialRewardListByID(_selectedRewardIDs);
@@ -132,7 +132,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: widget.alterHeroTag ? "all${widget.habit.id}" : widget.habit.id,
+      tag: widget.alterHeroTag! ? "all${widget.habit!.id}" : widget.habit!.id!,
       child: GetBuilder(
         id: TutorialController.habitDetailBuilderID,
         builder: (TutorialController controller) {
@@ -140,7 +140,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
             ignoring: !_tutorialController.hasFinishedDetailScreenStep,
             child: Scaffold(
               backgroundColor: Color(
-                widget.habit.habitColors["light"],
+                widget.habit!.habitColors["light"]!,
               ),
               appBar: AppBar(
                 elevation: 0,
@@ -176,7 +176,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                             AutoScrollTag(
                                 index: TutorialController.scheduleScrollIndex,
                                 controller: _tutorialController
-                                    .tutorialHabitDetailScrollController,
+                                    .tutorialHabitDetailScrollController!,
                                 key: const ValueKey(
                                     TutorialController.scheduleScrollIndex),
                                 child: _buildScheduleRow()),
@@ -186,7 +186,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                                 index: TutorialController
                                     .completionGoalScrollIndex,
                                 controller: _tutorialController
-                                    .tutorialHabitDetailScrollController,
+                                    .tutorialHabitDetailScrollController!,
                                 key: const ValueKey(TutorialController
                                     .completionGoalScrollIndex),
                                 child: _buildCompletionGoalStepper()),
@@ -195,7 +195,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                                 index: TutorialController
                                     .notificationTimesScrollIndex,
                                 controller: _tutorialController
-                                    .tutorialHabitDetailScrollController,
+                                    .tutorialHabitDetailScrollController!,
                                 key: const ValueKey(TutorialController
                                     .notificationTimesScrollIndex),
                                 child: _buildScheduledTimesRow()),
@@ -204,19 +204,19 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                               child: AutoScrollTag(
                                 index: TutorialController.editButtonScrollIndex,
                                 controller: _tutorialController
-                                    .tutorialHabitDetailScrollController,
+                                    .tutorialHabitDetailScrollController!,
                                 key: const ValueKey(
                                     TutorialController.editButtonScrollIndex),
                                 child: _buildEditButton(
                                   onPressed: () {
                                     if (_isInEditMode) {
                                       FocusScope.of(context).unfocus();
-                                      if (widget.isTutorialScreen) {
+                                      if (widget.isTutorialScreen!) {
                                         _setJoinedTutorialRewardList();
                                         return;
                                       }
                                       _editContentController
-                                          .updateHabit(widget.habit.id);
+                                          .updateHabit(widget.habit!.id!);
                                       _setJoinedRewardList();
                                     }
                                   },
@@ -225,7 +225,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                             ),
                             const SizedBox(height: 50),
                             AnimatedContainer(
-                              height: widget.isTutorialScreen
+                              height: widget.isTutorialScreen!
                                   ? _isInEditMode
                                       ? (ContentController
                                               .exampleRewards.length *
@@ -246,12 +246,12 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                                   index:
                                       TutorialController.rewardListScrollIndex,
                                   controller: _tutorialController
-                                      .tutorialHabitDetailScrollController,
+                                      .tutorialHabitDetailScrollController!,
                                   key: const ValueKey(
                                       TutorialController.rewardListScrollIndex),
                                   child: _buildImplicitList()),
                             ),
-                            if (widget.isTutorialScreen)
+                            if (widget.isTutorialScreen!)
                               const SizedBox.shrink()
                             else
                               AdController.getLargeBannerAd(context),
@@ -260,13 +260,13 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                               index: TutorialController
                                   .statisticsElementScrollIndex,
                               controller: _tutorialController
-                                  .tutorialHabitDetailScrollController,
+                                  .tutorialHabitDetailScrollController!,
                               key: const ValueKey(TutorialController
                                   .statisticsElementScrollIndex),
                               child: SizedBox(
                                 height: 300,
                                 child: HabitCompletionChart(
-                                  key: widget.isTutorialScreen
+                                  key: widget.isTutorialScreen!
                                       ? _tutorialController.statisticsElementKey
                                       : null,
                                   habit: widget.habit,
@@ -301,7 +301,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
               controller: controller.habitTitleController,
               style: Theme.of(context)
                   .textTheme
-                  .headline3
+                  .headline3!
                   .copyWith(color: kBackGroundWhite),
               decoration: InputDecoration(
                 focusedBorder: InputBorder.none,
@@ -319,7 +319,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
 
   Widget _buildCompletionGoalStepper() {
     return Row(
-      key: widget.isTutorialScreen
+      key: widget.isTutorialScreen!
           ? _tutorialController.completionGoalKey
           : null,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -359,7 +359,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
             children: [
               Obx(() => Text(
                     "${_editContentController.cachedCompletionGoal}",
-                    style: Theme.of(context).textTheme.headline3.copyWith(),
+                    style: Theme.of(context).textTheme.headline3!.copyWith(),
                     textAlign: TextAlign.center,
                   )),
               Text(
@@ -402,27 +402,27 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
     );
   }
 
-  Widget _buildEditButton({Function onPressed}) {
+  Widget _buildEditButton({Function? onPressed}) {
     return NeumorphPressSwitch(
       onPressed: () {
-        onPressed();
+        onPressed!();
         setState(() {
           _isInEditMode = !_isInEditMode;
         });
       },
       style: _isInEditMode ? kActiveNeumorphStyle : kInactiveNeumorphStyle,
-      key: widget.isTutorialScreen ? _tutorialController.editButtonKey : null,
+      key: widget.isTutorialScreen! ? _tutorialController.editButtonKey : null,
       child: _isInEditMode
           ? Text(
               'save_habit'.tr,
-              style: Theme.of(context).textTheme.button.copyWith(
+              style: Theme.of(context).textTheme.button!.copyWith(
                     fontSize: 12,
                     color: kBackGroundWhite,
                   ),
             )
           : Text(
               'edit_habit'.tr,
-              style: Theme.of(context).textTheme.button.copyWith(
+              style: Theme.of(context).textTheme.button!.copyWith(
                     fontSize: 12,
                     color: kDeepOrange,
                   ),
@@ -433,12 +433,12 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
   Widget _buildScheduledTimesRow() {
     return Obx(
       () => Wrap(
-        key: widget.isTutorialScreen
+        key: widget.isTutorialScreen!
             ? _tutorialController.notificationTimesKey
             : null,
         spacing: ((MediaQuery.of(context).size.width - 40) - (280)) / 7,
         children: List.generate(
-          _editContentController.cachedCompletionGoal.value,
+          _editContentController.cachedCompletionGoal.value!,
           (index) {
             final bool _isActiveNotification =
                 _editContentController.activeNotifications.contains(index + 1);
@@ -474,9 +474,9 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                   child: Center(
                     child: Obx(
                       () => Text(
-                          "${_notificationTimesController.selectedHours[index]}\n${_notificationTimesController.selectedMinutes[index].toString().padLeft(2, "0")}",
+                          "${_notificationTimesController.selectedHours![index]}\n${_notificationTimesController.selectedMinutes![index].toString().padLeft(2, "0")}",
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.button.copyWith(
+                          style: Theme.of(context).textTheme.button!.copyWith(
                               color: _isActiveNotification
                                   ? kBackGroundWhite
                                   : kDeepOrange)),
@@ -493,7 +493,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
 
   Widget _buildScheduleRow() {
     return Obx(() => Row(
-          key: widget.isTutorialScreen
+          key: widget.isTutorialScreen!
               ? _tutorialController.scheduleRowKey
               : null,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -526,11 +526,11 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                     child: Center(
                       child: Text(
                         dayNames[index],
-                        style: Theme.of(context).textTheme.button.copyWith(
+                        style: Theme.of(context).textTheme.button!.copyWith(
                               fontSize: 12,
                               color: _isActiveWeekDay
                                   ? kBackGroundWhite
-                                  : Color(widget.habit.habitColors["deep"]),
+                                  : Color(widget.habit!.habitColors["deep"]!),
                             ),
                       ),
                     ),
@@ -546,7 +546,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
     return ImplicitlyAnimatedList<Reward>(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      key: widget.isTutorialScreen ? _tutorialController.rewardListKey : null,
+      key: widget.isTutorialScreen! ? _tutorialController.rewardListKey : null,
       removeDuration: const Duration(milliseconds: 200),
       updateDuration: const Duration(milliseconds: 200),
       items: _joinedRewardList,
@@ -573,14 +573,14 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                   onTap: () {
                     if (!_isInEditMode) return;
                     _editContentController.toggleReward(reward);
-                    widget.isTutorialScreen
+                    widget.isTutorialScreen!
                         ? _setJoinedTutorialRewardList()
                         : _setJoinedRewardList();
                   },
                   onLongPress: () {
                     if (!_isInEditMode) return;
                     _editContentController.toggleAllReward();
-                    widget.isTutorialScreen
+                    widget.isTutorialScreen!
                         ? _setJoinedTutorialRewardList()
                         : _setJoinedRewardList();
                   },
@@ -596,14 +596,14 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
   Widget _buildHabitDeleteButton() {
     return CustomNeumorphButton(
       onPressed: () {
-        if (widget.isTutorialScreen) return;
+        if (widget.isTutorialScreen!) return;
         Get.back();
-        Get.find<ContentController>().deleteHabit(widget.habit);
+        Get.find<ContentController>().deleteHabit(widget.habit!);
       },
       color: kLightRed,
       child: Text(
         'delete_habit'.tr,
-        style: Theme.of(context).textTheme.button.copyWith(
+        style: Theme.of(context).textTheme.button!.copyWith(
               fontSize: 12,
               color: kBackGroundWhite,
             ),

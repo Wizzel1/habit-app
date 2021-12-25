@@ -28,11 +28,11 @@ class DateUtilities {
     return _thisWeeksDates;
   }
 
-  static List<int> getLastFourCalendarWeeks() {
+  static List<int?> getLastFourCalendarWeeks() {
     final int _lastWeek = currentCalendarWeek - 1;
     final bool _needsWeeksFromLastYear = _lastWeek < 4;
-    final List<int> _lastFourCalendarWeeks = [];
-    int _lastCalendarWeekLastYear;
+    final List<int?> _lastFourCalendarWeeks = [];
+    int? _lastCalendarWeekLastYear;
     //TODO debug
 
     if (_needsWeeksFromLastYear) {
@@ -48,11 +48,11 @@ class DateUtilities {
     }
 
     for (var i = 0; i < 4; i++) {
-      int _newWeekNumber;
+      int? _newWeekNumber;
       final int _weekToAdd = _lastWeek - i;
       if (_weekToAdd >= 1) _newWeekNumber = _weekToAdd;
       if (_weekToAdd < 1) {
-        _newWeekNumber = _lastCalendarWeekLastYear - _weekToAdd.abs();
+        _newWeekNumber = _lastCalendarWeekLastYear! - _weekToAdd.abs();
       }
       _lastFourCalendarWeeks.add(_newWeekNumber);
     }
@@ -90,10 +90,10 @@ class DateUtilities {
     while (_firstDayOf2021.isBefore(_lastDayOf2021)) {
       final TrackedDay _newDay = TrackedDay(
           dayCount: _firstDayOf2021.day, doneAmount: 0, goalAmount: 7);
-      _currentWeek.trackedDays.add(_newDay);
+      _currentWeek.trackedDays!.add(_newDay);
 
       if (dayIndex % 7 == 0) {
-        exampleYear.calendarWeeks.add(_currentWeek);
+        exampleYear.calendarWeeks!.add(_currentWeek);
         weekIndex++;
         _currentWeek = CalendarWeek(weekNumber: weekIndex, trackedDays: []);
       }
@@ -103,9 +103,9 @@ class DateUtilities {
 
     final TrackedDay lastDay =
         TrackedDay(dayCount: _lastDayOf2021.day, doneAmount: 2, goalAmount: 3);
-    exampleYear.calendarWeeks.last.trackedDays.add(lastDay);
+    exampleYear.calendarWeeks!.last.trackedDays!.add(lastDay);
 
-    exampleCompletions.trackedYears.add(exampleYear);
+    exampleCompletions.trackedYears!.add(exampleYear);
 
     return exampleCompletions;
   }

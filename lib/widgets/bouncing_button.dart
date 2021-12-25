@@ -5,18 +5,18 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import '../util/constants.dart';
 
 class NeumorphPressSwitch extends StatefulWidget {
-  final VoidCallback onPressed;
-  final VoidCallback onLongPressed;
+  final VoidCallback? onPressed;
+  final VoidCallback? onLongPressed;
   final Widget child;
   final double height;
   final double width;
-  final NeumorphicStyle style;
+  final NeumorphicStyle? style;
   final double borderRadius;
 
   const NeumorphPressSwitch({
-    Key key,
-    @required this.onPressed,
-    @required this.child,
+    Key? key,
+    required this.onPressed,
+    required this.child,
     this.height = 40,
     this.width = 100,
     this.style,
@@ -50,16 +50,16 @@ class _NeumorphPressSwitchState extends State<NeumorphPressSwitch> {
 }
 
 class CustomNeumorphButton extends StatefulWidget {
-  final VoidCallback onPressed;
-  final Widget child;
+  final VoidCallback? onPressed;
+  final Widget? child;
   final double height;
   final double width;
   final double borderRadius;
-  final Color color;
+  final Color? color;
   final NeumorphicStyle style;
 
   const CustomNeumorphButton(
-      {Key key,
+      {Key? key,
       this.onPressed,
       this.child,
       this.height = 40,

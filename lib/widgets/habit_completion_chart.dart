@@ -11,9 +11,9 @@ import 'package:get/get.dart';
 enum TimeSpan { week, month, year }
 
 class HabitCompletionChart extends StatefulWidget {
-  final Habit habit;
+  final Habit? habit;
 
-  const HabitCompletionChart({Key key, this.habit}) : super(key: key);
+  const HabitCompletionChart({Key? key, this.habit}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => HabitCompletionChartState();
@@ -24,18 +24,18 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
   final Color barColor = kDeepOrange;
   final Color elementColor = kBackGroundWhite;
   final Duration animDuration = const Duration(milliseconds: 100);
-  int _touchedIndex;
+  int? _touchedIndex;
   double _maxBarValue = 0;
   TimeSpan _timeSpan = TimeSpan.week;
   List _data = [];
-  double _sideTileInterval;
+  double? _sideTileInterval;
 
-  List<TrackedDay> _weekData;
-  List<CalendarWeek> _monthData;
-  List<CalendarWeek> _yearData;
+  List<TrackedDay>? _weekData;
+  List<CalendarWeek>? _monthData;
+  List<CalendarWeek>? _yearData;
 
   void _updateData() {
-    _data = widget.habit.getCompletionDataForTimeSpan(_timeSpan);
+    _data = widget.habit!.getCompletionDataForTimeSpan(_timeSpan);
   }
 
   Row _buildTimespanButtonRow() {
@@ -55,7 +55,7 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
               : kInactiveNeumorphStyle,
           child: Text(
             'this_week'.tr,
-            style: Theme.of(context).textTheme.button.copyWith(
+            style: Theme.of(context).textTheme.button!.copyWith(
                 fontSize: 12,
                 color: _timeSpan == TimeSpan.week
                     ? kBackGroundWhite
@@ -75,7 +75,7 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
               : kInactiveNeumorphStyle,
           child: Text(
             'last_four_weeks'.tr,
-            style: Theme.of(context).textTheme.button.copyWith(
+            style: Theme.of(context).textTheme.button!.copyWith(
                   fontSize: 12,
                   color: _timeSpan == TimeSpan.month
                       ? kBackGroundWhite
@@ -205,15 +205,15 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
         _weekData ??= _data as List<TrackedDay>;
 
         assert(
-            _weekData.length == 7, "WeekData length was ${_weekData.length}");
+            _weekData!.length == 7, "WeekData length was ${_weekData!.length}");
 
-        for (var i = 0; i < _weekData.length; i++) {
-          final TrackedDay day = _weekData[i];
-          if (_maxBarValue != widget.habit.completionGoal) {
-            _maxBarValue = widget.habit.completionGoal.toDouble();
+        for (var i = 0; i < _weekData!.length; i++) {
+          final TrackedDay day = _weekData![i];
+          if (_maxBarValue != widget.habit!.completionGoal) {
+            _maxBarValue = widget.habit!.completionGoal!.toDouble();
           }
 
-          _dataList.add(makeGroupData(i, day.doneAmount.toDouble(),
+          _dataList.add(makeGroupData(i, day.doneAmount!.toDouble(),
               isTouched: i == _touchedIndex));
         }
 
@@ -222,19 +222,19 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
       case TimeSpan.month:
         _monthData ??= _data as List<CalendarWeek>;
 
-        assert(_monthData.length == 4,
-            "Monthdata length was ${_monthData.length}");
+        assert(_monthData!.length == 4,
+            "Monthdata length was ${_monthData!.length}");
 
-        for (var i = 0; i < _monthData.length; i++) {
-          final List<TrackedDay> _daylist = _monthData[i].trackedDays;
+        for (var i = 0; i < _monthData!.length; i++) {
+          final List<TrackedDay> _daylist = _monthData![i].trackedDays!;
           double _completions = 0;
 
           for (final TrackedDay _day in _daylist) {
-            _completions += _day.doneAmount;
+            _completions += _day.doneAmount!;
           }
 
-          _maxBarValue = (widget.habit.completionGoal *
-                  widget.habit.scheduledWeekDays.length)
+          _maxBarValue = (widget.habit!.completionGoal! *
+                  widget.habit!.scheduledWeekDays.length)
               .toDouble();
 
           _dataList.add(
@@ -258,7 +258,7 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
               final int index = group.x.toInt();
               switch (_timeSpan) {
                 case TimeSpan.week:
-                  String weekDay;
+                  String? weekDay;
                   if ((index + 1) == DateUtilities.today.weekday) {
                     weekDay = 'today'.tr;
                     return _createTooltipItemForDay(weekDay, rod);
@@ -291,7 +291,7 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
                 case TimeSpan.month:
                   String weekNumber;
 
-                  weekNumber = '${_monthData[index].weekNumber}';
+                  weekNumber = '${_monthData![index].weekNumber}';
                   return _createTooltipItemForWeek(weekNumber, rod);
 
                   break;
@@ -301,10 +301,10 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
             }),
         touchCallback: (touchEvent, barTouchResponse) {
           setState(() {
-            if (barTouchResponse.spot != null &&
+            if (barTouchResponse!.spot != null &&
                 touchEvent is! PointerUpEvent &&
                 touchEvent is! PointerExitEvent) {
-              _touchedIndex = barTouchResponse.spot.touchedBarGroupIndex;
+              _touchedIndex = barTouchResponse.spot!.touchedBarGroupIndex;
             } else {
               _touchedIndex = -1;
             }
@@ -316,7 +316,7 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
         bottomTitles: SideTitles(
           showTitles: true,
           getTextStyles: (value, _) =>
-              Theme.of(context).textTheme.caption.copyWith(color: kDeepOrange),
+              Theme.of(context).textTheme.caption!.copyWith(color: kDeepOrange),
           margin: 16,
           getTitles: (double value) {
             final int _value = value.toInt();
@@ -326,7 +326,7 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
                 break;
               case TimeSpan.month:
                 if (_value < 4) {
-                  return _monthData[_value].weekNumber.toString();
+                  return _monthData![_value].weekNumber.toString();
                 }
                 break;
               case TimeSpan.year:
@@ -338,7 +338,7 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
         leftTitles: SideTitles(
           interval: _calculateInterval(),
           getTextStyles: (value, _) =>
-              Theme.of(context).textTheme.caption.copyWith(color: kDeepOrange),
+              Theme.of(context).textTheme.caption!.copyWith(color: kDeepOrange),
           margin: 16,
           showTitles: true,
         ),
@@ -351,8 +351,8 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
   }
 
   double _calculateInterval() {
-    final int _scheduledDays = widget.habit.scheduledWeekDays.length;
-    final int _completionGoal = widget.habit.completionGoal;
+    final int _scheduledDays = widget.habit!.scheduledWeekDays.length;
+    final int _completionGoal = widget.habit!.completionGoal!;
 
     final int _max = _scheduledDays * _completionGoal;
     for (var i = 7.0; i >= 0.0; i--) {
@@ -366,20 +366,20 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
   BarTooltipItem _createTooltipItemForWeek(
       String weekNumber, BarChartRodData rod) {
     final int _weeklyCompletionGoal =
-        widget.habit.completionGoal * widget.habit.scheduledWeekDays.length;
+        widget.habit!.completionGoal! * widget.habit!.scheduledWeekDays.length;
     final double _weeklyCompletionPercentage =
         (rod.y / _weeklyCompletionGoal) * 100;
     return BarTooltipItem(
         '${'Week'.tr}$weekNumber\n${_weeklyCompletionPercentage.toInt()}%',
-        Theme.of(context).textTheme.caption.copyWith(color: kDeepOrange));
+        Theme.of(context).textTheme.caption!.copyWith(color: kDeepOrange));
   }
 
-  BarTooltipItem _createTooltipItemForDay(String weekDay, BarChartRodData rod) {
+  BarTooltipItem _createTooltipItemForDay(String? weekDay, BarChartRodData rod) {
     final double _dailyCompletionPercentage =
-        (rod.y / widget.habit.completionGoal) * 100;
-    final String _test = "${rod.y.toInt()}/${widget.habit.completionGoal}";
+        (rod.y / widget.habit!.completionGoal!) * 100;
+    final String _test = "${rod.y.toInt()}/${widget.habit!.completionGoal}";
     return BarTooltipItem(
         '$weekDay\n$_test\n${_dailyCompletionPercentage.toInt()}%',
-        Theme.of(context).textTheme.caption.copyWith(color: kDeepOrange));
+        Theme.of(context).textTheme.caption!.copyWith(color: kDeepOrange));
   }
 }

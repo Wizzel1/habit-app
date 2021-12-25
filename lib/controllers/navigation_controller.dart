@@ -5,12 +5,12 @@ import 'package:flutter_inner_drawer/inner_drawer.dart';
 import 'package:get/get.dart';
 
 class NavigationController extends GetxController {
-  GlobalKey<InnerDrawerState> innerDrawerKey;
-  GlobalKey<NavigatorState> navigatorKey;
+  GlobalKey<InnerDrawerState>? innerDrawerKey;
+  GlobalKey<NavigatorState>? navigatorKey;
   bool isDrawerOpen = false;
-  Page navigatorPage;
-  HeroController heroController;
-  int currentPageIndex;
+  late Page navigatorPage;
+  late HeroController heroController;
+  int? currentPageIndex;
 
   final List<Page> appPages = [
     const MaterialPage(child: TodaysHabitScreen()),
@@ -35,12 +35,12 @@ class NavigationController extends GetxController {
               navigatorPage = appPages[index],
               update(),
             })
-        .then((value) => innerDrawerKey.currentState.close());
+        .then((value) => innerDrawerKey!.currentState!.close());
   }
 
   Future<void> openDrawer() async {
     final completer = Completer();
-    innerDrawerKey.currentState.open();
+    innerDrawerKey!.currentState!.open();
     if (!isDrawerOpen) {
       await 200.milliseconds.delay();
       return openDrawer();

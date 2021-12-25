@@ -6,11 +6,11 @@ import 'package:get/get.dart';
 import 'controllers.dart';
 
 class NotificationTimesController extends GetxController {
-  RxList<int> selectedHours;
-  RxList<int> selectedMinutes;
+  RxList<int>? selectedHours;
+  RxList<int>? selectedMinutes;
 
-  TextEditingController hourController;
-  TextEditingController minuteController;
+  TextEditingController? hourController;
+  TextEditingController? minuteController;
 
   @override
   void onInit() {
@@ -29,13 +29,13 @@ class NotificationTimesController extends GetxController {
   }
 
   void setControllerValues(int index) {
-    hourController.text = selectedHours[index].toString();
-    minuteController.text = selectedMinutes[index].toString();
+    hourController!.text = selectedHours![index].toString();
+    minuteController!.text = selectedMinutes![index].toString();
   }
 
   bool saveSelectedTimeTo(int index) {
-    final int _hour = int.tryParse(hourController.text);
-    final int _minute = int.tryParse(minuteController.text);
+    final int? _hour = int.tryParse(hourController!.text);
+    final int? _minute = int.tryParse(minuteController!.text);
 
     if (_hour == null || _minute == null) {
       _showWarningSnackBar();
@@ -50,8 +50,8 @@ class NotificationTimesController extends GetxController {
       return false;
     }
 
-    selectedHours[index] = int.parse(hourController.text);
-    selectedMinutes[index] = int.parse(minuteController.text);
+    selectedHours![index] = int.parse(hourController!.text);
+    selectedMinutes![index] = int.parse(minuteController!.text);
 
     Get.find<EditContentController>().hasChangedNotificationInformation = true;
     return true;
@@ -63,30 +63,30 @@ class NotificationTimesController extends GetxController {
   }
 
   void _setMinMaxTimes(int changeIndex) {
-    final int _changedHour = selectedHours[changeIndex];
-    final int _changedMinute = selectedMinutes[changeIndex];
+    final int _changedHour = selectedHours![changeIndex];
+    final int _changedMinute = selectedMinutes![changeIndex];
 
-    for (var i = 0; i < selectedHours.length; i++) {
+    for (var i = 0; i < selectedHours!.length; i++) {
       if (i == changeIndex) continue;
       if (i < changeIndex) {
-        if (selectedHours[i] >= _changedHour) {
+        if (selectedHours![i] >= _changedHour) {
           if (_changedMinute == 30) {
-            selectedMinutes[i] = 00;
-            selectedHours[i] = _changedHour;
+            selectedMinutes![i] = 00;
+            selectedHours![i] = _changedHour;
           } else {
-            selectedMinutes[i] = 30;
-            selectedHours[i] = (_changedHour - 1).clamp(0, 23) as int;
+            selectedMinutes![i] = 30;
+            selectedHours![i] = (_changedHour - 1).clamp(0, 23);
           }
         }
       }
       if (i > changeIndex) {
-        if (selectedHours[i] <= _changedHour) {
+        if (selectedHours![i] <= _changedHour) {
           if (_changedMinute == 30) {
-            selectedMinutes[i] = 00;
-            selectedHours[i] = (_changedHour + 1).clamp(0, 23) as int;
+            selectedMinutes![i] = 00;
+            selectedHours![i] = (_changedHour + 1).clamp(0, 23);
           } else {
-            selectedMinutes[i] = 30;
-            selectedHours[i] = _changedHour;
+            selectedMinutes![i] = 30;
+            selectedHours![i] = _changedHour;
           }
         }
       }
@@ -107,8 +107,8 @@ class NotificationTimesController extends GetxController {
     _times.sort((a, b) => int.parse(a).compareTo(int.parse(b)));
 
     for (var i = 0; i < _times.length; i++) {
-      selectedHours[i] = int.parse(_times[i].substring(0, 2));
-      selectedMinutes[i] = int.parse(_times[i].substring(2, 4));
+      selectedHours![i] = int.parse(_times[i].substring(0, 2));
+      selectedMinutes![i] = int.parse(_times[i].substring(2, 4));
     }
   }
 }

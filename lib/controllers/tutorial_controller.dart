@@ -9,7 +9,7 @@ import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class TutorialController extends GetxController {
   List<TargetFocus> targets = [];
-  AutoScrollController tutorialHabitDetailScrollController;
+  AutoScrollController? tutorialHabitDetailScrollController;
   final Duration scrollDuration = const Duration(milliseconds: 500);
 
   //true after the welcome screen has been closed
@@ -34,7 +34,7 @@ class TutorialController extends GetxController {
   static const int rewardListScrollIndex = 5;
   static const int statisticsElementScrollIndex = 6;
 
-  TutorialCoachMark tutorial;
+  late TutorialCoachMark tutorial;
   final double targetFocusRadius = 15;
   final Duration _focusAnimationDuration = const Duration(milliseconds: 400);
 
@@ -66,7 +66,7 @@ class TutorialController extends GetxController {
   }
 
   TargetFocus _createTargetFocus(
-      {String identifier, GlobalKey keyTarget, TargetContent content}) {
+      {String? identifier, GlobalKey? keyTarget, required TargetContent content}) {
     return TargetFocus(
       identify: identifier,
       shape: ShapeLightFocus.RRect,
@@ -123,7 +123,7 @@ class TutorialController extends GetxController {
   Future<void> _showWelcomeScreen(BuildContext context) async {
     if (hasSeenWelcomeScreen) return;
 
-    final bool wantToWatchTutorial = await Get.to(() => const WelcomeScreen());
+    final bool wantToWatchTutorial = await (Get.to(() => const WelcomeScreen()) as FutureOr<bool>);
 
     hasSeenWelcomeScreen = true;
 
@@ -299,7 +299,7 @@ class TutorialController extends GetxController {
             holdMessage: 'detailScreenTutorial_scheduleRowKey_hold'.tr,
             buttonRow: ButtonRow(
               onNextTapped: () {
-                tutorialHabitDetailScrollController.scrollToIndex(
+                tutorialHabitDetailScrollController!.scrollToIndex(
                     completionGoalScrollIndex,
                     duration: scrollDuration,
                     preferPosition: AutoScrollPosition.begin);
@@ -320,14 +320,14 @@ class TutorialController extends GetxController {
             message: 'detailScreenTutorial_completionGoalKey_message'.tr,
             buttonRow: ButtonRow(
               onPreviousTapped: () {
-                tutorialHabitDetailScrollController.scrollToIndex(
+                tutorialHabitDetailScrollController!.scrollToIndex(
                     scheduleScrollIndex,
                     duration: scrollDuration,
                     preferPosition: AutoScrollPosition.begin);
                 _previousTutorialStep();
               },
               onNextTapped: () {
-                tutorialHabitDetailScrollController.scrollToIndex(
+                tutorialHabitDetailScrollController!.scrollToIndex(
                     notificationTimesScrollIndex,
                     duration: scrollDuration,
                     preferPosition: AutoScrollPosition.begin);
@@ -350,14 +350,14 @@ class TutorialController extends GetxController {
             holdMessage: 'detailScreenTutorial_notificationTimesKey_hold'.tr,
             buttonRow: ButtonRow(
               onPreviousTapped: () {
-                tutorialHabitDetailScrollController.scrollToIndex(
+                tutorialHabitDetailScrollController!.scrollToIndex(
                     completionGoalScrollIndex,
                     duration: scrollDuration,
                     preferPosition: AutoScrollPosition.begin);
                 _previousTutorialStep();
               },
               onNextTapped: () {
-                tutorialHabitDetailScrollController.scrollToIndex(
+                tutorialHabitDetailScrollController!.scrollToIndex(
                     rewardListScrollIndex,
                     duration: scrollDuration,
                     preferPosition: AutoScrollPosition.end);
@@ -380,14 +380,14 @@ class TutorialController extends GetxController {
             message: 'detailScreenTutorial_rewardList_message'.tr,
             buttonRow: ButtonRow(
               onPreviousTapped: () {
-                tutorialHabitDetailScrollController.scrollToIndex(
+                tutorialHabitDetailScrollController!.scrollToIndex(
                     notificationTimesScrollIndex,
                     duration: scrollDuration,
                     preferPosition: AutoScrollPosition.begin);
                 _previousTutorialStep();
               },
               onNextTapped: () {
-                tutorialHabitDetailScrollController.scrollToIndex(
+                tutorialHabitDetailScrollController!.scrollToIndex(
                     statisticsElementScrollIndex,
                     duration: scrollDuration,
                     preferPosition: AutoScrollPosition.end);
@@ -410,14 +410,14 @@ class TutorialController extends GetxController {
               holdMessage: 'detailScreenTutorial_statistics_hold'.tr,
               buttonRow: ButtonRow(
                 onPreviousTapped: () {
-                  tutorialHabitDetailScrollController.scrollToIndex(
+                  tutorialHabitDetailScrollController!.scrollToIndex(
                       rewardListScrollIndex,
                       duration: scrollDuration,
                       preferPosition: AutoScrollPosition.end);
                   _previousTutorialStep();
                 },
                 onNextTapped: () {
-                  tutorialHabitDetailScrollController.scrollToIndex(
+                  tutorialHabitDetailScrollController!.scrollToIndex(
                       editButtonScrollIndex,
                       duration: scrollDuration,
                       preferPosition: AutoScrollPosition.middle);
@@ -498,14 +498,14 @@ class TutorialController extends GetxController {
 }
 
 class ContentContainer extends StatelessWidget {
-  final String heading;
-  final String message;
-  final ButtonRow buttonRow;
-  final String tapMessage;
-  final String holdMessage;
+  final String? heading;
+  final String? message;
+  final ButtonRow? buttonRow;
+  final String? tapMessage;
+  final String? holdMessage;
 
   const ContentContainer(
-      {Key key,
+      {Key? key,
       this.heading,
       this.message,
       this.buttonRow,
@@ -520,7 +520,7 @@ class ContentContainer extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Text(
-          heading,
+          heading!,
           style: _themeData.textTheme.headline4,
           textAlign: TextAlign.center,
         ),
@@ -528,7 +528,7 @@ class ContentContainer extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 20.0),
             child: Text(
-              message,
+              message!,
               style: _themeData.textTheme.caption,
               textAlign: TextAlign.center,
             ),
@@ -540,11 +540,11 @@ class ContentContainer extends StatelessWidget {
             children: [
               Text(
                 "${'tap'.tr} ",
-                style: _themeData.textTheme.button
+                style: _themeData.textTheme.button!
                     .copyWith(color: kBackGroundWhite),
               ),
               Text(
-                tapMessage,
+                tapMessage!,
                 style: _themeData.textTheme.caption,
                 textAlign: TextAlign.center,
               )
@@ -558,28 +558,28 @@ class ContentContainer extends StatelessWidget {
               children: [
                 Text(
                   "${'hold'.tr} ",
-                  style: _themeData.textTheme.button
+                  style: _themeData.textTheme.button!
                       .copyWith(color: kBackGroundWhite),
                 ),
                 Text(
-                  holdMessage,
+                  holdMessage!,
                   style: _themeData.textTheme.caption,
                   textAlign: TextAlign.center,
                 )
               ],
             ),
           ),
-        buttonRow,
+        buttonRow!,
       ],
     );
   }
 }
 
 class ButtonRow extends StatelessWidget {
-  final VoidCallback onPreviousTapped;
-  final VoidCallback onNextTapped;
+  final VoidCallback? onPreviousTapped;
+  final VoidCallback? onNextTapped;
 
-  const ButtonRow({Key key, this.onPreviousTapped, this.onNextTapped})
+  const ButtonRow({Key? key, this.onPreviousTapped, this.onNextTapped})
       : super(key: key);
 
   @override
@@ -611,9 +611,9 @@ class ButtonRow extends StatelessWidget {
 }
 
 class PreviousButton extends StatelessWidget {
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
-  const PreviousButton({Key key, this.onPressed}) : super(key: key);
+  const PreviousButton({Key? key, this.onPressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -632,10 +632,10 @@ class PreviousButton extends StatelessWidget {
 }
 
 class NextButton extends StatelessWidget {
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   const NextButton({
-    Key key,
+    Key? key,
     this.onPressed,
   }) : super(key: key);
 
@@ -656,7 +656,7 @@ class NextButton extends StatelessWidget {
 }
 
 class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({Key key}) : super(key: key);
+  const WelcomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -691,7 +691,7 @@ class WelcomeScreen extends StatelessWidget {
                         'welcomeScreen_startButton_title'.tr,
                         style: Theme.of(context)
                             .textTheme
-                            .button
+                            .button!
                             .copyWith(color: kDeepOrange),
                       ),
                     ),
@@ -708,7 +708,7 @@ class WelcomeScreen extends StatelessWidget {
                         'welcomeScreen_skipButton_title'.tr,
                         style: Theme.of(context)
                             .textTheme
-                            .button
+                            .button!
                             .copyWith(color: kDeepOrange),
                       ),
                     ),

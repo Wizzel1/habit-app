@@ -128,14 +128,14 @@ class MenuScreen extends StatelessWidget {
 }
 
 class MenuItem extends StatelessWidget {
-  final VoidCallback onTap;
-  final String title;
-  final Color backGroundColor;
-  final Color textColor;
-  final bool isActive;
+  final VoidCallback? onTap;
+  final String? title;
+  final Color? backGroundColor;
+  final Color? textColor;
+  final bool? isActive;
 
   const MenuItem(
-      {Key key,
+      {Key? key,
       this.onTap,
       this.title,
       this.backGroundColor,
@@ -146,11 +146,11 @@ class MenuItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NeumorphPressSwitch(
-        style: isActive ? kActiveNeumorphStyle : kInactiveNeumorphStyle,
+        style: isActive! ? kActiveNeumorphStyle : kInactiveNeumorphStyle,
         onPressed: onTap,
         child: Text(
-          title,
-          style: Theme.of(context).textTheme.button.copyWith(color: textColor),
+          title!,
+          style: Theme.of(context).textTheme.button!.copyWith(color: textColor),
           textAlign: TextAlign.center,
         ));
   }

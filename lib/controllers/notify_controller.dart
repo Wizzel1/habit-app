@@ -24,7 +24,7 @@ class NotifyController extends GetxController {
     tz.setLocalLocation(tz.getLocation(timeZoneName));
   }
 
-  Future<bool> initializeNotificationPlugin() async {
+  Future<bool?> initializeNotificationPlugin() async {
     // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings("@mipmap/launcher_icon");
@@ -54,23 +54,23 @@ class NotifyController extends GetxController {
     final tz.TZDateTime _now = tz.TZDateTime.now(tz.local);
 
     final tz.TZDateTime _scheduledTime = tz.TZDateTime(
-        tz.local, _now.year, _now.month, _now.day, object.hour, object.minutes);
+        tz.local, _now.year, _now.month, _now.day, object.hour!, object.minutes!);
 
     final bool _wasCompletedBeforeScheduledTime = _now.isBefore(_scheduledTime);
 
     if (!_wasCompletedBeforeScheduledTime) return;
 
-    await flutterLocalNotificationsPlugin.cancel(object.notificationId);
+    await flutterLocalNotificationsPlugin.cancel(object.notificationId!);
 
     await LocalStorageService.saveObjectForRescheduling(object);
   }
 
   Future<void> updateAllHabitNotifications(
-      {List<NotificationObject> oldObjects,
-      List<NotificationObject> newObjects}) async {
+      {required List<NotificationObject> oldObjects,
+      required List<NotificationObject> newObjects}) async {
     for (var i = 0; i < oldObjects.length; i++) {
       await flutterLocalNotificationsPlugin
-          .cancel(oldObjects[i].notificationId);
+          .cancel(oldObjects[i].notificationId!);
     }
     for (var i = 0; i < newObjects.length; i++) {
       final NotificationObject _object = newObjects[i];
@@ -79,8 +79,8 @@ class NotifyController extends GetxController {
   }
 
   Future<void> updateHabitNotificationsPartially(
-      {List<NotificationObject> oldObjects,
-      List<NotificationObject> newObjects}) async {
+      {required List<NotificationObject> oldObjects,
+      required List<NotificationObject> newObjects}) async {
     final List<NotificationObject> _objectsToDelete =
         _getListDifferences(oldObjects, newObjects);
 
@@ -89,7 +89,7 @@ class NotifyController extends GetxController {
 
     for (final notificationObject in _objectsToDelete) {
       await flutterLocalNotificationsPlugin
-          .cancel(notificationObject.notificationId);
+          .cancel(notificationObject.notificationId!);
     }
 
     for (final notificationObject in _objectsToCreate) {
@@ -117,10 +117,10 @@ class NotifyController extends GetxController {
 
   Future<void> _createNotificationFromObject(NotificationObject object) async {
     final tz.TZDateTime _schedule = _nextInstanceOfDayAndTime(
-        weekday: object.weekDay, hour: object.hour, minutes: object.minutes);
+        weekday: object.weekDay, hour: object.hour!, minutes: object.minutes!);
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        object.notificationId,
+        object.notificationId!,
         object.title,
         object.body,
         _schedule,
@@ -140,7 +140,7 @@ class NotifyController extends GetxController {
   }
 
   tz.TZDateTime _nextInstanceOfDayAndTime(
-      {int weekday, int hour, int minutes}) {
+      {int? weekday, required int hour, required int minutes}) {
     tz.TZDateTime scheduledDate =
         _nextInstanceOfTime(hour: hour, minutes: minutes);
     while (scheduledDate.weekday != weekday) {
@@ -149,7 +149,7 @@ class NotifyController extends GetxController {
     return scheduledDate;
   }
 
-  tz.TZDateTime _nextInstanceOfTime({int hour, int minutes}) {
+  tz.TZDateTime _nextInstanceOfTime({required int hour, required int minutes}) {
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
     tz.TZDateTime _scheduledDate =
         tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minutes);
@@ -165,7 +165,7 @@ class NotifyController extends GetxController {
 
   Future<void> cancelAllHabitNotifications(Habit habit) async {
     for (var i = 0; i < habit.notificationObjects.length; i++) {
-      final int _cancellationID = habit.notificationObjects[i].notificationId;
+      final int _cancellationID = habit.notificationObjects[i].notificationId!;
       await flutterLocalNotificationsPlugin.cancel(_cancellationID);
     }
   }
@@ -191,10 +191,10 @@ class NotifyController extends GetxController {
                     style: const TextStyle(color: kDeepOrange),
                   ),
                   title: Text(
-                    pendingNotificationRequests[index].title,
+                    pendingNotificationRequests[index].title!,
                     style: const TextStyle(color: kDeepOrange),
                   ),
-                  trailing: Text(pendingNotificationRequests[index].payload),
+                  trailing: Text(pendingNotificationRequests[index].payload!),
                 );
               },
             ),
@@ -213,7 +213,7 @@ class NotifyController extends GetxController {
   }
 
   Future onDidReceiveLocalNotification(
-      int id, String title, String body, String payload) async {
+      int id, String? title, String? body, String? payload) async {
     // display a dialog with the notification details, tap ok to go to another page
     // showDialog(
     //   context: context,
@@ -239,7 +239,7 @@ class NotifyController extends GetxController {
     // );
   }
 
-  Future selectNotification(String payload) async {
+  Future selectNotification(String? payload) async {
     if (payload != null) {
       debugPrint('notification payload: $payload');
     }
