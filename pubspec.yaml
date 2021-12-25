@@ -38,10 +38,10 @@ dependencies:
   flutter_staggered_animations: ^1.0.0
   font_awesome_flutter: ^9.2.0
   get: ^4.6.1
+  google_mobile_ads: ^1.0.1
   implicitly_animated_reorderable_list: ^0.4.2
   in_app_review: ^2.0.3
   intl: ^0.17.0
-  native_admob_flutter: ^1.5.0
   rich_text_controller: ^1.4.0
   rive_splash_screen: ^0.1.0
   scroll_to_index: ^2.1.1
