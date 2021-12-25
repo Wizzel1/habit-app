@@ -128,7 +128,7 @@ class _MyContentScreenState extends State<MyContentScreen>
                     },
                     separatorBuilder: (BuildContext context, int index) {
                       if (index % 4 == 0) {
-                        return AdController.getAdaptiveBannerAd(context);
+                        return AdController.getBannerAdBuilder(context);
                       }
                       return const SizedBox.shrink();
                     },
@@ -193,7 +193,7 @@ class _MyContentScreenState extends State<MyContentScreen>
                     },
                     separatorBuilder: (BuildContext context, int index) {
                       if (index % 4 == 0) {
-                        return AdController.getAdaptiveBannerAd(context);
+                        return AdController.getBannerAdBuilder(context);
                       }
                       return const SizedBox.shrink();
                     },

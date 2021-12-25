@@ -109,8 +109,12 @@ class _TodaysHabitScreenState extends State<TodaysHabitScreen> {
                             separatorBuilder:
                                 (BuildContext context, int index) {
                               if (index % 3 == 0) {
-                                return AdController.getAdaptiveBannerAd(
-                                    context);
+                                return RepaintBoundary(
+                                  child: SizedBox(
+                                      height: 50,
+                                      child: AdController.getBannerAdBuilder(
+                                          context)),
+                                );
                               }
                               return const SizedBox.shrink();
                             },

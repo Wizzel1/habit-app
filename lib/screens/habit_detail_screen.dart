@@ -254,7 +254,11 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                             if (widget.isTutorialScreen!)
                               const SizedBox.shrink()
                             else
-                              AdController.getLargeBannerAd(context),
+                              SizedBox(
+                                  height: 50,
+                                  width: 320,
+                                  child:
+                                      AdController.getLargeBannerAd(context)),
                             const SizedBox(height: 50),
                             AutoScrollTag(
                               index: TutorialController
@@ -390,8 +394,8 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                       width: 100,
                       height: 40,
                       color: kBackGroundWhite,
-                      child:
-                          Icon(Icons.add, color: Theme.of(context).colorScheme.secondary),
+                      child: Icon(Icons.add,
+                          color: Theme.of(context).colorScheme.secondary),
                     ),
                   ),
                 )

@@ -79,9 +79,9 @@ class Habit {
         nextCompletionDate:
             DateTime.parse(json["nextCompletionDate"] as String),
         scheduledWeekDays:
-            List<int>.from(json["scheduledWeekDays"].map((x) => x) as List),
+            List<int>.from(json["scheduledWeekDays"] as List),
         rewardIDReferences:
-            List<String>.from(json["rewardIDReferences"].map((x) => x) as List),
+            List<String>.from(json["rewardIDReferences"]as List),
         trackedCompletions: TrackedCompletions.fromJson(
             json["trackedCompletions"] as Map<String, dynamic>),
         notificationObjects: List<NotificationObject>.from(
@@ -214,7 +214,7 @@ class Habit {
         .calendarWeeks![_calendarWeekIndex]
         .trackedDays![_trackedDayIndex];
 
-    final bool wasFinishedToday = _trackedToday.doneAmount>= completionGoal;
+    final bool wasFinishedToday = _trackedToday.doneAmount >= completionGoal;
     return wasFinishedToday;
   }
 
@@ -378,7 +378,8 @@ class Habit {
       orElse: () => CalendarWeek(
           trackedDays: List.generate(
             7,
-            (index) => TrackedDay(doneAmount: 0, goalAmount: completionGoal, dayCount: 0),
+            (index) => TrackedDay(
+                doneAmount: 0, goalAmount: completionGoal, dayCount: 0),
           ),
           weekNumber: weekNumber),
     );
