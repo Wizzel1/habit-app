@@ -94,7 +94,7 @@ class _MyContentScreenState extends State<MyContentScreen>
                   onNotification: (notification) {
                     if (notification is ScrollUpdateNotification) {
                       final offset = notification.metrics.pixels;
-                      final delta = notification.dragDetails?.delta?.dy;
+                      final delta = notification.dragDetails?.delta.dy;
                       if (delta == null) return true;
                       final bool reachedOffsetThreshold =
                           offset < -_pageTransitionOffset;
@@ -156,7 +156,7 @@ class _MyContentScreenState extends State<MyContentScreen>
                   onNotification: (notification) {
                     if (notification is ScrollUpdateNotification) {
                       final offset = notification.metrics.pixels;
-                      final delta = notification.dragDetails?.delta?.dy;
+                      final delta = notification.dragDetails?.delta.dy;
                       if (delta == null) return true;
                       final bool reachedOffsetTreshhold =
                           offset < -_pageTransitionOffset;

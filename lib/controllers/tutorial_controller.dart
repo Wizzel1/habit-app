@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:Marbit/services/local_storage.dart';
 import 'package:Marbit/util/constants.dart';
 import 'package:Marbit/widgets/widgets.dart';
@@ -66,7 +68,9 @@ class TutorialController extends GetxController {
   }
 
   TargetFocus _createTargetFocus(
-      {String? identifier, GlobalKey? keyTarget, required TargetContent content}) {
+      {String? identifier,
+      GlobalKey? keyTarget,
+      required TargetContent content}) {
     return TargetFocus(
       identify: identifier,
       shape: ShapeLightFocus.RRect,
@@ -123,14 +127,14 @@ class TutorialController extends GetxController {
   Future<void> _showWelcomeScreen(BuildContext context) async {
     if (hasSeenWelcomeScreen) return;
 
-    final bool wantToWatchTutorial = await (Get.to(() => const WelcomeScreen()) as FutureOr<bool>);
+    final bool? wantToWatchTutorial = await Get.to<bool>(const WelcomeScreen());
 
     hasSeenWelcomeScreen = true;
 
     await LocalStorageService.saveTutorialProgress(
         "hasSeenWelcomeScreen", hasSeenWelcomeScreen);
 
-    if (!wantToWatchTutorial) {
+    if (wantToWatchTutorial == null || !wantToWatchTutorial) {
       hasFinishedDetailScreenStep = true;
       hasFinishedHomeScreenStep = true;
       hasFinishedCompletionStep = true;

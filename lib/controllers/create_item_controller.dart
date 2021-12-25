@@ -10,7 +10,7 @@ import 'package:uuid/uuid.dart';
 class CreateItemController extends GetxController {
   late RichTextController createTitleTextController;
 
-  RxList<String?> selectedRewardReferences = List<String>.empty().obs;
+  RxList<String> selectedRewardReferences = List<String>.empty().obs;
   RxList<int> scheduledDays = List<int>.empty().obs;
   Rx<int> completionGoalCount = 1.obs;
   Rx<bool> isSelfRemovingReward = false.obs;
@@ -62,7 +62,7 @@ class CreateItemController extends GetxController {
   void toggleReward(Reward reward) {
     selectedRewardReferences.contains(reward.id)
         ? selectedRewardReferences.remove(reward.id)
-        : selectedRewardReferences.add(reward.id);
+        : selectedRewardReferences.add(reward.id!);
   }
 
   Future<void> createAndSaveHabit() async {
@@ -72,7 +72,7 @@ class CreateItemController extends GetxController {
         orElse: () => scheduledDays.first);
     final int prefix = await _getNotificationIDprefix();
     final Habit newHabit = Habit(
-      title: createTitleTextController!.text,
+      title: createTitleTextController.text,
       id: const Uuid().v4(),
       completionGoal: completionGoalCount.value,
       scheduledWeekDays: scheduledDays,
@@ -89,7 +89,7 @@ class CreateItemController extends GetxController {
           completionGoal: completionGoalCount.value,
           hours: _notificationTimesController.selectedHours,
           minutes: _notificationTimesController.selectedMinutes,
-          title: createTitleTextController!.text,
+          title: createTitleTextController.text,
           body: ""),
     );
     await Get.find<NotifyController>()
@@ -111,8 +111,8 @@ class CreateItemController extends GetxController {
   }
 
   bool _performTitleCheck() {
-    if (createTitleTextController!.text == null) return false;
-    if (!createTitleTextController!.text.isBlank!) return true;
+    if (createTitleTextController.text == null) return false;
+    if (!createTitleTextController.text.isBlank!) return true;
     SnackBars.showWarningSnackBar('warning'.tr, 'title_missing_warning'.tr);
     return false;
   }
@@ -152,7 +152,7 @@ class CreateItemController extends GetxController {
 
   void createAndSaveReward() {
     final Reward newReward = Reward(
-        name: createTitleTextController!.text,
+        name: createTitleTextController.text,
         id: const Uuid().v4(),
         isSelfRemoving: isSelfRemovingReward.value);
     Get.find<ContentController>().saveNewReward(newReward);

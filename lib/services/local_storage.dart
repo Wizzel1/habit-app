@@ -13,7 +13,6 @@ class LocalStorageService {
   static const String latestPrefixKey = "latestPrefix";
 
   static Future<void> saveAllHabits(List<Habit> allHabits) async {
-    assert(allHabits != null);
     if (allHabits == null) return;
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -45,7 +44,6 @@ class LocalStorageService {
   }
 
   static Future<void> saveAllRewards(List<Reward> allRewards) async {
-    assert(allRewards != null);
     if (allRewards == null) return;
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -77,17 +75,14 @@ class LocalStorageService {
   }
 
   // ignore: avoid_positional_boolean_parameters
-  static Future<void> saveTutorialProgress(String name, bool value) async {
-    assert(value != null, "Value must not be null");
-    assert(name != null, "Name must not be null");
-    if (name == null || value == null) return;
+  static Future<void> saveTutorialProgress(String? name, bool value) async {
+    if (name == null) return;
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool(name, value);
   }
 
-  static Future<bool> loadTutorialProgress(String name) async {
-    assert(name != null, "Name must not be null");
+  static Future<bool> loadTutorialProgress(String? name) async {
     if (name == null) return false;
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -108,9 +103,8 @@ class LocalStorageService {
   }
 
   static Future<void> saveLatestNotificationIDprefix(int value) async {
-    assert(value != null, "value must not be null");
     assert(value > 0, "Value must be greater than zero");
-    if (value == null || value == 0) return;
+    if (value == 0) return;
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -119,7 +113,6 @@ class LocalStorageService {
 
   static Future<void> saveObjectForRescheduling(
       NotificationObject object) async {
-    assert(object != null, "Object must not be null");
     if (object == null) return;
 
     final String _encodedObject = jsonEncode(object.toJson());

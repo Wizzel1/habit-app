@@ -73,6 +73,7 @@ class DateUtilities {
 
       _loopingDate = _loopingDate.add(const Duration(days: 1));
     }
+    return DateTime.now();
   }
 
   static TrackedCompletions get2021ExampleCompletions() {

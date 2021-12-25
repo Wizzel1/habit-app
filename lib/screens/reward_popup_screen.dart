@@ -135,7 +135,7 @@ class _RewardPopupScreenState extends State<RewardPopupScreen>
 
     if (_rewardList.isEmpty) {
       final Reward _empty =
-          Reward(name: 'motivational_message'.tr, isSelfRemoving: false);
+          Reward(name: 'motivational_message'.tr, isSelfRemoving: false, id: '');
       _shuffeledRewardList.add(_empty);
       return;
     }

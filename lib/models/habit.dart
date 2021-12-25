@@ -2,25 +2,23 @@ import 'package:Marbit/controllers/controllers.dart';
 import 'package:Marbit/models/models.dart';
 import 'package:Marbit/util/util.dart';
 import 'package:Marbit/widgets/widgets.dart';
-import 'package:collection/collection.dart' show IterableExtension;
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Habit {
   /// The Title of the Habit.
-  String? title;
+  String title;
 
   /// The uuid of the Habit.
-  String? id;
+  String id;
 
   /// A counting number that is used as prefix for the Habit's [NotificationObject]s.
-  int? notificationIDprefix;
+  int notificationIDprefix;
 
   /// The scheduled Weekdays (1-7).
   List<int> scheduledWeekDays;
 
   /// The references to this Habit's [Reward]s.
-  List<String?> rewardIDReferences;
+  List<String> rewardIDReferences;
 
   /// The Datastructure that holds completiondata about this Habit.
   TrackedCompletions trackedCompletions;
@@ -29,10 +27,10 @@ class Habit {
   DateTime? nextCompletionDate;
 
   /// The current completionstreak.
-  int? streak;
+  int streak;
 
   /// The daily completiongoal.
-  int? completionGoal;
+  int completionGoal;
 
   /// The list of [NotificationObject]s, based on the Habit's current Schedule.
   List<NotificationObject> notificationObjects;
@@ -62,7 +60,7 @@ class Habit {
         "completionGoal": completionGoal,
         "streak": streak,
         "nextCompletionDate":
-            "${nextCompletionDate.year.toString().padLeft(4, '0')}-${nextCompletionDate.month.toString().padLeft(2, '0')}-${nextCompletionDate.day.toString().padLeft(2, '0')}",
+            "${nextCompletionDate!.year.toString().padLeft(4, '0')}-${nextCompletionDate!.month.toString().padLeft(2, '0')}-${nextCompletionDate!.day.toString().padLeft(2, '0')}",
         "scheduledWeekDays":
             List<dynamic>.from(scheduledWeekDays.map((x) => x)),
         "rewardIDReferences":
@@ -73,11 +71,11 @@ class Habit {
       };
 
   factory Habit.fromJson(Map<String, dynamic> json) => Habit(
-        title: json["title"] as String?,
-        id: json["id"] as String?,
-        notificationIDprefix: json["notificationIDprefix"] as int?,
-        streak: json["streak"] as int?,
-        completionGoal: json["completionGoal"] as int?,
+        title: json["title"] as String,
+        id: json["id"] as String,
+        notificationIDprefix: json["notificationIDprefix"] as int,
+        streak: json["streak"] as int,
+        completionGoal: json["completionGoal"] as int,
         nextCompletionDate:
             DateTime.parse(json["nextCompletionDate"] as String),
         scheduledWeekDays:
@@ -216,7 +214,7 @@ class Habit {
         .calendarWeeks![_calendarWeekIndex]
         .trackedDays![_trackedDayIndex];
 
-    final bool wasFinishedToday = _trackedToday.doneAmount! >= completionGoal!;
+    final bool wasFinishedToday = _trackedToday.doneAmount>= completionGoal;
     return wasFinishedToday;
   }
 
@@ -242,14 +240,14 @@ class Habit {
         .trackedYears![_yearIndex]
         .calendarWeeks![_calendarWeekIndex]
         .trackedDays![_trackedDayIndex]
-        .doneAmount!);
+        .doneAmount);
 
     if (wasFinishedToday()) {
       onCompletionGoalReached!();
       Get.find<ContentController>().reloadHabitList();
     }
 
-    Get.find<EditContentController>().updateHabit(id!);
+    Get.find<EditContentController>().updateHabit(id);
   }
 
   Future<void> _checkRelatedNotificationForRescheduling(
@@ -312,7 +310,7 @@ class Habit {
     final int year = DateUtilities.today.year;
     final int currentYearIndex = trackedCompletions.trackedYears!
         .indexWhere((element) => element.yearCount == year);
-    int lastYearIndex = trackedCompletions.trackedYears!
+    int? lastYearIndex = trackedCompletions.trackedYears!
         .indexWhere((element) => element.yearCount == year - 1);
     if (lastYearIndex < 0) lastYearIndex = null;
 
@@ -341,7 +339,6 @@ class Habit {
           return _filledUpList;
         }
         return _dayList;
-        break;
 
       case TimeSpan.month:
         final List<CalendarWeek> lastFourCalendarWeekObjects = [];
@@ -356,7 +353,7 @@ class Habit {
 
           if (_isWeekOfLastYear) {
             final CalendarWeek week = _getCalendarWeekObject(
-                lastYearIndex, lastFourCalendarWeekNumbers[i]);
+                lastYearIndex!, lastFourCalendarWeekNumbers[i]);
             lastFourCalendarWeekObjects.add(week);
           } else {
             final CalendarWeek week = _getCalendarWeekObject(
@@ -367,11 +364,11 @@ class Habit {
         assert(lastFourCalendarWeekNumbers.length == 4,
             "Returned ${lastFourCalendarWeekNumbers.length} WeekObjects");
         return lastFourCalendarWeekObjects.reversed.toList();
-        break;
       case TimeSpan.year:
         break;
       default:
     }
+    return [];
   }
 
   CalendarWeek _getCalendarWeekObject(int yearIndex, int? weekNumber) {
@@ -381,7 +378,7 @@ class Habit {
       orElse: () => CalendarWeek(
           trackedDays: List.generate(
             7,
-            (index) => TrackedDay(doneAmount: 0, goalAmount: completionGoal),
+            (index) => TrackedDay(doneAmount: 0, goalAmount: completionGoal, dayCount: 0),
           ),
           weekNumber: weekNumber),
     );

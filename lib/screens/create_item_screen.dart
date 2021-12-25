@@ -432,7 +432,7 @@ class _CreateItemScreenState extends State<CreateItemScreen> {
                         ? _createItemController.selectedRewardReferences
                             .remove(rewardReference)
                         : _createItemController.selectedRewardReferences
-                            .add(rewardReference);
+                            .add(rewardReference!);
                   },
                 ),
               );

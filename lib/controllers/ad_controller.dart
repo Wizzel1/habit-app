@@ -19,37 +19,41 @@ class AdController extends GetxController {
   static Widget getAdaptiveBannerAd(BuildContext context) {
     if (hasPurchasedAdFree) return const SizedBox.shrink();
 
-    return BannerAd(
-      builder: (context, child) {
-        return Container(
-          color: Theme.of(context).backgroundColor,
-          child: child,
-        );
-      },
-      loading: SizedBox(
-        width: double.infinity,
-        height: 60,
-        child: Center(child: Text("loading".tr)),
+    return RepaintBoundary(
+      child: BannerAd(
+        builder: (context, child) {
+          return Container(
+            color: Theme.of(context).backgroundColor,
+            child: child,
+          );
+        },
+        loading: SizedBox(
+          width: double.infinity,
+          height: 60,
+          child: Center(child: Text("loading".tr)),
+        ),
+        error: const SizedBox.shrink(),
+        unitId: PrivateConstants.releaseListViewBannerID,
       ),
-      error: const SizedBox.shrink(),
-      unitId: PrivateConstants.releaseListViewBannerID,
     );
   }
 
   static Widget getLargeBannerAd(BuildContext context) {
     if (hasPurchasedAdFree) return const SizedBox.shrink();
-    return BannerAd(
-      builder: (context, child) {
-        return Container(
-          color: Theme.of(context).backgroundColor,
-          child: child,
-        );
-      },
-      loading: SizedBox(
-          width: 320, height: 100, child: Center(child: Text("loading".tr))),
-      error: const SizedBox.shrink(),
-      unitId: PrivateConstants.releaseDetailScreenBannerID,
-      size: BannerSize.LARGE_BANNER,
+    return RepaintBoundary(
+      child: BannerAd(
+        builder: (context, child) {
+          return Container(
+            color: Theme.of(context).backgroundColor,
+            child: child,
+          );
+        },
+        loading: SizedBox(
+            width: 320, height: 100, child: Center(child: Text("loading".tr))),
+        error: const SizedBox.shrink(),
+        unitId: PrivateConstants.releaseDetailScreenBannerID,
+        size: BannerSize.LARGE_BANNER,
+      ),
     );
   }
 

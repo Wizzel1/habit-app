@@ -4,6 +4,7 @@ import 'package:Marbit/controllers/controllers.dart';
 import 'package:Marbit/models/models.dart';
 import 'package:Marbit/services/local_storage.dart';
 import 'package:Marbit/util/util.dart';
+// ignore: unused_import
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
@@ -86,14 +87,14 @@ class ContentController extends GetxController {
     return _tutorialRewardList;
   }
 
-  List<String?> filterForDeletedRewards(List<String?> rewardReferenceIDs) {
-    final List<String?> _filteredIDs = [];
+  List<String> filterForDeletedRewards(List<String?> rewardReferenceIDs) {
+    final List<String> _filteredIDs = [];
 
     for (final String? reference in rewardReferenceIDs) {
       final Reward? reward = allRewardList
           .firstWhereOrNull((element) => element.id == reference);
       if (reward == null) continue;
-      _filteredIDs.add(reward.id);
+      _filteredIDs.add(reward.id!);
     }
 
     return _filteredIDs;

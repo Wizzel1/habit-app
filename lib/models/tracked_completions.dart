@@ -12,7 +12,8 @@ class TrackedCompletions {
       );
 
   Map<String, dynamic> toJson() => {
-        "trackedYears": List<dynamic>.from(trackedYears!.map((x) => x.toJson())),
+        "trackedYears":
+            List<dynamic>.from(trackedYears!.map((x) => x.toJson())),
       };
 }
 
@@ -61,19 +62,19 @@ class CalendarWeek {
 
 class TrackedDay {
   TrackedDay({
-    this.dayCount,
-    this.goalAmount,
-    this.doneAmount,
+    required this.dayCount,
+    required this.goalAmount,
+    required this.doneAmount,
   });
 
-  int? dayCount;
-  int? goalAmount;
-  int? doneAmount;
+  int dayCount;
+  int goalAmount;
+  int doneAmount;
 
   factory TrackedDay.fromJson(Map<String, dynamic> json) => TrackedDay(
-        dayCount: json["dayCount"] as int?,
-        goalAmount: json["goalAmount"] as int?,
-        doneAmount: json["doneAmount"] as int?,
+        dayCount: json["dayCount"] as int,
+        goalAmount: json["goalAmount"] as int,
+        doneAmount: json["doneAmount"] as int,
       );
 
   Map<String, dynamic> toJson() => {

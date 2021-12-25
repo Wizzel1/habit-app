@@ -218,7 +218,6 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
         }
 
         return _dataList;
-        break;
       case TimeSpan.month:
         _monthData ??= _data as List<CalendarWeek>;
 
@@ -241,12 +240,9 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
               makeGroupData(i, _completions, isTouched: i == _touchedIndex));
         }
         return _dataList;
-        break;
       case TimeSpan.year:
         return _dataList;
-        break;
     }
-    return [];
   }
 
   BarChartData mainBarData() {
@@ -287,14 +283,10 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
                       break;
                   }
                   return _createTooltipItemForDay(weekDay, rod);
-                  break;
                 case TimeSpan.month:
                   String weekNumber;
-
                   weekNumber = '${_monthData![index].weekNumber}';
                   return _createTooltipItemForWeek(weekNumber, rod);
-
-                  break;
                 case TimeSpan.year:
                   break;
               }
@@ -323,7 +315,6 @@ class HabitCompletionChartState extends State<HabitCompletionChart> {
             switch (_timeSpan) {
               case TimeSpan.week:
                 return dayNames[_value];
-                break;
               case TimeSpan.month:
                 if (_value < 4) {
                   return _monthData![_value].weekNumber.toString();
